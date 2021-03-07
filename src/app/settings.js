@@ -97,6 +97,7 @@ Settings.customMoviesServer = '';
 Settings.customSeriesServer = '';
 Settings.customAnimeServer = '';
 Settings.proxyServer = '';
+Settings.contentLanguage = '';
 
 // User interface
 Settings.language = '';

@@ -284,6 +284,9 @@
                         App.vent.trigger('updatePostersSizeStylesheet');
                     });
                     break;
+                case 'contentLanguage':
+                    value = $('option:selected', field).val();
+                    break;
                 case 'language':
                     value = $('option:selected', field).val();
                     i18n.setLocale(value);
@@ -433,6 +436,9 @@
                     break;
                 case 'protocolEncryption':
                     this.alertMessageSuccess(true);
+                    break;
+                case 'contentLanguage':
+                    App.Providers.updateLanguage(Settings.language, value || Settings.language);
                     break;
                 case 'vpnEnabled':
                 case 'language':

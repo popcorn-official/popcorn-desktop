@@ -27,10 +27,13 @@
     }
   }
 
-  function updateProviderLanguage (language) {
+  function updateProviderLanguage (language, contentLanguage) {
     for (let provider in cache) {
       if (cache[provider] && cache[provider].hasOwnProperty('language')) {
         cache[provider].language = language;
+      }
+      if (cache[provider] && cache[provider].hasOwnProperty('contentLanguage')) {
+        cache[provider].contentLanguage = contentLanguage;
       }
     }
   }

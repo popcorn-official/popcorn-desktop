@@ -610,6 +610,22 @@
                     <div class="invalid-cross" style="display: none"></div>
                 </div>
             </span>
+            <span>
+                <div class="dropdown subtitles-language">
+                    <p><%= i18n.__("Content Language") %></p>
+                    <%
+                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
+                        for(var key in App.Localization.allTranslations) {
+                            key = App.Localization.allTranslations[key];
+                            if (App.Localization.langcodes[key] !== undefined) {
+                                langs += "<option "+(Settings.contentLanguage == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                            }
+                        }
+                    %>
+                    <select name="contentLanguage"><%=langs%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
         </div>
     </section>
 
