@@ -187,7 +187,7 @@
         },
 
         onPlayerEnded: function () {
-            if (this.model.get('torrentModel').get('auto_play')) {
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 this.playNextNow();
             } else {
                 this.closePlayer();
@@ -247,7 +247,7 @@
                 } catch (e) {}
             }
 
-            if (this.model.get('torrentModel').get('auto_play')) {
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
@@ -305,7 +305,7 @@
             $(window).trigger('resize');
 
             if (this.wasSeek) {
-                if (this.model.get('torrentModel').get('auto_play')) {
+                if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                     this.checkAutoPlay();
                 }
                 this.wasSeek = false;
@@ -393,7 +393,7 @@
                 event.preventDefault();
             });
 
-            if (this.model.get('torrentModel').get('auto_play')) {
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 this.precachestarted = false;
                 this.autoplayisshown = false;
                 this.next_episode_model = false;
