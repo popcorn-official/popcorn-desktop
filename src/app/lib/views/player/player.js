@@ -187,7 +187,7 @@
         },
 
         onPlayerEnded: function () {
-            if (this.model.get('auto_play')) {
+            if (this.model.get('torrentModel').get('auto_play')) {
                 this.playNextNow();
             } else {
                 this.closePlayer();
@@ -247,7 +247,7 @@
                 } catch (e) {}
             }
 
-            if (this.model.get('auto_play')) {
+            if (this.model.get('torrentModel').get('auto_play')) {
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
@@ -257,7 +257,7 @@
                     $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
                 }
 
-                this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay, 10 * 100 * 1); // every 1 sec
+                this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay.bind(this), 10 * 100 * 1); // every 1 sec
             }
         },
 
@@ -305,7 +305,7 @@
             $(window).trigger('resize');
 
             if (this.wasSeek) {
-                if (this.model.get('auto_play')) {
+                if (this.model.get('torrentModel').get('auto_play')) {
                     this.checkAutoPlay();
                 }
                 this.wasSeek = false;
@@ -393,8 +393,7 @@
                 event.preventDefault();
             });
 
-            if (this.model.get('auto_play')) {
-
+            if (this.model.get('torrentModel').get('auto_play')) {
                 this.precachestarted = false;
                 this.autoplayisshown = false;
                 this.next_episode_model = false;
@@ -559,17 +558,18 @@
             $('.playing_next #nextCountdown').text('');
             !this.autoplayisshown;
 
-            this.model.set('auto_play', false);
+            this.model.get('torrentModel').set('auto_play', false);
         },
         processNext: function () {
-            var episodes = this.model.get('episodes');
+            var torrentModel = this.model.get('torrentModel');
+            var episodes = torrentModel.get('episodes');
 
-            if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+            if (torrentModel.get('auto_id') !== episodes[episodes.length - 1]) {
 
-                var auto_play_data = this.model.get('auto_play_data');
-                var current_quality = this.model.get('quality');
-                var tvdb = this.model.get('tvdb_id');
-                var auto_id = this.model.get('auto_id');
+                var auto_play_data = torrentModel.get('auto_play_data');
+                var current_quality = torrentModel.get('quality');
+                var tvdb = torrentModel.get('tvdb_id');
+                var auto_id = torrentModel.get('auto_id');
                 var idx;
 
                 _.find(auto_play_data, function (data, dataIdx) {
