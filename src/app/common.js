@@ -61,7 +61,7 @@ Common.retrieveTorrentHealth = function (torrent, cb) {
 	torrentHealth(
 		torrentURL,
 		{
-			timeout: 2000,
+			timeout: 3000,
 			trackers: Settings.trackers.forced
 		},
 		cb
@@ -73,7 +73,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 		throw new TypeError('This class must be constructed with "new"');
 	}
 
-	const maxChecksWhenNoSeeds = 4;
+	const maxChecksWhenNoSeeds = 3;
 	let zeroSeedCheckCount = 0;
 	let pendingRender = null;
 
