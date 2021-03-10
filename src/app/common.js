@@ -149,6 +149,10 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 					.addClass(healthString)
 					.attr('data-original-title', tooltipPieces.join(''))
 					.tooltip('fixTitle');
+
+        			if ($(selector + '~ .tooltip').is(':visible')) {
+          				getIcon().tooltip('show');
+        			}
 			}
 		});
 	};

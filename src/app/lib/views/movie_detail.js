@@ -357,11 +357,6 @@
     resetTorrentHealth: function () {
       healthButton.reset();
       healthButton.render();
-      setTimeout(function () {
-        if ($('.health-icon ~ .tooltip').is(':visible')) {
-          $('.health-icon').tooltip('fixTitle').tooltip('show');
-        }
-      }, 2600);
     },
 
     openIMDb: function() {

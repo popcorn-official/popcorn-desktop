@@ -327,14 +327,9 @@
 		},
 
 		updateHealth: function(torrent) {
-			const healthButton = new Common.HealthButton('.health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
+			const healthButton = new Common.HealthButton('.seedbox .health-icon', cb => Common.retrieveTorrentHealth(torrent, cb));
 			healthButton.reset();
 			healthButton.render();
-			setTimeout(function () {
-				if ($('.seedbox .health-icon ~ .tooltip').is(':visible')) {
-					$('.seedbox .health-icon').tooltip('fixTitle').tooltip('show');
-				}
-			}, 2600);
 		},
 
 		updateView: function ($elem, wasJustSelected = false) {
