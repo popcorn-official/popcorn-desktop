@@ -334,7 +334,7 @@
 				if ($('.seedbox .health-icon ~ .tooltip').is(':visible')) {
 					$('.seedbox .health-icon').tooltip('fixTitle').tooltip('show');
 				}
-			}, 2100);
+			}, 3100);
 		},
 
 		updateView: function ($elem, wasJustSelected = false) {
