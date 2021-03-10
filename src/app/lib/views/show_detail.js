@@ -770,7 +770,7 @@
                 if ($('.health-icon ~ .tooltip').is(':visible')) {
                     $('.health-icon').tooltip('fixTitle').tooltip('show');
                 }
-            }, 2100);
+            }, 2600);
         },
 
         selectPlayer: function (e) {
