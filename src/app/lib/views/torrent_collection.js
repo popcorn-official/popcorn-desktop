@@ -15,6 +15,7 @@
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
             'click .magnet-icon': 'openMagnet',
+            'contextmenu .magnet-icon': 'openMagnet',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
