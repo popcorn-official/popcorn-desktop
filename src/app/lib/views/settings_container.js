@@ -439,6 +439,7 @@
                     break;
                 case 'contentLanguage':
                     App.Providers.updateLanguage(Settings.language, value || Settings.language);
+                    this.alertMessageSuccess(true);
                     break;
                 case 'vpnEnabled':
                 case 'language':
