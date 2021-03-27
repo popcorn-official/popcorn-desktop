@@ -7245,21 +7245,21 @@ torrent-piece@^2.0.0:
   resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-2.0.0.tgz#6598ae67d93699e887f178db267ba16d89d7ec9b"
   integrity sha512-H/Z/yCuvZJj1vl1IQHI8dvF2QrUuXRJoptT5DW5967/dsLpXlCg+uyhFR5lfNj5mNaYePUbKtnL+qKWZGXv4Nw==
 
-torrentapi-wrapper2@0.0.4:
+torrentapi-wrapper3@0.0.4:
   version "0.0.4"
-  resolved "https://registry.yarnpkg.com/torrentapi-wrapper2/-/torrentapi-wrapper2-0.0.4.tgz#080e4b36ed782f591d7a467cbb6c47fd3972d0dd"
-  integrity sha512-WFZMxDCJrO/4maNYgn7crB6Lx1NbgGHM47yS9wFFCBeZ/5EcPuWpqWDdLSoU4YfmFW0asG/5ITw4a7OPMgER8Q==
+  resolved "https://registry.yarnpkg.com/torrentapi-wrapper3/-/torrentapi-wrapper3-0.0.4.tgz#65b2a7027a68a1baa3940f54022136666b442498"
+  integrity sha512-k4U8nss+a+VdDAcGZqHOZO6DMxA6a5GqUnCNx7e5Ko8rla0P9CK7ltK/ZlJT7qoUf84nTiD7h1R9WrQSTihgMw==
   dependencies:
     got "11.x.x"
 
-torrentcollection2@0.0.9:
+torrentcollection4@0.0.9:
   version "0.0.9"
-  resolved "https://registry.yarnpkg.com/torrentcollection2/-/torrentcollection2-0.0.9.tgz#593423888c03a7541d80231571fdf0270e811e9b"
-  integrity sha512-AtuywS8uSd3a7ydBIWwywIFBjVU8rN/fZS0ii6HK1dFY7McfUGLzMdUC0uG03dn5HO4jFQQgYIAsolRbuIAnsw==
+  resolved "https://registry.yarnpkg.com/torrentcollection4/-/torrentcollection4-0.0.9.tgz#74b7daba5b043a05ed1226879c07b5ea0fef7f64"
+  integrity sha512-4FpothbgT9vgyN23OtsrMWdr7Z6x9gUaKMZegd4RE0peB3JtgI/ZPoN3Xey4fUYrQQiS1IQ4/jDFN/fbxPnvWA==
   dependencies:
     omgtorrent "1.0.0"
     thepiratebay "1.4.7"
-    torrentapi-wrapper2 "0.0.4"
+    torrentapi-wrapper3 "0.0.4"
     xtorrent "1.0.0"
 
 tough-cookie@^2.3.3, tough-cookie@~2.5.0:
