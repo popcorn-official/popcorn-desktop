@@ -518,7 +518,7 @@
         </div>
     </section>
 
-    <section id="apiserver" class="advanced">
+    <section id="apiserver">
         <div class="title"><%= i18n.__("API Server") %></div>
         <div class="content">
             <span>
@@ -726,10 +726,10 @@
         </div>
     </section>
 
-    <section id="miscellaneous" class="advanced">
+    <section id="miscellaneous">
         <div class="title"><%= i18n.__("Miscellaneous") %></div>
         <div class="content">
-            <span>
+            <span class="advanced">
                 <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
                 <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
@@ -737,7 +737,7 @@
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
                 <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
             </span>
-            <span>
+            <span class="advanced">
                 <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
                 <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
             </span>
