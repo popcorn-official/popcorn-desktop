@@ -2,6 +2,7 @@ var assign = Object.assign || require('es6-object-assign').assign;
 var memoize = require('memoizee');
 var _ = require('lodash');
 const socksProxyAgent = require( 'socks-proxy-agent' );
+const os = require( 'os' );
 
 var processArgs = function(config, args) {
   var newArgs = {};
@@ -133,10 +134,11 @@ Provider.prototype.buildRequest = function(options, url) {
       }
     });
   }
+  let ptString = nw.App.manifest.name + '/' + nw.App.manifest.version;
+  let osString = os.platform() + ' ' + os.arch() + ' ' + os.release();
   options = Object.assign(options, {
     headers: {
-      'User-Agent':
-          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
+      'User-Agent': ptString + ' (' + osString + ')'
     }
   });
 
