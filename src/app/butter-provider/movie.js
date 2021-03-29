@@ -33,7 +33,7 @@ class MovieApi extends Generic {
           trailer: movie.trailer !== null ? movie.trailer : false,
           certification: movie.certification,
           torrents:
-            movie.torrents[this.contentLanguage] !== null
+            movie.torrents[this.contentLanguage]
               ? movie.torrents[this.contentLanguage]
               : movie.torrents[Object.keys(movie.torrents)[0]],
           langs: movie.torrents,
