@@ -58,6 +58,9 @@
         },
 
         isAprilFools: function () {
+            if (!Settings.events) {
+                return;
+            }
             var date = new Date();
             var today = ('0' + (date.getMonth() + 　1)).slice(-2) + ('0' + (date.getDate())).slice(-2);
             if (today === '0401') { //april's fool
