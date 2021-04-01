@@ -448,6 +448,8 @@
                             $('.windows-titlebar .icon').css('opacity', '1');
                         }
                     }
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
                     break;
                 case 'activateTorrentCollection':
                     App.vent.trigger('torrentCollection:close');
