@@ -147,6 +147,7 @@
                         url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&append_to_response=videos',
                         type: 'get',
                         dataType: 'json',
+                        timeout: 5,
                         async: false,
                         global: false,
                         success: function (data) {
