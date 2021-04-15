@@ -2,8 +2,6 @@
 var Settings = {
   projectName: 'Popcorn Time',
   projectUrl: 'https://popcorntime.app',
-  projectTwitter: 'popcorntimetv',
-  projectTwitter2: 'PopcorntimeappR',
   projectBlog: 'https://blog.popcorntime.app/',
   projectForum: 'https://www.reddit.com/r/PopcornTime',
   projectForum2: 'https://discuss.popcorntime.app',
