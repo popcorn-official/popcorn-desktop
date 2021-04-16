@@ -70,7 +70,6 @@ Settings.providers = {
 Settings.trackers = {
   blacklisted: ['demonii'],
   forced: [
-    'udp://glotorrents.pw:6969',
     'udp://tracker.opentrackr.org:1337',
     'udp://tracker.tiny-vps.com:6969',
     'udp://tracker.openbittorrent.com:1337',
@@ -85,6 +84,8 @@ Settings.trackers = {
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
+    'udp://tracker.moeking.me:6969',
+    'udp://tracker.zerobytes.xyz:1337',
     'wss://tracker.openwebtorrent.com',
     'wss://tracker.btorrent.xyz'
   ]
