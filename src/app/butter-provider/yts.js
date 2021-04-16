@@ -5,7 +5,6 @@ const request = require('request');
 const sanitize = require('butter-sanitize');
 
 const ytsTrackers = [
-  'udp://glotorrents.pw:6969',
   'udp://tracker.opentrackr.org:1337',
   'udp://tracker.tiny-vps.com:6969',
   'udp://tracker.openbittorrent.com:1337',
@@ -20,6 +19,8 @@ const ytsTrackers = [
   'udp://tracker.cyberia.is:6969',
   'udp://tracker.torrent.eu.org:451',
   'udp://open.stealth.si:80',
+  'udp://tracker.moeking.me:6969',
+  'udp://tracker.zerobytes.xyz:1337',
 ].map(t => `&tr=${t}`).join('');
 
 class YTSApi extends Generic {
