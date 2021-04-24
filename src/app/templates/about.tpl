@@ -6,7 +6,7 @@
     <div class="content">
 
         <div class="title-version">
-            <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id='changelog'><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
+            <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id="changelog"><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
             <% if(App.git) { %>
                 - <small><i><%= App.git.branch %> (<a class="links" href="<%= Settings.commitUrl %>/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
             <% } %>
@@ -21,12 +21,12 @@
         </div>
 
         <div class="icons_social">
-            <a href="<%= Settings.projectUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class='links site_icon'></a>
-            <a href='<%= Settings.projectCi %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectCi %>" class='links ci_icon'></a>
-            <a href='<%= Settings.sourceUrl %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class='links github_icon'></a>
-            <a href='<%= Settings.projectBlog %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class='links blog_icon'></a>
-            <a href='<%= Settings.projectForum3 %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum3 %>" class='links reddit_icon'></a>
-            <a href='<%= Settings.projectForum2 %>' data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum2 %>" class='links forum_icon'></a>
+            <a href="<%= Settings.projectUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class="links site_icon"></a>
+            <a href="<%= Settings.projectCi %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectCi %>" class="links ci_icon"></a>
+            <a href="<%= Settings.sourceUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class="links github_icon"></a>
+            <a href="<%= Settings.projectBlog %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class="links blog_icon"></a>
+            <a href="<%= Settings.projectForum3 %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum3 %>" class="links reddit_icon"></a>
+            <a href="<%= Settings.projectForum2 %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum2 %>" class="links forum_icon"></a>
         </div>
 
         <div class="last-line">
