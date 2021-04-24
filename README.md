@@ -20,13 +20,7 @@
   <a href="https://popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app"></a>
   <a href="https://ci.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app"></a>
   <a href="https://www.reddit.com/r/PopCornTimeApp"><img src="https://img.shields.io/reddit/subreddit-subscribers/PopCornTimeApp?color=red&label=reddit&style=flat"></a>
-  <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat"></a><br>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/releases"><img src="https://img.shields.io/badge/-previous%20releases-lightgrey"></a>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.3"><img src="https://img.shields.io/badge/-v0.4.3-lightgrey"></a>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.2"><img src="https://img.shields.io/badge/-v0.4.2-lightgrey"></a>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.1"><img src="https://img.shields.io/badge/-v0.4.1-lightgrey"></a>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/releases/tag/v0.4.0"><img src="https://img.shields.io/badge/-v0.4.0-lightgrey"></a>
-  <a href="https://ci.popcorntime.app/job/Popcorn-Time-Desktop/200/"><img src="https://img.shields.io/badge/-v0.3.10-lightgrey"></a>
+  <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/discourse/posts?color=blue&label=forum&server=https%3A%2F%2Fdiscuss.popcorntime.app&style=flat"></a>
 
 <h4 align="center">Visit the project's website at <a href="https://popcorntime.app">popcorntime.app</a></h4>
 
