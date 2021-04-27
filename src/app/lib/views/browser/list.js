@@ -177,6 +177,8 @@
         },
 
         initKeyboardShortcuts: function () {
+            var searchInput = $('.search input');
+
             Mousetrap.bind('up', _this.moveUp);
 
             Mousetrap.bind('down', _this.moveDown);
@@ -194,7 +196,7 @@
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch, 'keydown');
 
             Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function (e, combo) {
-                $('.search input').blur();
+                searchInput.blur();
             }, 'keydown');
 
             Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
