@@ -549,5 +549,7 @@
 	"Delete related cache when removing from Seedbox": "Delete related cache when removing from Seedbox",
 	"Always": "Always",
 	"Never": "Never",
-	"Ask me every time": "Ask me every time"
+	"Ask me every time": "Ask me every time",
+	"Enable Protocol Encryption": "Enable Protocol Encryption",
+	"Allows connecting to peers that use PE/MSE. Will in most cases increase the connectable peers but might also result in increased CPU usage": "Allows connecting to peers that use PE/MSE. Will in most cases increase the connectable peers but might also result in increased CPU usage"
 }
