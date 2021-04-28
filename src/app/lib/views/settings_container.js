@@ -283,6 +283,7 @@
                 case 'deleteTmpOnClose':
                 case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
+                case 'protocolEncryption':
                 case 'vpnEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
