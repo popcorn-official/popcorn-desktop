@@ -98,7 +98,8 @@ App.WebTorrent = new WebTorrent({
   tracker: {
      announce: Settings.trackers.forced
   },
-  dht: true
+  dht: true,
+  secure: Settings.protocolEncryption || false
 });
 
 App.plugins = {};
