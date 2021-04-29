@@ -419,6 +419,9 @@
                         $('.advanced').css('display', 'none');
                     }
                     break;
+                case 'protocolEncryption':
+                    this.alertMessageSuccess(true);
+                    break;
                 case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
