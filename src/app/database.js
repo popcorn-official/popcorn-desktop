@@ -442,6 +442,12 @@ var Database = {
                     });
 
             })
+            .then(function() {
+                if (Settings.protocolEncryption) {
+                    // enable secure after load options
+                    require('webtorrent/lib/peer.js').enableSecure();
+                }
+            })
             .catch(function (err) {
                 win.error('Error starting up', err);
             });
