@@ -616,8 +616,8 @@
             <% } %>
             <span>
                 <input class="settings-checkbox" name="protocolEncryption" id="protocolEncryption" type="checkbox" <%=(Settings.protocolEncryption? "checked='checked'":"")%>>
-                <label class="settings-label" for="protocolEncryption" id="protocolEnc"><%= i18n.__("Enable Protocol Encryption") %>
-                <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage") %></em></label>
+                <label class="settings-label" for="protocolEncryption" id="protocolEnc"><%= i18n.__("Enable Protocol Encryption") %></label>
+                <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage") %></em>
             </span>
             <span>
                 <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
@@ -665,8 +665,8 @@
             </span>
             <span>
                 <input class="settings-checkbox" name="separateDownloadsDir" id="separateDownloadsDir" type="checkbox" <%=(Settings.separateDownloadsDir? "checked='checked'":"")%>>
-                <label class="settings-label" for="separateDownloadsDir" id="downloadsDir"><%= i18n.__("Separate directory for Downloads") %>
-                <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Enabling will prevent the sharing of cache between the Watch Now and Download functions") %></em></label>
+                <label class="settings-label" for="separateDownloadsDir" id="downloadsDir"><%= i18n.__("Separate directory for Downloads") %></label>
+                <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Enabling will prevent the sharing of cache between the Watch Now and Download functions") %></em>
             </span>
             <% } %>
             <% if (Settings.activateSeedbox && Settings.separateDownloadsDir) { %>
