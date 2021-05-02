@@ -1,3 +1,16 @@
+const Sentry = require('@sentry/browser');
+const Tracing = require('@sentry/tracing');
+Sentry.init({
+  dsn: 'https://bf0eeff80824467e8c7493a1e22956b0@o336317.ingest.sentry.io/5745034',
+  //tracesSampleRate: 1.0,
+  integrations: [
+    new Tracing.Integrations.BrowserTracing(),
+    new Sentry.Integrations.GlobalHandlers({onerror:true, onunhandledrejection:true}),
+    new Sentry.Integrations.Breadcrumbs({console: true, sentry: true}),
+  ],
+
+});
+
 // Special Debug Console Calls!
 win.log = console.log.bind(console);
 win.debug = function () {
@@ -25,7 +38,23 @@ win.warn = function () {
   );
   console.warn.apply(console, params);
 };
+var ce = console.error;
 win.error = function () {
+  let all = '';
+  let err = false;
+  for (let i = 0; i < arguments.length; i++) {
+    if (arguments[i] instanceof Error) {
+      Sentry.captureException(arguments[i]);
+      err = true;
+    }
+    if (typeof arguments[i] === 'string') {
+      all += arguments[i];
+    }
+  }
+  if (!err) {
+    Sentry.captureMessage(all, {level: 'error'});
+  }
+
   var params = Array.prototype.slice.call(arguments, 1);
   params.unshift(
     '%c[%cERROR%c] ' + arguments[0],
@@ -33,11 +62,25 @@ win.error = function () {
     'color: red;',
     'color: black;'
   );
-  console.error.apply(console, params);
+  ce.apply(console, params);
   fs.appendFileSync(
     path.join(data_path, 'logs.txt'),
     '\n\n' + (arguments[0].stack || arguments[0])
   ); // log errors;
+};
+
+console.error = function() {ce.apply(console, arguments);
+  let all = '';
+  for (let i = 0; i < arguments.length; i++) {
+    if (arguments[i] instanceof Error) {
+      Sentry.captureException(arguments[i]);
+      return;
+    }
+    if (typeof arguments[i] === 'string') {
+      all += arguments[i];
+    }
+  }
+  Sentry.captureMessage(all, {level:'error'});
 };
 
 if (nw.App.fullArgv.indexOf('--reset') !== -1) {
