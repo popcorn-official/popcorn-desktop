@@ -119,6 +119,7 @@
             this.setModels(model);
 
             this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
+                this.linkTransferStatus();
                 this.handleTorrent(torrent);
                 this.handleStreamInfo();
                 this.watchState();
@@ -127,7 +128,7 @@
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
-        download: function(torrent, mediaName = '') {
+        download: function(torrent, mediaName = '', fileName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
                 this.stop();
@@ -154,6 +155,7 @@
                 announce  : Settings.trackers.forced,
                 tracker   : Settings.trackers.forced
             });
+            // TODO: Need fix bug here, but for this need rewrite "add or replace" torrent and select file without use model
             fs.writeFileSync((App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation) + '/TorrentCache/' + infoHash, uri);
         },
 
@@ -285,27 +287,13 @@
                 fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + this.torrent.infoHash, uri);
 
                 this.torrent.on('metadata', function () {
+                    // deselect files, webtorrent api
+                    // as of november 2016, need to remove all torrent,
+                    //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
+                    this.torrent.deselect(0, this.torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
+
                     this.torrentModel.set('torrent', this.torrent);
                     resolve(this.torrent);
-                }.bind(this));
-
-                this.torrent.on('download', function () {
-                    if (this.torrentModel) {
-                        this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
-                        this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
-                        this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('time_left', (this.torrent.timeRemaining));
-                    }
-                }.bind(this));
-
-                this.torrent.on('upload', function () {
-                    if (this.torrentModel) {
-                        this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                    }
                 }.bind(this));
 
                 this.torrent.on('error', function (error) {
@@ -324,6 +312,26 @@
                     this.stop();
                     reject(error);
                 }.bind(this));
+            }.bind(this));
+        },
+
+        linkTransferStatus: function () {
+            this.torrent.on('download', function () {
+                if (this.torrentModel) {
+                    this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
+                    this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
+                    this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
+                    this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
+                    this.torrentModel.set('active_peers', this.torrent.numPeers);
+                    this.torrentModel.set('time_left', (this.torrent.timeRemaining));
+                }
+            }.bind(this));
+
+            this.torrent.on('upload', function () {
+                if (this.torrentModel) {
+                    this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
+                    this.torrentModel.set('active_peers', this.torrent.numPeers);
+                }
             }.bind(this));
         },
 
@@ -425,8 +433,7 @@
         },
 
         // set video file name & index
-        selectFile: function (torrent) {
-            let fileName = this.torrentModel.get('file_name');
+        selectFile: function (torrent, fileName) {
             let fileIndex = 0;
             let fileSize = 0;
             if (!fileName) {
@@ -438,10 +445,6 @@
                 }
             }
 
-            // deselect files, webtorrent api
-            // as of november 2016, need to remove all torrent,
-            //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
-            torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
             for (var f in torrent.files) { // Add selection
                 var file = torrent.files[f];
                 // we use endsWith, not equals because from server may return without first directory
@@ -450,7 +453,7 @@
                     fileSize = file.length;
                     file.select();
                 } else {
-                    file.deselect();
+                //    file.deselect();
                 }
             }
 
@@ -466,13 +469,14 @@
         handleTorrent: function (torrent) {
             var isFormatted = Boolean(this.torrentModel.get('title')); // was formatted (from Details)
             var isRead = Boolean(this.torrentModel.get('torrent_read')); // comes from file selector
+            let fileName = this.torrentModel.get('file_name');
 
             if (isFormatted) {
-                this.selectFile(torrent);
+                this.selectFile(torrent, fileName);
                 this.handleSubtitles();
             } else {
                 if (isRead) {
-                    this.selectFile(torrent);
+                    this.selectFile(torrent, fileName);
                     this.lookForMetadata(torrent);
                 } else {
                     this.openFileSelector(torrent);
