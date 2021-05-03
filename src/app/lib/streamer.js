@@ -426,35 +426,16 @@
 
         // set video file name & index
         selectFile: function (torrent) {
-            var fileIndex = parseInt(this.torrentModel.get('file_index'));
-            var fileSize = 0;
-
-            try {
-                torrent.files.sort(function(a, b){
-                    if (a.name < b.name) { return -1; }
-                    if (a.name > b.name) { return 1; }
-                    return 0;
-                });
-            } catch (err) {}
-
-            // set fileSize
-            if (!fileIndex && parseInt(fileIndex) !== 0) {
-                // if no fileIndex set, get the largest
-                fileIndex = 0;
-                for (var i in torrent.files) {
-                    if (this.torrentModel.get('file_name')) {
-                        if (torrent.files[i].path.endsWith(this.torrentModel.get('file_name'))) {
-                            fileSize = torrent.files[i].length;
-                            fileIndex = i;
-                        }
-                    } else if (fileSize < torrent.files[i].length) {
+            let fileName = this.torrentModel.get('file_name');
+            let fileIndex = 0;
+            let fileSize = 0;
+            if (!fileName) {
+                for (let i in torrent.files) {
+                    if (fileSize < torrent.files[i].length) {
                         fileSize = torrent.files[i].length;
-                        fileIndex = i;
+                        fileName = torrent.files[i].path;
                     }
                 }
-            } else {
-                // else use the correct size
-                fileSize = torrent.files[fileIndex].length;
             }
 
             // deselect files, webtorrent api
@@ -463,7 +444,10 @@
             torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
             for (var f in torrent.files) { // Add selection
                 var file = torrent.files[f];
-                if (parseInt(f) === parseInt(fileIndex)) {
+                // we use endsWith, not equals because from server may return without first directory
+                if (file.path.endsWith(fileName)) {
+                    fileIndex = f;
+                    fileSize = file.length;
                     file.select();
                 } else {
                     file.deselect();
