@@ -33,10 +33,6 @@
             };
         },
 
-        onBeforeRender: function () {
-            this.bitsnoopRequest(this.model.get('torrent').infoHash);
-        },
-
         onAttach: function () {
             this.isTorrentStored();
 
@@ -51,24 +47,6 @@
             if (!$.trim($('.file-selector-container .file-list').html()).length) {
                 $('.file-selector-container .file-list').html('<li style="margin-top: 30px">' + i18n.__('No results found') + '</li>');
             }
-        },
-
-        bitsnoopRequest: function (hash) {
-            var endpoint = 'http://bitsnoop.com/api/fakeskan.php?hash=';
-
-            request({
-                method: 'GET',
-                url: endpoint + hash,
-                headers: {
-                    'User-Agent': 'request'
-                }
-            }, function (error, response, body) {
-                if (!error && response.statusCode <= 400) {
-                    if (body === 'FAKE') {
-                        $('.fakeskan').text(i18n.__('%s reported this torrent as fake', 'FakeSkan')).show();
-                    }
-                }
-            });
         },
 
         startStreaming: function (e) {
