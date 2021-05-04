@@ -118,7 +118,8 @@
 
             this.setModels(model);
 
-            this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
+            this.fetchTorrent(this.torrentModel.get('torrent'), App.settings.tmpLocation).then(function (torrent) {
+                this.torrentModel.set('torrent', this.torrent = torrent);
                 this.linkTransferStatus();
                 this.handleTorrent(torrent);
                 this.handleStreamInfo();
@@ -147,16 +148,10 @@
             if (mediaName) {
                 App.plugins.mediaName.setMediaName(infoHash, mediaName);
             }
-            App.WebTorrent.add(uri, {
-                path      : App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation,
-                maxConns  : 10,
-                dht       : true,
-                secure    : Settings.protocolEncryption || false,
-                announce  : Settings.trackers.forced,
-                tracker   : Settings.trackers.forced
-            });
-            // TODO: Need fix bug here, but for this need rewrite "add or replace" torrent and select file without use model
-            fs.writeFileSync((App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation) + '/TorrentCache/' + infoHash, uri);
+            const location = App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
+            this.fetchTorrent(uri, location).then(function (torrent) {
+                this.selectFile(torrent, fileName);
+            }.bind(this));
         },
 
         // kill the streamer
@@ -251,7 +246,7 @@
         },
 
         // fire webtorrent and resolve the torrent
-        fetchTorrent: function(torrentInfo) {
+        fetchTorrent: function(torrentInfo, path) {
             return new Promise(function (resolve, reject) {
 
                 // handles magnet and hosted torrents
@@ -259,47 +254,49 @@
                 const parseTorrent = require('parse-torrent');
                 var infoHash = '';
                 try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
+                var torrent;
 
                 for(const t of App.WebTorrent.torrents) {
                     if (t.infoHash === infoHash) {
-                        this.torrent = t;
-                        this.torrent.resume();
-                        if(this.torrent.pctRemovedPeers) {
-                            const peers = this.torrent.pctRemovedPeers;
-                            this.torrent.pctRemovedPeers = undefined;
+                        torrent = t;
+                        torrent.resume();
+                        if(torrent.pctRemovedPeers) {
+                            const peers = torrent.pctRemovedPeers;
+                            torrent.pctRemovedPeers = undefined;
                             for (let peer of peers) {
-                                this.torrent.addPeer(peer);
+                                torrent.addPeer(peer);
                             }
                         }
-                        this.torrentModel.set('torrent', this.torrent);
-                        resolve(this.torrent);
+                        resolve(torrent);
                     }
                 }
 
-                if (!this.torrent) {
-                  this.torrent = App.WebTorrent.add(uri, {
-                      path: App.settings.tmpLocation,
-                      announce: Settings.trackers.forced
+                if (!torrent) {
+                  torrent = App.WebTorrent.add(uri, {
+                      path: path,
+                      maxConns  : 10,
+                      dht       : true,
+                      announce  : Settings.trackers.forced,
+                      tracker   : Settings.trackers.forced
                   });
                 }
 
                 const fs = require('fs');
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + this.torrent.infoHash, uri);
+                fs.writeFileSync(path + '/TorrentCache/' + torrent.infoHash, uri);
 
-                this.torrent.on('metadata', function () {
+                torrent.on('metadata', function () {
                     // deselect files, webtorrent api
                     // as of november 2016, need to remove all torrent,
                     //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
-                    this.torrent.deselect(0, this.torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
+                    torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
 
-                    this.torrentModel.set('torrent', this.torrent);
-                    resolve(this.torrent);
+                    resolve(torrent);
                 }.bind(this));
 
-                this.torrent.on('error', function (error) {
-                    if (this.torrent.infoHash) {
-                        this.torrent.remove(this.torrent.infoHash);
-                        this.torrent.add(this.torrent.infoHash);
+                torrent.on('error', function (error) {
+                    if (torrent.infoHash) {
+                        torrent.remove(torrent.infoHash);
+                        torrent.add(torrent.infoHash);
                     } else {
                         win.error('Torrent fatal error', error);
                         this.stop();
@@ -457,12 +454,12 @@
                 }
             }
 
-            this.torrentModel.set('video_file', {
+            return {
                 name: path.basename(torrent.files[fileIndex].path),
                 size: fileSize,
                 index: fileIndex,
                 path: path.join(torrent.path, torrent.files[fileIndex].path)
-            });
+            };
         },
 
         // determine if the torrent is already formatted or if we need to use the file selector
@@ -472,11 +469,11 @@
             let fileName = this.torrentModel.get('file_name');
 
             if (isFormatted) {
-                this.selectFile(torrent, fileName);
+                this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
                 this.handleSubtitles();
             } else {
                 if (isRead) {
-                    this.selectFile(torrent, fileName);
+                    this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
                     this.lookForMetadata(torrent);
                 } else {
                     this.openFileSelector(torrent);
