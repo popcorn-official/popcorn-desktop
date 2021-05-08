@@ -93,7 +93,7 @@
     "trakt.tv-images": "5.x.x",
     "trakt.tv-matcher": "7.x.x",
     "trakt.tv-ondeck": "7.x.x",
-    "underscore": "1.8.3",
+    "underscore": "1.12.1",
     "urijs": "1.19.6",
     "video.js": "4.11.4",
     "videojs-youtube": "1.2.10",
