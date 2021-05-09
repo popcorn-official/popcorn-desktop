@@ -525,7 +525,8 @@
 
         downloadTorrent: function(e) {
           const torrent = $(e.currentTarget).attr('data-torrent');
-          App.vent.trigger('stream:download', torrent, this.model.get('title') /*mediaName*/);
+          const file = $(e.currentTarget).attr('data-file');
+          App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
           App.previousview = App.currentview;
           App.currentview = 'Seedbox';
           App.vent.trigger('seedbox:show');
@@ -619,10 +620,12 @@
 
         selectTorrent: function(torrent, key) {
             var startStreaming = $('.startStreaming');
+            var downloadButton = $('#download-torrent');
             startStreaming.attr('data-file', torrent.file || '');
             startStreaming.attr('data-torrent', torrent.url);
             startStreaming.attr('data-quality', key);
-            $('#download-torrent').attr('data-torrent', torrent.url);
+            downloadButton.attr('data-torrent', torrent.url);
+            downloadButton.attr('data-file', torrent.file || '');
 
             _this.resetTorrentHealth();
         },

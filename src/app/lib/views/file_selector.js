@@ -51,13 +51,12 @@
 
         startStreaming: function (e) {
             var torrent = that.model.get('torrent');
-            var file = parseInt($(e.currentTarget).attr('data-file'));
-            var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
+            var file = $(e.currentTarget).attr('data-file');
 
             var torrentStart = new Backbone.Model({
                 torrent: torrent.magnetURI,
                 torrent_read: true,
-                file_index: actualIndex,
+                file_name: file,
                 device: App.Device.Collection.selected
             });
             App.vent.trigger('stream:start', torrentStart);
