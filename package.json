@@ -76,7 +76,7 @@
     "mv": "2.x.x",
     "nedb": "1.8.0",
     "node-tvdb": "^4.1.0",
-    "opensubtitles-api": "5.0.0",
+    "opensubtitles-api": "^5.1.2",
     "q": "2.0.3",
     "querystring": "^0.2.0",
     "readdirp": "2.x.x",
