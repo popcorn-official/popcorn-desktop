@@ -22,6 +22,7 @@ const ytsTrackers = [
   'udp://tracker.moeking.me:6969',
   'udp://tracker.zerobytes.xyz:1337',
   'udp://tracker.uw0.xyz:6969',
+  'udp://newtoncity.org:6969',
 ].map(t => `&tr=${t}`).join('');
 
 class YTSApi extends Generic {
