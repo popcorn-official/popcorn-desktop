@@ -74,7 +74,6 @@ Settings.trackers = {
     'udp://tracker.opentrackr.org:1337',
     'udp://tracker.tiny-vps.com:6969',
     'udp://tracker.openbittorrent.com:1337',
-    'udp://tracker.coppersurfer.tk:6969',
     'udp://tracker.leechers-paradise.org:6969',
     'udp://p4p.arenabg.ch:1337',
     'udp://p4p.arenabg.com:1337',
@@ -88,7 +87,6 @@ Settings.trackers = {
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
     'udp://tracker.uw0.xyz:6969',
-    'udp://newtoncity.org:6969',
     'wss://tracker.openwebtorrent.com',
     'wss://tracker.btorrent.xyz'
   ]
