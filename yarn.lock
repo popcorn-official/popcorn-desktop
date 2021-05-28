@@ -2056,6 +2056,14 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
+ed25519-supercop@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ed25519-supercop/-/ed25519-supercop-2.0.1.tgz#5b317dec9b17a0ff2c303d2a5b600983f9df1806"
+  integrity sha512-5K75apA428ygTu/uvWwfOPPqdw65v7lFDLX6CSsV/ByhhVR5xED93KXeKDEMZ7G2Ttd3RyQoL8pFGSoMEWBXHA==
+  dependencies:
+    napi-macros "^2.0.0"
+    node-gyp-build "^4.2.3"
+
 edit-json-file@^1.4.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/edit-json-file/-/edit-json-file-1.6.0.tgz#ff51a1648e40ab7613c912f33a2d1079d9b03f63"
@@ -4950,7 +4958,7 @@ node-fetch@^2.0.0:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
-node-gyp-build@^4.2.0:
+node-gyp-build@^4.2.0, node-gyp-build@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-4.2.3.tgz#ce6277f853835f718829efb47db20f3e4d9c4739"
   integrity sha512-MN6ZpzmfNCRM+3t57PTJHgHyw/h4OWnZ6mR8P5j/uZtqQr46RRuDE/P+g3n0YR/AiYXeWixZZzaip77gdICfRg==

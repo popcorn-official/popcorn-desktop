@@ -374,6 +374,13 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
+                if (typeof Settings.dhtData === 'string') {
+                    let dhtInfo = JSON.parse(Settings.dhtData);
+                    if (typeof dhtInfo === 'object') {
+                        App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
+                    }
+                }
+
                 if (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer || Settings.proxyServer) {
                   App.Providers.updateConnection(Settings.customMoviesServer, Settings.customSeriesServer, Settings.customAnimeServer, Settings.proxyServer);
                 }
@@ -414,6 +421,9 @@ var Database = {
                 App.WebTorrent.throttleDownload(parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                 App.WebTorrent.throttleUpload(parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                 App.WebTorrent.maxConns = parseInt(Settings.connectionLimit, 10) || 55;
+            })
+            .then(function () {
+                App.DhtReader.updateOld();
             })
             .catch(function (err) {
                 win.error('Error starting up', err);
