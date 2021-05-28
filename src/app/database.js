@@ -409,6 +409,13 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
+                if (typeof Settings.dhtData === 'string') {
+                    let dhtInfo = JSON.parse(Settings.dhtData);
+                    if (typeof dhtInfo === 'object') {
+                        App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
+                    }
+                }
+
                 if (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer || Settings.proxyServer) {
                   App.Providers.updateConnection(Settings.customMoviesServer, Settings.customSeriesServer, Settings.customAnimeServer, Settings.proxyServer);
                 }
@@ -447,6 +454,9 @@ var Database = {
                     // enable secure after load options
                     require('webtorrent/lib/peer.js').enableSecure();
                 }
+            })
+            .then(function () {
+                App.DhtReader.updateOld();
             })
             .catch(function (err) {
                 win.error('Error starting up', err);
