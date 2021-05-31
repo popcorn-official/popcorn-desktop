@@ -461,10 +461,10 @@
                 // stored
                 var _file = e.currentTarget.parentNode.innerText,
                     file = _file.substring(0, _file.length - 2); // avoid ENOENT
-                magnetLink = fs.readFileSync(collection + file, 'utf8');
+                magnetLink = fs.readFileSync(collection + file, 'utf8') + Settings.trackers.forced.map(t => `&tr=${t}`).join('');
             } else {
                 // search result
-                magnetLink = e.currentTarget.parentNode.attributes['data-file'].value;
+                magnetLink = e.currentTarget.parentNode.attributes['data-file'].value + Settings.trackers.forced.map(t => `&tr=${t}`).join('');
             }
 
             if (e.button === 2) { //if right click on magnet link
