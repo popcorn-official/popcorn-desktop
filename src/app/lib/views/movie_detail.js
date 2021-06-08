@@ -377,6 +377,7 @@
         // Anime
         magnetLink = torrent.url.replace(/\&amp;/g, '&');
       }
+      magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
       if (e.button === 2) {
         //if right click on magnet link
         var clipboard = nw.Clipboard.get();
