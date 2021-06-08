@@ -4,25 +4,6 @@ const Generic = require('./generic');
 const request = require('request');
 const sanitize = require('butter-sanitize');
 
-const ytsTrackers = [
-  'udp://tracker.opentrackr.org:1337',
-  'udp://tracker.tiny-vps.com:6969',
-  'udp://tracker.openbittorrent.com:1337',
-  'udp://tracker.leechers-paradise.org:6969',
-  'udp://p4p.arenabg.ch:1337',
-  'udp://p4p.arenabg.com:1337',
-  'udp://tracker.internetwarriors.net:1337',
-  'udp://9.rarbg.to:2710',
-  'udp://9.rarbg.me:2710',
-  'udp://exodus.desync.com:6969',
-  'udp://tracker.cyberia.is:6969',
-  'udp://tracker.torrent.eu.org:451',
-  'udp://open.stealth.si:80',
-  'udp://tracker.moeking.me:6969',
-  'udp://tracker.zerobytes.xyz:1337',
-  'udp://tracker.uw0.xyz:6969',
-].map(t => `&tr=${t}`).join('');
-
 class YTSApi extends Generic {
   constructor(args) {
     super(args);
@@ -59,7 +40,7 @@ class YTSApi extends Generic {
             torrents: movie.torrents.reduceRight(function (torrents, torrent) {
               torrents[torrent.quality] = {
                 url: torrent.url,
-                magnet: `magnet:?xt=urn:btih:${torrent.hash}${ytsTrackers}`,
+                magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
                 size: torrent.size_bytes,
                 filesize: torrent.size,
                 seed: torrent.seeds,
