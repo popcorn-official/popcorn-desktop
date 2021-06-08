@@ -306,6 +306,7 @@
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			if (torrent.magnetURI) {
 				var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
+				magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
 				if (e.button === 2) {
 					var clipboard = nw.Clipboard.get();
 					clipboard.set(magnetLink, 'text'); //copy link to clipboard
