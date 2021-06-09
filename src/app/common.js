@@ -150,7 +150,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 					.attr('data-original-title', tooltipPieces.join(''))
 					.tooltip('fixTitle');
 
-        			if ($(selector + '~ .tooltip').is(':visible')) {
+        			if ($(selector + '~ .tooltip:contains("Health")').is(':visible')) {
           				getIcon().tooltip('show');
         			}
 			}
