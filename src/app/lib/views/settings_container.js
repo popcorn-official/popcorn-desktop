@@ -287,6 +287,7 @@
                 case 'vpnEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
+                case 'showSeedboxOnDlInit':
                 case 'nativeWindowFrame':
                 case 'translateSynopsis':
                 case 'showAdvancedSettings':

@@ -132,6 +132,7 @@ Settings.defaultFilters = 'default';
 Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
+Settings.showSeedboxOnDlInit = true;
 
 // Quality
 Settings.shows_default_quality = '720p';

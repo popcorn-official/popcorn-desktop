@@ -105,10 +105,18 @@
                 <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
                 <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
             </span>
+            <% if (Settings.activateTorrentCollection) { %>
             <span class="advanced">
                 <input class="settings-checkbox" name="torColSearchMore" id="torColSearchMore" type="checkbox" <%=(Settings.torColSearchMore? "checked='checked'":"")%>>
                 <label class="settings-label" for="torColSearchMore"><%= i18n.__("Show 'Search on Torrent Collection' in search") %></label>
             </span>
+            <% } %>
+            <% if (Settings.activateSeedbox) { %>
+            <span class="advanced">
+                <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
+                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when adding a new download") %></label>
+            </span>
+            <% } %>
             <span class="advanced">
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
