@@ -228,12 +228,16 @@
         : defaultTorrent;
 
       App.vent.trigger('stream:download', torrent, this.model.get('title') /*mediaName*/);
-      App.previousview = App.currentview;
-      App.currentview = 'Seedbox';
-      App.vent.trigger('seedbox:show');
-      $('.filter-bar').find('.active').removeClass('active');
-      $('#filterbar-seedbox').addClass('active');
-      $('#nav-filters').hide();
+      if (Settings.showSeedboxOnDlInit) {
+        App.previousview = App.currentview;
+        App.currentview = 'Seedbox';
+        App.vent.trigger('seedbox:show');
+        $('.filter-bar').find('.active').removeClass('active');
+        $('#filterbar-seedbox').addClass('active');
+        $('#nav-filters').hide();
+      } else {
+        $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+      }
     },
 
     startStreaming: function() {
