@@ -114,7 +114,7 @@
             <% if (Settings.activateSeedbox) { %>
             <span class="advanced">
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
-                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox screen when adding a new download") %></label>
+                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when adding a new download") %></label>
             </span>
             <% } %>
             <span class="advanced">
