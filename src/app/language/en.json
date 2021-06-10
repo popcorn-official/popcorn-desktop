@@ -551,5 +551,7 @@
 	"Never": "Never",
 	"Ask me every time": "Ask me every time",
 	"Enable Protocol Encryption": "Enable Protocol Encryption",
-	"Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage": "Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage"
+	"Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage": "Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage",
+	"Show the Seedbox screen when adding a new download": "Show the Seedbox screen when adding a new download",
+	"Download added": "Download added"
 }
