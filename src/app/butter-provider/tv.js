@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const request = require('request');
 const sanitize = require('butter-sanitize');
 const TVDB = require('node-tvdb');
 

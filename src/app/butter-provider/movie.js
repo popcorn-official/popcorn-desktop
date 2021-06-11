@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const fetch = require('node-fetch');
 const sanitize = require('butter-sanitize');
 
 class MovieApi extends Generic {

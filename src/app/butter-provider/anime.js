@@ -1,7 +1,6 @@
 'use strict';
 
 var Generic = require('./generic');
-var request = require('request');
 var sanitize = require('butter-sanitize');
 
 class AnimeApi extends Generic {
