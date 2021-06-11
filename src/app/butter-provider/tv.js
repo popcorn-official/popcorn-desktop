@@ -26,37 +26,6 @@ class TVApi extends Generic {
     }
   }
 
-  _get(index, url, qs) {
-    const req = this.buildRequest(
-      {
-        url,
-        json: true,
-        qs
-      },
-      this.apiURL[index]
-    );
-    console.info(`Request to TVApi: ${req.url}`);
-
-    return new Promise((resolve, reject) => {
-      request(req, (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          console.warn(`TVApi endpoint '${this.apiURL[index]}' failed.`);
-          if (index + 1 >= this.apiURL.length) {
-            return reject(err || 'Status Code is above 400');
-          } else {
-            return this._get(index+1, url);
-          }
-        } else if (!data || data.error) {
-          err = data ? data.status_message : 'No data returned';
-          console.error(`TVApi error: ${err}`);
-          return reject(err);
-        } else {
-          return resolve(data);
-        }
-      });
-    });
-  }
-
   extractIds(items) {
     return items.results.map(item => item.tvdb_id);
   }
@@ -80,9 +49,8 @@ class TVApi extends Generic {
       params.sort = filters.sorter;
     }
 
-    const index = 0;
-    const url = `${this.apiURL[index]}shows/${filters.page}`;
-    return this._get(index, url, params).then(data => {
+    const uri = `shows/${filters.page}?` + new URLSearchParams(params);
+    return this._get(0, uri).then(data => {
       data.forEach(entry => (entry.type = 'show'));
 
       return {
@@ -93,10 +61,9 @@ class TVApi extends Generic {
   }
 
   detail(torrent_id, old_data, debug) {
-    const index = 0;
-    const url = `${this.apiURL[index]}show/${torrent_id}`;
+    const uri = `show/${torrent_id}`;
 
-    return this._get(index, url).then(data => {
+    return this._get(0, uri).then(data => {
       console.log(data._id);
       if (this.translate && this.language !== 'en') {
         let langAvailable;

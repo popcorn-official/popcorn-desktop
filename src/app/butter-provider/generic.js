@@ -1,4 +1,3 @@
-var assign = Object.assign || require('es6-object-assign').assign;
 var memoize = require('memoizee');
 var _ = require('lodash');
 const socksProxyAgent = require( 'socks-proxy-agent' );
@@ -35,32 +34,58 @@ var processArgs = function(config, args) {
   return newArgs;
 };
 
-var Provider = function(args) {
-  args = args || {};
-  var config = this.config || {};
-  config.args = config.args || {};
+class Provider {
+  constructor(args) {
+    args = args || {};
+    var config = this.config || {};
+    config.args = config.args || {};
 
-  var memopts = args.memops || {
-    maxAge: 10 * 60 * 1000,
-    /* 10 minutes */
-    preFetch: 0.5,
-    /* recache every 5 minutes */
-    primitive: true
+    var memopts = args.memops || {
+      maxAge: 10 * 60 * 1000,
+      /* 10 minutes */
+      preFetch: 0.5,
+      /* recache every 5 minutes */
+      primitive: true
+    };
+
+    this.args = Object.assign({}, this.args, processArgs(config, args));
+
+    this.memfetch = memoize(this.fetch.bind(this), memopts);
+    this.fetch = this._fetch.bind(this);
+    this.proxy = '';
+
+    this.detail = memoize(
+        this.detail.bind(this),
+        _.extend(memopts, {
+          async: true
+        })
+    );
   };
 
-  this.args = assign({}, this.args, processArgs(config, args));
+  async _get(index, uri) {
 
-  this.memfetch = memoize(this.fetch.bind(this), memopts);
-  this.fetch = this._fetch.bind(this);
-  this.proxy = '';
+    const req = this.buildRequestWithBased(this.apiURL[index], uri);
+    let err = null;
+    console.info(`Request to ${this.constructor.name}: '${req.url}'`);
+    try {
+      const response = await fetch(req.url, req.options);
+      if (response.ok) {
+        if (index > 0) {
+          this.apiURL = this.apiURL.slice(index).concat(this.apiURL.slice(0, index));
+        }
+        return await response.json();
+      }
+    } catch (error) {
+      err = error;
+    }
+    console.warn(`${this.constructor.name} endpoint 'this.apiURL[${index}]' failed.`);
 
-  this.detail = memoize(
-    this.detail.bind(this),
-    _.extend(memopts, {
-      async: true
-    })
-  );
-};
+    if (index + 1 >= this.apiURL.length) {
+      throw err || new Error('Status Code is above 400');
+    }
+    return this._get(index+1, uri);
+  }
+}
 
 Provider.ArgType = {
   ARRAY: 'BUTTER_PROVIDER_ARG_TYPE_ARRAY',

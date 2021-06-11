@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const request = require('request');
 const fetch = require('node-fetch');
 const sanitize = require('butter-sanitize');
 
@@ -51,31 +50,6 @@ class MovieApi extends Generic {
       results: sanitize(results),
       hasMore: true
     };
-  }
-
-  async _get(index, uri) {
-
-    const req = this.buildRequestWithBased(this.apiURL[index], uri);
-    let err = null;
-    console.info(`Request to MovieApi: '${req.url}'`);
-    alert(JSON.stringify(req));
-    try {
-      const response = await fetch(req.url, req.options);
-      if (response.ok) {
-        if (index > 0) {
-          // TODO: put all broken urls to end
-        }
-        return await response.json();
-      }
-    } catch (error) {
-      err = error;
-    }
-    console.warn(`MovieApi endpoint 'this.apiURL[index]' failed.`);
-
-    if (index + 1 >= this.apiURL.length) {
-      throw err || new Error('Status Code is above 400');
-    }
-    return this._get(index+1, uri);
   }
 
   extractIds(items) {
