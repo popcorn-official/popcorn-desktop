@@ -44,7 +44,7 @@ class TVApi extends Generic {
           if (index + 1 >= this.apiURL.length) {
             return reject(err || 'Status Code is above 400');
           } else {
-            return this._get(index++, url);
+            return this._get(index+1, url);
           }
         } else if (!data || data.error) {
           err = data ? data.status_message : 'No data returned';
