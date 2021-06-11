@@ -1,6 +1,5 @@
 var memoize = require('memoizee');
 var _ = require('lodash');
-//const fetch = require('node-fetch');
 const socksProxyAgent = require( 'socks-proxy-agent' );
 
 var processArgs = function(config, args) {
