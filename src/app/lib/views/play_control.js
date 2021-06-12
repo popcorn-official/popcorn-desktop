@@ -191,7 +191,11 @@
         lang = 'none';
       }
       this.subtitle_selected = lang;
-      $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+      if (lang === 'en') {
+          $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
+      } else {
+          $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')').tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
+      }
       console.info('Subtitles: ' + this.subtitle_selected);
     },
 
@@ -202,7 +206,7 @@
       }
       this.audio_selected = lang;
       if (lang === 'en') {
-          $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}}).tooltip('fixTitle');
+          $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
       } else {
           $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')').tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
       }
