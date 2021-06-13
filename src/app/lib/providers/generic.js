@@ -19,9 +19,9 @@
       App.View.MovieBrowser = MovieBrowser;
       cache[Object.keys(App.Providers._cache)[0]] = App.Providers.get('YTSApi');
     }
-    moviesServer ? cache[Object.keys(App.Providers._cache)[0]].apiURL = [moviesServer] : null;
-    seriesServer ? cache[Object.keys(App.Providers._cache)[1]].apiURL = [seriesServer] : null;
-    animeServer ? cache[Object.keys(App.Providers._cache)[2]].apiURL = [animeServer] : null;
+    moviesServer ? cache[Object.keys(App.Providers._cache)[0]].setApiUrls(moviesServer) : null;
+    seriesServer ? cache[Object.keys(App.Providers._cache)[1]].setApiUrls(seriesServer) : null;
+    animeServer ? cache[Object.keys(App.Providers._cache)[2]].setApiUrls(animeServer) : null;
     for (let provider in cache) {
       cache[provider].proxy = proxy;
     }
