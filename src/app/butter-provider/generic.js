@@ -60,6 +60,8 @@ class Provider {
           async: true
         })
     );
+
+    if (args.apiURL) { this.setApiUrls(args.apiURL); }
   };
 
   async _get(index, uri) {
@@ -112,6 +114,13 @@ class Provider {
     };
   }
 
+  setApiUrls(urls) {
+    if (typeof urls === 'string') {
+      urls = urls.split(',').map((x) => x.trim()).filter((x) => !!x);
+    }
+    this.apiURL = _.shuffle(urls);
+
+  }
 }
 
 Provider.ArgType = {

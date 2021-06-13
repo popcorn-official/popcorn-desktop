@@ -8,11 +8,7 @@ class TVApi extends Generic {
   constructor(args) {
     super(args);
 
-    if (args.apiURL) this.apiURL = args.apiURL.split(',');
-
     this.language = args.language;
-    this.quality = args.quality;
-    this.translate = args.translate;
 
     try {
       this.tvdb = new TVDB('7B95D15E1BE1D75A');

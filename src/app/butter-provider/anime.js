@@ -7,11 +7,7 @@ class AnimeApi extends Generic {
   constructor(args) {
     super(args);
 
-    if (args.apiURL) this.apiURL = args.apiURL.split(',');
-
     this.language = args.language;
-    this.quality = args.quality;
-    this.translate = args.translate;
   }
 
   extractIds(items) {
