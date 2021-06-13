@@ -64,7 +64,7 @@ class Provider {
 
   async _get(index, uri) {
 
-    const req = this.buildRequestWithBased(this.apiURL[index], uri);
+    const req = this.buildRequest(this.apiURL[index], uri);
     let err = null;
     console.info(`Request to ${this.constructor.name}: '${req.url}'`);
     try {
@@ -85,6 +85,33 @@ class Provider {
     }
     return this._get(index+1, uri);
   }
+
+  buildRequest(baseUrl, uri)
+  {
+    let options = {
+      headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
+      }
+    };
+
+    if (this.proxy) {
+      options.agent = socksProxyAgent('socks://' + this.proxy);
+    }
+
+    // TODO: looks like this not work
+    const match = baseUrl.match(/^cloudflare\+(.*):\/\/(.*)\//);
+    if (match) {
+      baseUrl = `${match[1]}://cloudflare.com/`;
+      options.headers.Host = match[2];
+    }
+
+    return {
+      url: baseUrl + uri,
+      options
+    };
+  }
+
 }
 
 Provider.ArgType = {
@@ -146,56 +173,6 @@ Provider.prototype._fetch = function(filters) {
 
 Provider.prototype.toString = function(arg) {
   return JSON.stringify(this);
-};
-
-Provider.prototype.buildRequestWithBased = function(baseUrl, uri)
-{
-  let options = {
-    headers: {
-      'User-Agent':
-          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
-    }
-  };
-
-  if (this.proxy) {
-    options.agent = socksProxyAgent('socks://' + this.proxy);
-  }
-
-  // TODO: looks like this not work
-  const match = baseUrl.match(/^cloudflare\+(.*):\/\/(.*)\//);
-  if (match) {
-    baseUrl = `${match[1]}://cloudflare.com/`;
-    options.headers.Host = match[2];
-  }
-
-  return {
-    url: baseUrl + uri,
-    options
-  };
-}
-
-Provider.prototype.buildRequest = function(options, url) {
-  const match = url.match(/^cloudflare\+(.*):\/\/(.*)/);
-  if (match) {
-    options = Object.assign(options, {
-      uri: `${match[1]}://cloudflare.com/`,
-      headers: {
-        Host: match[2],
-      }
-    });
-  }
-  options = Object.assign(options, {
-    headers: {
-      'User-Agent':
-          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
-    }
-  });
-
-  if (this.proxy) {
-    options.agent = socksProxyAgent('socks://' + this.proxy);
-  }
-
-  return options;
 };
 
 Provider.prototype.parseArgs = function(name) {
