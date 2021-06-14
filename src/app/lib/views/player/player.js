@@ -589,8 +589,10 @@
 
                 if (next_episode.torrents[current_quality] !== undefined && next_episode.torrents[current_quality].url) {
                     next_episode.torrent = next_episode.torrents[current_quality].url;
+                    next_episode.file_name = next_episode.torrents[current_quality].file || '';
                 } else {
                     next_episode.torrent = next_episode.torrents[next_episode.torrents.constructor.length - 1].url; //select highest quality available if user selected not found
+                    next_episode.file_name = next_episode.torrents[next_episode.torrents.constructor.length - 1].file || '';
                 }
 
                 this.next_episode_model = new Backbone.Model(next_episode);
