@@ -7,7 +7,7 @@ class MovieApi extends Generic {
   constructor(args) {
     super(args);
 
-    this.language = args.language || 'en';
+    this.language = args.language;
     this.contentLanguage = args.contentLanguage || this.language;
   }
 
