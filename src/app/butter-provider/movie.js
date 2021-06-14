@@ -1,19 +1,13 @@
 'use strict';
 
 const Generic = require('./generic');
-const request = require('request');
 const sanitize = require('butter-sanitize');
 
 class MovieApi extends Generic {
   constructor(args) {
     super(args);
 
-    if (args.apiURL) {
-      this.apiURL = args.apiURL.split(',');
-    }
     this.language = args.language;
-    this.quality = args.quality;
-    this.translate = args.translate;
   }
 
   _formatForPopcorn(movies) {
@@ -52,37 +46,6 @@ class MovieApi extends Generic {
     };
   }
 
-  _get(index, url, qs) {
-    const req = this.buildRequest(
-      {
-        url,
-        json: true,
-        qs
-      },
-      this.apiURL[index]
-    );
-    console.info(`Request to MovieApi: '${req.url}'`);
-
-    return new Promise((resolve, reject) => {
-      request(req, (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          console.warn(`MovieApi endpoint 'this.apiURL[index]' failed.`);
-          if (index + 1 >= this.apiURL.length) {
-            return reject(err || 'Status Code is above 400');
-          } else {
-            return this._get(index++, url);
-          }
-        } else if (!data || data.error) {
-          err = data ? data.status_message : 'No data returned';
-          console.error(`MovieApi error: ${err}`);
-          return reject(err);
-        } else {
-          return resolve(this._formatForPopcorn(data));
-        }
-      });
-    });
-  }
-
   extractIds(items) {
     return items.results.map(item => item.imdb_id);
   }
@@ -106,9 +69,8 @@ class MovieApi extends Generic {
       params.sort = filters.sorter;
     }
 
-    const index = 0;
-    const url = `${this.apiURL[index]}movies/${filters.page}`;
-    return this._get(index, url, params);
+    const uri = `movies/${filters.page}?` + new URLSearchParams(params);
+    return this._get(0, uri).then((data) => this._formatForPopcorn(data));
   }
 
   random() {}

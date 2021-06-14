@@ -1,49 +1,13 @@
 'use strict';
 
 var Generic = require('./generic');
-var request = require('request');
 var sanitize = require('butter-sanitize');
 
 class AnimeApi extends Generic {
   constructor(args) {
     super(args);
 
-    if (args.apiURL) this.apiURL = args.apiURL.split(',');
-
     this.language = args.language;
-    this.quality = args.quality;
-    this.translate = args.translate;
-  }
-
-  _get(index, url, qs) {
-    const req = this.buildRequest(
-        {
-          url,
-          json: true,
-          qs
-        },
-        this.apiURL[index]
-    );
-    console.info('Request to AnimeApi', req.url);
-
-    return new Promise((resolve, reject) => {
-      request(req, (err, res, data) => {
-        if (err || res.statusCode >= 400) {
-          console.warn(`AnimeAPI endpoint ${that.apiURL[index]} failed.`);
-          if (index + 1 >= that.apiURL.length) {
-            return deferred.reject(err || 'Status Code is above 400');
-          } else {
-            return get(index + 1, url, that);
-          }
-        } else if (!data || data.error) {
-          err = data ? data.status_message : 'No data returned';
-          console.error('API error:', err);
-          return deferred.reject(err);
-        } else {
-          return deferred.resolve(data);
-        }
-      });
-    });
   }
 
   extractIds(items) {
@@ -69,9 +33,8 @@ class AnimeApi extends Generic {
       params.sort = filters.sorter;
     }
 
-    const index = 0;
-    const url = `${this.apiURL[index]}animes/${filters.page}`;
-    return this._get(index, url, params).then(animes => {
+    const uri = `animes/${filters.page}?` + new URLSearchParams(params);
+    return this._get(0, uri).then(animes => {
       animes.forEach(anime => {
         return {
           images: {
@@ -97,10 +60,9 @@ class AnimeApi extends Generic {
   }
 
   detail(torrent_id, old_data, debug) {
-    const index = 0;
-    const url = `${this.apiURL[index]}anime/${torrent_id}`;
+    const uri = `anime/${torrent_id}`;
 
-    return this._get(index, url).then(anime => {
+    return this._get(0, uri).then(anime => {
       var result = {
         mal_id: anime._id,
         haru_id: anime._id,

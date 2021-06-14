@@ -1,4 +1,3 @@
-var assign = Object.assign || require('es6-object-assign').assign;
 var memoize = require('memoizee');
 var _ = require('lodash');
 const socksProxyAgent = require( 'socks-proxy-agent' );
@@ -35,32 +34,94 @@ var processArgs = function(config, args) {
   return newArgs;
 };
 
-var Provider = function(args) {
-  args = args || {};
-  var config = this.config || {};
-  config.args = config.args || {};
+class Provider {
+  constructor(args) {
+    args = args || {};
+    var config = this.config || {};
+    config.args = config.args || {};
 
-  var memopts = args.memops || {
-    maxAge: 10 * 60 * 1000,
-    /* 10 minutes */
-    preFetch: 0.5,
-    /* recache every 5 minutes */
-    primitive: true
+    var memopts = args.memops || {
+      maxAge: 10 * 60 * 1000,
+      /* 10 minutes */
+      preFetch: 0.5,
+      /* recache every 5 minutes */
+      primitive: true
+    };
+
+    this.args = Object.assign({}, this.args, processArgs(config, args));
+
+    this.memfetch = memoize(this.fetch.bind(this), memopts);
+    this.fetch = this._fetch.bind(this);
+    this.proxy = '';
+
+    this.detail = memoize(
+        this.detail.bind(this),
+        _.extend(memopts, {
+          async: true
+        })
+    );
+
+    if (args.apiURL) { this.setApiUrls(args.apiURL); }
   };
 
-  this.args = assign({}, this.args, processArgs(config, args));
+  async _get(index, uri) {
 
-  this.memfetch = memoize(this.fetch.bind(this), memopts);
-  this.fetch = this._fetch.bind(this);
-  this.proxy = '';
+    const req = this.buildRequest(this.apiURL[index], uri);
+    let err = null;
+    console.info(`Request to ${this.constructor.name}: '${req.url}'`);
+    try {
+      const response = await fetch(req.url, req.options);
+      if (response.ok) {
+        if (index > 0) {
+          this.apiURL = this.apiURL.slice(index).concat(this.apiURL.slice(0, index));
+        }
+        return await response.json();
+      }
+    } catch (error) {
+      err = error;
+    }
+    console.warn(`${this.constructor.name} endpoint 'this.apiURL[${index}]' failed.`);
 
-  this.detail = memoize(
-    this.detail.bind(this),
-    _.extend(memopts, {
-      async: true
-    })
-  );
-};
+    if (index + 1 >= this.apiURL.length) {
+      throw err || new Error('Status Code is above 400');
+    }
+    return this._get(index+1, uri);
+  }
+
+  buildRequest(baseUrl, uri)
+  {
+    let options = {
+      headers: {
+        'User-Agent':
+            'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
+      }
+    };
+
+    if (this.proxy) {
+      options.agent = socksProxyAgent('socks://' + this.proxy);
+    }
+
+    // TODO: looks like this not work
+    const match = baseUrl.match(/^cloudflare\+(.*):\/\/(.*)\//);
+    if (match) {
+      baseUrl = `${match[1]}://cloudflare.com/`;
+      options.headers.Host = match[2];
+    }
+
+    return {
+      url: baseUrl + uri,
+      options
+    };
+  }
+
+  setApiUrls(urls) {
+    if (typeof urls === 'string') {
+      urls = urls.split(',').map((x) => x.trim()).filter((x) => !!x);
+    }
+    this.apiURL = _.shuffle(urls);
+
+  }
+}
 
 Provider.ArgType = {
   ARRAY: 'BUTTER_PROVIDER_ARG_TYPE_ARRAY',
@@ -121,30 +182,6 @@ Provider.prototype._fetch = function(filters) {
 
 Provider.prototype.toString = function(arg) {
   return JSON.stringify(this);
-};
-
-Provider.prototype.buildRequest = function(options, url) {
-  const match = url.match(/^cloudflare\+(.*):\/\/(.*)/);
-  if (match) {
-    options = Object.assign(options, {
-      uri: `${match[1]}://cloudflare.com/`,
-      headers: {
-        Host: match[2],
-      }
-    });
-  }
-  options = Object.assign(options, {
-    headers: {
-      'User-Agent':
-          'Mozilla/5.0 (Linux) AppleWebkit/534.30 (KHTML, like Gecko) PT/4.4.0'
-    }
-  });
-
-  if (this.proxy) {
-    options.agent = socksProxyAgent('socks://' + this.proxy);
-  }
-
-  return options;
 };
 
 Provider.prototype.parseArgs = function(name) {
