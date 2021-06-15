@@ -5,7 +5,7 @@
         height: 35px
         width: 250px
         top: 0
-        margin-top: 340px
+        margin-top: 275px
         border-radius: $ButtonRadius
         background-clip: padding-box
         background-color: $ButtonBg
@@ -42,15 +42,26 @@
                 font-size: 14px
 
     .retry-button
-        margin-left: calc(50% - 260px)
         visibility: hidden
+        position: relative
+        display: inline-block
 
-    .online-search
-        margin-left: calc(50% + 20px)
+    ..change-api
         visibility: hidden
         width: auto
         min-width: 250px
-        max-width: 350px
-        overflow: hidden
+        max-width: 300px
         text-overflow: ellipsis
         white-space: nowrap
+        position: relative
+        display: inline-block
+
+    .online-search
+        visibility: hidden
+        width: auto
+        min-width: 250px
+        max-width: 300px
+        text-overflow: ellipsis
+        white-space: nowrap
+        position: relative
+        display: inline-block
