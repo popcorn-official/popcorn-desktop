@@ -25,6 +25,7 @@
         template: '#movie-error-tpl',
         ui: {
             retryButton: '.retry-button',
+            changeApi: '.change-api',
             onlineSearch: '.online-search'
         },
         onBeforeRender: function () {
@@ -39,14 +40,19 @@
                     if (Settings.torColSearchMore) {
                         this.ui.onlineSearch.css('visibility', 'visible');
                         this.ui.retryButton.css('visibility', 'visible');
+                        this.ui.changeApi.css('visibility', 'visible');
                     } else {
+                        this.ui.onlineSearch.css('display', 'none');
                         this.ui.retryButton.css('visibility', 'visible');
-                        this.ui.retryButton.css('margin-left', 'calc(50% - 125px)');
+                        this.ui.changeApi.css('visibility', 'visible');
                     }
+                    this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 case 'Watchlist':
+                    this.ui.onlineSearch.css('display', 'none');
                     this.ui.retryButton.css('visibility', 'visible');
-                    this.ui.retryButton.css('margin-left', 'calc(50% - 125px)');
+                    this.ui.changeApi.css('display', 'none');
+                    this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 default:
                 }
@@ -57,7 +63,9 @@
                 case 'anime':
                     if (Settings.torColSearchMore) {
                         this.ui.onlineSearch.css('visibility', 'visible');
-                        this.ui.onlineSearch.css('margin-left', 'calc(50% - 125px)');
+                        this.ui.retryButton.css('display', 'none');
+                        this.ui.changeApi.css('display', 'none');
+                        this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     }
                     break;
                 default:
