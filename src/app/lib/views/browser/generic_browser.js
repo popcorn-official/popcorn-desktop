@@ -19,6 +19,7 @@
         events: {
             'click .retry-button': 'onFilterChange',
             'click .online-search': 'onlineSearch',
+            'click .change-api': 'changeApi',
             'click #search-more-item': 'onlineSearch',
             'mouseover #search-more-item': 'onlineSearchHov',
             'mouseover #load-more-item': 'onlineSearchHov'
@@ -73,6 +74,7 @@
                 App.vent.trigger('app:started');
             }
         },
+
         onFilterChange: function () {
             if (Settings.defaultFilters === 'remember' || curSetDefaultFilters) {
                 this.saveFilter();
@@ -88,6 +90,7 @@
                 collection: this.collection
             }));
         },
+
         onlineSearch: function () {
             switch (App.currentview) {
             case 'movies':
@@ -104,6 +107,25 @@
 
             $('#filterbar-torrent-collection').click();
             $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
+        },
+
+        changeApi: function () {
+            App.vent.trigger('settings:show');
+            switch (App.currentview) {
+            case 'movies':
+                $('#customMoviesServer')[0].scrollIntoView({block: 'center'});
+                $('#customMoviesServer')[0].focus();
+                break;
+            case 'shows':
+                $('#customSeriesServer')[0].scrollIntoView({block: 'center'});
+                $('#customSeriesServer')[0].focus();
+                break;
+            case 'anime':
+                $('#customAnimeServer')[0].scrollIntoView({block: 'center'});
+                $('#customAnimeServer')[0].focus();
+                break;
+            default:
+            }
         },
 
         onlineSearchHov: function () {
