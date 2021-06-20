@@ -72,6 +72,14 @@
                 App.vent.trigger('settings:close');
             });
 
+            App.vent.on('viewstack:pop', function() {
+                if (_.last(App.ViewStack) === that.className) {
+                    Mousetrap.bind(['esc', 'backspace'], function (e) {
+                        App.vent.trigger('settings:close');
+                    });
+                }
+            });
+
             // connect opensubs on enter
             var osMousetrap = new Mousetrap(document.getElementById('opensubtitlesPassword'));
             osMousetrap.bind('enter', function (e) {
