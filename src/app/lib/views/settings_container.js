@@ -68,7 +68,7 @@
                 }
             });
 
-            Mousetrap.bind('backspace', function (e) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('settings:close');
             });
 
@@ -129,7 +129,7 @@
         },
 
         onBeforeDestroy: function () {
-            Mousetrap.bind('backspace', function (e) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
