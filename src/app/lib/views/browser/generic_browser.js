@@ -110,22 +110,21 @@
         },
 
         changeApi: function () {
-            App.vent.trigger('settings:show');
+            let curView;
             switch (App.currentview) {
             case 'movies':
-                $('#customMoviesServer')[0].scrollIntoView({block: 'center'});
-                $('#customMoviesServer')[0].focus();
+                curView = '#customMoviesServer';
                 break;
             case 'shows':
-                $('#customSeriesServer')[0].scrollIntoView({block: 'center'});
-                $('#customSeriesServer')[0].focus();
+                curView = '#customSeriesServer';
                 break;
             case 'anime':
-                $('#customAnimeServer')[0].scrollIntoView({block: 'center'});
-                $('#customAnimeServer')[0].focus();
+                curView = '#customAnimeServer';
                 break;
             default:
             }
+            App.vent.trigger('settings:show');
+            curView ? $(curView).attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style') }) : null;
         },
 
         onlineSearchHov: function () {
