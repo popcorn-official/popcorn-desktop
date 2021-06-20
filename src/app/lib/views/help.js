@@ -30,7 +30,7 @@
 
         onAttach: function () {
             $('.search input').blur();
-            Mousetrap.bind('esc', function (e) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('help:close');
             });
             this.randomizeDyk();
