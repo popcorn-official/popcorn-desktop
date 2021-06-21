@@ -3,7 +3,7 @@ cask "popcorn-time-beta" do
   sha256 :no_check
 
   ci = "https://ci.popcorntime.app/job/Popcorn-Time-Desktop"
-  url "#{ci}/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.4_osx64.zip"
+  url "#{ci}/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.5_osx64.zip"
   appcast ci, configuration: "Latest successful build"
   name "Popcorn Time"
   desc "Watch movies and TV shows instantly"
