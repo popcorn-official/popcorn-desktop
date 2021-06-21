@@ -133,8 +133,6 @@ For translations please go to: [Transifex](https://www.transifex.com/popcorn-tim
 1. cd into the project folder
 1. Run `npm install -g grunt-cli bower` - to make it possible to run grunt commands
 
-[Complete documentation](https://github.com/popcorn-official/popcorn-desktop/tree/master/docs/Build-Debug.md)
-
 ### Updating with the latest changes
 
 Pulling down the latest changes from master will often require more than just a pull, you may also need to do one or more of the following:

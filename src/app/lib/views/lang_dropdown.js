@@ -42,12 +42,26 @@
             this.model.set('values', newLangs);
             this.values = newLangs;
             this.render();
+
+            if ((Settings.subtitle_language !== 'none') && (Settings.subtitle_language in newLangs)) {
+                this.setLang(Settings.subtitle_language);
+            }
+
+            $('.tooltipped').tooltip({
+                delay: {
+                    'show': 800,
+                    'hide': 100
+                }
+            });
         },
 
         setLang: function (value) {
-            console.log(value);
             this.model.set('selected', value);
-            this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
+            if (value !== 'none') {
+                this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value.substr(0,2));
+            } else {
+                this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
+            }
             App.vent.trigger(this.type + ':lang', value);
         },
 

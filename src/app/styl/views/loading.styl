@@ -12,6 +12,54 @@
     padding-top $TitleHeight
     -webkit-backface-visibility hidden
 
+    .minimize-icon
+        top: 45px
+        right: 20px
+        position: fixed
+        color: $CloseButton
+        font-size: 25px
+        cursor: pointer
+        z-index: 100
+        -webkit-font-smoothing: antialiased
+        transition: color 0.2s
+
+        &:hover
+            color: $CloseButtonHover
+
+    .maximize-icon
+        display: none
+        bottom: 20px
+        right: 20px
+        position: fixed
+        color: $CloseButton
+        font-size: 25px
+        cursor: pointer
+        z-index: 100
+        background: $BgColor2
+        padding: 10px 20px
+        opacity: 0.9
+        border-radius: 3px
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,0.15), 0 4px 14px 0 rgba(0,0,0,0.25)
+        -webkit-font-smoothing: antialiased
+        transition: background 0.2s, color 0.2s, opacity 0.2s
+
+        &:hover
+            color: $ButtonText
+            background: $ButtonBgHover
+            opacity: 1
+
+        &.done:hover
+            background: #27ae60
+
+        & > *
+            font-size: 12px
+            vertical-align: top
+            line-height: 25px
+
+        #maxic
+            font-size: 25px
+            margin-left: 10px
+
     #vpn-contents
         display: none
 
@@ -20,7 +68,10 @@
 
     .vpn
         margin-top 20px
-        margin-bottom 20px
+
+    .seed_status
+        visibility hidden
+        margin-top 20px
 
     .loading-backdrop
         position: absolute
@@ -62,20 +113,22 @@
             padding-bottom 10px
             text-overflow ellipsis
             word-wrap break-word
+            display inline-block
 
         .external-play
             font-size 14px
             font-style: italic
-            padding-bottom 40px
+            padding-bottom 6px
+            visibility hidden
 
         .loading-progressbar
             position relative
-            margin-bottom 10px
-            margin-top 10px
+            margin-bottom 29px
             width 100%
             background-color #bababa
             border-radius 13px
             overflow hidden
+            visibility hidden
 
             & > div
                 background-color $ButtonBgActive
@@ -91,10 +144,11 @@
 
         .playing-progressbar
             position relative
-            margin-bottom 10px
+            margin-bottom 4px
             margin-top 10px
             background-color #bababa
             border-radius 13px
+            display none
             //padding 3px
 
             & > div
@@ -105,22 +159,30 @@
 
         .player-controls
             text-align center
-            margin-left 40px
+            margin-left 30px
             color $Text1
-            font-size 24px
+            font-size 14px
             margin-top 20px
+            display none
             i
                 cursor pointer
                 margin-right 20px
 
+        #rbreak1, #rbreak2, #rbreak3
+            line-height 13px
+
         #cancel-button-vpn
             width 140px!important
             position inherit!important
+            display inline-block
+            margin-left 5px
 
         #cancel-button-regular
             margin-top: 10px
             font-size: 10px
             cursor: pointer
+            display inline-block
+            margin-right 5px
 
         .vpn
             .heading
@@ -156,7 +218,7 @@
             cursor pointer
             width 120px
             height 35px
-            margin auto
+            margin 20px auto auto auto
             -moz-border-radius 3px
             -webkit-border-radius 3px
             border-radius 3px
@@ -165,6 +227,7 @@
             background-clip padding-box
             background-color $ButtonBg
             -webkit-backface-visibility hidden
+            transition background-color .5s
 
             &:hover
                 background: $ButtonBgHover
@@ -184,17 +247,40 @@
                 top 12px
                 font-size 12px
 
+        .open-button
+            float right
+            cursor pointer
+            transition opacity .2s
+            opacity 0.4
+            z-index 10
+
+            &:hover
+                opacity 1
+
+            &:active
+                opacity 1
+
+            .open-button-text
+                -webkit-backface-visibility hidden
+                position relative
+                color #fff
+                font-family $MainFont, $Font, $AlternateFont
+                -webkit-font-smoothing antialiased
+                text-align center
+                top 12px
+                font-size 12px
+
         .loading-info
-            width 60%
-            max-width 300px
+            width auto
             height auto
             margin auto
             padding 10px
-            padding-bottom 20px
+            padding-bottom 10px
             border-radius 4px
             left 0
             right 0
             background: rgba(0, 0, 0, .6)
+            display inline-block
 
             span
                 position relative
@@ -206,8 +292,29 @@
 
                 &.loading-info-text
                     float left
+                    padding-right 32px
                 &.value
                     float right
+                    text-align right
+
+            .text_filename
+                width 255px
+                padding-right 3px
+                overflow hidden
+                white-space nowrap
+                text-overflow ellipsis
+
+                &:hover
+                    overflow visible
+
+            .show-pcontrols
+                float right
+                cursor pointer
+                transition opacity .2s
+                opacity 0.4
+
+                &:hover
+                    opacity 1
 
             .buffer_percent
                 text-align center

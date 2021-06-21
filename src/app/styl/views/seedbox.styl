@@ -27,8 +27,7 @@
           padding-left: 20px /* left-pad */
 
           .seedbox-types ul, .seedbox-torrents ul
-              height: calc(100vh - 340px)
-              cursor: pointer
+              height: calc(100vh - 167px)
               direction: rtl
               scrollable()
 
@@ -37,6 +36,7 @@
                   margin: 1px 0px 1px 1px
                   float: left
                   width: calc(100% - 7px)
+                  cursor: pointer
 
                   .watched
                       padding 9px 0
@@ -48,6 +48,10 @@
 
                       &.true
                           color: $ShowWatchedIcon_true
+
+                      &.disabled
+                          pointer-events: none
+                          opacity: 0.2
 
               li:nth-child(odd)
                   background-color $ShowBgColor2
@@ -84,11 +88,9 @@
                       margin: 0px 15px 0px 5px
 
                   div
-                      float: left
                       white-space: nowrap
                       border-left: 1px solid $ShowBgColor1
                       padding-left: 30px
-                      max-width: calc(60vw - 265px)
                       text-align: left
                       overflow: hidden
                       text-overflow: ellipsis
@@ -118,17 +120,39 @@
           .seedbox-torrents
               flex-grow: 2
               padding: 10px
+              width: calc(65vw - 20px)
+
+              .seedbox-torrent-list ul
+                  white-space: nowrap
 
               .seedbox-torrent-list ul li a
                   color: $EpisodeListText
                   font-family: $MainFont
+                  min-width: 70px
+                  max-width: calc(100% - 265px)
 
               .seedbox-torrent-list ul li.active a
                   color: $EpisodeSelectorText
 
+              .seedbox-torrent-list ul li.active i
+                  color: rgba($EpisodeSelectorText,.5)
+
+              .seedbox-torrent-list ul li.error
+                  background: $NotificationError
+
               .notorrents-info
                   display block
-                  height 5%
+                  height 100%
+                  width 100%
+
+                  span
+                      left 0px
+                      top 246px
+                      width 100%
+                      font-family $MainFont
+                      font-size 24px
+                      text-align center
+                      position absolute
 
                   .notorrents-frame
                       border 6px dashed $TextError
@@ -162,8 +186,9 @@
               flex-shrink: 0
               width: 35vw
               min-width: 350px
-              padding: 10px 30px 10px 18px /* right pad */
+              padding: 12px 18px
               margin-top: 28px
+              display: none
 
               .seedbox-infos
                   .seedbox-infos-title
@@ -173,13 +198,14 @@
                       font-size: 24px
                       font-weight: bold
                       margin-top: 2px
-                      margin-bottom: 6px
+                      margin-bottom: 7px
                       color: $ShowText1
+                      min-height: 24px
 
                   .seedbox-infos-links
                       position: absolute
-                      right: 42px
-                      margin-top: -6px
+                      right: 30px
+                      margin-top: -2px
 
                       &>div
                           padding: 5px 2px
@@ -210,7 +236,7 @@
 
                   .seedbox-infos-aired
                       font-size: 14px
-                      line-height: 20px
+                      line-height: 18px
                       margin-bottom: 10px
                       color: $ShowText2
 
@@ -226,7 +252,7 @@
                       text-align: justify
                       margin-top: 10px
                       padding: 2px 15px 5px 0
-                      height: calc(100vh - 335px)
+                      height: calc(100vh - 334px)
                       scrollable()
 
                       ul
@@ -238,9 +264,13 @@
                               cursor pointer
                               color $FileSelectorText
                               height 46px
-                              padding-left 40px
+                              padding-left 20px
                               padding-top 14px
                               padding-right 50px
+
+                              &:hover
+                                  filter brightness(110%)
+                                  backdrop-filter brightness(110%)
 
                               a
                                   color $FileSelectorText
@@ -252,22 +282,14 @@
                                   white-space nowrap
                                   text-overflow ellipsis
 
-                                  &:hover
-                                      color $ButtonBgHover
-                                  &:active
-                                      color $ButtonBgActive
-
                               .item-delete,
                               .item-rename
                                   position relative
                                   color: $TextError
                                   transition all 0.3s
                                   cursor pointer
-                                  left calc(100% + 25px)
-                                  top -15px
-
-                                  &:hover
-                                      color $ButtonBgHover
+                                  left calc(100% + 22px)
+                                  top -17px
 
                               .item-rename
                                   left calc(100% - 15px)
@@ -347,13 +369,14 @@
         // Progress container
         .progress-wrapper {
             position: relative;
-            padding-top: 1.5rem;
+            padding: 1.5rem 10px 0 10px;
         }
 
 
         // General styles
         .progress {
             height: 8px;
+            background: $FileSelectorBg;
             margin-bottom: $spacer;
             overflow: hidden;
             border-radius: .2rem !default;
@@ -392,8 +415,14 @@
             box-shadow: none;
             border-radius: 0;
             height: 8px;
-            background-color: #fb6340 !important;
-            background-image: linear-gradient(to bottom, #fb6340 100%, #fb6340 100%) !important;
+            width: 0%;
+            background-color: #fb6340;
+            background-image: linear-gradient(to bottom, #fb6340 100%, #fb6340 100%);
+
+            &.done {
+                background-color: #27ae60;
+                background-image: linear-gradient(to bottom, #27ae60 100%, #27ae60 100%);
+            }
         }
 
         .progress-info {
@@ -406,11 +435,11 @@
         .progress-label {
             span {
                 display: inline-block;
-                color: #5e72e4;
-                font-size: .625rem;
+                color: $ShowText2;
+                font-size: .65rem;
                 font-weight: 600;
                 text-transform: uppercase;
-                background: rgba(#5e72e4, .1);
+                background: $FileSelectorBg;
                 padding: .25rem 1rem;
                 border-radius: 30px;
             }
@@ -418,6 +447,7 @@
 
         .progress-percentage {
             text-align: right;
+            color: $ShowText2;
             span {
                 display: inline-block;
                 color: #e9ecef !default;

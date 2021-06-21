@@ -2,10 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <title>Popcorn-Time</title>
     <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="/node_modules/bootstrap/dist/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" type="text/css" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="/node_modules/@fortawesome/fontawesome-free/css/v4-shims.min.css" />
     <link rel="stylesheet" type="text/css" href="/node_modules/video.js/dist/video-js/video-js.min.css">
     <link rel="stylesheet" type="text/css" href="css/animation.css" />
     <link rel="stylesheet" type="text/css" id="theme" href="themes/Official_-_Dark_theme.css" />
@@ -25,6 +25,7 @@
     <script id="changelog-tpl" src="templates/changelog.tpl" type="text/x-template"></script>
     <script id="disclaimer-tpl" src="templates/disclaimer.tpl" type="text/x-template"></script>
     <script id="settings-container-tpl" src="templates/settings-container.tpl" type="text/x-template"></script>
+    <script id="win-header-tpl" src="templates/windows-titlebar.tpl" type="text/x-template"></script>
     <script id="header-tpl" src="templates/header.tpl" type="text/x-template"></script>
     <script id="movie-detail-tpl" src="templates/movie-detail.tpl" type="text/x-template"></script>
     <script id="show-detail-tpl" src="templates/show-detail.tpl" type="text/x-template"></script>
@@ -36,7 +37,6 @@
     <script id="vpn-tpl" src="templates/vpn.tpl" type="text/x-template" ></script>
     <script id="file-selector-tpl" src="templates/file-selector.tpl" type="text/x-template" ></script>
     <script id="help-tpl" src="templates/help.tpl" type="text/x-template" ></script>
-    <script id="issue-tpl" src="templates/issue.tpl" type="text/x-template"></script>
     <script id="torrent-collection-tpl"src="templates/torrent_collection.tpl" type="text/x-template" ></script>
     <script id="keyboard-tpl" src="templates/keyboard.tpl" type="text/x-template"></script>
     <script id="notification-tpl" src="templates/notification.tpl" type="text/x-template"></script>
@@ -63,7 +63,7 @@
     <script src="vendor/videojshooks.js"></script>
     <script src="vendor/videojsplugins.js"></script>
     <script src="lib/jquery.plugins.js"></script>
-    <script src="/node_modules/videojs-youtube/src/youtube.js"></script>
+    <script src="/node_modules/videojs-youtube/dist/vjs.youtube.js"></script>
 
     <!-- App Initialization -->
     <script src="database.js"></script>
@@ -83,6 +83,9 @@
     <script src="lib/subtitle/generic.js"></script>
     <script src="lib/subtitle/server.js"></script>
     <script src="lib/streamer.js"></script>
+
+    <!-- App Plugins -->
+    <script src="lib/plugins/media-name.js"></script>
 
     <!-- Backbone Models -->
     <script src="lib/models/filter.js"></script>
@@ -105,6 +108,7 @@
 
     <!-- Backbone Views and Controllers -->
     <script src="lib/views/title_bar.js"></script>
+    <script src="lib/views/windows_title_bar.js"></script>
     <script src="lib/views/main_window.js"></script>
 
     <script src="lib/views/movie_detail.js"></script>
@@ -120,7 +124,6 @@
     <script src="lib/views/torrent_collection.js"></script>
     <script src="lib/views/file_selector.js"></script>
     <script src="lib/views/help.js"></script>
-    <script src="lib/views/issue.js"></script>
     <script src="lib/views/keyboard.js"></script>
     <script src="lib/views/notification.js"></script>
     <script src="lib/views/player/loading.js"></script>

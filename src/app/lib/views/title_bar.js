@@ -85,11 +85,6 @@
 
         toggleFullscreen: function () {
             win.toggleFullscreen();
-            if (this.nativeWindow.isFullscreen) {
-                $('.os-min, .os-max').css('display', 'none');
-            } else {
-                $('.os-min, .os-max').css('display', 'block');
-            }
             this.$el.find('.btn-os.fullscreen').toggleClass('active');
         },
 

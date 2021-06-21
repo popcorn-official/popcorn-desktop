@@ -364,17 +364,19 @@ Section
     ;Save DB
     CreateDirectory "$TEMP\app_DT"
     CreateDirectory "$TEMP\app_TC"
-    CopyFiles "$INSTDIR\data\*.*" "$TEMP\app_DT"
-    CopyFiles "$INSTDIR\TorrentCollection\*.*" "$TEMP\app_TC"
+    CopyFiles "$INSTDIR\User Data\Default\data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\User Data\Default\TorrentCollection\*.*" "$TEMP\app_TC"
 
     ;Delete existing install
     RMDir /r "$INSTDIR"
 
     CreateDirectory "$INSTDIR"
-    CreateDirectory "$INSTDIR\data"
-    CreateDirectory "$INSTDIR\TorrentCollection"
-    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\data"
-    CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\TorrentCollection"
+    CreateDirectory "$INSTDIR\User Data"
+    CreateDirectory "$INSTDIR\User Data\Default"
+    CreateDirectory "$INSTDIR\User Data\Default\data"
+    CreateDirectory "$INSTDIR\User Data\Default\TorrentCollection"
+    CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data\Default\data"
+    CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\User Data\Default\TorrentCollection"
     RMDir /r "$TEMP\app_DT"
     RMDir /r "$TEMP\app_TC"
 
@@ -431,13 +433,25 @@ SectionEnd
 ; ------------------- ;
 Section "uninstall"
     Call un.isRunning
+    CreateDirectory "$TEMP\app_DT"
+    CreateDirectory "$TEMP\app_TC"
+    CopyFiles "$INSTDIR\User Data\Default\data\*.*" "$TEMP\app_DT"
+    CopyFiles "$INSTDIR\User Data\Default\TorrentCollection\*.*" "$TEMP\app_TC"
     RMDir /r "$INSTDIR"
     RMDir /r "$SMPROGRAMS\${APP_NAME}"
     Delete "$DESKTOP\${APP_NAME}.lnk"
 
-    MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDNO NoUninstallData
-        RMDir /r "$LOCALAPPDATA\${DATA_FOLDER}"
-    NoUninstallData:
+    MessageBox MB_YESNO|MB_ICONQUESTION "$(removeDataFolder)" IDYES YesUninstallData
+        CreateDirectory "$INSTDIR"
+        CreateDirectory "$INSTDIR\User Data"
+        CreateDirectory "$INSTDIR\User Data\Default"
+        CreateDirectory "$INSTDIR\User Data\Default\data"
+        CreateDirectory "$INSTDIR\User Data\Default\TorrentCollection"
+        CopyFiles "$TEMP\app_DT\*.*" "$INSTDIR\User Data\Default\data"
+        CopyFiles "$TEMP\app_TC\*.*" "$INSTDIR\User Data\Default\TorrentCollection"
+    YesUninstallData:
+        RMDir /r "$TEMP\app_DT"
+        RMDir /r "$TEMP\app_TC"
         DeleteRegKey HKCU "${UNINSTALL_KEY}"
         DeleteRegKey HKCU "Software\Classes\Applications\${APP_NAME}" ;file association
 SectionEnd

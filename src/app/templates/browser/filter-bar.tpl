@@ -1,11 +1,11 @@
 <ul class="nav nav-hor left">
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
-    <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getFiltredProviderNames(tab.type) %>"><%= i18n.__(tab.name) %></li>
+    <li class="source <%= tab.type %>TabShow"><%= i18n.__(tab.name) %></li>
     <% }); %>
-    <li id="filterbar-favorites" class="source providerinfo" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Favorites") %>"><%= i18n.__("Favorites") %></li>
+    <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
-    <% if(typeof type !== 'undefined'){ %>
+    <% if(typeof type !== 'undefined' && types.length !== 0){ %>
         <li class="dropdown filter types">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Type") %>
@@ -19,7 +19,20 @@
             </ul>
         </li>
 
-    <% }if(typeof genre !== 'undefined'){ %>
+    <% }if(typeof rating !== 'undefined' && ratings.length !== 0){ %>
+        <li class="dropdown filter ratings">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <%= i18n.__("Rating") %>
+                    <span data-value="<%= rating %>" class="value"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></span>
+                    <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <% _.each(ratings, function(rating) { %>
+                    <li><a href="#" data-value="<%= rating %>"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></a></li>
+                <% }); %>
+            </ul>
+        </li>
+    <% }if(typeof genre !== 'undefined' && genres.length !== 0){ %>
         <li class="dropdown filter genres">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Genre") %>
@@ -32,7 +45,7 @@
                 <% }); %>
             </ul>
         </li>
-    <%} if(typeof sorter !== 'undefined'){ %>
+    <%} if(typeof sorter !== 'undefined' && sorters.length !== 0){ %>
         <li class="dropdown filter sorters">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__("Sort by") %>
@@ -63,10 +76,6 @@
             </form>
         </div>
     </li>
-    <!-- Favorites -->
-    <li>
-        <i id="filterbar-favorites" class="fa fa-heart favorites tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Favorites") %>"></i>
-    </li>
     <!-- Watchlist -->
     <% if (Settings.activateWatchlist) { %>
     <li style="display:block">
@@ -82,17 +91,30 @@
     <% } else { %>
     <li id="torrent_col" style="display:none">
     <% } %>
-        <i id="filterbar-torrent-collection" class="fa fa-folder-open torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
+        <i id="filterbar-torrent-collection" class="fa fa-list-ul torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
+    </li>
+
+    <!-- Seedbox -->
+    <% if (Settings.activateSeedbox) { %>
+    <li style="display:block">
+    <% } else { %>
+    <li style="display:none">
+    <% } %>
+        <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
+    </li>
+
+    <!-- Cache Folder -->
+    <% if (Settings.activateTempf) { %>
+    <li style="display:block">
+    <% } else { %>
+    <li style="display:none">
+    <% } %>
+        <i id="filterbar-tempf" class="fa fa-folder-open about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
     </li>
 
     <!-- About -->
     <li>
         <i id="filterbar-about" class="fa fa-info-circle about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("About") %>"></i>
-    </li>
-
-    <!-- Seedbox -->
-    <li>
-        <i id="filterbar-seedbox" class="fa fa-download about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Seedbox") %>"></i>
     </li>
 
     <!-- Settings -->

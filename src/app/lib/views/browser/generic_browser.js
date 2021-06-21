@@ -18,11 +18,19 @@
         },
         events: {
             'click .retry-button': 'onFilterChange',
-            'click .online-search': 'onlineSearch'
+            'click .online-search': 'onlineSearch',
+            'click .change-api': 'changeApi',
+            'click #search-more-item': 'onlineSearch',
+            'mouseover #search-more-item': 'onlineSearchHov',
+            'mouseover #load-more-item': 'onlineSearchHov'
         },
 
         initialize: function () {
             this.filter = new App.Model.Filter(this.filters);
+
+            if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') {
+                this.filter.set(this.getSavedFilter());
+            }
 
             this.collection = new this.collectionModel([], {
                 filter: this.filter
@@ -35,10 +43,6 @@
         },
 
         onAttach: function () {
-            if (Settings.rememberFilters) {
-                this.filter.set(this.getSavedFilter());
-            }
-
             this.bar = new App.View.FilterBar({
                 model: this.filter
             });
@@ -52,15 +56,29 @@
             if (!isNaN(startupTime)) {
                 win.debug('Butter %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
                 startupTime = 'none';
-                if (Settings.bigPicture) {
-                    var zoom = ScreenResolution.HD ? 2 : 3;
-                    win.zoomLevel = zoom;
+                if (parseInt(AdvSettings.get('bigPicture'))) {
+                    if (AdvSettings.get('bigPicture') !== 100) {
+                        win.zoomLevel = Math.log(AdvSettings.get('bigPicture')/100) / Math.log(1.2);
+                    } else if (!AdvSettings.get('disclaimerAccepted') && ScreenResolution.QuadHD) {
+                        AdvSettings.set('bigPicture', 140);
+                        win.zoomLevel = Math.log(1.4) / Math.log(1.2);
+                    }
+                } else {
+                    if (ScreenResolution.QuadHD) {
+                        AdvSettings.set('bigPicture', 140);
+                        win.zoomLevel = Math.log(1.4) / Math.log(1.2);
+                    } else {
+                        AdvSettings.set('bigPicture', 100);
+                    }
                 }
                 App.vent.trigger('app:started');
             }
         },
+
         onFilterChange: function () {
-            this.saveFilter();
+            if (Settings.defaultFilters === 'remember' || curSetDefaultFilters) {
+                this.saveFilter();
+            }
 
             this.collection = new this.collectionModel([], {
                 filter: this.filter
@@ -72,6 +90,7 @@
                 collection: this.collection
             }));
         },
+
         onlineSearch: function () {
             switch (App.currentview) {
             case 'movies':
@@ -86,12 +105,30 @@
             default:
             }
 
-            if (!Settings.activateTorrentCollection) {
-                AdvSettings.set('activateTorrentCollection', true);
-                $('#torrent_col').css('display', 'block');
-            }
-
             $('#filterbar-torrent-collection').click();
+            $('.torrent-collection-container #online-input').val(this.collection.filter.keywords);
+        },
+
+        changeApi: function () {
+            let curView;
+            switch (App.currentview) {
+            case 'movies':
+                curView = '#customMoviesServer';
+                break;
+            case 'shows':
+                curView = '#customSeriesServer';
+                break;
+            case 'anime':
+                curView = '#customAnimeServer';
+                break;
+            default:
+            }
+            App.vent.trigger('settings:show');
+            curView ? $(curView).attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); }) : null;
+        },
+
+        onlineSearchHov: function () {
+            $('.item.selected').removeClass('selected');
         },
 
         focusSearch: function (e) {
@@ -123,13 +160,13 @@
 
         saveFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            filters[this.currentView()] = this.filter.pick('sorter', 'genre', 'type', 'order');
+            filters[this.currentView()] = this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
             AdvSettings.set('filters', filters);
         },
 
         getSavedFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order');
+            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
         }
     });
 

@@ -23,6 +23,8 @@ lib-cov
 .idea/
 *.swp
 *.sublime-*
+.vscode/
+*.code-workspace
 *.bat
 *.db
 *.seed

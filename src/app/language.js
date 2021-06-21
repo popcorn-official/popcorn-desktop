@@ -28,6 +28,11 @@ App.Localization.nativeName = function (lang) {
   return codes[lang]?codes[lang].nativeName:lang;
 };
 
+App.Localization.name = function (lang) {
+  var codes = App.Localization.langcodes;
+  return codes[lang]?codes[lang].name:lang;
+};
+
 App.Localization.detectLocale = function () {
     // The full OS language (with localization, like 'en-uk')
     var pureLanguage = navigator.language.toLowerCase();
@@ -56,7 +61,7 @@ App.Localization.filterSubtitle = function (langs) {
     return filteredLang;
 };
 
-App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'];
+App.Localization.allTranslations = ['en', 'ar', 'bg', 'bn', 'ca', 'cs', 'da', 'de', 'el', 'es', 'es-mx', 'et', 'eu', 'fa', 'fi', 'fr', 'gl', 'he', 'hr', 'hu', 'id', 'it', 'ka', 'ko', 'lt', 'mk', 'ms', 'nb', 'nl', 'nn', 'pl', 'pt', 'pt-br', 'ro', 'ru', 'sk', 'sl', 'sr', 'sv', 'tr', 'uk', 'zh-cn', 'zh-tw'];
 
 App.Localization.langcodes = {
     'aa': {
@@ -206,6 +211,10 @@ App.Localization.langcodes = {
     'dv': {
         name: 'Divehi',
         nativeName: 'ދިވެހި'
+    },
+    'ea': {
+        name: 'Spanish (EU)',
+        nativeName: 'Español (EU)'
     },
     'ee': {
         name: 'Ewe',
@@ -408,7 +417,9 @@ App.Localization.langcodes = {
     },
     'ka': {
         name: 'Georgian',
-        nativeName: 'ქართული'
+        nativeName: 'ქართული',
+        subtitle: true,
+        encoding: ['iso-8859-2'] /** NEED TEST **/
     },
     'kg': {
         name: 'Kongo',
@@ -720,6 +731,10 @@ App.Localization.langcodes = {
         name: 'Somali',
         nativeName: 'Soomaaliga'
     },
+    'sp': {
+        name: 'Spanish (LA)',
+        nativeName: 'Español (LA)'
+    },
     'sq': {
         name: 'Albanian',
         nativeName: 'Shqip'
@@ -868,6 +883,10 @@ App.Localization.langcodes = {
         name: 'Zhuang',
         nativeName: 'Saɯ cueŋƅ'
     },
+    'ze': {
+        name: 'Chinese (bilingual)',
+        nativeName: '中文 (bilingual)',
+    },
     'zh': {
         name: 'Chinese',
         nativeName: '中文',
@@ -883,6 +902,10 @@ App.Localization.langcodes = {
         nativeName: '正體中文',
         subtitle: true,
         encoding: ['UTF8'] /** Seems to work best. Tested: UTF8/UTF16/CP936/GB2312/GB2313/GB18030/Windows936/Big5 **/
+    },
+    'zt': {
+        name: 'Chinese (traditional)',
+        nativeName: '正體中文',
     }
 };
 

@@ -1,7 +1,7 @@
 /* globals moment*/
 (function(App) {
-  "use strict";
-  var memoize = require("memoizee");
+  'use strict';
+  var memoize = require('memoizee');
   var Watchlist = function() {
     this.fetch = memoize(this._fetch.bind(this), {
       maxAge: 30 * 1000, // 30sec
@@ -11,7 +11,7 @@
   };
   Watchlist.prototype.constructor = Watchlist;
   Watchlist.prototype.config = {
-    name: "Watchlist"
+    name: 'Watchlist'
   };
 
   var rearrange = function(items) {
@@ -64,19 +64,19 @@
           if (
             moment(item.next_episode.first_aired)
               .fromNow()
-              .indexOf("in") !== -1
+              .indexOf('in') !== -1
           ) {
             console.log(
               '"%s" is not released yet, not showing',
               item.show.title +
-                " " +
+                ' ' +
                 item.next_episode.season +
-                "x" +
+                'x' +
                 item.next_episode.number
             );
           } else {
             var show = item.show;
-            show.type = "show";
+            show.type = 'show';
             show.episode = item.next_episode.number;
             show.season = item.next_episode.season;
             show.episode_title = item.next_episode.title;
@@ -96,7 +96,7 @@
             if (
               moment(item.movie.released)
                 .fromNow()
-                .indexOf("in") !== -1
+                .indexOf('in') !== -1
             ) {
               console.log(
                 '"%s" is not released yet, not showing',
@@ -104,7 +104,7 @@
               );
             } else {
               var movie = item.movie;
-              movie.type = "movie";
+              movie.type = 'movie';
               movie.listed_at = item.listed_at;
               movie.imdb_id = item.movie.ids.imdb;
               movie.rating = item.movie.rating;
@@ -152,8 +152,8 @@
         watchlist = watchlist.concat(tv.shows);
 
         return App.Trakt.client.sync.watchlist.get({
-          extended: "full",
-          type: "movies"
+          extended: 'full',
+          type: 'movies'
         });
       })
       .then(function(movies) {
@@ -217,7 +217,7 @@
   };
 
   Watchlist.prototype.extractIds = function(items) {
-    return _.pluck(items, "imdb_id");
+    return _.pluck(items, 'imdb_id');
   };
 
   Watchlist.prototype.detail = function(id, data) {
@@ -226,13 +226,13 @@
       synopsis: data.overview
     };
 
-    if (data.type === "movie") {
+    if (data.type === 'movie') {
       return Database.getMovie(data.imdb_id).then(details => {
         return Object.assign({}, data, details);
       });
     }
 
-    var tvShowProvider = App.Config.getProviderForType("tvshow");
+    var tvShowProvider = App.Config.getProviderForType('tvshow');
     return tvShowProvider[0].detail(data.imdb_id, data).then(details => {
       return Object.assign({}, data, details);
     });
@@ -242,23 +242,23 @@
     return new Promise(function(resolve, reject) {
       if (
         filters &&
-        typeof filters !== "function" &&
+        typeof filters !== 'function' &&
         (filters.force || filters.update)
       ) {
         if (filters.update && localStorage.watchlist_update_shows) {
-          console.log("Watchlist - update one item");
+          console.log('Watchlist - update one item');
           return update(filters.update)
             .then(resolve)
             .catch(reject);
         } else {
           if (filters.force) {
-            console.log("Watchlist - force reload");
+            console.log('Watchlist - force reload');
             return load()
               .then(resolve)
               .catch(reject);
           } else {
-            console.log("Watchlist - this should not be called", filters);
-            reject("SHOULDNT BE CALLED");
+            console.log('Watchlist - this should not be called', filters);
+            reject('SHOULDNT BE CALLED');
           }
         }
       } else {
@@ -267,17 +267,17 @@
           !localStorage.watchlist_cached ||
           parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()
         ) {
-          console.log("Watchlist - no watchlist cached or cache expired");
+          console.log('Watchlist - no watchlist cached or cache expired');
           if (App.Trakt.authenticated) {
-            return App.Providers.get("Watchlist")
+            return App.Providers.get('Watchlist')
               .fetch({ force: true })
               .then(resolve)
               .catch(reject);
           } else {
-            reject("Trakt not authenticated");
+            reject('Trakt not authenticated');
           }
         } else {
-          console.log("Watchlist - return cached");
+          console.log('Watchlist - return cached');
           resolve({
             results: JSON.parse(localStorage.watchlist_cached),
             hasMore: false
@@ -288,22 +288,22 @@
   };
 
   function onShowWatched(show, channel) {
-    if (channel === "database") {
+    if (channel === 'database') {
       setTimeout(function() {
-        App.Providers.get("Watchlist")
+        App.Providers.get('Watchlist')
           .fetch({
             update: show.imdb_id
           })
           .then(function() {
-            if (App.currentview === "Watchlist") {
-              App.vent.trigger("watchlist:list");
+            if (App.currentview === 'Watchlist') {
+              App.vent.trigger('watchlist:list');
             }
           });
       }, 3000);
     }
   }
 
-  App.vent.on("show:watched", onShowWatched);
+  App.vent.on('show:watched', onShowWatched);
 
   App.Providers.install(Watchlist);
 })(window.App);

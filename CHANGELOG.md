@@ -1,3 +1,17 @@
+## 0.4.5 - The next wave - 21 June 2021
+
+New Features:
+- Update NWJS to 0.44.5 (https://github.com/nwjs/nw.js/blob/nw44/CHANGELOG.md)
+- Add custom servers
+- Add seedbox
+
+BigFixes:
+- Many bugs ...
+
+## 0.4.4 Beta - Love in the Time of Corona - 14 April 2020
+
+This part of the log lost in the depths of development
+
 ## 0.3.10 Beta - Popcorn Is Love - 31 October 2016
 
 BigFixes:

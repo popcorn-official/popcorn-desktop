@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## Version 0.1.1
 ##
@@ -22,17 +22,6 @@ elif [ "$1" = "ssh" ]; then
 else
     clone_url="$1"
 fi
-
-execsudo() {
-    case $OSTYPE in msys*)
-       echo $OSTYPE
-       $1
-       ;;
-    *)
-       sudo $1
-       ;;
-    esac
-}
 
 clone_command() {
     if git clone $clone_url $dir; then
@@ -109,10 +98,7 @@ if [ "$clone_repo" = "True" ]; then
             echo "Removing old directory"
             if [ "$dir" != "." ] || [ "$dir" != "$PWD" ]; then
                 echo "Cleaning up from inside the destination directory"
-                sudo rm -rf $dir/*
-            else
-                echo "Cleaning up from outside the destination directory"
-                sudo rm -rf $dir
+                rm -rf $dir
             fi
             clone_command
         else
@@ -120,23 +106,6 @@ if [ "$clone_repo" = "True" ]; then
         fi
     fi
 fi
-try="True"
-tries=0
-while [ "$try" = "True" ]; do
-    read -p "Do you wish to install the required dependencies for Popcorn Time and setup for building? (yes/no) [yes] " rd_dep
-    if [ -z "$rd_dep" ]; then
-        rd_dep="yes"
-    fi
-    tries=$((tries+1))
-    if [ "$rd_dep" = "yes" ] || [ "$rd_dep" = "no" ]; then
-        try="False"
-    elif [ "$tries" -ge "3" ]; then
-        echo "No valid input, exiting"
-        exit 3
-    else
-        echo "Not a valid answer, please try again"
-    fi
-done
 
 if [ -z "$dir" ]; then
     dir="."
@@ -146,60 +115,19 @@ echo "Switched to $PWD"
 
 if [ "$rd_dep" = "yes" ]; then
 
-    echo "Installing global dependencies"
-    if execsudo "npm install -g bower gulp gulp-cli"; then
-        echo "Global dependencies installed successfully!"
-    else
-        echo "Global dependencies encountered an error while installing"
-        exit 4
-    fi
-
-    echo "Downloading Popcorn dependencies files"
-    if execsudo "wget -i popcorn_dependencies_files.txt"; then
-        echo "Local Popcorn files downloaded successfully!"
-        echo "Moving Popcorn local files"
-        mv torrent_collection.js src/app/lib/views/torrent_collection.js
-    else
-        echo "Local Popcorn files encountered an error while downloading"
-        exit 4
-    fi
-
     echo "Installing local dependencies"
-    if execsudo "npm install"; then
-        echo "Local dependencies installed successfully!"
-    else
-        echo "Local dependencies encountered an error while installing"
-        exit 4
-    fi
-
-    curh=$HOME
-    case $OSTYPE in msys*)
-        ;;
-        *)
-        if execsudo "chown -R $USER ." && execsudo "chown -R $USER $curh/.cache"; then
-            echo "Local permissions corrected successfully!"
-        else
-            echo "Local permissions encountered an error while correcting"
-            exit 4
-        fi
-        ;;
-    esac
-
-    echo "Setting up Bower"
-    if bower install; then
-        echo "Bower successfully installed"
-    else
-        echo "Encountered an error while installing bower"
-        exit 4
-    fi
-
+    yarn config set yarn-offline-mirror ./node_modules/
+    yarn install --ignore-engines
+    yarn build
     echo "Successfully setup for Popcorn Time"
 fi
 
 if gulp build; then
     echo "Popcorn Time built successfully!"
-    ./Create-Desktop-Entry
-    echo "Run 'gulp run' from inside the repository to launch the app"
+    if [[ `uname -s` != *"NT"* ]]; then # if not windows
+        ./Create-Desktop-Entry
+    fi
+    echo "Run 'gulp run' from inside the repository to launch the app or check out under ./build folder..."
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"

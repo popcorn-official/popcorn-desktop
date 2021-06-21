@@ -56,7 +56,7 @@
     .content-box
         height: 75vh
         margin-top: 8vh
-        width: 65vw
+        width: 64.99vw
         padding-right: 4vw
         display: flex
         justify-content: space-between
@@ -88,7 +88,7 @@
                     text-stroke: 1px rgba(0,0,0,0.1)
                     float: left
                     font-smoothing: antialiased
-                    max-width: 35%
+                    max-width: 29%
                     overflow: hidden
                     white-space: nowrap
                     text-overflow: ellipsis
@@ -107,10 +107,20 @@
                     &:first-child::before
                         display: none
 
+                .show-cast
+                    color: #f8f8f8
+                    font-size: 12px
+                    position: relative
+                    font-family: "Font Awesome 5 Free"
+                    text-stroke: 1px rgba(0,0,0,0.1)
+                    float: left
+                    font-smoothing: antialiased
+                    cursor: pointer
+
                 .movie-imdb-link
                     margin-top: -3px
                     padding-top: 3px
-                    width: 59px
+                    width: 29px
                     float: left
                     height: 16px
                     position: relative
@@ -155,7 +165,7 @@
                         .rating-star-half-empty
                             color #a3a5a7
                             font-size 11px
-                            margin-left: -3px
+                            margin-left: -4px
 
                         .rating-star-empty
                             color #a3a5a7
@@ -166,8 +176,9 @@
                             width 1em
                             height 1em
                             line-height 1em
-                            margin-right -2px
-                            margin-left 2px
+                            margin-top -1px
+                            margin-right -1px
+                            margin-left 4px
 
                 .health-icon
                     position: relative
@@ -201,7 +212,6 @@
                 position: relative
                 height: 55%
                 overflow: hidden
-                text-overflow: ellipsis
                 float: none
                 color: #FFF
                 top: 25px
@@ -215,6 +225,23 @@
                 backface-visibility: hidden
                 scrollable();
 
+                span
+                    opacity: 0.7
+                    font-size: 90%
+
+                span.cname
+                    cursor: pointer
+                    opacity: 1
+                    font-size: 100%
+
+                span.showall-cast
+                    cursor: pointer
+                    opacity: 1
+                    font-size: 100%
+
+                p.sline
+                    line-height: 0.6
+
         .play-control
             display: flex
             flex-direction: row
@@ -223,16 +250,22 @@
 
             height: 70px
             line-height: 35px
-            margin: 10px
+            margin: -1px 25px 1px 16px
+
+            .flex-left
+                min-width: 420px
+                margin-right: -15px
 
             .setup-container
-              display: flex
-              flex-direction: row
-              justify-content: space-between
+                display: flex
+                flex-direction: row
+                justify-content: space-between
+                margin-left: -10px
 
             .toggles-container
-              display: flex
-              flex: 2
+                display: flex
+                flex: 2
+                padding-bottom: 10px
 
             .favourites-toggle
                 cursor: pointer
@@ -404,6 +437,7 @@
                 .sdow-quality
                     line-height: normal;
                     padding: 4px;
+                    height 35px;
 
                     div
                         cursor: pointer
@@ -411,10 +445,11 @@
                         font-family: $MainFont;
                         -webkit-font-smoothing: antialiased;
                         font-size: 11px
-                        color: $ShowText1
+                        color: #fff
                         transition: all .2s ease-in
                         padding: 4px
                         margin-right: 6px
+                        margin-top: 2px
 
                     .disabled
                         opacity: .3

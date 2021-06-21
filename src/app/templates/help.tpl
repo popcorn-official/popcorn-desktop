@@ -4,10 +4,10 @@
     <div class="content">
         <h1><%= i18n.__("Help Section") %></h1>
         <hr>
-        <div class="did-you-know">
+        <center><div class="did-you-know">
             <span class="title-dyk"><i class="fa fa-question-circle icon-dyk"></i><%= i18n.__("Did you know?") %></span>
             <span class="randomized-dyk"></span>
-        </div>
+        </div></center>
 
         <div class="help-outer">
             <h2 class="top"><%= i18n.__("What does %s offer?", Settings.projectName ) %></h2>
@@ -37,19 +37,13 @@
 
             <h2><%= i18n.__("I found a bug, how do I report it?") %></h2>
             <p>
-                <em><%= i18n.__("Warning: Always use English when contacting us, or we might not understand you.") %></em><br><br>
-                <b>A) <%= i18n.__("First method") %></b><br>
-                    <a id="in-app-reporter"><%= i18n.__("Use the in-app reporter") %></a><br>
-                    <em><%= i18n.__("You can find it later on the About page") %></em>
-                    <br><br>
-
-                <b>B) <%= i18n.__("Second method") %></b><br>
-                    <%= i18n.__('You can create an account on our <a class="links" href="%s">GitHub</a> repository, and click on "Issues".', Settings.issuesUrl) %>
-                        <li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitHub') %></li>
-                        <li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
-                    <br>
-                    <%= i18n.__("A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.") %>
-                <br><br>
+                <%= i18n.__('You can create an account on our <a class="links" href="%s">GitHub</a> repository, and click on "Issues".', Settings.issuesUrl) %>
+                    <li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitHub') %></li>
+                    <li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
+                <br>
+                <p><%= i18n.__("A good bug report shouldn't leave others needing to chase you up for more information. Be sure to include the details of your environment.") %></p>
+                <p><em>* <%= i18n.__("Warning: Always use English when contacting us, or we might not understand you.") %></em></p>
+                <br>
             </p>
         </div>
     </div>

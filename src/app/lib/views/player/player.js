@@ -1,10 +1,12 @@
 (function (App) {
     'use strict';
 
+    var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
         className: 'player',
         player: null,
+        prevSub: null,
 
         ui: {
             eyeInfo: '.eye-info-player',
@@ -12,8 +14,8 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: 'fas .fa-pause',
-            play: 'fas .fa-play'
+            pause: '.fa-pause',
+            play: '.fa-play'
         },
 
         events: {
@@ -24,10 +26,12 @@
             'click .verifmetaFALSE': 'wrongMetadata',
             'click .vjs-subtitles-button': 'toggleSubtitles',
             'click .vjs-text-track': 'moveSubtitles',
+            'mousedown .eye-info-player': 'filenametoclip',
             'click .vjs-play-control': 'togglePlay'
         },
 
         initialize: function () {
+            _this = this;
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
@@ -41,6 +45,13 @@
             this.firstPlay = true;
 
             this.boundedMouseScroll = this.mouseScroll.bind(this);
+
+            //If a child was removed from above this view
+            App.vent.on('viewstack:pop', function() {
+              if (_.last(App.ViewStack) === 'app-overlay') {
+                _this.bindKeyboardShortcuts();
+              }
+            });
         },
 
         isMovie: function () {
@@ -68,19 +79,25 @@
         },
 
         updateDownloaded: function () {
-            if (this.model.get('downloadedPercent').toFixed(0) < 100) {
-                this.ui.downloaded.html(this.model.get('downloadedFormatted') + ' (' + this.model.get('downloadedPercent').toFixed(0) + '%)');
+            if (this.model.get('downloadedPercent').toFixed(0) < 100 || this.model.get('size') === 0) {
+                if (this.model.get('size') !== 0) {
+                    this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + this.model.get('downloadedFormatted') + ' / ' + Common.fileSize(this.model.get('size')) + ')');
+                } else {
+                    this.ui.downloaded.html('(' + this.model.get('downloadedFormatted') + ' / ' + i18n.__('Unknown') + ')');
+                }
                 $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0) + '%');
                 this.remaining = true;
 
                 if (!this.createdRemaining) { //we create it
                     this.createdRemaining = true;
-                    $('.details-info-player').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
+                    $('.details-info-player #dwnloading').append('<br><span class="remaining">' + this.remainingTime() + '</span>');
                 } else { //we just update
                     $('.remaining').html(this.remainingTime());
                 }
             } else {
-                this.ui.downloaded.text(i18n.__('Done'));
+                $('.details-info-player #sstatel').text(i18n.__('Downloaded'));
+                this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + Common.fileSize(this.model.get('size')) + ')<br>');
+                $('.details-info-player #dloaddd, .download_speed_player, .details-info-player #apeersss, .active_peers_player').hide();
                 $('.vjs-load-progress').css('width', '100%');
                 this.remaining = false;
             }
@@ -124,6 +141,7 @@
 
         closePlayer: function () {
             win.info('Player closed');
+            $('head > title').text('Popcorn-Time');
             if (this._AutoPlayCheckTimer) {
                 clearInterval(this._AutoPlayCheckTimer);
             }
@@ -169,7 +187,7 @@
         },
 
         onPlayerEnded: function () {
-            if (this.model.get('auto_play')) {
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 this.playNextNow();
             } else {
                 this.closePlayer();
@@ -181,6 +199,7 @@
                 if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
+                        var playingNext = $('.playing_next');
 
                         if (!this.precachestarted) {
                             App.vent.trigger('preload:start', this.next_episode_model);
@@ -189,8 +208,8 @@
 
                         win.info('Showing Auto Play message');
                         this.autoplayisshown = true;
-                        $('.playing_next').show();
-                        $('.playing_next').appendTo('div#video_player');
+                        playingNext.show();
+                        playingNext.appendTo('div#video_player');
                         if (!this.player.userActive()) {
                             this.player.userActive(true);
                         }
@@ -220,11 +239,15 @@
 
                 // XXX hide watermark
                 try {
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-chrome-top ytp-show-cards-title')[0].style.opacity = 0;
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-gradient-top')[0].style.opacity = 0;
+                    setTimeout(function() { try { document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-watermark yt-uix-sessionlink')[0].style.opacity = 0; } catch (e) {}}, 3000);
+                    document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('ytp-pause-overlay')[0].style.opacity = 0;
                     document.getElementById('video_player_youtube_api').contentWindow.document.getElementsByClassName('html5-watermark')[0].style.opacity = 0;
                 } catch (e) {}
             }
 
-            if (this.model.get('auto_play')) {
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 if (this.isMovie() === 'episode' && this.next_episode_model) {
                     // autoplay player div
                     var matcher = this.next_episode_model.get('title').split(/\s-\s/i);
@@ -234,7 +257,18 @@
                     $('.playing_next_number').text(i18n.__('Season %s', this.next_episode_model.get('season')) + ', ' + i18n.__('Episode %s', this.next_episode_model.get('episode')));
                 }
 
-                this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay, 10 * 100 * 1); // every 1 sec
+                this._AutoPlayCheckTimer = setInterval(this.checkAutoPlay.bind(this), 10 * 100 * 1); // every 1 sec
+            }
+        },
+
+        filenametoclip: function (e) {
+            var clipboard = nw.Clipboard.get();
+            if (e.button === 0) {
+                clipboard.set(this.model.get('filename'), 'text');
+                $('.notification_alert').text(i18n.__('The filename was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else if (e.button === 2) {
+                clipboard.set(this.model.get('src').replace('127.0.0.1', Settings.ipAddress), 'text');
+                $('.notification_alert').text(i18n.__('The stream url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             }
         },
 
@@ -271,7 +305,7 @@
             $(window).trigger('resize');
 
             if (this.wasSeek) {
-                if (this.model.get('auto_play')) {
+                if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                     this.checkAutoPlay();
                 }
                 this.wasSeek = false;
@@ -285,10 +319,10 @@
                     this.firstPlay = false;
                     return;
                 }
-                this.ui.pause.hide().dequeue();
+                this.ui.pause.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.play.appendTo('div#video_player');
-                this.ui.play.show().delay(1500).queue(function () {
-                    this.ui.play.hide().dequeue();
+                this.ui.play.show().delay(50).queue(function () {
+                    this.ui.play.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:play');
             }
@@ -301,10 +335,10 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue();
+                this.ui.play.hide().dequeue().css('transform', 'scale(1)');
                 this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(1500).queue(function () {
-                    this.ui.pause.hide().dequeue();
+                this.ui.pause.show().delay(50).queue(function () {
+                    this.ui.pause.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
@@ -319,7 +353,7 @@
                     App.vent.trigger('player:close');
                 }, 2000);
             }
-            win.error('video.js error code: ' + $('#video_player').get(0).player.error().code, $('#video_player').get(0).player.error());
+            var videoPlayer = $('#video_player');
         },
 
         metadataCheck: function () {
@@ -333,10 +367,11 @@
                 } else {
                     $('.verifmeta_episode').text(this.model.get('year'));
                 }
+                var verifyMetadata = $('.verify-metadata');
 
                 // display it
-                $('.verify-metadata').show();
-                $('.verify-metadata').appendTo('div#video_player');
+                verifyMetadata.show();
+                verifyMetadata.appendTo('div#video_player');
                 if (!this.player.userActive()) {
                     this.player.userActive(true);
                 }
@@ -352,14 +387,13 @@
             var that = this;
 
             // Double Click to toggle Fullscreen
-            $('#video_player').dblclick(function (event) {
+            $('#video_player, .state-info-player').dblclick(function (event) {
                 that.toggleFullscreen();
                 // Stop any mouseup events pausing video
                 event.preventDefault();
             });
 
-            if (this.model.get('auto_play')) {
-
+            if (this.model.get('torrentModel') && this.model.get('torrentModel').get('auto_play')) {
                 this.precachestarted = false;
                 this.autoplayisshown = false;
                 this.next_episode_model = false;
@@ -376,9 +410,11 @@
                     ytcontrols: false,
                     quality: '720p'
                 }).ready(function () {
+                    that.player && that.player.cache_ && that.player.cache_.volume ? that.player.volume(Settings.playerVolume) : null;
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
+                $('.player-title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
@@ -410,6 +446,7 @@
                 }).ready(function () {
                     that.playerWasReady = Date.now();
                 });
+                $('head > title').text(this.model.get('title') + ' - Popcorn-Time' );
             }
             this.player = this.video.player();
             App.PlayerView = this;
@@ -484,6 +521,15 @@
             }, function () {
                 clearInterval(that._ShowUIonHover);
             });
+            for(let i = 0; i < $('.vjs-menu-item').length; i++) {
+                let curSub = $('.vjs-menu-item')[i];
+                if (!curSub.innerHTML.includes(i18n.__('Disabled'))) {
+                    curSub.onclick = function() {
+                        that.prevSub = this;
+                    };
+                }
+            }
+            this.prevSub = this.model.get('defaultSubtitle') === 'none' && Settings.subtitle_language !== 'none' ? $('.vjs-menu-item:contains("' + App.Localization.langcodes[Settings.subtitle_language].nativeName +'")')[0] || $('.vjs-selected')[0] : $('.vjs-selected')[0];
         },
 
         sendToTrakt: function (method) {
@@ -510,19 +556,20 @@
             win.info('Hiding Auto Play message');
             $('.playing_next').hide();
             $('.playing_next #nextCountdown').text('');
-            this.autoplayisshown ? false : true;
+            !this.autoplayisshown;
 
-            this.model.set('auto_play', false);
+            this.model.get('torrentModel').set('auto_play', false);
         },
         processNext: function () {
-            var episodes = this.model.get('episodes');
+            var torrentModel = this.model.get('torrentModel');
+            var episodes = torrentModel.get('episodes');
 
-            if (this.model.get('auto_id') !== episodes[episodes.length - 1]) {
+            if (torrentModel.get('auto_id') !== episodes[episodes.length - 1]) {
 
-                var auto_play_data = this.model.get('auto_play_data');
-                var current_quality = this.model.get('quality');
-                var tvdb = this.model.get('tvdb_id');
-                var auto_id = this.model.get('auto_id');
+                var auto_play_data = torrentModel.get('auto_play_data');
+                var current_quality = torrentModel.get('quality');
+                var tvdb = torrentModel.get('tvdb_id');
+                var auto_id = torrentModel.get('auto_id');
                 var idx;
 
                 _.find(auto_play_data, function (data, dataIdx) {
@@ -542,8 +589,10 @@
 
                 if (next_episode.torrents[current_quality] !== undefined && next_episode.torrents[current_quality].url) {
                     next_episode.torrent = next_episode.torrents[current_quality].url;
+                    next_episode.file_name = next_episode.torrents[current_quality].file || '';
                 } else {
                     next_episode.torrent = next_episode.torrents[next_episode.torrents.constructor.length - 1].url; //select highest quality available if user selected not found
+                    next_episode.file_name = next_episode.torrents[next_episode.torrents.constructor.length - 1].file || '';
                 }
 
                 this.next_episode_model = new Backbone.Model(next_episode);
@@ -553,7 +602,7 @@
         remainingTime: function () {
             var timeLeft = this.model.get('time_left');
 
-            if (timeLeft === undefined) {
+            if (timeLeft === undefined || this.model.get('size') === 0) {
                 return i18n.__('Unknown time remaining');
             } else if (timeLeft > 3600) {
                 return i18n.__('%s hour(s) remaining', Math.round(timeLeft / 3600));
@@ -629,6 +678,14 @@
                 that.closePlayer();
             });
 
+            Mousetrap.bind(['c', 'C'], function (e) {
+                that.toggleCrop();
+            }, 'keydown');
+
+            Mousetrap.bind(['v', 'V'], function (e) {
+                that.subtitlesOnOff();
+            }, 'keydown');
+
             Mousetrap.bind(['f', 'F'], function (e) {
                 that.toggleFullscreen();
             }, 'keydown');
@@ -640,6 +697,16 @@
             Mousetrap.bind('g', function (e) {
                 that.adjustSubtitleOffset(0.1);
             }, 'keydown');
+
+            Mousetrap.bind('ctrl', function (e) {
+                if (!e.repeat) {
+                    $('.vjs-text-track').css('pointer-events', 'auto');
+                }
+            }, 'keydown');
+
+            Mousetrap.bind('ctrl', function (e) {
+                $('.vjs-text-track').css('pointer-events', 'none');
+            }, 'keyup');
 
             Mousetrap.bind('shift+h', function (e) {
                 that.adjustSubtitleOffset(-1);
@@ -713,10 +780,6 @@
                 that.toggleMute();
             }, 'keydown');
 
-            Mousetrap.bind(['u', 'U'], function (e) {
-                that.displayStreamURL();
-            }, 'keydown');
-
             Mousetrap.bind('j', function (e) {
                 that.adjustPlaybackRate(-0.1, true);
             }, 'keydown');
@@ -780,11 +843,17 @@
 
             Mousetrap.unbind('backspace');
 
+            Mousetrap.unbind(['c', 'C']);
+
+            Mousetrap.unbind(['v', 'V']);
+
             Mousetrap.unbind(['f', 'F']);
 
             Mousetrap.unbind('h');
 
             Mousetrap.unbind('g');
+
+            Mousetrap.unbind('ctrl');
 
             Mousetrap.unbind('shift+h');
 
@@ -821,8 +890,6 @@
             Mousetrap.unbind('ctrl+down');
 
             Mousetrap.unbind(['m', 'M']);
-
-            Mousetrap.unbind(['u', 'U']);
 
             Mousetrap.unbind(['j', 'shift+j', 'ctrl+j']);
 
@@ -876,12 +943,44 @@
 
         adjustVolume: function (i) {
             var v = this.player.volume();
-            this.player.volume(v + i);
+            this.player.volume((v + i).toFixed(1));
+            var v2 = this.player.volume();
+            if (v - v2 > 0.105 && v - v2 < 0.205) {
+                this.player.volume((v2 + 0.1).toFixed(1));
+            } else if (v - v2 < -0.105 && v - v2 > -0.205) {
+                this.player.volume((v2 - 0.1).toFixed(1));
+            }
             App.vent.trigger('volumechange');
         },
 
         toggleMute: function () {
             this.player.muted(!this.player.muted());
+        },
+
+        toggleCrop: function () {
+            var curVideo = $('#video_player_html5_api');
+            if (curVideo[0]) {
+                var multPer = ((curVideo[0].videoWidth / curVideo[0].videoHeight) / (screen.width / screen.height))*100;
+                if (curVideo.width() > $('#video_player').width() || curVideo.height() > $('#video_player').height()) {
+                    curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
+                    this.displayOverlayMsg(i18n.__('Original'));
+                } else if (multPer > 100) {
+                    curVideo.css({'width': multPer + '%', 'left': 50-multPer/2 + '%'});
+                    this.displayOverlayMsg(i18n.__('Fit screen'));
+                } else if (multPer < 100) {
+                    curVideo.css({'height': 10000/multPer + '%', 'top': 50-5000/multPer + '%'});
+                    this.displayOverlayMsg(i18n.__('Fit screen'));
+                } else {
+                    this.displayOverlayMsg(i18n.__('Video already fits screen'));
+                }
+                $('.vjs-overlay').css('opacity', '1');
+            }
+        },
+
+        subtitlesOnOff: function () {
+            $('.vjs-selected')[0].innerHTML.includes(i18n.__('Disabled')) ? this.prevSub.click() : $('.vjs-menu-item')[0].click();
+            this.displayOverlayMsg(i18n.__('Subtitles') + ': ' + i18n.__($('.vjs-selected')[0].innerHTML));
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         toggleFullscreen: function () {
@@ -894,12 +993,6 @@
             AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
         },
 
-        displayStreamURL: function () {
-            var clipboard = nw.Clipboard.get();
-            clipboard.set($('#video_player video').attr('src'), 'text');
-            this.displayOverlayMsg(i18n.__('URL of this stream was copied to the clipboard'));
-        },
-
         adjustSubtitleOffset: function (s) {
             var o = this.player.options()['trackTimeOffset'];
             this.player.options()['trackTimeOffset'] = (o + s);
@@ -907,6 +1000,7 @@
             if (this.customSubtitles) {
                 this.customSubtitles.modified = true;
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustPlaybackRate: function (rate, delta) {
@@ -919,24 +1013,27 @@
                     this.displayOverlayMsg(i18n.__('Playback rate') + ': ' + parseFloat(nRate.toFixed(1)) + 'x');
                 }
             }
+            $('.vjs-overlay').css('opacity', '1');
         },
 
         displayOverlayMsg: function (message) {
-            if ($('.vjs-overlay').length > 0) {
-                $('.vjs-overlay').text(message);
+            var vjsOverlay = $('.vjs-overlay');
+
+            if (vjsOverlay.length > 0) {
+                vjsOverlay.text(message);
                 clearTimeout($.data(this, 'overlayTimer'));
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             } else {
                 $(this.player.el()).append('<div class =\'vjs-overlay vjs-overlay-top-left\'>' + message + '</div>');
                 $.data(this, 'overlayTimer', setTimeout(function () {
                     $('.vjs-overlay').fadeOut('normal', function () {
                         $(this).remove();
                     });
-                }, 3000));
+                }, 1200));
             }
         },
 

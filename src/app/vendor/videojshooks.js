@@ -65,7 +65,8 @@ vjs.Player.prototype.listenForUserActivity = function () {
     });
 };
 
-vjs.Player.prototype.onFullscreenChange = function () {
+vjs.Player.prototype.onFullscreenChange = function (e) {
+    e.stopPropagation();
     if (this.isFullscreen()) {
         this.addClass('vjs-fullscreen');
         $('.vjs-text-track').css('font-size', '140%');
@@ -86,24 +87,28 @@ vjs.TextTrack.prototype.load = function () {
         this.readyState_ = 1;
 
         var subsParams = function () {
-            $('#video_player .vjs-text-track').css('display', 'inline-block').drags();
-            $('#video_player .vjs-text-track-display').css('font-size', Settings.subtitle_size);
+            var subtitles = $('.vjs-subtitles'),
+                vjsTextTrack = $('.vjs-text-track'),
+                vjsTextTrackDsp = $('.vjs-text-track-display');
+
+            vjsTextTrack.css('display', 'inline-block').drags();
+            vjsTextTrackDsp.css('font-size', Settings.subtitle_size);
             if (win.isFullscreen) {
-                $('.vjs-text-track').css('font-size', '140%');
+                vjsTextTrack.css('font-size', '140%');
             }
-            $('.vjs-subtitles').css('color', Settings.subtitle_color);
-            $('.vjs-subtitles').css('font-family', Settings.subtitle_font);
+            subtitles.css('color', Settings.subtitle_color);
+            subtitles.css('font-family', Settings.subtitle_font);
             if (Settings.subtitle_decoration === 'None') {
-                $('.vjs-text-track').css('text-shadow', 'none');
+                vjsTextTrack.css('text-shadow', 'none');
             } else if (Settings.subtitle_decoration === 'Opaque Background') {
-                $('.vjs-text-track').css('background', '#000');
+                vjsTextTrack.css('background', '#000');
             } else if (Settings.subtitle_decoration === 'See-through Background') {
-                $('.vjs-text-track').css('background', 'rgba(0,0,0,.5)');
+                vjsTextTrack.css('background', 'rgba(0,0,0,.5)');
             }
             if (Settings.subtitles_bold) {
-                $('.vjs-text-track').css('font-weight', 'bold');
+                vjsTextTrack.css('font-weight', 'bold');
             }
-            $('.vjs-text-track').css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
+            vjsTextTrack.css('z-index', 'auto').css('position', 'relative').css('top', AdvSettings.get('playerSubPosition'));
         };
 
         // Fetches a raw subtitle, locally or remotely
@@ -276,6 +281,10 @@ vjs.TextTrack.prototype.load = function () {
 
         // Handles charset encoding
         var decode = function (dataBuff, language, callback) {
+            if(language && language.indexOf('|')!==-1){
+                language = language.substr(0,language.indexOf('|'));
+            }
+
             var targetEncodingCharset = 'utf8';
 
             var parse = function (strings) {
@@ -283,6 +292,14 @@ vjs.TextTrack.prototype.load = function () {
                     .replace(/\{.*\}/g, '') // {/pos(x,y)}
                     .replace(/(- |==|sync).*[\s\S].*[\s\S].*[\s\S].*[\s\S].*\.(com|org|net|edu)/ig, '') // various teams
                     .replace(/[^0-9][\s\S][^0-9\W].*[\s\S].*[\s\S].*opensubtitles.*/ig, ''); // opensubs "contact us" ads
+
+                // clean two following subtitle indexes for one timing, example:
+                // 3
+                // 2
+                // 00:00:59,142 --> 00:01:01,144
+                // N'Y COMPTE PAS
+                //
+                strings = strings.replace(/^(\d{1,5}\r*\n)(\d{1,5}\r*\n)((\d\d:){2}\d\d,\d{3}\s-->\s(\d\d:){2}\d\d,\d{3}\r*\n)/gm, '$1$3');
 
                 strings = Common.sanitize(strings); // xss-style attacks
                 strings = strings.replace(/--\&gt\;/g, '-->'); // restore srt format
@@ -387,6 +404,7 @@ vjs.TextTrackMenuItem = vjs.MenuItem.extend({
 vjs.TextTrackMenuItem.prototype.onClick = function () {
     vjs.MenuItem.prototype.onClick.call(this);
     this.player_.showTextTrack(this.track.id_, this.track.kind());
+    $('.vjs-text-track').css('display', 'inline-block');
 };
 
 vjs.TextTrackMenuItem.prototype.update = function () {
@@ -433,14 +451,19 @@ vjs.Player.prototype.volume = function (percentAsDecimal) {
         vjs.setLocalStorage('volume', vol);
 
         //let's save this bad boy
-        AdvSettings.set('playerVolume', vol.toFixed(1));
-        App.PlayerView.displayOverlayMsg(i18n.__('Volume') + ': ' + vol.toFixed(1) * 100 + '%');
+        AdvSettings.set('playerVolume', vol.toFixed(2));
+        App.PlayerView.displayOverlayMsg(i18n.__('Volume') + ': ' + (vol.toFixed(2) * 100).toFixed(0) + '%');
 
         return this;
     }
 
     // Default to 1 when returning current volume.
     vol = parseFloat(this.techGet('volume'));
+
+    if ($('.vjs-overlay')) {
+        $('.vjs-overlay').css('opacity', '1');
+    }
+
     return (isNaN(vol)) ? 1 : vol;
 };
 
@@ -454,51 +477,7 @@ var suggestedExternal = function () {
     } catch (e) {}
     return link;
 };
-vjs.ErrorDisplay.prototype.update = function () {
-    if (this.player().error()) {
-        $('.vjs-error-display').dblclick(function (event) {
-            App.PlayerView.toggleFullscreen();
-            event.preventDefault();
-        });
-        if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.' || this.player().error().message === 'The video could not be loaded, either because the server or network failed or because the format is not supported.') {
-            this.contentEl_.innerHTML = i18n.__('The video playback encountered an issue. Please try an external player like %s to view this content.', suggestedExternal());
-        } else {
-            this.contentEl_.innerHTML = this.localize(this.player().error().message);
-        }
-    }
-};
 
-/**
- * The custom progressbar we create. Updated in player.js
- *
- * @constructor
- */
-vjs.LoadProgressBar = vjs.Component.extend({
-    init: function (player, options) {
-        vjs.Component.call(this, player, options);
-        this.on(player, 'progress', this.update);
-    }
-});
-vjs.LoadProgressBar.prototype.createEl = function () {
-    return vjs.Component.prototype.createEl.call(this, 'div', {
-        className: 'vjs-load-progress',
-        innerHTML: '<span class="vjs-control-text"><span>Loaded</span>: 0%</span>'
-    });
-};
-vjs.LoadProgressBar.prototype.update = function () {
-    return;
-};
-
-//Display our own error
-var suggestedExternal = function () {
-    var link = '<a href="http://www.videolan.org/vlc/" class="links">VLC</a>';
-    try {
-        App.Device.Collection.models.forEach(function (player) {
-            link = (player.id === 'VLC') ? player.id : link;
-        });
-    } catch (e) {}
-    return link;
-};
 vjs.ErrorDisplay.prototype.update = function () {
     if (this.player().error()) {
         if (this.player().error().message === 'The video playback was aborted due to a corruption problem or because the video used features your browser did not support.') {

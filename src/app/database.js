@@ -225,7 +225,7 @@ var Database = {
             })
 
         .then(function () {
-            App.vent.trigger('show:watched:' + data.tvdb_id, data);
+            App.vent.trigger('show:watched:' + data.imdb_id, data);
         });
 
     },
@@ -409,6 +409,10 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
+                if (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer || Settings.proxyServer) {
+                  App.Providers.updateConnection(Settings.customMoviesServer, Settings.customSeriesServer, Settings.customAnimeServer, Settings.proxyServer);
+                }
+
                 App.vent.trigger('initHttpApi');
                 App.vent.trigger('db:ready');
                 App.vent.trigger('stream:loadExistTorrents');
@@ -437,6 +441,12 @@ var Database = {
                         win.error('updater.update()', err);
                     });
 
+            })
+            .then(function() {
+                if (Settings.protocolEncryption) {
+                    // enable secure after load options
+                    require('webtorrent/lib/peer.js').enableSecure();
+                }
             })
             .catch(function (err) {
                 win.error('Error starting up', err);

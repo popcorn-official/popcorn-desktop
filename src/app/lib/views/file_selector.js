@@ -12,7 +12,8 @@
             'click .close-icon': 'closeSelector',
             'click .file-item': 'startStreaming',
             'click .store-torrent': 'storeTorrent',
-            'click .playerchoicemenu li a': 'selectPlayer'
+            'click .playerchoicemenu li a': 'selectPlayer',
+            'click .playerchoicehelp': 'showPlayerList'
         },
 
         initialize: function () {
@@ -32,10 +33,6 @@
             };
         },
 
-        onBeforeRender: function () {
-            this.bitsnoopRequest(this.model.get('torrent').infoHash);
-        },
-
         onAttach: function () {
             this.isTorrentStored();
 
@@ -52,33 +49,14 @@
             }
         },
 
-        bitsnoopRequest: function (hash) {
-            var endpoint = 'http://bitsnoop.com/api/fakeskan.php?hash=';
-
-            request({
-                method: 'GET',
-                url: endpoint + hash,
-                headers: {
-                    'User-Agent': 'request'
-                }
-            }, function (error, response, body) {
-                if (!error && response.statusCode <= 400) {
-                    if (body === 'FAKE') {
-                        $('.fakeskan').text(i18n.__('%s reported this torrent as fake', 'FakeSkan')).show();
-                    }
-                }
-            });
-        },
-
         startStreaming: function (e) {
             var torrent = that.model.get('torrent');
-            var file = parseInt($(e.currentTarget).attr('data-file'));
-            var actualIndex = parseInt($(e.currentTarget).attr('data-index'));
+            var file = $(e.currentTarget).attr('data-file');
 
             var torrentStart = new Backbone.Model({
                 torrent: torrent.magnetURI,
                 torrent_read: true,
-                file_index: actualIndex,
+                file_name: file,
                 device: App.Device.Collection.selected
             });
             App.vent.trigger('stream:start', torrentStart);
@@ -93,8 +71,9 @@
                 $('.store-torrent').hide();
                 return false;
             } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
-                $('.store-torrent').text(i18n.__('Cannot be stored'));
-                $('.store-torrent').addClass('disabled').prop('disabled', true);
+                var storeTorrent = $('.store-torrent');
+                storeTorrent.text(i18n.__('Cannot be stored'));
+                storeTorrent.addClass('disabled').prop('disabled', true);
                 win.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }
@@ -168,6 +147,14 @@
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
             }
+        },
+
+        showPlayerList: function(e) {
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: '',
+                body: i18n.__('Popcorn Time currently supports') + '<div class="splayerlist">' + extPlayerlst + '.</div><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
+                type: 'success'
+            }));
         },
 
         closeSelector: function (e) {

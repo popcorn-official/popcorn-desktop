@@ -4,6 +4,7 @@
     var torrentHealth = require('webtorrent-health');
     var cancelTorrentHealth = function () {};
     var torrentHealthRestarted = null;
+    let healthButton;
 
     var _this, bookmarked;
     var ShowDetail = Marionette.View.extend({
@@ -21,7 +22,7 @@
             'click .sha-watched': 'markShowAsWatched',
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
-            "click #download-torrent": "downloadTorrent",
+            'click #download-torrent': 'downloadTorrent',
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
@@ -30,7 +31,9 @@
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
-            'click .health-icon': 'resetHealth'
+            'click .health-icon': 'refreshTorrentHealth',
+            'mousedown .shp-img': 'clickPoster',
+            'click .playerchoicehelp': 'showPlayerList'
         },
 
         regions: {
@@ -42,6 +45,7 @@
                 e.preventDefault();
                 e.stopPropagation();
             }
+            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
             var that = this;
             if (bookmarked !== true) {
                 bookmarked = true;
@@ -49,16 +53,18 @@
                 that.ui.bookmarkIcon.addClass('selected').text(i18n.__('Remove from bookmarks'));
             } else {
                 bookmarked = false;
-                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
                 that.model.set('bookmarked', false);
+                that.ui.bookmarkIcon.removeClass('selected').text(i18n.__('Add to bookmarks'));
             }
-            $('li[data-imdb-id="' + this.model.get('imdb_id') + '"] .actions-favorites').click();
         },
 
 
         initialize: function () {
             _this = this;
             this.renameUntitled();
+
+            healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
+
             //Handle keyboard shortcuts when other views are appended or removed
 
             //If a child was removed from above this view
@@ -70,7 +76,7 @@
 
             //If a child was added above this view
             App.vent.on('viewstack:push', function () {
-                if (_.last(App.ViewStack) !== _this.className) {
+                if (_.last(App.ViewStack) !== _this.className && _.last(App.ViewStack) !== 'notificationWrapper') {
                     _this.unbindKeyboardShortcuts();
                 }
             });
@@ -93,6 +99,7 @@
             this.model.set('torrents', torrents);
             this.model.set('seasonCount', Object.keys(torrents).length);
         },
+
         renameUntitled: function () {
             var episodes = this.model.get('episodes');
             for (var i = 0; i < episodes.length; i++) {
@@ -107,6 +114,7 @@
                 }
             }
         },
+
         initKeyboardShortcuts: function () {
             Mousetrap.bind('q', _this.toggleQuality);
             Mousetrap.bind('down', _this.nextEpisode);
@@ -121,7 +129,17 @@
             });
         },
 
-        unbindKeyboardShortcuts: Mousetrap.reset,
+        unbindKeyboardShortcuts: function () {
+            Mousetrap.unbind('q');
+            Mousetrap.unbind('down');
+            Mousetrap.unbind('up');
+            Mousetrap.unbind('w');
+            Mousetrap.unbind(['enter', 'space']);
+            Mousetrap.unbind(['esc', 'backspace']);
+            Mousetrap.unbind(['ctrl+up', 'command+up']);
+            Mousetrap.unbind(['ctrl+down', 'command+down']);
+            Mousetrap.unbind('f');
+        },
 
         onAttach: function () {
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
@@ -139,12 +157,11 @@
             var images = this.model.get('images');
             var backdrop = this.model.get('backdrop');
             var poster = this.model.get('poster');
-            if (!poster && images)
-            {
-              poster = images.poster || noimg;
+            if (!poster && images && images.poster){
+                poster = this.model.get('images').poster;
             }
             else {
-              poster = noimg;
+                poster = this.model.get('poster') || noimg;
             }
             if (!backdrop) {
               backdrop = images.banner || nobg;
@@ -206,6 +223,11 @@
             App.Device.Collection.setDevice(Settings.chosenPlayer);
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
+
+            if ($('.loading .maximize-icon').is(':visible')) {
+                $('.sdow-watchnow, #download-torrent').addClass('disabled');
+                $('#watch-now').prop('disabled', true);
+            }
         },
 
         selectNextEpisode: function () {
@@ -296,11 +318,12 @@
         },
 
         openIMDb: function () {
-            nw.Shell.openExternal('http://www.imdb.com/title/' + this.model.get('imdb_id'));
+            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
 
         openMagnet: function (e) {
-            var torrentUrl = $('.startStreaming').attr('data-torrent');
+            var torrentUrl = $('.startStreaming').attr('data-torrent').replace(/\&amp;/g, '&');
+            torrentUrl = torrentUrl.split('&tr=')[0] + _.union(decodeURIComponent(torrentUrl).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
             if (e.button === 2) { //if right click on magnet link
                 var clipboard = nw.Clipboard.get();
                 clipboard.set(torrentUrl, 'text'); //copy link to clipboard
@@ -390,8 +413,7 @@
 
         onWatched: function (value, channel) {
             this.markWatched(value, true);
-
-            this.selectNextEpisode();
+            this.nextEpisode();
         },
 
         onUnWatched: function (value, channel) {
@@ -412,6 +434,7 @@
             }
             var that = this;
             var title = that.model.get('title');
+            var file_name = $(e.currentTarget).attr('data-file');
             var episode = $(e.currentTarget).attr('data-episode');
             var season = $(e.currentTarget).attr('data-season');
             var name = $(e.currentTarget).attr('data-title');
@@ -431,7 +454,7 @@
 
             var episodes = [];
             var episodes_data = [];
-            var selected_quality = $(e.currentTarget).attr('data-quality');
+            //var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
             var images = this.model.get('images');
             if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
@@ -446,7 +469,7 @@
                         extract_subtitle: {
                             type: 'show',
                             imdbid: that.model.get('imdb_id'),
-                            tvdbid: value.tvdb_id.toString(),
+                            tvdbid: (value.tvdb_id || '').toString(),
                             season: value.season,
                             episode: value.episode
                         },
@@ -491,6 +514,7 @@
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
                 episodes: episodes,
+                file_name: file_name,
                 auto_play: auto_play,
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
@@ -501,9 +525,19 @@
         },
 
         downloadTorrent: function(e) {
-          var torrent = $(e.currentTarget).attr('data-torrent');
-          App.vent.trigger("stream:download", torrent);
-          App.vent.trigger("seedbox:show");
+          const torrent = $(e.currentTarget).attr('data-torrent');
+          const file = $(e.currentTarget).attr('data-file');
+          App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
+          if (Settings.showSeedboxOnDlInit) {
+            App.previousview = App.currentview;
+            App.currentview = 'Seedbox';
+            App.vent.trigger('seedbox:show');
+            $('.filter-bar').find('.active').removeClass('active');
+            $('#filterbar-seedbox').addClass('active');
+            $('#nav-filters').hide();
+          } else {
+            $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+          }
         },
 
         closeDetails: function (e) {
@@ -566,32 +600,39 @@
             _this.getRegion('qualitySelector').show(qualitySelector);
 
             var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
+            var synopsis = $('.sdoi-synopsis');
+            var startStreaming = $('.startStreaming');
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
             $('.sdoi-number').text(i18n.__('Season %s', selectedEpisode.season) + ', ' + i18n.__('Episode %s', selectedEpisode.episode));
             $('.sdoi-title').text(selectedEpisode.title);
             $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + first_aired);
-            $('.sdoi-synopsis').text(selectedEpisode.overview);
+            synopsis.text(selectedEpisode.overview);
 
             //pull the scroll always to top
-            $('.sdoi-synopsis').scrollTop(0);
+            synopsis.scrollTop(0);
 
-            $('.startStreaming').attr('data-episodeid', tvdbid);
+            startStreaming.attr('data-episodeid', tvdbid);
 
             // set var for player
-            $('.startStreaming').attr('data-episode', selectedEpisode.episode);
-            $('.startStreaming').attr('data-season', selectedEpisode.season);
-            $('.startStreaming').attr('data-title', selectedEpisode.title);
+            startStreaming.attr('data-episode', selectedEpisode.episode);
+            startStreaming.attr('data-season', selectedEpisode.season);
+            startStreaming.attr('data-title', selectedEpisode.title);
 
             _this.ui.startStreaming.show();
         },
-        selectTorrent: function(torrent, key) {
-            $('.startStreaming').attr('data-torrent', torrent.url);
-            $('#download-torrent').attr('data-torrent', torrent.url);
-            $('.startStreaming').attr('data-quality', key);
 
-            _this.resetHealth();
+        selectTorrent: function(torrent, key) {
+            var startStreaming = $('.startStreaming');
+            var downloadButton = $('#download-torrent');
+            startStreaming.attr('data-file', torrent.file || '');
+            startStreaming.attr('data-torrent', torrent.url);
+            startStreaming.attr('data-quality', key);
+            downloadButton.attr('data-torrent', torrent.url);
+            downloadButton.attr('data-file', torrent.file || '');
+
+            _this.resetTorrentHealth();
         },
 
         toggleQuality: function (e) {
@@ -599,11 +640,12 @@
         },
 
         nextEpisode: function (e) {
+            var tabEpisode = $('.tab-episode:visible');
             var index = $('.tab-episode.active').index();
-            if (index === $('.tab-episode:visible').length - 1) {
+            if (index === tabEpisode.length - 1) {
                 return;
             }
-            var $nextEpisode = $('.tab-episode:visible').eq(++index);
+            var $nextEpisode = tabEpisode.eq(++index);
             _this.selectEpisode($nextEpisode);
             if (!_this.isElementVisible($nextEpisode[0])) {
                 $nextEpisode[0].scrollIntoView(false);
@@ -635,11 +677,12 @@
         },
 
         nextSeason: function (e) {
+            var tabSeason = $('.tab-season');
             var index = $('.tab-season.active').index();
-            if (index === $('.tab-season').length - 1) {
+            if (index === tabSeason.length - 1) {
                 return;
             }
-            var $nextSeason = $('.tab-season').eq(++index);
+            var $nextSeason = tabSeason.eq(++index);
             _this.selectSeason($nextSeason);
             if (!_this.isElementVisible($nextSeason[0])) {
                 $nextSeason[0].scrollIntoView(false);
@@ -708,59 +751,29 @@
             );
         },
 
-        getTorrentHealth: function (e) {
-            var torrent = $('.startStreaming').attr('data-torrent');
-
-            cancelTorrentHealth();
-
-            // Use fancy coding to cancel
-            // pending webtorrent-health's
-            var cancelled = false;
-            cancelTorrentHealth = function () {
-                cancelled = true;
-            };
-
-            if (torrent.substring(0, 8) === 'magnet:?') {
-                // if 'magnet:?' is because api sometimes sends back links, not magnets
-                torrentHealth(torrent, {
-                    timeout: 1000,
-                    trackers: Settings.trackers.forced
-                }, function (err, res) {
-                    if (cancelled || err) {
-                        return;
-                    }
-                    if (res.seeds === 0 && torrentHealthRestarted < 5) {
-                        torrentHealthRestarted++;
-                        $('.health-icon').click();
-                    } else {
-                        torrentHealthRestarted = 0;
-                        var h = Common.calcHealth({
-                            seed: res.seeds,
-                            peer: res.peers
-                        });
-                        var health = Common.healthMap[h].capitalize();
-                        var ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
-
-                        $('.health-icon').tooltip({
-                                html: true
-                            })
-                            .removeClass('Bad Medium Good Excellent')
-                            .addClass(health)
-                            .attr('data-original-title', i18n.__('Health ' + health) + ' - ' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + ' <br> ' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers)
-                            .tooltip('fixTitle');
-                    }
-                });
+        clickPoster: function(e) {
+            if (e.button === 0) {
+                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
+            } else if (e.button === 2) {
+                var clipboard = nw.Clipboard.get();
+                clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ''), 'text');
+                $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             }
         },
 
-        resetHealth: function () {
-            $('.health-icon').tooltip({
-                    html: true
-                })
-                .removeClass('Bad Medium Good Excellent')
-                .attr('data-original-title', i18n.__('Health Unknown'))
-                .tooltip('fixTitle');
-            this.getTorrentHealth();
+        retrieveTorrentHealth: function(cb) {
+            const torrentURL = $('.startStreaming').attr('data-torrent');
+            return Common.retrieveTorrentHealth(torrentURL, cb);
+        },
+
+        resetTorrentHealth: function () {
+            healthButton.reset();
+            healthButton.render();
+        },
+
+        refreshTorrentHealth: function () {
+            healthButton.reset();
+            healthButton.render();
         },
 
         selectPlayer: function (e) {
@@ -769,6 +782,14 @@
             if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
                 AdvSettings.set('chosenPlayer', player);
             }
+        },
+
+        showPlayerList: function(e) {
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: '',
+                body: i18n.__('Popcorn Time currently supports') + '<div class="splayerlist">' + extPlayerlst + '.</div><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
+                type: 'success'
+            }));
         },
 
         onBeforeDestroy: function () {

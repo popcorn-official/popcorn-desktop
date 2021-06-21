@@ -12,7 +12,6 @@
             opacity 1
 
     .cover
-        position: relative
         background-image url(../images/posterholder.png)
         background-size: 134px 196px
         width: 134px
@@ -20,7 +19,7 @@
         border-radius: $PosterRadius
         box-shadow: $PosterShadow
         cursor: pointer
-        
+
         &.empty
             background-image none
 
@@ -29,9 +28,8 @@
             height 100%
             background-size cover
             background-position center
-            position absolute
-            transition opacity 500ms ease-in
             opacity 0
+            display none
 
             &img
                 position absolute
@@ -43,9 +41,8 @@
             &.cover-info-overlay
               padding 88px 0
               background $PosterHoverOverlay
-              border: 2px solid $PosterHoverOverlay
+              border: 2px solid $PosterHoverOverlayOpq
               border-radius $PosterRadius
-              transition border-color .25s ease
 
             .actions-favorites
                 float: right
@@ -89,7 +86,6 @@
                 height auto
                 left 0
                 margin 0
-                overflow hidden
                 padding: 10px 5px 5px
                 position absolute
                 right 0
@@ -102,7 +98,7 @@
 
                 .rating-star
                     color #ffc900
-                    padding-right: 2px
+                    padding-right: 0px
                     vertical-align middle
 
                 .rating-star-half
@@ -116,12 +112,14 @@
                 .rating-star-empty
                     color #a3a5a7
                     vertical-align middle
+                    margin-right 0px
 
                 .rating-star-half-container
                     width 1em
                     height 1em
                     line-height 1em
                     vertical-align middle
+                    margin-right 1px
 
             .rating-value
                 font-size 1em
@@ -129,11 +127,15 @@
                 float right
 
     &.selected
+        > .cover .cover-overlay
+            display block
+            animation: fadeBd 0.5s ease
+
         .cover
             .cover-info-overlay
                 border 2px solid $PosterHoverBorder
-                transition border-color .50s
                 opacity: 1
+                will-change: transform
     .title
         height: auto;
         margin: 6px 0 4px;
@@ -158,20 +160,34 @@
         &.quality
             display: none
 
-.load-more
+@keyframes fadeBd {
+    from { border-color: $PosterHoverOverlayOpq; }
+    to { border-color: $PosterHoverBorder; }
+}
+
+.load-more,
+.search-more
     position relative
     background-size cover
     background-position center center
     width 134px
     height 196px
     border-radius 4px
+    border 2px solid rgba(0, 0, 0, 0)
     box-shadow $PosterShadow
     cursor pointer
     display inline-block
     margin 10px
     float left
-    background-color:$BgColor1
-    -webkit-transition: background-color 200ms linear;
+    background-color $BgColor1
+    opacity 1
+
+    &:hover
+        border 2px solid $PosterHoverBorder
+        -webkit-transition border 400ms ease
+
+        > #overlay
+            display block
 
     > .loading-container
         display none
@@ -190,27 +206,41 @@
         .ball1
             margin -15px
 
-    .status-loadmore
+    .status-loadmore,
+    .status-searchmore
         position: absolute;
-        color: $ButtonText;
-        padding: 10px 15px;
-        background-color: $ButtonBg;
-        -webkit-box-shadow: 0px 0px 6px #000;
+        color: $Text1;
         padding-bottom: 10px;
         padding-top: 10px;
         border-radius: 2px;
         font-family: $MainFont, $AlternateFont;
-        -webkit-transition: background-color 200ms linear;
+        opacity 0.3
         text-align center
         top: 50%
         left: 50%
         width: 90%
         -webkit-transform translate(-50%, -50%)
 
-        &:hover
-            background-color:$ButtonBgHover
-        &:active
-            background-color:$ButtonBgActive
+        #searchtor
+            height: 2.8em
+            padding: 5px 0 48px
+            font-size: 1.4em
+
+            #searchtor_globe
+                padding-right: 10px
+
+            #searchtor_mag
+                top: -5px
+                padding-left: 15px
+                -webkit-text-stroke: 2px $BgColor1
+
+    #overlay
+        background $PosterHoverOverlay
+        height 100%
+        width 100%
+        position absolute
+        opacity 0.8
+        display none
 
 .ghost
     width 134px

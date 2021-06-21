@@ -3,9 +3,8 @@
   align-items: center
   cursor: pointer
   height: 35px
-  margin-right: 15px
   padding: 0 15px
-  color: $ButtonText
+  color: #fff
   font-family: $MainFont
   font-smoothing: antialiased
   text-align: center
@@ -25,100 +24,221 @@
   display: flex
   flex-wrap: wrap
   max-width: 100%
+  margin-left: 5px
+
+  .flag
+    &:hover
+      -webkit-filter: drop-shadow(0px 0px 2px #fff) brightness(1.4)
 
 .flag
-  margin: 3px
-  background-image: url("../images/flags/none.png")
+  margin: 6px 4px
+  background-image: url("../images/flags/question.svg")
   background-size: 24px 24px
   background-position: center
   cursor: pointer
-  width: 24px
-  height: 22px
-  &.NA
-    background-image: url("../images/flags/none.png")
+  width: 22px
+  height: 16px
+  &.none
+    background-image: url("../images/flags/none.svg")
   &.toggle
       top: -6px
       border-radius: 0
       background-color: transparent
   &.ar
-      background-image: url("../images/flags/arabic.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ae.svg")
   &.hy
-      background-image: url("../images/flags/armenian.png")
-  &.eu
-      background-image: url("../images/flags/basque.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/am.svg")
   &.bn
-      background-image: url("../images/flags/bengali.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/bd.svg")
   &.bs
-      background-image: url("../images/flags/bosnian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ba.svg")
   &.pt-br
-      background-image: url("../images/flags/brazilian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/br.svg")
   &.bg
-      background-image: url("../images/flags/bulgarian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/bg.svg")
   &.zh
-      background-image: url("../images/flags/chinese.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/cn.svg")
   &.hr
-      background-image: url("../images/flags/croatian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/hr.svg")
   &.cs
-      background-image: url("../images/flags/czech.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/cz.svg")
   &.da
-      background-image: url("../images/flags/danish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/dk.svg")
   &.nl
-      background-image: url("../images/flags/dutch.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/nl.svg")
   &.en
-      background-image: url("../images/flags/english.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/gb.svg")
   &.et
-      background-image: url("../images/flags/estonian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ee.svg")
   &.fa
-      background-image: url("../images/flags/farsi.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ir.svg")
   &.fi
-      background-image: url("../images/flags/finnish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/fi.svg")
   &.fr
-      background-image: url("../images/flags/french.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/fr.svg")
   &.de
-      background-image: url("../images/flags/german.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/de.svg")
   &.el
-      background-image: url("../images/flags/greek.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/gr.svg")
   &.he
-      background-image: url("../images/flags/hebrew.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/il.svg")
   &.hu
-      background-image: url("../images/flags/hungarian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/hu.svg")
   &.it
-      background-image: url("../images/flags/italian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/it.svg")
   &.id
-      background-image: url("../images/flags/indonesian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/id.svg")
+  &.ja
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/jp.svg")
+  &.ka
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ge.svg")
+  &.ko
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/kr.svg")
   &.lv
-      background-image: url("../images/flags/latvian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/lv.svg")
   &.lt
-      background-image: url("../images/flags/lithuanian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/lt.svg")
+  &.mk
+    background-image: url("/node_modules/flag-icon-css/flags/4x3/mk.svg")
+  &.ms
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/my.svg")
   &.mt
-      background-image: url("../images/flags/maltese.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/mt.svg")
   &.no
-      background-image: url("../images/flags/norwegian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/no.svg")
+  &.nb
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/no.svg")
+  &.nn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/no.svg")
   &.pl
-      background-image: url("../images/flags/polish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/pl.svg")
   &.pt
-      background-image: url("../images/flags/portuguese.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/pt.svg")
   &.ro
-      background-image: url("../images/flags/romanian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ro.svg")
   &.ru
-      background-image: url("../images/flags/russian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ru.svg")
   &.sr
-      background-image: url("../images/flags/serbian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/rs.svg")
   &.sk
-      background-image: url("../images/flags/slovak.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/sk.svg")
   &.sl
-      background-image: url("../images/flags/slovenian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/si.svg")
   &.es
-      background-image: url("../images/flags/spanish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es.svg")
   &.sv
-      background-image: url("../images/flags/swedish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/se.svg")
   &.th
-      background-image: url("../images/flags/thai.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/th.svg")
   &.tr
-      background-image: url("../images/flags/turkish.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/tr.svg")
   &.uk
-      background-image: url("../images/flags/ukrainian.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ua.svg")
   &.vi
-      background-image: url("../images/flags/vietnamese.png")
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/vn.svg")
+  &.sq
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/al.svg")
+  &.am
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/et.svg")
+  &.az
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/az.svg")
+  &.be
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/by.svg")
+  &.es-ar
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ar.svg")
+  &.es-mx
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/mx.svg")
+  &.fj
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/fj.svg")
+  &.ga
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ie.svg")
+  &.gn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/py.svg")
+  &.hi
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/in.svg")
+  &.ho
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/pg.svg")
+  &.ht
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ht.svg")
+  &.is
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/is.svg")
+  &.kk
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/kz.svg")
+  &.km
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/kh.svg")
+  &.lb
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/lu.svg")
+  &.lo
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/la.svg")
+  &.mg
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/mg.svg")
+  &.mi
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/nz.svg")
+  &.mn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/mn.svg")
+  &.my
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/mm.svg")
+  &.na
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/nr.svg")
+  &.ne
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/np.svg")
+  &.ny
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/nw.svg")
+  &.ps
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/af.svg")
+  &.rm
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ch.svg")
+  &.rn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/bi.svg")
+  &.rw
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/rw.svg")
+  &.si
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/lk.svg")
+  &.sm
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ws.svg")
+  &.sn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/zw.svg")
+  &.so
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/so.svg")
+  &.tg
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/tj.svg")
+  &.ti
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/er.svg")
+  &.tk
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/tm.svg")
+  &.ur
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/pk.svg")
+  &.uz
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/uz.svg")
+  &.gl
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es-ga.svg")
+  &.ca
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es-ca.svg")
+  &.oc
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es-ca.svg")
+  &.tl
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ph.svg")
+  &.br
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/fr.svg")
+  &.ig
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ng.svg")
+  &.tt
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/ru.svg")
+  &.ml
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/in.svg")
+  &.te
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/in.svg")
+  &.or
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/in.svg")
+  &.kn
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/in.svg")
+  &.ea
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es.svg")
+  &.sp
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/es.svg")
+  &.ze
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/cn.svg")
+  &.zt
+      background-image: url("/node_modules/flag-icon-css/flags/4x3/cn.svg")
 
 

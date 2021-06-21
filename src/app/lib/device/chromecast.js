@@ -1,8 +1,9 @@
 (function (App) {
     'use strict';
 
-    var chromecasts = require('chromecasts')(),
-        collection = App.Device.Collection;
+    const ChromecastAPI = require('chromecast-api'),
+          client = new ChromecastAPI(),
+          collection = App.Device.Collection;
 
     var Chromecast = App.Device.Generic.extend({
         defaults: {
@@ -17,7 +18,7 @@
         initialize: function (attrs) {
             this.device = attrs.device;
             this.attributes.id = this._makeID(this.device.name);
-            this.attributes.name = this.device.name;
+            this.attributes.name = this.device.friendlyName;
             this.attributes.address = this.device.host;
             this.updatingSubtitles = false;
         },
@@ -32,7 +33,7 @@
             win.info('Chromecast: play ' + url + ' on \'' + this.get('name') + '\'');
             win.info('Chromecast: connecting to ' + this.device.host);
 
-            self.device.play(url, media, function (err, status) {
+            self.device.play(media, function (err, status) {
                 if (err) {
                     win.error('chromecast.play error: ', err);
                 } else {
@@ -78,6 +79,7 @@
         },
 
         createMedia: function(streamModel, useLocalSubtitle) {
+
             var subtitle = streamModel.get('subtitle');
             var cover = streamModel.get('backdrop');
             var url = streamModel.get('src');
@@ -87,11 +89,17 @@
 
             if (subtitle || useLocalSubtitle) {
                 media = {
-                    images: [cover],
+                    url :  url,
+                    cover: {
+                      title: streamModel.get('title').substring(0,50),
+                      url: cover
+                    },
                     title: streamModel.get('title').substring(0,50),
-                    subtitles: ['http:' + url.split(':')[1] + ':9999/data.vtt'],
+                    subtitles: [{
+                        url: 'http:' + url.split(':')[1] + ':9999/data.vtt',
+                    }],
 
-                    textTrackStyle: {
+                    subtitles_style: {
                         backgroundColor: AdvSettings.get('subtitle_decoration') === 'Opaque Background' ? '#000000FF' : '#00000000', // color of background - see http://dev.w3.org/csswg/css-color/#hex-notation
                         foregroundColor: AdvSettings.get('subtitle_color') + 'ff', // color of text - see http://dev.w3.org/csswg/css-color/#hex-notation
                         edgeType: AdvSettings.get('subtitle_decoration') === 'Outline' ? 'OUTLINE' : 'NONE', // border of text - can be: "NONE", "OUTLINE", "DROP_SHADOW", "RAISED", "DEPRESSED"
@@ -100,15 +108,18 @@
                         fontStyle: 'NORMAL', // can be: "NORMAL", "BOLD", "BOLD_ITALIC", "ITALIC",
                         fontFamily: 'Helvetica',
                         fontGenericFamily: 'SANS_SERIF', // can be: "SANS_SERIF", "MONOSPACED_SANS_SERIF", "SERIF", "MONOSPACED_SERIF", "CASUAL", "CURSIVE", "SMALL_CAPITALS",
-                        windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
-                        windowRoundedCornerRadius: 0, // radius in px
-                        windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
+                        //windowColor: '#00000000', // see http://dev.w3.org/csswg/css-color/#hex-notation
+                        //windowRoundedCornerRadius: 0, // radius in px
+                        //windowType: 'NONE' // can be: "NONE", "NORMAL", "ROUNDED_CORNERS"
                     }
                 };
             } else {
                 media = {
-                    images: [cover],
-                    title: streamModel.get('title').substring(0,50)
+                    url: url,
+                    cover: {
+                      title: streamModel.get('title').substring(0,50),
+                      url: cover
+                  }
                 };
             }
 
@@ -131,44 +142,23 @@
                 device.removeAllListeners();
                 win.info('Chromecast: stopped. Listeners removed!');
             });
+            device.close(); //Back to ChromeCast home screen instead of black screen
 
             App.vent.trigger('stream:unserve_subtitles');
-        },
-
-        seekTo: function (seconds) {
-            this.get('device').seek(seconds, function (err, status) {
-                if (err) {
-                    win.error('Chromecast.seek error:', err);
-                } else {
-                    win.debug('Chromecast, seeked to', seconds);
-                }
-            });
         },
 
         seekPercentage: function (percentage) {
             win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
-            this.seekTo(newCurrentTime);
+            this.get('device').seekTo(newCurrentTime);
        },
 
         forward: function () {
-            var self = this;
-            this.get('device').status(function (err, status) {
-                if (err) {
-                    return win.info('Chromecast.forward:Error', err);
-                }
-                self.seekTo(status.currentTime + 30);
-            });
+            this.get('device').seek(30);
         },
 
         backward: function () {
-            var self = this;
-            this.get('device').status(function (err, status) {
-                if (err) {
-                    return win.info('Chromecast.backward:Error', err);
-                }
-                self.seekTo(status.currentTime - 30);
-            });
+            this.get('device').seek(-30);
         },
 
         unpause: function () {
@@ -177,10 +167,8 @@
 
         updateStatus: function () {
             var self = this;
-            this.get('device').status(function (err, status) {
-                if (err) {
-                    return win.info('Chromecast.updateStatus:Error', err);
-                }
+            client.on('status', function (status) {
+              console.log(status);
                 self._internalStatusUpdated(status);
             });
         },
@@ -197,11 +185,11 @@
         }
     });
 
-win.info('Scanning: Local Network for Chromecast devices');
-chromecasts.update();
-chromecasts.on('update', function (player) {
-    win.info('Found Chromecast Device Device: %s at %s', player.name, player.host);
-          collection.add(new Chromecast({
+    win.info('Scanning: Local Network for Chromecast devices');
+    client.update();
+    client.on('device', function (player) {
+        win.info('Found Chromecast Device: %s at %s', player.friendlyName, player.host);
+        collection.add(new Chromecast({
             device: player
         }));
     });

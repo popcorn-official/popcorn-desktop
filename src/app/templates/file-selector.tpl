@@ -6,7 +6,7 @@
         <ul class="file-list">
             <% _.each(files, function(file, index) { 
                     if (file.display !== false) { %>
-                <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
+                <li class="file-item" data-index="<%=file.index%>" data-file="<%=file.path%>">
                     <a><%=file.name %></a>
                 </li>
             <% }}); %>

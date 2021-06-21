@@ -30,6 +30,10 @@
             float: left
             width: 198px
             height: 100%
+            z-index: 20
+            position: relative
+            pointer-events: none
+            transition: transform 0.05s ease-out
 
             .shp-img
                 position relative
@@ -38,15 +42,23 @@
                 width 134px
                 height 197px
                 box-shadow 0px 0px 10px
-                background-size contain
+                background-size 100% 100%
                 background-position center
                 background-repeat no-repeat
                 border-radius 4px
                 opacity 0
                 background-color $ShowBgColor1
+                pointer-events auto
+                cursor pointer
                 &.fadein
                     transition: opacity .3s ease-in;
                     opacity: 1
+
+        .sh-poster.active
+            transform: scale(3.5)
+            left: 180px
+            top: 260px
+            transition: transform 0.12s ease-out
 
         .sh-metadata
             float: left
@@ -113,7 +125,7 @@
                         .rating-star-half-empty
                             color #a3a5a7
                             font-size 11px
-                            margin-left: -3px
+                            margin-left: -4px
 
                         .rating-star-empty
                             color #a3a5a7
@@ -124,9 +136,8 @@
                             width 1em
                             height 1em
                             line-height 1em
-                            margin-top: -1px;
-                            margin-left: 3px;
-                            margin-right: -1px;
+                            margin-top: -3px;
+                            margin-left: 4px;
 
                 span.dot
                     margin 4.5px 15px 0 15px
@@ -153,11 +164,16 @@
                 overflow: hidden
                 scrollable()
 
+        .sh-metadata.active
+            filter: blur(4px)
+            pointer-events: none
+
         .sh-actions
             float: left
             position: relative
             width: calc(100% - 198px)
             height: 20px
+            margin-top: -5px
 
             .sha-bookmark
                 float: left
@@ -283,6 +299,9 @@
                     &:after
                         opacity: 1
 
+        .sh-actions.active
+            filter: blur(4px)
+            pointer-events: none
 
     .show-details
         width: 100vw
@@ -297,6 +316,7 @@
             height: calc(100vh - 340px)
             cursor: pointer
             direction: rtl
+            white-space: nowrap
             scrollable()
 
             li
@@ -351,11 +371,9 @@
                     margin: 0px 15px 0px 5px
 
                 div
-                    float: left
                     white-space: nowrap
                     border-left: 1px solid $ShowBgColor1
                     padding-left: 30px
-                    max-width: calc(60vw - 265px)
                     text-align: left
                     overflow: hidden
                     text-overflow: ellipsis
@@ -389,6 +407,8 @@
             .sde-list ul li a
                 color: $EpisodeListText
                 font-family: $MainFont
+                min-width: 70px
+                max-width: calc(60vw - 290px)
 
             .sde-list ul li.active a
                 color: $EpisodeSelectorText
@@ -398,7 +418,7 @@
             flex-grow: 1
             flex-shrink: 0
             width: 35vw
-            min-width: 350px
+            min-width: 375px
             padding: 10px 30px 10px 18px /* right pad */
 
             .sdo-infos
@@ -408,7 +428,7 @@
                     text-overflow: ellipsis
                     font-size: 24px
                     margin-top: 2px
-                    margin-bottom: 6px
+                    padding-bottom: 6px
                     color: $ShowText1
 
                 .sdoi-links
@@ -466,13 +486,20 @@
 
             .sdo-watch
                 height: 60px
-                padding: 10px 0
+                padding: 5px 0px 15px 0px
 
                 .play-selector
-                    color: $ShowText1
                     position: relative
                     float: right
                     margin-top: 6px
+
+                    &.disabled
+                        position: absolute
+                        right: 5px
+                        margin-top: -65px
+                        cursor: pointer
+                        opacity: 1
+                        filter: none
 
                 .sdow-quality
                     margin-top: 20px
@@ -505,6 +532,13 @@
                     margin-top: 6px
                     float: right
 
+                    &.disabled
+                        visibility: hidden
+
         /* ugly rule to bypass restrictions */
         .sd-seasons[style*="display: none"] + .sd-episodes ul a div
             max-width: calc(60vw - 100px)
+
+    .show-details.active
+        filter: brightness(50%) blur(4px)
+        pointer-events: none

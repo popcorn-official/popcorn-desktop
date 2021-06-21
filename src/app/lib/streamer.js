@@ -53,9 +53,47 @@
                   }
 
                   App.WebTorrent.add(data, {
-                      path      : App.settings.tmpLocation + '/' + file,
-                      maxConns  : 5,
+                      path      : App.settings.tmpLocation,
+                      maxConns  : 10,
                       dht       : true,
+                      secure    : Settings.protocolEncryption || false,
+                      announce  : Settings.trackers.forced,
+                      tracker   : Settings.trackers.forced
+                  }, (torrent) => {
+                    return cb();
+                  });
+                });
+              }
+            }, function(err) {
+              if (err) {
+                win.error('Load exist torrents failed:', err.name, err.code);
+              }
+            });
+          });
+
+          if (!App.settings.separateDownloadsDir) {
+            return;
+          }
+
+          fs.readdir(App.settings.downloadsLocation + '/TorrentCache/', (err, files) => {
+            if (err) {
+              win.error('Read exist torrents failed:', err.name, err.code);
+              return;
+            }
+
+            async.eachLimit(files, 1, function (file, cb) {
+              if (/^[a-f0-9]{40}$/i.test(file)) {
+                fs.readFile(App.settings.downloadsLocation + '/TorrentCache/' + file, 'utf8', (err, data) => {
+                  if (err) {
+                    win.error('Read exist torrent failed:', file, err.name, err.code);
+                    return cb();
+                  }
+
+                  App.WebTorrent.add(data, {
+                      path      : App.settings.downloadsLocation,
+                      maxConns  : 10,
+                      dht       : true,
+                      secure    : Settings.protocolEncryption || false,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
                   }, (torrent) => {
@@ -80,51 +118,103 @@
 
             this.setModels(model);
 
-            this.fetchTorrent(this.torrentModel.get('torrent')).then(function (torrent) {
+            this.fetchTorrent(this.torrentModel.get('torrent'), App.settings.tmpLocation).then(function (torrent) {
+                this.torrentModel.set('torrent', this.torrent = torrent);
+                this.linkTransferStatus();
                 this.handleTorrent(torrent);
                 this.handleStreamInfo();
                 this.watchState();
+                this.saveCoverToFile();
                 return this.createServer();
             }.bind(this)).then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
         },
 
-        download: function(torrent) {
+        download: function(torrent, mediaName = '', fileName = '') {
             // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
                 this.stop();
             }
 
             // handles magnet and hosted torrents
-            var uri = torrent.magnet || torrent.url || torrent;
+            const uri = Common.getTorrentUri(torrent);
             const parseTorrent = require('parse-torrent');
             var infoHash = '';
             try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
-            App.WebTorrent.add(uri, {
-              path      : App.settings.tmpLocation + '/' + infoHash,
-              maxConns  : 5,
-              dht       : true,
-              announce  : Settings.trackers.forced,
-              tracker   : Settings.trackers.forced
-            });
 
-            fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
+            if (this.torrent && this.torrent.infoHash === infoHash) {
+                return;
+            }
+
+            if (mediaName) {
+                App.plugins.mediaName.setMediaName(infoHash, mediaName);
+            }
+            const location = App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
+            this.fetchTorrent(uri, location).then(function (torrent) {
+                this.selectFile(torrent, fileName);
+            }.bind(this));
         },
 
         // kill the streamer
         stop: function() {
             if (this.torrent) {
                 // update ratio
-                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.downloaded);
-                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.uploaded);
-                this.torrent.pause();
-                // complete fause torrent, stop download data
-                for (const id in this.torrent._peers) {
-                  this.torrent.removePeer(id);
-                }
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
-                this.torrent._xsRequests.forEach(req => {
-                  req.abort();
-                });
+                if (Settings.activateSeedbox) {
+                    this.torrent.pause();
+                    // complete pause torrent, stop download data
+                    const removedPeers = [];
+                    for (const id in this.torrent._peers) {
+                        // collect peers, need to do this before calling removePeer!
+                        removedPeers.push(this.torrent._peers[id].addr);
+
+                        this.torrent.removePeer(id);
+                    }
+                    if(removedPeers.length > 0) {
+                        // store removed peers, so we can re-add them when resuming
+                        this.torrent.pctRemovedPeers = removedPeers;
+                    }
+
+                    if (this.torrent._xsRequests) {
+                        this.torrent._xsRequests.forEach(req => {
+                            req.abort();
+                        });
+                    }
+                } else {
+                    this.torrent.destroy();
+                }
+            }
+
+            if (this.video) {
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
+                this.video = null;
+            }
+
+            this.torrent = null;
+            this.torrentModel = null;
+            this.stateModel = null;
+            this.streamInfo = null;
+            this.subtitleReady = false;
+            this.canPlay = false;
+            this.stopped = true;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
+
+            App.vent.off('subtitle:downloaded');
+            App.SubtitlesServer.stop();
+            win.info('Streaming cancelled');
+        },
+
+        stopFS: function() {
+            if (this.torrent) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
+
+                this.torrent.destroy();
             }
 
             if (this.video) {
@@ -156,7 +246,7 @@
         },
 
         // fire webtorrent and resolve the torrent
-        fetchTorrent: function(torrentInfo) {
+        fetchTorrent: function(torrentInfo, path) {
             return new Promise(function (resolve, reject) {
 
                 // handles magnet and hosted torrents
@@ -164,62 +254,54 @@
                 const parseTorrent = require('parse-torrent');
                 var infoHash = '';
                 try { infoHash = parseTorrent(uri).infoHash; } catch (err) {}
+                var torrent;
 
                 for(const t of App.WebTorrent.torrents) {
                     if (t.infoHash === infoHash) {
-                        this.torrent = t;
-                        this.torrent.resume();
-                        this.torrentModel.set('torrent', this.torrent);
-                        resolve(this.torrent);
+                        torrent = t;
+                        torrent.resume();
+                        if(torrent.pctRemovedPeers) {
+                            const peers = torrent.pctRemovedPeers;
+                            torrent.pctRemovedPeers = undefined;
+                            for (let peer of peers) {
+                                torrent.addPeer(peer);
+                            }
+                        }
+                        resolve(torrent);
                     }
                 }
 
-                if (!this.torrent) {
-                  this.torrent = App.WebTorrent.add(uri, {
-                      path: App.settings.tmpLocation + '/' + infoHash,
-                      announce: Settings.trackers.forced
+                if (!torrent) {
+                  torrent = App.WebTorrent.add(uri, {
+                      path: path,
+                      maxConns  : 10,
+                      dht       : true,
+                      announce  : Settings.trackers.forced,
+                      tracker   : Settings.trackers.forced
                   });
                 }
 
                 const fs = require('fs');
-                fs.writeFileSync(App.settings.tmpLocation + '/TorrentCache/' + infoHash, uri);
+                fs.writeFileSync(path + '/TorrentCache/' + torrent.infoHash, uri);
 
-                this.torrent.on('metadata', function () {
-                    this.torrentModel.set('torrent', this.torrent);
-                    resolve(this.torrent);
+                torrent.on('metadata', function () {
+                    // deselect files, webtorrent api
+                    // as of november 2016, need to remove all torrent,
+                    //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
+                    torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
+
+                    resolve(torrent);
                 }.bind(this));
 
-                this.torrent.on('download', function () {
-                    if (this.torrentModel) {
-                        this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
-                        this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
-                        this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('total_peers', this.torrent.numPeers);
-                        this.torrentModel.set('time_left', (this.torrent.timeRemaining));
+                torrent.on('error', function (error) {
+                    if (torrent.infoHash) {
+                        torrent.remove(torrent.infoHash);
+                        torrent.add(torrent.infoHash);
+                    } else {
+                        win.error('Torrent fatal error', error);
+                        this.stop();
+                        reject(error);
                     }
-                }.bind(this));
-
-                this.torrent.on('upload', function () {
-                    if (this.torrentModel) {
-                        this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
-                        this.torrentModel.set('active_peers', this.torrent.numPeers);
-                        this.torrentModel.set('total_peers', this.torrent.numPeers);
-                    }
-                }.bind(this));
-
-                this.torrent.on('error', function (error) {
-                     if (this.torrent.infoHash) {
-                     this.torrent.remove(this.torrent.infoHash);
-                     this.torrent.add(this.torrent.infoHash);
-                   } else {
-                     win.error('Torrent fatal error', error);
-                     this.stop();
-                     reject(error);
-                   }
-
                 }.bind(this));
 
                 App.WebTorrent.on('error', function (error) {
@@ -230,9 +312,37 @@
             }.bind(this));
         },
 
+        linkTransferStatus: function () {
+            this.torrent.on('download', function () {
+                if (this.torrentModel) {
+                    this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
+                    this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
+                    this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
+                    this.torrentModel.set('downloadedPercent', (this.torrent.progress * 100) || 0);
+                    this.torrentModel.set('active_peers', this.torrent.numPeers);
+                    this.torrentModel.set('time_left', (this.torrent.timeRemaining));
+                }
+            }.bind(this));
+
+            this.torrent.on('upload', function () {
+                if (this.torrentModel) {
+                    this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
+                    this.torrentModel.set('active_peers', this.torrent.numPeers);
+                }
+            }.bind(this));
+        },
+
         // present the user with file selector
         openFileSelector: function (torrent) {
             var supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
+
+            try {
+                torrent.files.sort(function(a, b){
+                    if (a.name < b.name) { return -1; }
+                    if (a.name > b.name) { return 1; }
+                    return 0;
+                });
+            } catch (err) {}
 
             // hide non-video files from selection and set index
             for (var f in torrent.files) {
@@ -254,8 +364,10 @@
                 tvdb: metadatas.type === 'movie' ? false : metadatas.show.ids.tvdb,
                 tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
             }).then(function (img) {
-                this.torrentModel.set('backdrop', img.background);
-                this.torrentModel.set('poster', img.poster);
+                if (this.torrentModel) {
+                    this.torrentModel.set('backdrop', img.background);
+                    this.torrentModel.set('poster', img.poster);
+                }
             }.bind(this));
         },
 
@@ -266,6 +378,10 @@
             }
 
             var fileName = this.torrentModel.get('video_file').name;
+
+            if (this.torrentModel) {
+                this.torrentModel.set('title', fileName); 
+            }
 
             App.Trakt.client.matcher.match({
                 filename: fileName,
@@ -298,69 +414,66 @@
                         throw 'trakt.matcher.match failed';
                 }
 
-                this.torrentModel.set(props);
+                if (this.torrentModel) {
+                    this.torrentModel.set(props);
+                }
                 this.lookForImages(metadatas);
                 this.handleSubtitles();
 
             }.bind(this)).catch(function(err) {
-                win.error('An error occured while trying to get metadata', err);
-                this.torrentModel.set('title', fileName);
+                if (this.torrentModel) {
+                    this.torrentModel.set('title', fileName);
+                }
                 this.handleSubtitles();
             }.bind(this));
+            setTimeout(() => { if (!this.subtitleReady) { this.handleSubtitles(); }}, 20000);
         },
 
         // set video file name & index
-        selectFile: function (torrent) {
-            var fileIndex = parseInt(this.torrentModel.get('file_index'));
-            var fileSize = 0;
-
-            // set fileSize
-            if (!fileIndex && parseInt(fileIndex) !== 0) {
-                // if no fileIndex set, get the largest
-                fileIndex = 0;
-                for (var i in torrent.files) {
+        selectFile: function (torrent, fileName) {
+            let fileIndex = 0;
+            let fileSize = 0;
+            if (!fileName) {
+                for (let i in torrent.files) {
                     if (fileSize < torrent.files[i].length) {
                         fileSize = torrent.files[i].length;
-                        fileIndex = i;
+                        fileName = torrent.files[i].path;
                     }
                 }
-            } else {
-                // else use the correct size
-                fileSize = torrent.files[fileIndex].length;
             }
 
-            // deselect files, webtorrent api
-            // as of november 2016, need to remove all torrent,
-            //  then add wanted file, it's a bug: https://github.com/feross/webtorrent/issues/164
-            torrent.deselect(0, torrent.pieces.length - 1, false); // Remove default selection (whole torrent)
             for (var f in torrent.files) { // Add selection
                 var file = torrent.files[f];
-                if (parseInt(f) === parseInt(fileIndex)) {
+                // we use endsWith, not equals because from server may return without first directory
+                if (file.path.endsWith(fileName)) {
+                    fileIndex = f;
+                    fileSize = file.length;
                     file.select();
                 } else {
-                    file.deselect();
+                //    file.deselect();
                 }
             }
 
-            this.torrentModel.set('video_file', {
+            return {
                 name: path.basename(torrent.files[fileIndex].path),
                 size: fileSize,
                 index: fileIndex,
                 path: path.join(torrent.path, torrent.files[fileIndex].path)
-            });
+            };
         },
 
         // determine if the torrent is already formatted or if we need to use the file selector
         handleTorrent: function (torrent) {
             var isFormatted = Boolean(this.torrentModel.get('title')); // was formatted (from Details)
             var isRead = Boolean(this.torrentModel.get('torrent_read')); // comes from file selector
+            let fileName = this.torrentModel.get('file_name');
 
             if (isFormatted) {
-                this.selectFile(torrent);
+                this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
                 this.handleSubtitles();
             } else {
                 if (isRead) {
-                    this.selectFile(torrent);
+                    this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
                     this.lookForMetadata(torrent);
                 } else {
                     this.openFileSelector(torrent);
@@ -402,7 +515,6 @@
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
             this.streamInfo.updateInfos();
             this.torrentModel.on('change', this.streamInfo.updateInfos.bind(this.streamInfo));
-            return App.vent.trigger('stream:started', this.stateModel);
         },
 
         // dummy element to fire stream:start
@@ -445,6 +557,7 @@
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
+            App.vent.trigger('stream:started', this.stateModel);
         },
 
         watchState: function () {
@@ -477,7 +590,7 @@
                 }
             }
 
-            if (state === 'ready' && !this.subtitleReady) {
+            if ((state === 'ready' || state === 'playingExternally') && !this.subtitleReady) {
                 state = 'waitingForSubtitles'; // can be played but subs aren't there yet
             }
             this.stateModel.set('state', state);
@@ -487,6 +600,19 @@
                 this.stateModel.destroy();
             } else {
                 _.delay(this.watchState.bind(this), 100);
+            }
+        },
+
+        saveCoverToFile: function () {
+            if (this.torrentModel && this.torrentModel.get('type') === 'movie' && this.torrentModel.get('cover') && this.torrentModel.get('torrent').name) {
+                const request = require('request');
+                let url = this.torrentModel.get('cover');
+                request({ url, encoding: null }, (err, resp, buffer) => {
+                    if (err || buffer.length < 1000) {
+                        return;
+                    }
+                    fs.writeFileSync(path.join(App.settings.tmpLocation, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                });
             }
         },
 
@@ -501,8 +627,9 @@
 
             win.info(total + ' subtitles found');
 
-
-            this.torrentModel.set('subtitle', subtitles);
+            if (this.torrentModel) {
+                this.torrentModel.set('subtitle', subtitles);
+            }
 
             if (defaultSubtitle !== 'none') {
                 if (total === 0) {
@@ -534,16 +661,13 @@
                                         type: 'error',
                                         autoclose: true
                                     }));
-                                    // if 0 subtitles found code will not stuck at 'waiting for subtitle'
-                                    this.subtitleReady = true;
                                 } else {
                                     App.SubtitlesServer.start(res);
                                     this.subtitleReady = true;
                                     this.streamInfo.set('subServer', 'http://127.0.0.1/data.vtt');
                                 }
                             }.bind(this));
-                        }
-                        else {
+                        } else {
                             this.subtitleReady = true;
                         }
 
@@ -601,13 +725,14 @@
                     subtitle_retry++;
                     if (subtitle_retry<5) {
                         console.log('subtitle fetching error. retry: ' + subtitle_retry + ' of 4');
-                    	this.subtitleReady = false;
-                    	this.handleSubtitles(subtitle_retry);
+                        this.subtitleReady = false;
+                        this.handleSubtitles(subtitle_retry);
                     } else {
-	                   this.subtitleReady = true;
+                        this.subtitleReady = true;
                     }
                 }.bind(this));
 
+            setTimeout(() => { if (!this.subtitleReady) { this.subtitleReady = true; }}, 20000);
             return;
         },
 
@@ -654,6 +779,7 @@
     App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:stopFS', streamer.stopFS.bind(streamer));
     App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 })(window.App);

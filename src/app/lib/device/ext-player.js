@@ -12,12 +12,20 @@
             subswitch: '--sub-file=',
             fs: '-f',
             stop: 'vlc://quit',
-            pause: 'vlc://pause'
+            pause: 'vlc://pause',
+            filenameswitch: '--meta-title='
         },
         'Fleex player': {
             type: 'fleex-player',
             cmd: '/Contents/MacOS/Fleex player',
             filenameswitch: '-file-name '
+        },
+        'MPlayer': {
+            type: 'mplayer',
+            cmd: 'mplayer',
+            switches: '--really-quiet',
+            subswitch: '-sub ',
+            fs: '-fs',
         },
         'MPlayerX': {
             type: 'mplayer',
@@ -35,23 +43,29 @@
             fs: '-fs',
         },
         'IINA': {
-            type: 'mpv',
+            type: 'iina',
             cmd: '/Contents/MacOS/iina-cli',
             subswitch: '--mpv-sub-file=',
             fs: '--mpv-fs',
         },
-        'mplayer': {
-            type: 'mplayer',
-            cmd: 'mplayer',
-            switches: '--really-quiet',
-            subswitch: '-sub ',
-            fs: '-fs',
+        'Bomi': {
+            type: 'bomi',
+            switches: '',
+            subswitch: '--set-subtitle ',
+            fs: '--action window/enter-fs'
         },
         'mpv': {
             type: 'mpv',
             switches: '--no-terminal',
             subswitch: '--sub-file=',
             fs: '--fs'
+        },
+        'mpvnet': {
+            type: 'mpvnet',
+            switches: '--no-terminal',
+            subswitch: '--sub-files=',
+            fs: '-fs',
+            filenameswitch: '--force-media-title='
         },
         'MPC-HC': {
             type: 'mpc-hc',
@@ -85,13 +99,20 @@
             stop: 'smplayer -send-action quit',
             pause: 'smplayer -send-action pause'
         },
-        'Bomi': {
-            type: 'bomi',
+        'BSPlayer': {
+            type: 'bsplayer',
             switches: '',
-            subswitch: '--set-subtitle ',
-            fs: '--action window/enter-fs'
+            subswitch: '',
+            fs: '-fs'
+        },
+        'PotPlayerMini64': {
+            type: 'potplayer',
+            switches: '',
+            subswitch: '/sub='
         }
     };
+
+    extPlayerlst = Object.getOwnPropertyNames(players).join(', ').replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '').replace('Extended', 'Ext.').replace('mpvnet', 'mpv.net').replace(/,([^,]*)$/, ' & $1');
 
     function getPlayerName(loc) {
         return path.basename(loc).replace(path.extname(loc), '');
@@ -135,11 +156,13 @@
 
         play: function (streamModel) {
             // "" So it behaves when spaces in path
+            var cmd = '', cmdPath = '', cmdSwitch = '', cmdSub = '', cmdFs = '', cmdFilename = '', cmdUrl = '';
             var url = streamModel.attributes.src;
-            var cmd = path.normalize('"' + this.get('path') + '" ') + getPlayerSwitches(this.get('id')) + ' ';
+            cmdPath += path.normalize('"' + this.get('path') + '" ');
+            cmdSwitch += getPlayerSwitches(this.get('id')) + ' ';
+
             var subtitle = streamModel.attributes.subFile || '';
             if (subtitle !== '') {
-
                 if (this.get('id') === 'MPlayer OSX Extended') {
                     //detect charset
                     var dataBuff = fs.readFileSync(subtitle);
@@ -147,25 +170,28 @@
                     var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
                     win.debug('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
-                        cmd += '-utf8 ';
+                        cmdSub += '-utf8 ';
                     }
                 }
-                cmd += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
+                cmdSub += getPlayerSubSwitch(this.get('id')) + '"' + subtitle + '" ';
             }
             if (getPlayerFS(this.get('id')) !== '') {
                 // Start player fullscreen if available and asked
                 if (Settings.alwaysFullscreen) {
-                    cmd += getPlayerFS(this.get('id')) + ' ';
+                    cmdFs += getPlayerFS(this.get('id')) + ' ';
                 }
             }
             if (getPlayerFilenameSwitch(this.get('id')) !== '') {
-                // The video file is the biggest file in the torrent
-                var videoFile = _.sortBy(streamModel.attributes.torrent.info.files, function (file) {
-                    return -file.length;
-                })[0];
-                cmd += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
+                var videoFile = streamModel.attributes.torrentModel.get('video_file');
+                cmdFilename += videoFile ? (getPlayerFilenameSwitch(this.get('id')) + '"' + videoFile.name + '" ') : '';
             }
-            cmd += getPlayerUrlSwitch(this.get('id')) + url;
+            cmdUrl += getPlayerUrlSwitch(this.get('id')) + url;
+            // BSPlayer need to receive arguments in specific order (1st: url, 2nd: sub, ...)
+            if (this.get('id') === 'BSPlayer') {
+                cmd += cmdPath + '"' + cmdUrl + '" ' + cmdSub + cmdFs + cmdSwitch;
+            } else {
+                cmd += cmdPath + cmdSwitch + cmdSub + cmdFs + cmdFilename + cmdUrl;
+            }
             win.info('Launching External Player: ' + cmd);
             child.exec(cmd, function (error, stdout, stderr) {
                 if (streamModel.attributes.device.id === 'Bomi') {

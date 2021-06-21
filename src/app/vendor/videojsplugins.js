@@ -171,8 +171,8 @@ videojs.plugin('progressTips', function (options) {
 		}*/
         player = this;
         $('.vjs-progress-control').prepend($('<div id="vjs-tip">  <div id="vjs-tip-arrow"></div>  <div id="vjs-tip-inner"></div>  </div>'));
-        $('#vjs-tip').css('top', '-30px');
-        $('.vjs-progress-control .vjs-slider').on('mousemove', function (event) {
+        $('#vjs-tip').css('top', '-25px');
+        $('.vjs-progress-control').on('mousemove', function (event) {
             var time, hours, minutes, seconds, seekBar, timeInSeconds;
             seekBar = player.controlBar.progressControl.seekBar;
             timeInSeconds = seekBar.calculateDistance(event) * seekBar.player_.duration();

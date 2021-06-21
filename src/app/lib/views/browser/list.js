@@ -1,8 +1,8 @@
 (function (App) {
     'use strict';
 
-    var SCROLL_MORE = 0.7; // 70% of window height
     var NUM_MOVIES_IN_ROW = 7;
+    var filterBarElem;
     var _this;
 
     function elementInViewport(container, element) {
@@ -25,6 +25,7 @@
         template: '#movie-error-tpl',
         ui: {
             retryButton: '.retry-button',
+            changeApi: '.change-api',
             onlineSearch: '.online-search'
         },
         onBeforeRender: function () {
@@ -36,16 +37,41 @@
                 case 'movies':
                 case 'shows':
                 case 'anime':
-                    this.ui.onlineSearch.css('visibility', 'visible');
-                    this.ui.retryButton.css('visibility', 'visible');
+                    if (Settings.torColSearchMore) {
+                        this.ui.onlineSearch.css('visibility', 'visible');
+                        this.ui.retryButton.css('visibility', 'visible');
+                        this.ui.changeApi.css('visibility', 'visible');
+                    } else {
+                        this.ui.onlineSearch.css('display', 'none');
+                        this.ui.retryButton.css('visibility', 'visible');
+                        this.ui.changeApi.css('visibility', 'visible');
+                    }
+                    this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 case 'Watchlist':
+                    this.ui.onlineSearch.css('display', 'none');
                     this.ui.retryButton.css('visibility', 'visible');
-                    this.ui.retryButton.css('margin-left', 'calc(50% - 100px)');
+                    this.ui.changeApi.css('display', 'none');
+                    this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
+                    break;
+                default:
+                }
+            } else if (this.show_online_search) {
+                switch (App.currentview) {
+                case 'movies':
+                case 'shows':
+                case 'anime':
+                    if (Settings.torColSearchMore) {
+                        this.ui.onlineSearch.css('visibility', 'visible');
+                        this.ui.retryButton.css('display', 'none');
+                        this.ui.changeApi.css('display', 'none');
+                        this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
+                    }
                     break;
                 default:
                 }
             }
+
         }
     });
 
@@ -79,12 +105,28 @@
             case 'shows':
             case 'anime':
                 if (this.collection.state === 'error') {
+                    var errorURL;
+                    switch (App.currentview) {
+                    case 'movies':
+                        errorURL = App.Config.getProviderForType('movie')[0].apiURL[0];
+                        break;
+                    case 'shows':
+                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL[0];
+                        break;
+                    case 'anime':
+                        errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
+                        break;
+                    default:
+                        errorURL = '';
+                    }
+                    var dspURL = errorURL.slice(-1) === '/' ? errorURL.replace(/http:\/\/|https:\/\//g, '').slice(0, -1) : errorURL.replace(/http:\/\/|https:\/\//g, '');
                     return ErrorView.extend({
                         retry: true,
-                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + Settings.statusUrl + '">' + Settings.statusUrl + '</a>')
+                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + errorURL + '">' + dspURL + '</a>')
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
+                        show_online_search: this.collection.filter.keywords ? true : false,
                         error: i18n.__('No ' + App.currentview + ' found...')
                     });
                 }
@@ -122,13 +164,29 @@
             this.listenTo(this.collection, 'loading', this.onLoading);
             this.listenTo(this.collection, 'loaded', this.onLoaded);
 
+            filterBarElem = _.pluck(App.Config.getTabTypes(), 'name');
+            filterBarElem = filterBarElem.map(v => v.toLowerCase());
+            for (var i = 0; i < filterBarElem.length; i++) {
+                if (filterBarElem[i] === 'series') {
+                    filterBarElem[i] = 'shows';
+                }
+            }
+            filterBarElem.push('Favorites');
 
             _this.initKeyboardShortcuts();
 
             _this.initPosterResizeKeys();
+
+            App.vent.on('viewstack:pop', function() {
+                if (_.last(App.ViewStack) === 'init-container' || _.last(App.ViewStack) === 'main-browser') {
+                    _this.initKeyboardShortcuts();
+                }
+            });
         },
 
         initKeyboardShortcuts: function () {
+            var searchInput = $('.search input');
+
             Mousetrap.bind('up', _this.moveUp);
 
             Mousetrap.bind('down', _this.moveDown);
@@ -146,77 +204,72 @@
             Mousetrap.bind(['ctrl+f', 'command+f'], _this.focusSearch, 'keydown');
 
             Mousetrap(document.querySelector('input')).bind(['ctrl+f', 'command+f', 'esc'], function (e, combo) {
-                $('.search input').blur();
+                searchInput.blur();
             }, 'keydown');
 
             Mousetrap.bind(['tab', 'shift+tab'], function (e, combo) {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
-                    if (combo === 'tab') {
-                        switch (App.currentview) {
-                        case 'movies':
-                            App.currentview = 'shows';
-                            break;
-                        case 'shows':
-                            App.currentview = 'anime';
-                            break;
-                        default:
-                            App.currentview = 'movies';
-                        }
-                    } else if (combo === 'shift+tab') {
-                        switch (App.currentview) {
-                        case 'movies':
-                            App.currentview = 'anime';
-                            break;
-                        case 'anime':
-                            App.currentview = 'shows';
-                            break;
-                        default:
-                            App.currentview = 'movies';
-                        }
-                    }
-
+                    var filterBarPos = filterBarElem.indexOf(App.currentview);
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
-                    App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');
-                    $('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
+                    if (combo === 'tab') {
+                        if (filterBarPos >= ($(filterBarElem).toArray().length - 1)) {
+                            filterBarPos = 0;
+                        } else {
+                            ++filterBarPos;
+                        }
+                    } else if (combo === 'shift+tab') {
+                        if (filterBarPos <= 0) {
+                            filterBarPos = ($(filterBarElem).toArray().length - 1);
+                        } else {
+                            --filterBarPos;
+                        }
+                    }
+                    App.currentview = filterBarElem[filterBarPos];
+                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'movies') {
+                        $('.source.movieTabShow').addClass('active');
+                    } else if (App.currentview === 'shows') {
+                            $('.source.tvshowTabShow').addClass('active');
+                    } else if (App.currentview === 'Favorites') {
+                            $('#filterbar-favorites').addClass('active');
+                    } else {
+                            $('.source.' + App.currentview + 'TabShow').addClass('active');
+                    }
                 }
             });
 
-            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3'], function (e, combo) {
-                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
-                    switch (combo) {
-                    case 'ctrl+1':
-                        App.currentview = 'movies';
-                        break;
-                    case 'ctrl+2':
-                        App.currentview = 'shows';
-                        break;
-                    case 'ctrl+3':
-                        App.currentview = 'anime';
-                        break;
-                    }
-
+            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4'], function (e, combo) {
+                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0 && combo.charAt(5) <= $(filterBarElem).toArray().length && App.currentview !== filterBarElem[combo.charAt(5) - 1]) {
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
-                    App.vent.trigger(App.currentview + ':list', []);
                     $('.filter-bar').find('.active').removeClass('active');
-                    $('.source.show' + App.currentview.charAt(0).toUpperCase() + App.currentview.slice(1)).addClass('active');
+                    App.currentview = filterBarElem[combo.charAt(5) - 1];
+                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'movies') {
+                        $('.source.movieTabShow').addClass('active');
+                    } else if (App.currentview === 'shows') {
+                        $('.source.tvshowTabShow').addClass('active');
+                    } else if (App.currentview === 'Favorites') {
+                        $('#filterbar-favorites').addClass('active');
+                    } else {
+                        $('.source.' + App.currentview + 'TabShow').addClass('active');
+                    }
                 }
             });
 
             Mousetrap.bind(['`', 'b'], function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0) {
-                    $('.favorites').click();
+                    $('#filterbar-favorites').click();
                 }
             }, 'keydown');
 
             Mousetrap.bind('i', function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    $('.about').click();
+                    $('#filterbar-about').click();
                 }
             }, 'keydown');
-
         },
 
         initPosterResizeKeys: function () {
@@ -316,9 +369,10 @@
             case 'shows':
             case 'anime':
                 $('#load-more-item').remove();
+                $('#search-more-item').remove();
                 // we add a load more
-                if (this.collection.hasMore && !this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
-                    $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div></div>');
+                if (this.collection.hasMore && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length >= maxResults) {
+                    $('.items').append('<div id="load-more-item" class="load-more"><span class="status-loadmore">' + i18n.__('Load More') + '</span><div id="loading-more-animi" class="loading-container"><div class="ball"></div><div class="ball1"></div></div><span id="overlay"></span></div>');
 
                     $('#load-more-item').click(function () {
                         $('#load-more-item').off('click');
@@ -327,6 +381,10 @@
 
                     $('#loading-more-animi').hide();
                     $('.status-loadmore').show();
+                }
+                if (Settings.torColSearchMore && this.collection.hasMore && this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length < maxResults) {
+                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-globe-americas fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__('Search on %s', 'Torrent Collection') + '</span><span id="overlay"></span></div>');
+                    $('.status-searchmore').show();
                 }
                 break;
 
@@ -340,9 +398,12 @@
         },
 
         AddGhostsToBottomRow: function () {
+            var items = $('.items');
+            var item = $('.items .item:not(.ghost)');
+
             $('.ghost').remove();
-            var listWidth = $('.items').width();
-            var itemWidth = $('.items .item').width() + (2 * parseInt($('.items .item').css('margin')));
+            var listWidth = items.width();
+            var itemWidth = item.width() + (2 * parseInt(item.css('margin')));
             var itemsPerRow = parseInt(listWidth / itemWidth);
             /* in case we .hide() items at some point:
             var visibleItems = 0;
@@ -352,23 +413,22 @@
             });
             var itemsInLastRow = visibleItems % itemsPerRow;*/
             NUM_MOVIES_IN_ROW = itemsPerRow;
-            var itemsInLastRow = $('.items .item').length % itemsPerRow;
+            var itemsInLastRow = item.length % itemsPerRow;
             var ghostsToAdd = itemsPerRow - itemsInLastRow;
             while (ghostsToAdd > 0) {
                 $('.items').append($('<li/>').addClass('item ghost'));
                 ghostsToAdd--;
             }
         },
+
         onScroll: function () {
             if (!this.collection.hasMore) {
                 return;
             }
 
-            var totalHeight = this.$el.prop('scrollHeight');
-            var currentPosition = this.$el.scrollTop() + this.$el.height();
+            var viewsToBottom = (this.$el.prop('scrollHeight') - this.$el.scrollTop()) / this.$el.height();
 
-            if (this.collection.state === 'loaded' &&
-                (currentPosition / totalHeight) > SCROLL_MORE) {
+            if (this.collection.state === 'loaded' && viewsToBottom < 3) {
                 this.collection.fetchMore();
             }
         },
@@ -422,15 +482,23 @@
         },
 
         selectIndex: function (index) {
-            if ($('.items .item').eq(index).length === 0 || $('.items .item').eq(index).children().length === 0) {
+            var item = $('.items .item');
+            var itemSelected = $('.item.selected');
+
+            if (item.eq(index).length === 0 || item.eq(index).children().length === 0) {
                 return;
             }
-            $('.item.selected').removeClass('selected');
-            $('.items .item').eq(index).addClass('selected');
+            itemSelected.removeClass('selected');
+            item.eq(index).addClass('selected');
 
-            var $movieEl = $('.item.selected')[0];
+            var $movieEl = item[index];
             if (!elementInViewport(this.$el, $movieEl)) {
-                $movieEl.scrollIntoView(false);
+                if (itemSelected.index() > index) {
+                    $movieEl.scrollIntoView(true);
+                    document.getElementsByClassName('list')[0].scrollTop -= 75;
+                } else if (itemSelected.index() < index) {
+                    $movieEl.scrollIntoView(false);
+                }
                 this.onScroll();
             }
         },
@@ -508,13 +576,15 @@
     function onMoviesWatched(movie, channel) {
         if  (channel === 'database') {
             try {
+                var el = $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]');
+
                 switch (Settings.watchedCovers) {
                     case 'fade':
                         $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"] .actions-watched').addClass('selected');
-                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').addClass('watched');
+                        el.addClass('watched');
                         break;
                     case 'hide':
-                        $('li[data-imdb-id="' + App.MovieDetailView.model.get('imdb_id') + '"]').remove();
+                        el.remove();
                         break;
                 }
                 $('.watched-toggle').addClass('selected').text(i18n.__('Seen'));

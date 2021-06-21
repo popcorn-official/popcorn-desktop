@@ -172,8 +172,8 @@
         var params = {
             page: filters.page
         };
-        if (filters.type === 'TV') {
-            params.type = 'tvshow';
+        if (filters.type === 'Series') {
+            params.type = 'show';
         }
         if (filters.type === 'Movies') {
             params.type = 'movie';

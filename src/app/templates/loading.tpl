@@ -1,11 +1,25 @@
 <div class="loading">
-  <div class="loading-backdrop"></div>
+  <div class="loading-backdrop" <% try { %> style="background-image:url( <%= backdrop %> )" <% }catch(err) {} %>></div>
   <div class="loading-backdrop-overlay"></div>
+  <div class="fa fa-angle-down minimize-icon tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Minimize") %>"></div>
+  <div class="maximize-icon">
+      <span class="buffer_percent"></span>
+      <span class="fa fa-play"></span>
+      <span class="title"></span>
+      <span id="maxdllb">@ </span>
+      <span class="download_speed value" id="maxdl"></span>
+      <span class="fa fa-angle-up tooltipped" id="maxic" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Restore") %>"></span>
+  </div>
 
     <div class="state-flex">
         <div class="state">
-            <div class="title"></div>
-            <div class="external-play" style="visibility:hidden"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
+            <div class="title tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></div>
+            <div class="external-play"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
+
+            <!-- loading bar -->
+            <div class="loading-progressbar">
+                <div id="loadingbar-contents"></div>
+            </div>
 
             <!-- download -->
             <div class="text_download"><%= i18n.__(state) %></div>
@@ -41,62 +55,48 @@
                     </div>
                 </div>
 
-                <div id="cancel-button-vpn" class="cancel-button">
-                    <div class="cancel-button-text"><%= i18n.__("Cancel and use VPN") %></div>
-                </div>
-
                 <div id="cancel-button-regular" class="cancel-button">
                       <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
                 </div>
 
-            </div>
-
-            <div class="seed_status" style="visibility:hidden">
-                <!-- loading bar -->
-                <div class="loading-progressbar">
-                    <div id="loadingbar-contents"></div>
+                <div id="cancel-button-vpn" class="cancel-button">
+                    <div class="cancel-button-text"><%= i18n.__("Cancel and use VPN") %></div>
                 </div>
 
+            </div>
+
+            <div class="seed_status">
                 <!-- downloading info -->
                 <div class="loading-info">
-                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"><%= Common.fileSize(0) %></span><span class="text_size"><%= Common.fileSize(0) %></span><span class="text">)</span><br>
-                    <span class="text_remaining"></span><span id="rbreak1" style="line-height:13px;"><br></span><br>
+                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"></span><span class="text_size"></span><span class="text">)</span><br>
+                    <span class="text_remaining"></span><span id="rbreak1"><br></span><br>
                     <span class="loading-info-text" id="rdownl"><%= i18n.__("Download") %>:&nbsp;</span>
-                    <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><span id="rbreak2" style="line-height:13px;"><br></span>
+                    <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><span id="rbreak2"><br></span>
                     <span class="loading-info-text"><%= i18n.__("Upload") %>:&nbsp;</span>
                     <span class="upload_speed value"><%= Common.fileSize(0) %>/s</span><br>
                     <span class="loading-info-text" id="ractpr"><%= i18n.__("Active Peers") %>:&nbsp;</span>
-                    <span class="value_peers value">0</span><span id="rbreak3" style="line-height:13px;"><br></span>
+                    <span class="value_peers value">0</span><span id="rbreak3"><br></span>
+                    <span class="loading-info-text"><%= i18n.__("Filename") %>:&nbsp;</span>
+                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span>
+                    <span class="text_filename value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
                     <span class="text_streamurl value tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
-                    <div class="fa fa-angle-down show-pcontrols tooltipped" style="float:right;cursor:pointer;opacity:0.5;" "data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
-                    <div class="player-controls" style="display:none;">
+                    <div class="fa fa-angle-down show-pcontrols tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
+                    <div class="player-controls">
                         <i class="fa fa-backward backward"></i>
                         <i class="fa fa-pause pause"></i>
                         <i class="fa fa-stop stop"></i>
                         <i class="fa fa-forward forward"></i>
                     </div>
-                    <div class="playing-progressbar" style="display:none;">
+                    <div class="playing-progressbar">
                         <div id="playingbar-contents"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="player-controls" style="visibility:hidden">
-                <i class="fa fa-backward backward"></i>
-                <i class="fa fa-pause pause"></i>
-                <i class="fa fa-stop stop"></i>
-                <i class="fa fa-forward forward"></i>
-            </div>
-
-            <div class="playing-progressbar" style="visibility:hidden">
-                <div id="playingbar-contents"></div>
-            </div>
-
             <div id="cancel-button" class="cancel-button">
                 <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
             </div>
-
         </div>
     </div>
     <div class="warning-nospace">

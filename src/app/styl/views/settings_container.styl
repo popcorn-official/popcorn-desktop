@@ -8,6 +8,7 @@
     padding-top: $TitleHeight + 10px
     &::-webkit-scrollbar-track
         margin-top: $TitleHeight
+        margin-bottom 5px
 
     .settings-container
         z-index 1
@@ -66,8 +67,22 @@
                         color $SettingsText2
                         font-size 12px
 
+                    #downloadsDir,
+                    #protocolEnc
+                        &:hover + em
+                            opacity 1
+
+                        + em
+                            padding-left 14px
+                            cursor default
+                            opacity 0
+                            transition opacity 200ms ease
+
+                            &:hover
+                                opacity 0
+
             /* overlay styles, all needed */
-        #qrcode-overlay
+        .modal-overlay
             display none
             position fixed
             top 0
@@ -77,18 +92,20 @@
             background-color rgba(0,0,0,0.5)
             z-index 99998
 
-        #qrcode-modal
+        .modal-content
             display none
             position fixed
+            width 360px
             top 35%
-            left 40%
-            background-color #fff
+            left 50%
+            margin-left -180px
+            background-color $BgColor2
             -webkit-border-radius 5px
             border-radius 5px
-            border 1px solid #000
-            padding 30px 10px 0px
+            border 1px solid $BgColor2
+            padding 20px 20px 15px
             z-index 99999 /* 1px higher than the overlay layer */
-            #qrcode-close
+            .modal-close
                 color #000
                 cursor pointer
                 position absolute
@@ -102,7 +119,12 @@
 
 
             #qrcode
-                margin-bottom 10px
+                margin 0 59px 3px
+                background-color #fff
+                border-radius 5px
+
+        .poster_size > select
+            width 62px
 
         #title
             .title
@@ -133,7 +155,9 @@
             .subtitles-language > select,
             .pct-theme > select,
             .start-screen > select,
-            .watchedCovers > select
+            .watchedCovers > select,
+            .defaultFilters > select,
+            .tv_detail_jump_to > select
                 width 158px
 
         #subtitles
@@ -143,7 +167,7 @@
                 width 158px
 
             .subtitles-size > select
-                width 67px
+                width 62px
 
             .subtitles-custom > .settings-label
                 margin-left 40px
@@ -256,8 +280,6 @@
                         position relative
                         top 2px
 
-                #authOpensubtitles
-                    margin-top: -8px;
 
         #connection
             #overallRatio
@@ -271,30 +293,49 @@
             .reset-tvAPI
                 font-size: 13px
                 color: $SettingsText2
-                transition: all .5s;
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
 
         #cache
-            .open-tmp-folder
+            .open-tmp-folder,
+            .open-downloads-folder
                 font-size: 16px
-                margin-left: 10px;
-                transition: all .5s;
+                margin-left: 10px
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
+
+            .del-seedbox-cache > select
+                width: 158px
+
         #database
             .open-database-folder
                 font-size: 16px
-                margin-left: 10px;
-                transition: all .5s;
+                margin-left: 10px
+                transition: all .5s
                 &:hover
-                    cursor: pointer;
-                    color: $ButtonBgActive;
-                    transition: all .5s;
+                    cursor: pointer
+                    color: $ButtonBgActive
+                    transition: all .5s
+
+        .set-current-filter,
+        .reset-current-filter
+            font-size: 13px
+            margin-left: 10px
+            transition: all 0.5s
+            cursor: pointer
+            &:hover
+                color: $ButtonBgActive
+
+        .reset-current-filter.disabled
+            color: inherit
+            opacity: 0.3
+            cursor: default
 
         .btns
             padding-top 10px
@@ -322,6 +363,8 @@
             line-height 34px
             cursor pointer
             transition background-color .5s
+            &> label
+                cursor pointer
             &.database
                 margin-top: 0
             &:hover
@@ -426,17 +469,17 @@
 
         &#fakedatabaseLocation
             pointer-events: none
-            -webkit-user-select: none;
+            -webkit-user-select: none
 
         &#fakedatabaseLocation,&#settingsIpAddr
             pointer-events: none
-            -webkit-user-select: none;
+            -webkit-user-select: none
 
     input[type='color']
         -webkit-appearance: none
-        width 67px
+        width 62px
     input[type='color']::-webkit-color-swatch
-        margin: 3px -9px 3px -3px;
+        margin: 3px -9px 3px -3px
 
     input[type='number']::-webkit-inner-spin-button
         -webkit-appearance: none
@@ -444,52 +487,51 @@
 
     input[type=checkbox]
         &.settings-checkbox
-            position: absolute;
-            overflow: hidden;
-            clip: rect(0 0 0 0);
-            height:1px;
-            width:1px;
-            margin:-1px;
-            padding:0;
-            border:0;
+            position: absolute
+            overflow: hidden
+            clip: rect(0 0 0 0)
+            height:1px
+            width:1px
+            margin:-1px
+            padding:0
+            border:0
 
         &.settings-checkbox+label.settings-label
-            height:15px;
-            display:inline-block;
-            line-height:15px;
-            font-size:13px;
-            font-family: $Font, $AlternateFont;
-            vertical-align:middle;
-            cursor:pointer;
+            height:15px
+            display:inline-block
+            line-height:15px
+            font-size:13px
+            font-family: $Font, $AlternateFont
+            vertical-align:middle
+            cursor:pointer
             color:$SettingsText1
 
         &.settings-checkbox:checked+label.settings-label
             &:after
-                opacity: 1;
+                opacity: 1
 
     .settings-label
         &:before
-            content: '\f0c8';
+            content: '\f0c8'
             font-family: "Font Awesome 5 Free"
             font-weight: 900
-            font-size: 18px;
-            padding-right: 8px;
+            font-size: 18px
+            padding-right: 8px
             float: left
-            position: relative;
-            color: $CheckboxBg;
+            position: relative
+            color: $CheckboxBg
         &:after
-            content: '\f00c';
+            content: '\f00c'
             font-family: "Font Awesome 5 Free"
             font-weight: 900
-            font-size: 12px;
-            margin-right: -14px;
-            color: $CheckboxCheck;
-            position: relative;
-            float: left;
-            left: -21px;
-            opacity: 0;
-            transition: opacity .1s ease-in-out;
-
+            font-size: 12px
+            margin-right: -14px
+            color: $CheckboxCheck
+            position: relative
+            float: left
+            left: -21px
+            opacity: 0
+            transition: opacity .1s ease-in-out
 
     .settings-container-check-settings
         width 14px
@@ -536,3 +578,11 @@
             display: none
     .advanced
         display: none
+
+.default-frame
+    .settings-container-contain
+            padding-top 0
+        &::-webkit-scrollbar-track
+            margin-top: $FilterBarHeight
+        .close-icon
+            top 5px

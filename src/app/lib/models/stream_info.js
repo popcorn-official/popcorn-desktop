@@ -42,8 +42,7 @@
         final_download_speed = Common.fileSize(download_speed) + '/s';
     }
 
-    var downloaded = torrent.files[torrentModel.get('video_file').index].downloaded || 0; // downloaded
-
+    var downloaded = torrent.files[torrentModel.get('video_file').index] ? torrent.files[torrentModel.get('video_file').index].downloaded || 0 : 0; // downloaded
 
     var final_downloaded = Common.fileSize(0);
     var final_downloaded_percent = 0;
@@ -67,7 +66,6 @@
         pieces: 0,
         downloaded: downloaded,
         active_peers: torrent.numPeers,
-        total_peers: torrent.numPeers,
         uploadSpeed: final_upload_speed,
         downloadSpeed: final_download_speed,
         downloadedFormatted: final_downloaded,

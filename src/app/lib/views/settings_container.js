@@ -3,6 +3,7 @@
     var clipboard = nw.Clipboard.get(),
         waitComplete,
         oldTmpLocation,
+        oldDownloadsLocation,
         that;
 
     var SettingsContainer = Marionette.View.extend({
@@ -12,7 +13,9 @@
         ui: {
             success_alert: '.success_alert',
             fakeTempDir: '#faketmpLocation',
-            tempDir: '#tmpLocation'
+            fakeDownloadsDir: '#fakedownloadsLocation',
+            tempDir: '#tmpLocation',
+            downloadsDir: '#downloadsLocation'
         },
 
         events: {
@@ -23,13 +26,17 @@
             'contextmenu input': 'rightclick_field',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
-            'click .flush-subtitles': 'flushAllSubtitles',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
+            'click #fakedownloadsLocation': 'showDownloadsDirectoryDialog',
             'click .default-settings': 'resetSettings',
             'click .open-tmp-folder': 'openTmpFolder',
+            'click .open-downloads-folder': 'openDownloadsFolder',
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
-            'click .import-database': 'importDatabase',
+            'click #importdatabase': 'importDatabase',
+            'change #import-watched, #import-bookmarks, #import-settings': 'checkImportSettings',
+            'click .import-db': 'openModal',
+            'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
             'click #connect-with-tvst': 'connectWithTvst',
@@ -38,10 +45,11 @@
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
+            'change #downloadsLocation': 'updateDownloadsDirectory',
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
-            'click #qrcode-overlay': 'closeModal',
-            'click #qrcode-close': 'closeModal'
+            'click .set-current-filter': 'saveFilter',
+            'click .reset-current-filter': 'resetFilter'
         },
 
         onAttach: function () {
@@ -60,8 +68,16 @@
                 }
             });
 
-            Mousetrap.bind('backspace', function (e) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('settings:close');
+            });
+
+            App.vent.on('viewstack:pop', function() {
+                if (_.last(App.ViewStack) === that.className) {
+                    Mousetrap.bind(['esc', 'backspace'], function (e) {
+                        App.vent.trigger('settings:close');
+                    });
+                }
             });
 
             // connect opensubs on enter
@@ -69,6 +85,10 @@
             osMousetrap.bind('enter', function (e) {
                 this.connectOpensubtitles();
             }.bind(this));
+
+            if (!Settings.filters) {
+                $('.reset-current-filter').addClass('disabled').attr('data-original-title', '');
+            }
         },
 
         onRender: function () {
@@ -76,6 +96,7 @@
                 $('.advanced').css('display', 'flex');
             }
             oldTmpLocation = $('#faketmpLocation').val();
+            oldDownloadsLocation = $('#fakedownloadsLocation').val();
         },
 
         rightclick_field: function (e) {
@@ -104,8 +125,7 @@
                 paste = new nw.MenuItem({
                     label: pasteLabel || 'Paste',
                     click: function () {
-                        var text = clipboard.get('text');
-                        $('#' + field).val(text);
+                        document.execCommand('paste');
                     }
                 });
 
@@ -117,7 +137,7 @@
         },
 
         onBeforeDestroy: function () {
-            Mousetrap.bind('backspace', function (e) {
+            Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('show:closeDetail');
                 App.vent.trigger('movie:closeDetail');
             });
@@ -160,13 +180,32 @@
                     pass: $('#httpApiPassword').val()
                 };
             $('#qrcode').qrcode({
+                'left': 5,
+                'top': 5,
+                'size': 190,
+                'background': '#fff',
                 'text': JSON.stringify(QRCodeInfo)
             });
             $('#qrcode-modal, #qrcode-overlay').fadeIn(500);
         },
 
-        closeModal: function () {
-            $('#qrcode-modal, #qrcode-overlay').fadeOut(500);
+
+        openModal: function (e) {
+            var el = $(e.currentTarget);
+
+            if (el[0].classList.contains('import-db')) {
+                $('#importdb-modal, #importdb-overlay').fadeIn(500);
+            }
+        },
+
+        closeModal: function (e) {
+            var el = $(e.currentTarget);
+
+            if (el.attr('id').startsWith('qrcode-')) {
+                $('#qrcode-modal, #qrcode-overlay').fadeOut(500);
+            } else if (el.attr('id').startsWith('importdb-') || el.attr('id') === 'importdatabase') {
+                $('#importdb-modal, #importdb-overlay').fadeOut(500);
+            }
         },
 
         showHelp: function () {
@@ -180,11 +219,28 @@
         saveSetting: function (e) {
             var value = false,
                 apiDataChanged = false,
+                apiServerChanged = false,
                 tmpLocationChanged = false,
+                downloadsLocationChanged = false,
                 field = $(e.currentTarget),
                 data = {};
 
             switch (field.attr('name')) {
+                case 'customMoviesServer':
+                case 'customSeriesServer':
+                case 'customAnimeServer':
+                    apiServerChanged = true;
+                    value = field.val().replace(/\s+/g, '');
+                    if (value && value.slice(-1) !== '/') {
+                        value = value + '/';
+                    }
+                    field.val(value);
+                    break;
+                case 'proxyServer':
+                    apiServerChanged = true;
+                    value = field.val().replace(/\s+/g, '');
+                    field.val(value);
+                    break;
                 case 'httpApiPort':
                     apiDataChanged = true;
                     value = parseInt(field.val());
@@ -206,7 +262,6 @@
                 case 'tv_detail_jump_to':
                 case 'subtitle_language':
                 case 'subtitle_decoration':
-                case 'movies_quality':
                 case 'subtitle_font':
                 case 'start_screen':
                     if ($('option:selected', field).val() === 'Last Open') {
@@ -214,8 +269,19 @@
                     }
                 /* falls through */
                 case 'watchedCovers':
+                case 'defaultFilters':
                 case 'theme':
+                case 'delSeedboxCache':
                     value = $('option:selected', field).val();
+                    break;
+                case 'poster_size':
+                    value = $('option:selected', field).val();
+                    App.db.writeSetting({
+                        key: 'postersWidth',
+                        value: value
+                    }).then(function () {
+                        App.vent.trigger('updatePostersSizeStylesheet');
+                    });
                     break;
                 case 'language':
                     value = $('option:selected', field).val();
@@ -223,9 +289,14 @@
                     break;
                 case 'moviesShowQuality':
                 case 'deleteTmpOnClose':
+                case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
+                case 'protocolEncryption':
                 case 'vpnEnabled':
                 case 'coversShowRating':
+                case 'torColSearchMore':
+                case 'showSeedboxOnDlInit':
+                case 'nativeWindowFrame':
                 case 'translateSynopsis':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
@@ -237,15 +308,16 @@
                 case 'events':
                 case 'alwaysFullscreen':
                 case 'minimizeToTray':
-                case 'bigPicture':
                 case 'activateTorrentCollection':
+                case 'activateSeedbox':
                 case 'activateWatchlist':
-                case 'activateRandomize':
+                case 'activateTempf':
                 case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
-                case 'rememberFilters':
-                case 'animeTabDisable':
-                case 'indieTabDisable':
+                case 'multipleExtSubtitles':
+                case 'moviesTabEnable':
+                case 'seriesTabEnable':
+                case 'animeTabEnable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -263,21 +335,49 @@
                 case 'maxActiveTorrents':
                     value = field.val();
                     break;
+                case 'bigPicture':
+                    var nvalue = field.val().replace(/[^0-9]/gi, '');
+                    if (nvalue === '') {
+                        nvalue = AdvSettings.get('bigPicture');
+                    } else if (nvalue < 25) {
+                        nvalue = 25;
+                    } else if (nvalue > 400) {
+                        nvalue = 400;
+                    }
+                    field.val(nvalue + '%');
+                    value = nvalue;
+                    win.zoomLevel = Math.log(value/100) / Math.log(1.2);
+                    break;
                 case 'tmpLocation':
                     tmpLocationChanged = true;
-                    value = path.join(field.val(), Settings.projectName);
+                    value = field.val();
+                    if (!value.endsWith(Settings.projectName)) {
+                        value = path.join(value, Settings.projectName);
+                    }
+                    break;
+                case 'downloadsLocation':
+                    downloadsLocationChanged = true;
+                    value = field.val();
                     break;
                 case 'opensubtitlesUsername':
                 case 'opensubtitlesPassword':
+                case 'import-watched':
+                case 'import-bookmarks':
+                case 'import-settings':
                     return;
                 default:
                     win.warn('Setting not defined: ' + field.attr('name'));
+                    return;
             }
             win.info('Setting changed: ' + field.attr('name') + ' - ' + value);
 
 
             // update active session
             App.settings[field.attr('name')] = value;
+
+            if (apiServerChanged) {
+                App.Providers.updateConnection(App.settings['customMoviesServer'], App.settings['customSeriesServer'], App.settings['customAnimeServer'], App.settings['proxyServer']);
+            }
 
             if (apiDataChanged) {
                 App.vent.trigger('initHttpApi');
@@ -286,6 +386,11 @@
             // move tmp folder safely
             if (tmpLocationChanged) {
                 that.moveTmpLocation(value);
+            }
+
+            // move downloads folder safely
+            if (downloadsLocationChanged) {
+                that.moveDownloadsLocation(value);
             }
 
             //save to db
@@ -300,6 +405,7 @@
         },
 
         syncSetting: function (setting, value) {
+            let scrollPos = that.$el.scrollTop();
             switch (setting) {
                 case 'coversShowRating':
                     if (value) {
@@ -322,10 +428,14 @@
                         $('.advanced').css('display', 'none');
                     }
                     break;
+                case 'protocolEncryption':
+                    this.alertMessageSuccess(true);
+                    break;
                 case 'vpnEnabled':
                 case 'language':
                 case 'watchedCovers':
-                    App.vent.trigger('movies:list');
+                case 'defaultFilters':
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'alwaysOnTop':
@@ -339,79 +449,142 @@
                     AdvSettings.set('startScreen', value);
                     break;
                 case 'events':
-                    if ($('.events').css('display') === 'none') {
-                        $('.events').css('display', 'block');
+                    var events = $('.events');
+                    if (events.css('display') === 'none') {
+                        events.css('display', 'block');
+                        if (os.platform() === 'win32' && $('.windows-titlebar .events').css('background-repeat') === 'no-repeat') {
+                            $('.windows-titlebar .icon').css('opacity', '0');
+                        }
                     } else {
-                        $('.events').css('display', 'none');
+                        events.css('display', 'none');
+                        if (os.platform() === 'win32' && $('.windows-titlebar .events').css('background-repeat') === 'no-repeat') {
+                            $('.windows-titlebar .icon').css('opacity', '1');
+                        }
                     }
-                    break;
-                case 'activateTorrentCollection':
-                    if ($('#torrent_col').css('display') === 'none') {
-                        $('#torrent_col').css('display', 'block');
-                    } else {
-                        $('#torrent_col').css('display', 'none');
-                        App.vent.trigger('torrentCollection:close');
-                        App.vent.trigger('seedbox:close');
-                    }
-                    break;
-                case 'animeTabDisable':
-                    if ($('.animeTabShow').css('display') === 'none') {
-                        $('.animeTabShow').css('display', 'block');
-                    } else {
-                        $('.animeTabShow').css('display', 'none');
-                        App.vent.trigger('movies:list');
-                        App.vent.trigger('settings:show');
-                    }
-                    break;
-                case 'indieTabDisable':
-                    if ($('.indieTabShow').css('display') === 'none') {
-                        $('.indieTabShow').css('display', 'block');
-                    } else {
-                        $('.indieTabShow').css('display', 'none');
-                        App.vent.trigger('movies:list');
-                        App.vent.trigger('settings:show');
-                    }
-                    break;
-                case 'activateRandomize':
-                case 'activateWatchlist':
-                    App.vent.trigger('movies:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
-                case 'movies_quality':
+                case 'activateTorrentCollection':
+                    App.vent.trigger('torrentCollection:close');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Torrent-collection') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'moviesTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Movies') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'seriesTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'TV Series') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'animeTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Anime') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'activateWatchlist':
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Watchlist') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'activateSeedbox':
+                    App.vent.trigger('seedbox:close');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Seedbox') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'separateDownloadsDir':
+                    if (value) {
+                        const torrent_cache_dir2 = path.join(Settings.downloadsLocation, 'TorrentCache');
+                        if (!fs.existsSync(torrent_cache_dir2)) {
+                            fs.mkdir(torrent_cache_dir2, function (err) {});
+                        }
+                    }
+                    /* falls through */
+                case 'deleteTmpOnClose':
+                case 'activateTempf':
+                case 'multipleExtSubtitles':
+                case 'torColSearchMore':
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    break;
+                case 'nativeWindowFrame':
+                    let packageJson = jsonFileEditor(`package.json`);
+                    packageJson.get('window').frame = value;
+                    packageJson.save();
+                    this.alertMessageSuccess(true);
+                    break;
+                case 'customMoviesServer':
+                case 'customSeriesServer':
+                case 'customAnimeServer':
+                    this.alertMessageSuccess(true);
+                    break;
                 case 'translateSynopsis':
                     App.Providers.delete('Yts');
-                    App.vent.trigger('movies:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'tvshow':
                     App.Providers.delete('tvshow');
-                    App.vent.trigger('movies:list');
+                    $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
-                case 'bigPicture':
-                    if (!ScreenResolution.SD) {
-                        if (App.settings.bigPicture) {
-                            win.maximize();
-                            AdvSettings.set('noBigPicture', win.zoomLevel);
-                            var zoom = ScreenResolution.HD ? 2 : 3;
-                            win.zoomLevel = zoom;
-                        } else {
-                            win.zoomLevel = AdvSettings.get('noBigPicture') || 0;
-                        }
-                    } else {
-                        AdvSettings.set('bigPicture', false);
-                        win.info('Setting changed: bigPicture - true');
-                        $('input#bigPicture.settings-checkbox').attr('checked', false);
-                        App.vent.trigger('notification:show', new App.Model.Notification({
-                            title: i18n.__('Big Picture Mode'),
-                            body: i18n.__('Big Picture Mode is unavailable on your current screen resolution'),
-                            showRestart: false,
-                            type: 'error',
-                            autoclose: true
-                        }));
-                    }
-                    break;
                 default:
+            }
+            if (that.$el.scrollTop() !== scrollPos) {
+                that.$el.scrollTop(scrollPos);
+            }
+        },
+
+        saveFilter: function () {
+            curSetDefaultFilters = true;
+            $('.nav-hor.left li:first').click();
+            var ddone = function () {
+                curSetDefaultFilters = false;
+                App.vent.trigger('notification:close');
+                that.alertMessageSuccess(false, false, '', i18n.__('Your Default Filters have been changed'));
+            };
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Setting Filters...'),
+                body: i18n.__('Set any number of the <i>Genre</i>, <i>Sort by</i> and <i>Type</i> filters and press \'Done\' to save your preferences.') + '<br>' + i18n.__('(*You can set multiple Filters and tabs at the same time and of course any additional ones later') + '<br>' + i18n.__('as well as overwrite or reset your preferences)'),
+                showClose: false,
+                showRestart: false,
+                type: 'info',
+                buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Done') + '</label>', action: ddone }]
+            }));
+        },
+
+        resetFilter: function () {
+            if (!$('.reset-current-filter').hasClass('disabled')) {
+                let scrollPos = that.$el.scrollTop();
+                AdvSettings.set('filters', '');
+                setTimeout(function(){
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (that.$el.scrollTop() !== scrollPos) {
+                        that.$el.scrollTop(scrollPos);
+                    }
+                }, 100);
+                that.alertMessageSuccess(false, false, '', i18n.__('Your Default Filters have been reset'));
             }
         },
 
@@ -458,17 +631,20 @@
                 pw = $('#opensubtitlesPassword').val(),
                 OS = require('opensubtitles-api');
 
-            $('.opensubtitles-options .invalid-cross').hide();
+            var cross =  $('.opensubtitles-options .invalid-cross');
+            var spinner = $('.opensubtitles-options .loading-spinner');
+
+            cross.hide();
 
             if (usn !== '' && pw !== '') {
-                $('.opensubtitles-options .loading-spinner').show();
+                spinner.show();
                 var OpenSubtitles = new OS({
                     useragent: Settings.opensubtitles.useragent + ' v' + (Settings.version || 1),
                     username: usn,
                     password: Common.md5(pw),
                     ssl: true
                 });
-                function delay(ms) {
+                const delay = function(ms) {
                   return new Promise(resolve => setTimeout(resolve, ms));
                 };
                 OpenSubtitles.login()
@@ -477,7 +653,7 @@
                             AdvSettings.set('opensubtitlesUsername', usn);
                             AdvSettings.set('opensubtitlesPassword', Common.md5(pw));
                             AdvSettings.set('opensubtitlesAuthenticated', true);
-                            $('.opensubtitles-options .loading-spinner').hide();
+                            spinner.hide();
                             $('.opensubtitles-options .valid-tick').show();
                             win.info('Setting changed: opensubtitlesAuthenticated - true');
                             return new Promise(resolve => setTimeout(resolve, 1000));
@@ -488,11 +664,11 @@
                         self.render();
                     }).catch(function (err) {
                         win.error('OpenSubtitles.login()', err);
-                        $('.opensubtitles-options .loading-spinner').hide();
-                        $('.opensubtitles-options .invalid-cross').show();
+                        spinner.hide();
+                    cross.show();
                     });
             } else {
-                $('.opensubtitles-options .invalid-cross').show();
+                cross.show();
             }
 
         },
@@ -552,24 +728,6 @@
                 });
         },
 
-        flushAllSubtitles: function (e) {
-            var btn = $(e.currentTarget);
-
-            if (!this.areYouSure(btn, i18n.__('Flushing...'))) {
-                return;
-            }
-
-            this.alertMessageWait(i18n.__('We are flushing your subtitle cache'));
-
-            var cache = new App.Cache('subtitle');
-            cache.flushTable()
-                .then(function () {
-
-                    that.alertMessageSuccess(false, btn, i18n.__('Flush subtitles cache'), i18n.__('Subtitle cache deleted'));
-
-                });
-        },
-
         restartApplication: function () {
             App.vent.trigger('restartButter');
         },
@@ -578,9 +736,18 @@
             this.ui.tempDir.click();
         },
 
+        showDownloadsDirectoryDialog: function () {
+            this.ui.downloadsDir.click();
+        },
+
         openTmpFolder: function () {
             win.debug('Opening: ' + App.settings['tmpLocation']);
-            nw.Shell.openItem(App.settings['tmpLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['tmpLocation']) : nw.Shell.openItem(App.settings['tmpLocation']);
+        },
+
+        openDownloadsFolder: function () {
+            win.debug('Opening: ' + App.settings['downloadsLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['downloadsLocation']) : nw.Shell.openItem(App.settings['downloadsLocation']);
         },
 
         moveTmpLocation: function (location) {
@@ -592,13 +759,23 @@
                 deleteFolder(oldTmpLocation);
             } else {
                 $('.notification_alert').show().text(i18n.__('You should save the content of the old directory, then delete it')).delay(5000).fadeOut(400);
-                nw.Shell.openItem(oldTmpLocation);
+                App.settings.os === 'windows' ? nw.Shell.openExternal(oldTmpLocation) : nw.Shell.openItem(oldTmpLocation);
+            }
+        },
+
+        moveDownloadsLocation: function (location) {
+            if (!fs.existsSync(location)) {
+                fs.mkdirSync(location);
+            }
+            const torrent_cache_dir2 = path.join(location, 'TorrentCache');
+            if (!fs.existsSync(torrent_cache_dir2)) {
+                fs.mkdir(torrent_cache_dir2, function (err) {});
             }
         },
 
         openDatabaseFolder: function () {
             win.debug('Opening: ' + App.settings['databaseLocation']);
-            nw.Shell.openItem(App.settings['databaseLocation']);
+            App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['databaseLocation']) : nw.Shell.openItem(App.settings['databaseLocation']);
         },
 
         exportDatabase: function (e) {
@@ -606,10 +783,10 @@
             var zip = new AdmZip();
             var btn = $(e.currentTarget);
             var databaseFiles = fs.readdirSync(App.settings['databaseLocation']);
-            var fileinput = document.querySelector('input[id=exportdatabase]');
+            var fileinput = $('input[id=exportdatabase]');
 
-            $('#exportdatabase').on('change', function () {
-                var path = fileinput.value;
+            fileinput.on('change', function () {
+                var path = fileinput.val();
                 try {
                     databaseFiles.forEach(function (entry) {
                         zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
@@ -623,22 +800,42 @@
                 } catch (err) {
                     console.log(err);
                 }
+                // reset fileinput so it detect change even if we select same folder again
+                fileinput.val('');
             });
 
         },
 
-        importDatabase: function () {
+        importDatabase: function (e) {
 
-            var fileinput = document.querySelector('input[id=importdatabase]');
+            var fileinput = $('input[id=importdatabase]');
+            var importTypes = $('#importdb-modal input[type=checkbox]:checked');
 
-
-            $('#importdatabase').on('change', function () {
-                var path = fileinput.value;
+            fileinput.on('change', function () {
+                var path = fileinput.val();
                 fs.readFile(path, function (err, content) {
                     that.alertMessageWait(i18n.__('Importing Database...'));
                     try {
                         var zip = new AdmZip(content);
-                        zip.extractAllTo(App.settings['databaseLocation'] + '/', /*overwrite*/ true);
+                        var targetFolder = App.settings['databaseLocation'] + '/';
+                        for (const el of importTypes) {
+                            switch (el.id) {
+                                case 'import-bookmarks':
+                                    zip.extractEntryTo('bookmarks.db', targetFolder, /*maintainEntryPath*/ false, /*overwrite*/ true);
+                                    // movies.db and shows.db are required for favourites tab view
+                                    zip.extractEntryTo('movies.db', targetFolder, false, true);
+                                    zip.extractEntryTo('shows.db', targetFolder, false, true);
+                                break;
+                                case 'import-settings':
+                                    zip.extractEntryTo('settings.db', targetFolder, false, true);
+                                break;
+                                case 'import-watched':
+                                    zip.extractEntryTo('watched.db', targetFolder, false, true);
+                                break;
+                            }
+                        }
+                        that.closeModal(e);
+                        win.info('Database imported from %s', path);
                         that.alertMessageSuccess(true);
                     }
                     catch (err) {
@@ -646,14 +843,36 @@
                         that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
                         win.warn('Failed to Import Database');
                     }
+                    // reset fileinput so it detect change even if we select same folder again
+                    fileinput.val('');
                 });
             });
 
         },
 
+        checkImportSettings: function () {
+            var importBtn = $('input[id=importdatabase]');
+            var importTypes = $('#importdb-modal input[type=checkbox]:checked');
+            if (importTypes.length === 0) {
+                importBtn.attr('disabled','disabled');
+                importBtn.parent().addClass('disabled');
+            }
+            else{
+                importBtn.removeAttr('disabled');
+                importBtn.parent().removeClass('disabled');
+            }
+        },
+
+
         updateCacheDirectory: function (e) {
             var field = $('#tmpLocation');
             this.ui.fakeTempDir.val = field.val();
+            this.render();
+        },
+
+        updateDownloadsDirectory: function (e) {
+            var field = $('#downloadsLocation');
+            this.ui.fakeDownloadsDir.val = field.val();
             this.render();
         },
 
@@ -718,11 +937,12 @@
                         .addClass('ok')
                         .delay(3000)
                         .queue(function () {
-                            $('#syncTrakt')
+                            var syncTrakt = $('#syncTrakt');
+                            syncTrakt
                                 .removeClass('ok')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
-                            $('#syncTrakt').dequeue();
+                            syncTrakt.dequeue();
                         });
                 })
                 .catch(function (err) {
@@ -733,11 +953,12 @@
                         .addClass('warning')
                         .delay(3000)
                         .queue(function () {
-                            $('#syncTrakt')
+                            var syncTrakt = $('#syncTrakt');
+                            syncTrakt
                                 .removeClass('warning')
                                 .prop('disabled', false);
                             document.getElementById('syncTrakt').innerHTML = oldHTML;
-                            $('#syncTrakt').dequeue();
+                            syncTrakt.dequeue();
                         });
                 });
         },
