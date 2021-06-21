@@ -1,5 +1,5 @@
 cask "popcorn-time" do
-  version "0.4.4"
+  version "0.4.5"
   sha256 "045dbe37d06e24ed7129dddd922648caaba712dee24685fb3cb1f4782f03ead5"
 
   url "https://get.popcorntime.app/build/Popcorn-Time-#{version}.pkg"
