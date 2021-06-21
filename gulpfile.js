@@ -19,7 +19,7 @@ const gulp = require('gulp'),
   currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
   yargs = require('yargs'),
   nib = require('nib'),
-  git = require('git-rev'),
+  git = require('git-describe'),
   zip = require('gulp-zip'),
   fs = require('fs'),
   path = require('path'),
@@ -446,15 +446,15 @@ gulp.task('nwjs', () => {
 
 // create .git.json (used in 'About')
 gulp.task('injectgit', () => {
-  return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)])
+  return git.gitDescribe()
     .then(
       (gitInfo) =>
         new Promise((resolve, reject) => {
           fs.writeFile(
             '.git.json',
             JSON.stringify({
-              branch: gitInfo[0],
-              commit: gitInfo[1]
+              commit: gitInfo.hash.substr(1),
+              semver: gitInfo.semverString,
             }),
             (error) => {
               return error ? reject(error) : resolve(gitInfo);
@@ -463,8 +463,8 @@ gulp.task('injectgit', () => {
         })
     )
     .then((gitInfo) => {
-      console.log('Branch:', gitInfo[0]);
-      console.log('Commit:', gitInfo[1].substr(0, 8));
+      console.log('Hash:', gitInfo.hash.substr(1));
+      console.log('Raw:', gitInfo.raw);
     })
     .catch((error) => {
       console.log(error);

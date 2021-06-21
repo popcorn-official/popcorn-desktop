@@ -2656,10 +2656,14 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
-git-rev@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/git-rev/-/git-rev-0.2.1.tgz#8ccbd2092b345bc2c9149548396df549646ca63f"
-  integrity sha1-jMvSCSs0W8LJFJVIOW31SWRspj8=
+git-describe@^4.0:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/git-describe/-/git-describe-4.0.4.tgz#f3d55bce309becf6dc27fed535d380a621967e8c"
+  integrity sha512-L1X9OO1e4MusB4PzG9LXeXCQifRvyuoHTpuuZ521Qyxn/B0kWHWEOtsT4LsSfSNacZz0h4ZdYDsDG7f+SrA3hg==
+  dependencies:
+    lodash "^4.17.11"
+  optionalDependencies:
+    semver "^5.6.0"
 
 glob-base@^0.3.0:
   version "0.3.0"
@@ -4306,7 +4310,7 @@ lodash@3.x.x, lodash@^3.5.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-lodash@^4.12.0, lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.8.0, lodash@~4.17.19, lodash@~4.17.4:
+lodash@^4.12.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.19, lodash@^4.17.4, lodash@^4.8.0, lodash@~4.17.19, lodash@~4.17.4:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==

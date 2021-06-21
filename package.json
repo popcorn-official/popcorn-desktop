@@ -102,7 +102,7 @@
   },
   "devDependencies": {
     "del": "^3.x.x",
-    "git-rev": "^0.2.1",
+    "git-describe": "^4.0",
     "gulp": "^4.0.2",
     "gulp-filter": "^5.1.0",
     "gulp-gzip": "^1.4.2",
