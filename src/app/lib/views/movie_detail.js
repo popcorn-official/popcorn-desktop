@@ -60,7 +60,8 @@
             this.model.get('poster') === 'images/posterholder.png' ||
             !this.model.get('backdrop') ||
             this.model.get('backdrop') === 'images/posterholder.png'
-        ) && !this.model.get('getmetarunned'))
+          ) && !this.model.get('getmetarunned')
+          || (Settings.translateSynopsis && Settings.language !== 'en' && !this.model.get('locale')))
       {
         this.getMetaData();
       }
