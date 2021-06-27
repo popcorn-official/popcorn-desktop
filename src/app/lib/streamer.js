@@ -238,9 +238,10 @@
 
                 if (!torrent) {
                   torrent = App.WebTorrent.add(uri, {
-                      path: path,
+                      path      : path,
                       maxConns  : 10,
                       dht       : true,
+                      secure    : Settings.protocolEncryption || false,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
                   });
