@@ -95,10 +95,11 @@ App.advsettings = AdvSettings;
 App.settings = Settings;
 App.WebTorrent = new WebTorrent({
   maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-  tracker: {
-     announce: Settings.trackers.forced
-  },
   dht: true,
+  secure: Settings.protocolEncryption || false,
+  tracker: {
+    announce: Settings.trackers.forced
+  }
 });
 
 App.plugins = {};

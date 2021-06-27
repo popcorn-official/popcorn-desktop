@@ -156,12 +156,73 @@
 
         stop: function() {
             if (this.torrent) {
-                const removedPeers = [];
-
                 // update ratio
                 AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
+                if (Settings.activateSeedbox) {
+                    const removedPeers = [];
+                    this.torrent.pause();
+
+                    for (const id in this.torrent._peers) {
+                        // collect peers, need to do this before calling removePeer!
+                        removedPeers.push(this.torrent._peers[id].addr);
+                        this.torrent.removePeer(id);
+                    }
+
+                    if(removedPeers.length > 0) {
+                        // store removed peers, so we can re-add them when resuming
+                        this.torrent.pctRemovedPeers = removedPeers;
+                    }
+
+                    if (this.torrent._xsRequests) {
+                        this.torrent._xsRequests.forEach(req => {
+                            req.abort();
+                        });
+                    }
+                } else {
+                    this.torrent.destroy();
+                    App.WebTorrent.destroy();
+                    App.WebTorrent = new WebTorrent({
+                        maxConns  : parseInt(Settings.connectionLimit, 10) || 55,
+                        dht       : true,
+                        secure    : Settings.protocolEncryption || false,
+                        tracker   : {
+                            announce: Settings.trackers.forced
+                        }
+                    });
+                }
+            }
+
+            if (this.video) {
+                this.video.pause();
+                this.video.src = '';
+                this.video.load();
+                this.video = null;
+            }
+
+            this.torrent = null;
+            this.torrentModel = null;
+            this.stateModel = null;
+            this.streamInfo = null;
+            this.subtitleReady = false;
+            this.canPlay = false;
+            this.stopped = true;
+            clearInterval(this.updateStatsInterval);
+            this.updateStatsInterval = null;
+
+            App.vent.off('subtitle:downloaded');
+            App.SubtitlesServer.stop();
+            win.info('Streaming cancelled');
+        },
+
+        stopFS: function() {
+            if (this.torrent) {
+                // update ratio
+                AdvSettings.set('totalDownloaded', Settings.totalDownloaded + this.torrent.downloaded);
+                AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
+
+                const removedPeers = [];
                 this.torrent.pause();
 
                 for (const id in this.torrent._peers) {
@@ -745,6 +806,7 @@
     App.vent.on('stream:loadExistTorrents', streamer.initExistTorrents.bind(streamer));
     App.vent.on('stream:start', streamer.start.bind(streamer));
     App.vent.on('stream:stop', streamer.stop.bind(streamer));
+    App.vent.on('stream:stopFS', streamer.stopFS.bind(streamer));
     App.vent.on('stream:download', streamer.download.bind(streamer));
     App.vent.on('stream:serve_subtitles', streamer.serveSubtitles.bind(streamer));
 })(window.App);
