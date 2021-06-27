@@ -539,7 +539,7 @@
 
     showFileSelector: function(fileModel) {
       App.vent.trigger('about:close');
-      App.vent.trigger('stream:stopFS');
+      App.vent.trigger('stream:stop');
       App.vent.trigger('player:close');
       this.showChildView(
         'FileSelector',
