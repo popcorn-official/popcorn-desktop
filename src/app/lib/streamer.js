@@ -181,7 +181,6 @@
                         });
                     }
                 } else {
-                    this.torrent.destroy();
                     App.WebTorrent.destroy();
                     App.WebTorrent = new WebTorrent({
                         maxConns  : parseInt(Settings.connectionLimit, 10) || 55,
