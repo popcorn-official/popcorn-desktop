@@ -62,6 +62,12 @@ Settings.providers = {
     uri: [
     ]
   },
+  anime: {
+    order: 3,
+    name: 'Anime',
+    uri: [
+    ]
+  },
   subtitle: 'OpenSubtitles',
   metadata: 'Trakttv',
   tvst: 'TVShowTime',
