@@ -360,6 +360,21 @@ var Database = {
         });
     },
 
+    applyDhtSettings: function (dhtInfo) {
+        if (dhtInfo.server) {
+            App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
+        }
+        if (dhtInfo.r) {
+            Settings.projectForum = 'https://www.reddit.com/r/' + dhtInfo.r;
+        }
+        if (dhtInfo.git) {
+            Settings.changelogUrl = dhtInfo.git + 'commits/master';
+            Settings.issuesUrl = dhtInfo.git + 'issues';
+            Settings.sourceUrl = dhtInfo.git;
+            Settings.commitUrl = dhtInfo.git + 'commit';
+        }
+    },
+
     deleteDatabases: function () {
 
         fs.unlinkSync(path.join(data_path, 'data/watched.db'));
@@ -412,7 +427,7 @@ var Database = {
                 if (typeof Settings.dhtData === 'string') {
                     let dhtInfo = JSON.parse(Settings.dhtData);
                     if (typeof dhtInfo === 'object') {
-                        App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
+                        Database.applyDhtSettings(dhtInfo);
                     }
                 }
 
