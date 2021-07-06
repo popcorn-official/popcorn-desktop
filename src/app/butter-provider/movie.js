@@ -85,6 +85,13 @@ class MovieApi extends Generic {
   detail(torrent_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
   }
+
+  filters() {
+    return {
+      genres: App.Config.genres,
+      sorters: App.Config.sorters,
+    };
+  }
 }
 
 MovieApi.prototype.config = {
