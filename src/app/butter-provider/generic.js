@@ -2,6 +2,12 @@ var memoize = require('memoizee');
 var _ = require('lodash');
 const socksProxyAgent = require( 'socks-proxy-agent' );
 
+String.prototype.capitalizeEach = function () {
+  return this.replace(/\w*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
+
 var processArgs = function(config, args) {
   var newArgs = {};
   Object.keys(config.args).map(function(k) {

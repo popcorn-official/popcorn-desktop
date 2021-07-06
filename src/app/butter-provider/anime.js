@@ -1,7 +1,8 @@
 'use strict';
 
-var Generic = require('./generic');
-var sanitize = require('butter-sanitize');
+const Generic = require('./generic');
+const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class AnimeApi extends Generic {
   constructor(args) {
@@ -98,7 +99,7 @@ class AnimeApi extends Generic {
   }
 
   filters() {
-    return {
+    const data = {
       genres: [
         'All',
         'Action',
@@ -145,6 +146,22 @@ class AnimeApi extends Generic {
       sorters: ['popularity', 'name', 'year'],
       types: ['All', 'Movies', 'TV', 'OVA', 'ONA']
     };
+    let filters = {
+      genres: {},
+      sorters: {},
+      types: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+    for (const type of data.types) {
+      filters.types[type] = i18n.__(type);
+    }
+
+    return filters;
   }
 }
 
