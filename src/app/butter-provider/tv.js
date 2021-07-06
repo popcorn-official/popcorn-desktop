@@ -75,8 +75,36 @@ class TVApi extends Generic {
 
   filters() {
     return {
-      genres: App.Config.genres_tv,
-      sorters: App.Config.sorters_tv,
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Animation',
+        'Children',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Game Show',
+        'Home and Garden',
+        'Horror',
+        'Mini Series',
+        'Mystery',
+        'News',
+        'Reality',
+        'Romance',
+        'Science Fiction',
+        'Soap',
+        'Special Interest',
+        'Sport',
+        'Suspense',
+        'Talk Show',
+        'Thriller',
+        'Western'
+      ],
+      sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
     };
   }
 }

@@ -3,10 +3,7 @@
 
     var MovieBrowser = App.View.PCTBrowser.extend({
         collectionModel: App.Model.MovieCollection,
-        filters: {
-            genres: App.Config.genres,
-            sorters: App.Config.sorters
-        }
+        provider: 'MovieApi',
     });
 
     App.View.MovieBrowser = MovieBrowser;

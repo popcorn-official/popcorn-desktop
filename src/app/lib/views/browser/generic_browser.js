@@ -26,7 +26,8 @@
         },
 
         initialize: function () {
-            this.filter = new App.Model.Filter(this.filters);
+            const provider = App.Providers.get(this.provider);
+            this.filter = new App.Model.Filter(provider.filters());
 
             if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') {
                 this.filter.set(this.getSavedFilter());

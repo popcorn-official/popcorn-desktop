@@ -106,6 +106,47 @@ class YTSApi extends Generic {
   detail(torrent_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
   }
+
+  filters() {
+    return {
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Animation',
+        'Biography',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Film-Noir',
+        'History',
+        'Horror',
+        'Music',
+        'Musical',
+        'Mystery',
+        'Romance',
+        'Sci-Fi',
+        'Short',
+        'Sport',
+        'Thriller',
+        'War',
+        'Western'
+      ],
+      sorters: [
+        'trending',
+        'popularity',
+        'last added',
+        'year',
+        'title',
+        'rating'
+      ],
+      types: ['All', '720p', '1080p', '2160p', '3D'],
+      ratings: ['All', '9', '8', '7', '6', '5', '4', '3', '2', '1']
+    };
+  }
 }
 
 YTSApi.prototype.config = {
