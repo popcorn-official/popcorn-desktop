@@ -4,6 +4,8 @@
   var Config = {
     title: Settings.projectName,
     platform: process.platform,
+
+    // TODO: remote api usage - need rewrite
     genres: [
       'All',
       'Action',

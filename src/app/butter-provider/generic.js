@@ -119,8 +119,9 @@ class Provider {
       urls = urls.split(',').map((x) => x.trim()).filter((x) => !!x);
     }
     this.apiURL = _.shuffle(urls);
-
   }
+
+  filters() {return {};}
 }
 
 Provider.ArgType = {

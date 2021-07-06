@@ -186,6 +186,13 @@
             });
     };
 
+    Favorites.prototype.filters = function () {
+        return {
+            types: ['All', 'Movies', 'Series', 'Anime'],
+            sorters: ['watched items', 'year', 'title', 'rating']
+        };
+    };
+
     App.Providers.install(Favorites);
 
 })(window.App);
