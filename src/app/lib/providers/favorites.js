@@ -1,6 +1,8 @@
 (function (App) {
     'use strict';
 
+    const i18n = require('i18n');
+
     var Favorites = function () {};
     Favorites.prototype.constructor = Favorites;
     Favorites.prototype.config = {
@@ -187,10 +189,22 @@
     };
 
     Favorites.prototype.filters = function () {
-        return {
+        const data = {
             types: ['All', 'Movies', 'Series', 'Anime'],
             sorters: ['watched items', 'year', 'title', 'rating']
         };
+        let filters = {
+            types: {},
+            sorters: {},
+        };
+        for (const sorter of data.sorters) {
+            filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+        }
+        for (const type of data.types) {
+            filters.types[type] = i18n.__(type);
+        }
+
+        return filters;
     };
 
     App.Providers.install(Favorites);

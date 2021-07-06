@@ -2,6 +2,7 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class YTSApi extends Generic {
   constructor(args) {
@@ -108,7 +109,7 @@ class YTSApi extends Generic {
   }
 
   filters() {
-    return {
+    const data = {
       genres: [
         'All',
         'Action',
@@ -146,6 +147,26 @@ class YTSApi extends Generic {
       types: ['All', '720p', '1080p', '2160p', '3D'],
       ratings: ['All', '9', '8', '7', '6', '5', '4', '3', '2', '1']
     };
+    let filters = {
+      genres: {},
+      sorters: {},
+      types: {},
+      ratings: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+    for (const type of data.types) {
+      filters.types[type] = i18n.__(type);
+    }
+    for (const rating of data.ratings) {
+      filters.ratings[rating] = rating === 'All' ? i18n.__(rating) : (rating + '+');
+    }
+
+    return filters;
   }
 }
 

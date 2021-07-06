@@ -20,8 +20,8 @@
                 <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-                <% _.each(filter.list, function(c) { %>
-                <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
+                <% _.each(filter.list, function(val, key) { %>
+                <li><a href="#" data-value="<%= key %>"><%= val %></a></li>
                 <% }); %>
             </ul>
         </li>
