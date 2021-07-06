@@ -49,7 +49,7 @@
 
   function loadProvidersJSON(fn) {
     return pkJson.providers.map(function(providerPath) {
-      win.info('loading npm', providerPath);
+      win.info('loading json', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
   }

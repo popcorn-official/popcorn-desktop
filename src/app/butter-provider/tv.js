@@ -122,6 +122,13 @@ class TVApi extends Generic {
       }
     });
   }
+
+  filters() {
+    return {
+      genres: App.Config.genres_tv,
+      sorters: App.Config.sorters_tv,
+    };
+  }
 }
 
 TVApi.prototype.config = {
