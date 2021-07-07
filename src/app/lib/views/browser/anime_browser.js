@@ -3,7 +3,7 @@
 
     var AnimeBrowser = App.View.PCTBrowser.extend({
         collectionModel: App.Model.AnimeCollection,
-        provider: 'AnimeApi',
+        providerType: 'anime',
     });
 
     App.View.AnimeBrowser = AnimeBrowser;

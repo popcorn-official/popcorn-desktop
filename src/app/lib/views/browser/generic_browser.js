@@ -26,7 +26,7 @@
         },
 
         initialize: function () {
-            const provider = App.Providers.get(this.provider);
+            const provider = this.provider ? App.Providers.get(this.provider) : App.Config.getProviderForType(this.providerType)[0];
             this.filter = new App.Model.Filter(provider.filters());
 
             if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') {
