@@ -439,8 +439,12 @@
                     App.Providers.updateLanguage(Settings.language, value || Settings.language);
                     this.alertMessageSuccess(true);
                     break;
-                case 'vpnEnabled':
                 case 'language':
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    this.alertMessageSuccess(true);
+                    break;
+                case 'vpnEnabled':
                 case 'watchedCovers':
                 case 'defaultFilters':
                     $('.nav-hor.left li:first').click();
