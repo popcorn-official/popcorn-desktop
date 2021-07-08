@@ -103,6 +103,7 @@ Settings.customMoviesServer = '';
 Settings.customSeriesServer = '';
 Settings.customAnimeServer = '';
 Settings.proxyServer = '';
+Settings.contentLanguage = '';
 
 // User interface
 Settings.language = '';
@@ -120,6 +121,12 @@ Settings.postersSizeRatio = 196 / 134;
 Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 Settings.bigPicture = 100;
+
+//Localisation
+Settings.translateTitle = 'translated-origin';
+Settings.translatePosters = true;
+Settings.translateSynopsis = true;
+Settings.translateEpisodes = true;
 
 //Playback
 Settings.alwaysFullscreen = false;

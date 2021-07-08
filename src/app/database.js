@@ -428,6 +428,9 @@ var Database = {
                 return AdvSettings.setup();
             })
             .then(function () {
+                App.Providers.updateLanguage(Settings.language, Settings.contentLanguage || Settings.language);
+            })
+            .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
 
                 App.TVShowTime = App.Config.getProviderForType('tvst');

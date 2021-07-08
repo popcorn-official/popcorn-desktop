@@ -6,6 +6,7 @@ var setLanguage = function (preferredLanguage) {
         var lang = App.Localization.detectLocale();
         i18n.setLocale(lang);
         AdvSettings.set('language', lang);
+        Settings.language = lang;
     } else {
         i18n.setLocale(preferredLanguage);
     }

@@ -268,6 +268,7 @@
                         AdvSettings.set('lastTab', App.currentview);
                     }
                 /* falls through */
+                case 'translateTitle':
                 case 'watchedCovers':
                 case 'defaultFilters':
                 case 'theme':
@@ -283,6 +284,9 @@
                         App.vent.trigger('updatePostersSizeStylesheet');
                     });
                     break;
+                case 'contentLanguage':
+                    value = $('option:selected', field).val();
+                    break;
                 case 'language':
                     value = $('option:selected', field).val();
                     i18n.setLocale(value);
@@ -297,7 +301,9 @@
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
                 case 'nativeWindowFrame':
+                case 'translatePosters':
                 case 'translateSynopsis':
+                case 'translateEpisodes':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
                 case 'traktSyncOnStart':
@@ -429,6 +435,10 @@
                     }
                     break;
                 case 'protocolEncryption':
+                    this.alertMessageSuccess(true);
+                    break;
+                case 'contentLanguage':
+                    App.Providers.updateLanguage(Settings.language, value || Settings.language);
                     this.alertMessageSuccess(true);
                     break;
                 case 'vpnEnabled':

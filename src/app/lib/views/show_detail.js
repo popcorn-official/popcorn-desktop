@@ -66,6 +66,11 @@
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
             //Handle keyboard shortcuts when other views are appended or removed
+            // init fields in model
+            this.model.set('displayTitle', '');
+            this.model.set('displaySynopsis', '');
+            this.model.set('localizeEpisode', this.localizeEpisode);
+            this.localizeTexts();
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
@@ -166,6 +171,15 @@
             if (!backdrop) {
               backdrop = images.banner || nobg;
             }
+
+            if (Settings.translatePosters) {
+                var locale = this.model.get('locale');
+                if (locale) {
+                    poster = locale.poster ? locale.poster : poster;
+                    backdrop = locale.backdrop ? locale.backdrop : backdrop;
+                }
+            }
+
             var posterCache = new Image();
             posterCache.src = poster;
             posterCache.onload = function () {
@@ -229,7 +243,51 @@
                 $('#watch-now').prop('disabled', true);
             }
         },
-
+        localizeTexts: function () {
+            const locale = this.model.get('locale');
+            let title = this.model.get('title');
+            if (Settings.translateTitle === 'translated-origin' || Settings.translateTitle === 'translated') {
+                if (locale && locale.title) {
+                    title = locale.title;
+                }
+            }
+            let synopsis = this.model.get('synopsis');
+            if (Settings.translateSynopsis) {
+                if (locale && locale.synopsis) {
+                    synopsis = locale.synopsis;
+                }
+            }
+            this.model.set('displayTitle', title);
+            this.model.set('displaySynopsis', synopsis);
+        },
+        localizeEpisode: function (episode) {
+            let title = episode.title;
+            let listTitle = episode.title;
+            let overview = episode.overview;
+            if (Settings.translateEpisodes && episode.locale) {
+                if (Settings.translateSynopsis && episode.locale.overview) {
+                    overview = episode.locale.overview;
+                }
+                if (episode.locale.title) {
+                    if (Settings.translateTitle === 'translated-origin') {
+                        title = episode.locale.title;
+                        listTitle = episode.locale.title + ' (' + episode.title + ')';
+                    }
+                    if (Settings.translateTitle === 'origin-translated') {
+                        listTitle = episode.title + ' (' + episode.locale.title + ')';
+                    }
+                    if (Settings.translateTitle === 'translated') {
+                        title = episode.locale.title;
+                        listTitle = episode.locale.title;
+                    }
+                }
+            }
+            return {
+                title,
+                listTitle,
+                overview,
+            };
+        },
         selectNextEpisode: function () {
 
             var episodesSeen = [];
@@ -602,13 +660,14 @@
             var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
             var synopsis = $('.sdoi-synopsis');
             var startStreaming = $('.startStreaming');
+            var localize = this.localizeEpisode(selectedEpisode);
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
             $('.sdoi-number').text(i18n.__('Season %s', selectedEpisode.season) + ', ' + i18n.__('Episode %s', selectedEpisode.episode));
-            $('.sdoi-title').text(selectedEpisode.title);
+            $('.sdoi-title').text(localize.title);
             $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + first_aired);
-            synopsis.text(selectedEpisode.overview);
+            synopsis.text(localize.overview);
 
             //pull the scroll always to top
             synopsis.scrollTop(0);
