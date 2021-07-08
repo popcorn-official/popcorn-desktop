@@ -34,10 +34,6 @@ var Settings = {
     client_secret:
       'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1'
   },
-  tvshowtime: {
-    client_id: 'iM2Vxlwr93imH7nwrTEZ',
-    client_secret: 'ghmK6ueMJjQLHBwsaao1tw3HUF7JVp_GQTwDwhCn'
-  },
   fanart: {
     api_key: 'ce4bba4b3cc473306c6cddb4e1cb0da4'
   },
@@ -70,7 +66,6 @@ Settings.providers = {
   },
   subtitle: 'OpenSubtitles',
   metadata: 'Trakttv',
-  tvst: 'TVShowTime',
   torrentCache: 'TorrentCache'
 };
 
@@ -172,9 +167,6 @@ Settings.traktLastSync = false;
 Settings.traktLastActivities = false;
 Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
-
-// TVShow Time
-Settings.tvstAccessToken = '';
 
 // OpenSubtitles
 Settings.opensubtitlesAutoUpload = true;
