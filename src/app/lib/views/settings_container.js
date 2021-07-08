@@ -39,8 +39,6 @@
             'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
-            'click #connect-with-tvst': 'connectWithTvst',
-            'click #disconnect-tvst': 'disconnectTvst',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'click .reset-tvshow': 'resettvshow',
@@ -611,28 +609,6 @@
             App.Trakt.disconnect();
             this.ui.success_alert.show().delay(3000).fadeOut(400);
             this.render();
-        },
-
-        connectWithTvst: function () {
-            var self = this;
-
-            $('#connect-with-tvst > i').css('visibility', 'hidden');
-            $('.tvst-loading-spinner').show();
-
-            App.vent.on('system:tvstAuthenticated', function () {
-                $('.tvst-loading-spinner').hide();
-                self.render();
-            });
-            App.TVShowTime.authenticate(function (activateUri) {
-                nw.Shell.openExternal(activateUri);
-            });
-        },
-
-        disconnectTvst: function () {
-            var self = this;
-            App.TVShowTime.disconnect(function () {
-                self.render();
-            });
         },
 
         connectOpensubtitles: function (e) {
