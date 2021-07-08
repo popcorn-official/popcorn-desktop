@@ -205,6 +205,23 @@
         <div class="title"><%= i18n.__("Localisation") %></div>
         <div class="content">
             <span>
+                <div class="dropdown subtitles-language">
+                    <p><%= i18n.__("Preferred Content Language") %></p>
+                    <%
+                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
+                        for(var key in App.Localization.allTranslations) {
+                            key = App.Localization.allTranslations[key];
+                            if (App.Localization.langcodes[key] !== undefined) {
+                                langs += "<option "+(Settings.contentLanguage == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                            }
+                        }
+                    %>
+                    <select name="contentLanguage"><%=langs%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+
+            <span>
                 <div class="dropdown translateTitle">
                     <p><%= i18n.__("Title translation") %></p>
                     <select name="translateTitle">
@@ -229,25 +246,9 @@
 
             <span>
                 <input class="settings-checkbox" name="translateEpisodes" id="translateEpisodes" type="checkbox" <%=(Settings.translateEpisodes? "checked='checked'":"")%>>
-                <label class="settings-label" for="translateEpisodes"><%= i18n.__("Translate Episodes") %></label>
+                <label class="settings-label" for="translateEpisodes"><%= i18n.__("Translate Episode Titles") %></label>
             </span>
 
-            <span class="advanced">
-                <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Content Language") %></p>
-                    <%
-                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
-                        for(var key in App.Localization.allTranslations) {
-                            key = App.Localization.allTranslations[key];
-                            if (App.Localization.langcodes[key] !== undefined) {
-                                langs += "<option "+(Settings.contentLanguage == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
-                            }
-                        }
-                    %>
-                    <select name="contentLanguage"><%=langs%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
         </div>
     </section>
 
