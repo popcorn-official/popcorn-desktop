@@ -220,7 +220,6 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-
             <span>
                 <div class="dropdown translateTitle">
                     <p><%= i18n.__("Title translation") %></p>
@@ -233,22 +232,18 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-
-            <span>
-                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
-                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
-            </span>
-
-            <span>
-                <input class="settings-checkbox" name="translatePosters" id="translatePosters" type="checkbox" <%=(Settings.translatePosters? "checked='checked'":"")%>>
-                <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
-            </span>
-
             <span>
                 <input class="settings-checkbox" name="translateEpisodes" id="translateEpisodes" type="checkbox" <%=(Settings.translateEpisodes? "checked='checked'":"")%>>
                 <label class="settings-label" for="translateEpisodes"><%= i18n.__("Translate Episode Titles") %></label>
             </span>
-
+            <span>
+                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="translatePosters" id="translatePosters" type="checkbox" <%=(Settings.translatePosters? "checked='checked'":"")%>>
+                <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
+            </span>
         </div>
     </section>
 
