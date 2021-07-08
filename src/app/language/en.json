@@ -554,5 +554,15 @@
 	"Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage": "Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage",
 	"Show the Seedbox when adding a new download": "Show the Seedbox when adding a new download",
 	"Download added": "Download added",
-	"Change API Server": "Change API Server"
+	"Change API Server": "Change API Server",
+	"Localisation": "Localisation",
+	"Preferred Content Language": "Preferred Content Language",
+	"Same as interface": "Same as interface",
+	"Title translation": "Title translation",
+	"Translated - Original": "Translated - Original",
+	"Original - Translated": "Original - Translated",
+	"Translated only": "Translated only",
+	"Original only": "Original only",
+	"Translate Posters": "Translate Posters",
+	"Translate Episode Titles": "Translate Episode Titles"
 }
