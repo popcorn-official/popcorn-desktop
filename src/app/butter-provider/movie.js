@@ -16,6 +16,10 @@ class MovieApi extends Generic {
 
     movies.forEach(movie => {
       if (movie.torrents) {
+        const curLang = movie.torrents[this.contentLanguage]
+            ? this.contentLanguage : Object.keys(movie.torrents)[0];
+        let langs = {};
+        langs[curLang] = movie.torrents[curLang];
         results.push({
           type: 'movie',
           imdb_id: movie.imdb_id,
@@ -32,11 +36,8 @@ class MovieApi extends Generic {
           synopsis: movie.synopsis,
           trailer: movie.trailer !== null ? movie.trailer : false,
           certification: movie.certification,
-          torrents:
-            movie.torrents[this.contentLanguage]
-              ? movie.torrents[this.contentLanguage]
-              : movie.torrents[Object.keys(movie.torrents)[0]],
-          langs: movie.torrents,
+          torrents: movie.torrents[curLang],
+          langs: langs,
           locale: movie.locale || null,
         });
       }
