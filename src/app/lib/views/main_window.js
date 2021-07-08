@@ -170,11 +170,6 @@
         )
       );
 
-      App.vent.on(
-        'system:tvstAuthenticated',
-        _.bind(this.tvstAuthenticated, this)
-      );
-
       // Stream events
       App.vent.on('stream:started', _.bind(this.streamStarted, this));
       App.vent.on('stream:ready', _.bind(this.streamReady, this));
@@ -556,10 +551,6 @@
           model: settingsModel
         })
       );
-    },
-
-    tvstAuthenticated: function() {
-      win.info('TVShow Time: authenticated');
     },
 
     streamStarted: function(stateModel) {
