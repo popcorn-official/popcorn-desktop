@@ -21,7 +21,7 @@ class DhtReader
                     return;
                 }
                 if (!node || !node.v) {
-                    console.error('DHT hash bot found');
+                    console.error('DHT hash not found');
                     return;
                 }
                 AdvSettings.set('dhtData', node.v.toString());
