@@ -442,7 +442,9 @@
                 case 'language':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
-                    this.alertMessageSuccess(true);
+                    if (!Settings.contentLanguage) {
+                        this.alertMessageSuccess(true);
+                    }
                     break;
                 case 'vpnEnabled':
                 case 'watchedCovers':
