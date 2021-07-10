@@ -565,5 +565,6 @@
 	"Original only": "Original only",
 	"Translate Posters": "Translate Posters",
 	"Translate Episode Titles": "Translate Episode Titles",
-	"Only show content available in the preferred language": "Only show content available in the preferred language"
+	"Only show content available in the preferred language": "Only show content available in the preferred language",
+	"Translations depend on availability. Also some options might not be supported by some API servers": "Translations depend on availability. Also some options might not be supported by some API servers"
 }
