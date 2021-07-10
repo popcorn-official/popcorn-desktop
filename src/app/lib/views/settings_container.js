@@ -294,6 +294,7 @@
                 case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
                 case 'protocolEncryption':
+                case 'addEnglish':
                 case 'vpnEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
@@ -436,7 +437,8 @@
                     this.alertMessageSuccess(true);
                     break;
                 case 'contentLanguage':
-                    App.Providers.updateLanguage(Settings.language, value || Settings.language);
+                case 'addEnglish':
+                    App.Providers.updateLanguage(Settings.language, value || Settings.language, Settings.addEnglish);
                     this.alertMessageSuccess(true);
                     break;
                 case 'language':

@@ -98,10 +98,11 @@ Settings.customMoviesServer = '';
 Settings.customSeriesServer = '';
 Settings.customAnimeServer = '';
 Settings.proxyServer = '';
-Settings.contentLanguage = '';
 
 // User interface
 Settings.language = '';
+Settings.contentLanguage = '';
+Settings.addEnglish = true;
 Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;

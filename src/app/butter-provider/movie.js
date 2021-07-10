@@ -9,6 +9,7 @@ class MovieApi extends Generic {
 
     this.language = args.language;
     this.contentLanguage = args.contentLanguage || this.language;
+    this.addEnglish = args.addEnglish || true;
   }
 
   _formatForPopcorn(movies) {
@@ -59,11 +60,10 @@ class MovieApi extends Generic {
       limit: '50'
     };
 
-    if (this.language) {
-      params.locale = this.language;
-    }
-    if (this.language !== this.contentLanguage) {
-      params.contentLocale = this.contentLanguage;
+    params.locale = this.language;
+    params.contentLocale = this.contentLanguage;
+    if (this.addEnglish && params.contentLocale !== 'en') {
+      params.contentLocale += ',en';
     }
     if (filters.keywords) {
       params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim() : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
