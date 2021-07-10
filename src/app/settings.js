@@ -102,7 +102,7 @@ Settings.proxyServer = '';
 // User interface
 Settings.language = '';
 Settings.contentLanguage = '';
-Settings.addEnglish = true;
+Settings.contentLangOnly = false;
 Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
