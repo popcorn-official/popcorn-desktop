@@ -2,6 +2,7 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 const TVDB = require('node-tvdb');
 
 class TVApi extends Generic {
@@ -121,6 +122,53 @@ class TVApi extends Generic {
         return sanitize(data);
       }
     });
+  }
+
+  filters() {
+    const data = {
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Animation',
+        'Children',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Game Show',
+        'Home and Garden',
+        'Horror',
+        'Mini Series',
+        'Mystery',
+        'News',
+        'Reality',
+        'Romance',
+        'Science Fiction',
+        'Soap',
+        'Special Interest',
+        'Sport',
+        'Suspense',
+        'Talk Show',
+        'Thriller',
+        'Western'
+      ],
+      sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+    };
+    let filters = {
+      genres: {},
+      sorters: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+
+    return filters;
   }
 }
 

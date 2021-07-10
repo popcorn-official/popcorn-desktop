@@ -2,6 +2,7 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class MovieApi extends Generic {
   constructor(args) {
@@ -86,6 +87,57 @@ class MovieApi extends Generic {
 
   detail(torrent_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
+  }
+
+  filters() {
+    const data = {
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Animation',
+        'Biography',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Film-Noir',
+        'History',
+        'Horror',
+        'Music',
+        'Musical',
+        'Mystery',
+        'Romance',
+        'Sci-Fi',
+        'Short',
+        'Sport',
+        'Thriller',
+        'War',
+        'Western'
+      ],
+      sorters: [
+        'trending',
+        'popularity',
+        'last added',
+        'year',
+        'title',
+        'rating'
+      ],
+    };
+    let filters = {
+      genres: {},
+      sorters: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+
+    return filters;
   }
 }
 

@@ -4,6 +4,8 @@
   var Config = {
     title: Settings.projectName,
     platform: process.platform,
+
+    // TODO: remote api usage - need rewrite
     genres: [
       'All',
       'Action',
@@ -128,35 +130,6 @@
       'Western'
     ],
 
-    genres_indie: [
-      'All',
-      'Action',
-      'Adventure',
-      'Animation',
-      'Biography',
-      'Comedy',
-      'Crime',
-      'Documentary',
-      'Drama',
-      'Family',
-      'Fantasy',
-      'Film-Noir',
-      'History',
-      'Horror',
-      'Music',
-      'Musical',
-      'Mystery',
-      'Romance',
-      'Sci-Fi',
-      'Short',
-      'Sport',
-      'Thriller',
-      'War',
-      'Western'
-    ],
-    sorters_indie: ['popularity', 'updated', 'year', 'alphabet', 'rating'],
-    types_indie: [],
-
     cache: {
       name: 'cachedb',
       version: '1.7',
@@ -185,8 +158,7 @@
             if (
               (p.name === 'Movies' && !Settings.moviesTabEnable) ||
               (p.name === 'Series' && !Settings.seriesTabEnable) ||
-              (p.name === 'Anime' && !Settings.animeTabEnable) ||
-              p.name === 'Indie'
+              (p.name === 'Anime' && !Settings.animeTabEnable)
             ) {
               return false;
             }
@@ -199,10 +171,6 @@
     },
 
     getProviderForType: function(type) {
-      if (type === 'indie') {
-        return null;
-      }
-
       var provider = Settings.providers[type];
       if (typeof provider !== 'string') {
         if (provider && provider.uri) {
