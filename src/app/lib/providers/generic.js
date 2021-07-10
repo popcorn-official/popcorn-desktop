@@ -27,7 +27,7 @@
     }
   }
 
-  function updateProviderLanguage (language, contentLanguage, addEnglish = true) {
+  function updateProviderLanguage (language, contentLanguage, contentLangOnly = false) {
     for (let provider in cache) {
       if (cache[provider] && cache[provider].hasOwnProperty('language')) {
         cache[provider].language = language;
@@ -35,8 +35,8 @@
       if (cache[provider] && cache[provider].hasOwnProperty('contentLanguage')) {
         cache[provider].contentLanguage = contentLanguage;
       }
-      if (cache[provider] && cache[provider].hasOwnProperty('addEnglish')) {
-        cache[provider].addEnglish = addEnglish;
+      if (cache[provider] && cache[provider].hasOwnProperty('contentLangOnly')) {
+        cache[provider].contentLangOnly = contentLangOnly;
       }
     }
   }

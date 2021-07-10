@@ -10,7 +10,7 @@ class TVApi extends Generic {
 
     this.language = args.language;
     this.contentLanguage = args.contentLanguage || this.language;
-    this.addEnglish = args.addEnglish || true;
+    this.contentLangOnly = args.contentLangOnly || false;
 
     try {
       this.tvdb = new TVDB('7B95D15E1BE1D75A');
@@ -35,7 +35,7 @@ class TVApi extends Generic {
 
     params.locale = this.language;
     params.contentLocale = this.contentLanguage;
-    if (this.addEnglish && params.contentLocale !== 'en') {
+    if (!this.contentLangOnly && params.contentLocale !== 'en') {
       params.contentLocale += ',en';
     }
     if (filters.keywords) {
