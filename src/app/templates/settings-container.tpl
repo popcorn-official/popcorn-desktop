@@ -248,6 +248,9 @@
                 <input class="settings-checkbox" name="translatePosters" id="translatePosters" type="checkbox" <%=(Settings.translatePosters? "checked='checked'":"")%>>
                 <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
             </span>
+            <span id="translation_info">
+                <em>* <%= i18n.__("Translations depend on availability. Also some options might not be supported by some API servers") %></em>
+            </span>
         </div>
     </section>
 
