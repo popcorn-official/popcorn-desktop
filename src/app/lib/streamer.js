@@ -462,18 +462,20 @@
             if (!fileName) {
                 for (let i in torrent.files) {
                     if (fileSize < torrent.files[i].length) {
+                        fileIndex = i;
                         fileSize = torrent.files[i].length;
                         fileName = torrent.files[i].path;
                     }
                 }
             }
 
-            for (var f in torrent.files) { // Add selection
-                var file = torrent.files[f];
+            for (let f in torrent.files) { // Add selection
+                let file = torrent.files[f];
                 // we use endsWith, not equals because from server may return without first directory
                 if (file.path.endsWith(fileName)) {
                     fileIndex = f;
                     fileSize = file.length;
+                    fileName = file.path;
                     file.select();
                 } else {
                 //    file.deselect();
@@ -481,10 +483,10 @@
             }
 
             return {
-                name: path.basename(torrent.files[fileIndex].path),
+                name: path.basename(fileName),
                 size: fileSize,
                 index: fileIndex,
-                path: path.join(torrent.path, torrent.files[fileIndex].path)
+                path: path.join(torrent.path, fileName)
             };
         },
 
