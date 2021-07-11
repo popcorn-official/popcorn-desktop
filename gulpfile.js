@@ -96,8 +96,8 @@ const parseReqDeps = () => {
 };
 
 const curVersion = () => {
-    if (fs.existsSync('./.git.json')) {
-        const gitData = require('./.git.json');
+    if (fs.existsSync('./git.json')) {
+        const gitData = require('./git.json');
         return gitData.semver;
     } else {
         return pkJson.version;
@@ -427,7 +427,7 @@ gulp.task('nwjs', () => {
         './README.md',
         './CHANGELOG.md',
         './LICENSE.txt',
-        './.git.json'
+        './git.json'
       ];
       // add node_modules
       nw.options.files = nw.options.files.concat(requiredDeps);
@@ -453,14 +453,14 @@ gulp.task('nwjs', () => {
     });
 });
 
-// create .git.json (used in 'About')
+// create git.json (used in 'About')
 gulp.task('injectgit', () => {
   return git.gitDescribe()
     .then(
       (gitInfo) =>
         new Promise((resolve, reject) => {
           fs.writeFile(
-            '.git.json',
+            'git.json',
             JSON.stringify({
               commit: gitInfo.hash.substr(1),
               semver: gitInfo.semverString,
