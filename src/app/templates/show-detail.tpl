@@ -55,6 +55,12 @@
     </section>
 
     <section class="show-details">
+        <div class="spinner">
+            <div class="loading-container">
+                <div class="ball"></div>
+                <div class="ball1"></div>
+            </div>
+        </div>
         <div class="sd-seasons">
             <div class="sds-title"><%= i18n.__("Seasons") %></div>
             <div class="sds-list">

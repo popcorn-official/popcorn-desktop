@@ -97,21 +97,11 @@
             });
 
             App.vent.on('audio:lang', this.switchAudio.bind(this));
-            var torrents = {};
-            this.renameUntitled();
-            _.each(this.model.get('episodes'), function (value, currentEpisode) {
-                if (!torrents[value.season]) {
-                    torrents[value.season] = {};
-                }
-                torrents[value.season][value.episode] = value;
-            });
-            this.model.set('torrents', torrents);
-            this.model.set('seasonCount', Object.keys(torrents).length);
+            this.initTorrents(this.model.get('episodes'));
         },
 
-        renameUntitled: function () {
-            var episodes = this.model.get('episodes');
-            for (var i = 0; i < episodes.length; i++) {
+        initTorrents: function (episodes) {
+            for (let i = 0; i < episodes.length; i++) {
                 if (!episodes[i].title) {
                     episodes[i].title = 'Untitled';
                 }
@@ -122,6 +112,15 @@
                     episodes[i].first_aired = 'Unknown';
                 }
             }
+            let torrents = {};
+            _.each(episodes, function (value, currentEpisode) {
+                if (!torrents[value.season]) {
+                    torrents[value.season] = {};
+                }
+                torrents[value.season][value.episode] = value;
+            });
+            this.model.set('torrents', torrents);
+            this.model.set('seasonCount', Object.keys(torrents).length);
         },
 
         initKeyboardShortcuts: function () {
@@ -159,7 +158,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
-            //this.loadAudioDropdown();
+            this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
             var noimg = 'images/posterholder.png';
@@ -402,7 +401,18 @@
             AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
 
-        switchAudio: function(lang) {
+        switchAudio: async function(lang) {
+            if (lang === this.model.get('contextLocale')) {
+                return;
+            }
+            $('.spinner').show();
+            const provider = this.model.get('providers').torrent;
+            const data = await provider.contentOnLang(this.model.get('imdb_id'), lang);
+            this.model.set('contextLocale', data.contextLocale);
+            this.model.set('episodes', data.episodes);
+            this.initTorrents(data.episodes);
+            this.render();
+            this.onAttach();
             console.info('Audios: ' + lang);
         },
 
@@ -418,15 +428,12 @@
         loadAudioDropdown: function() {
             return this.loadDropdown('audio', {
                 title: i18n.__('Audio Language'),
-                selected: 'ru',
-                values: {
-                    en: 'xxx',
-                    de: 'xxx',
-                    ru: 'xxx',
-                }
+                selected: this.model.get('contextLocale'),
+                values: _.object(_.map(this.model.get('exist_translations'), (item) => [item, 'data'])),
             });
         },
 
+        // TODO: for subtitles
         // loadSubDropdown: function() {
         //     return this.loadDropdown('sub', {
         //         title: i18n.__('Subtitle'),
