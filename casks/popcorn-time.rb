@@ -1,10 +1,10 @@
 cask "popcorn-time" do
-  version "0.4.5-43,g4fc2f4e4"
-  sha256 "e266ec6eaae91211f18de96d468c6250912904bf14086e5f8cd23331d6c0db5c"
+  version "0.4.5"
+  sha256 "cacf8ed13b427bceb481ba88ff97ff297f7e9e0487f1411f8d20ff87dd674ddb"
 
   server = "popcorn-ru.tk"
   homepage = "http://#{server}"
-  zip = "Popcorn-Time-#{version.tr("-,", "+.")}_osx64.zip"
+  zip = "Popcorn-Time-#{version.tr("-,", "+.")}-Mac.zip"
 
   url "#{homepage}/build/#{zip}"
   name token.titlecase
