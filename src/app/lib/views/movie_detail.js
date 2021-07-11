@@ -256,18 +256,6 @@
       }
     },
 
-    handleAnime: function() {
-      var id = this.model.get('imdb_id');
-      if (id && id.indexOf('mal') === -1) {
-        return;
-      }
-
-      $(
-        '.movie-imdb-link, .rating-container, .magnet-link, .health-icon'
-      ).hide();
-      $('.dot').css('opacity', 0);
-    },
-
     getMetaData: function () {
       curSynopsis.vstatus = false;
       var imdb = this.model.get('imdb_id'),
