@@ -36,19 +36,17 @@ Download and install:
 
 
 ### MacOS:
-Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
-  * **Latest release**:  
-  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time`
-  * Or **latest dev build (for testers)**:  
-  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time-beta`
-  
+Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://docs.brew.sh/Cask-Cookbook)):_
+  ~~~ rb
+  brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git
+  brew install --cask popcorn-time
+  ~~~
+
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
-  repo = 'popcorn-official/popcorn-desktop'
+  repo = "popcorn-official/popcorn-desktop"
   tap repo, "https://github.com/#{repo}.git"
-  cask 'popcorn-time'
+  cask "popcorn-time"
   ~~~
 
 Update from _zip_ file:  
