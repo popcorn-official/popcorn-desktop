@@ -15,6 +15,18 @@ class YTSApi extends Generic {
     if (movies) {
       movies.forEach(movie => {
         if (movie.torrents) {
+          let torrents = movie.torrents.reduceRight(function (torrents, torrent) {
+            torrents[torrent.quality] = {
+              url: torrent.url,
+              magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
+              size: torrent.size_bytes,
+              filesize: torrent.size,
+              seed: torrent.seeds,
+              peer: torrent.peers
+            };
+            return torrents;
+          }, {});
+          let curLang = movie.language.replace('cn', 'zh-cn');
           results.push({
             type: 'movie',
             imdb_id: movie.imdb_code,
@@ -31,18 +43,9 @@ class YTSApi extends Generic {
             synopsis: movie.description_full,
             trailer: 'https://www.youtube.com/watch?v=' + movie.yt_trailer_code || false,
             certification: movie.mpa_rating,
-            torrents: movie.torrents.reduceRight(function (torrents, torrent) {
-              torrents[torrent.quality] = {
-                url: torrent.url,
-                magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
-                size: torrent.size_bytes,
-                filesize: torrent.size,
-                seed: torrent.seeds,
-                peer: torrent.peers
-              };
-              return torrents;
-            }, {}),
-            langs: {[movie.language.replace('cn', 'zh-cn')]: {}}
+            torrents: torrents,
+            defaultAudio: curLang,
+            langs: {[curLang]: torrents}
           });
         }
       });

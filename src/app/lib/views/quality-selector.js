@@ -11,28 +11,14 @@
         },
         collator: new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'}),
         initialize: function () {
-            var self = this;
-
-            var required = this.model.get('required');
-            var torrents = this.model.get('torrents');
-
-            let keys = Object.keys(torrents).sort(this.collator.compare);
-            let sortedTorrents = {};
-            for (let key of required) {
-                sortedTorrents[key] = false;
-            }
-            for (let key of keys) {
-                // TODO: it exist in episodes - need know why
-                if (key === '0') {
-                    continue;
-                }
-                sortedTorrents[key] = torrents[key];
-            }
-
-            this.model.set('sortedTorrents', sortedTorrents);
+            this.updateTorrents(this.model.get('torrents'));
         },
 
         onAttach: function () {
+            this.initQuality();
+        },
+
+        initQuality: function() {
             var selectedKey = null;
             for (let [key, torrent] of Object.entries(this.model.get('sortedTorrents'))) {
                 if (!torrent) {
@@ -43,6 +29,26 @@
                 }
             }
             this.selectQuality(selectedKey);
+        },
+
+        updateTorrents: function (torrents) {
+            let keys = Object.keys(torrents).sort(this.collator.compare);
+            let sortedTorrents = {};
+            for (let key of this.model.get('required')) {
+                sortedTorrents[key] = false;
+            }
+            for (let key of keys) {
+                // TODO: it exist in episodes - need know why
+                if (key === '0') {
+                    continue;
+                }
+                sortedTorrents[key] = torrents[key];
+            }
+
+            console.log(sortedTorrents);
+            this.model.set('sortedTorrents', sortedTorrents);
+            this.render();
+            this.initQuality();
         },
 
         selectNext: function () {
@@ -77,7 +83,7 @@
             $(this.ui.list).find('div').removeClass('active');
             $(this.ui.list).find('div:contains("'+key+'")').addClass('active');
             console.log('Select quality: ', key);
-            var torrents = this.model.get('torrents');
+            var torrents = this.model.get('sortedTorrents');
             var callback = this.model.get('selectCallback');
             callback(torrents[key], key);
         },

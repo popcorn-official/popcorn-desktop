@@ -19,8 +19,6 @@ class MovieApi extends Generic {
       if (movie.torrents) {
         const curLang = movie.torrents[this.contentLanguage]
             ? this.contentLanguage : Object.keys(movie.torrents)[0];
-        let langs = {};
-        langs[curLang] = movie.torrents[curLang];
         results.push({
           type: 'movie',
           imdb_id: movie.imdb_id,
@@ -38,7 +36,8 @@ class MovieApi extends Generic {
           trailer: movie.trailer !== null ? movie.trailer : false,
           certification: movie.certification,
           torrents: movie.torrents[curLang],
-          langs: langs,
+          langs: movie.torrents,
+          defaultAudio: curLang,
           locale: movie.locale || null,
         });
       }

@@ -34,7 +34,9 @@
         this.model.get('title')
       );
       if (!this.model.get('langs')) {
-        this.model.set('langs', { en: undefined });
+        this.model.set('langs', { en: this.model.get('torrents') });
+      } else {
+        this.model.set('torrents', this.model.get('langs')[this.model.get('defaultAudio')]);
       }
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));
@@ -211,6 +213,11 @@
           $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')').tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
       }
       console.info('Audios: ' + lang);
+
+      if (this.getRegion('qualitySelector').currentView) {
+        this.model.set('torrents', audios[lang]);
+        this.getRegion('qualitySelector').currentView.updateTorrents(audios[lang]);
+      }
     },
 
     downloadTorrent: function() {
