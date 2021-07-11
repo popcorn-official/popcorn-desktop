@@ -37,6 +37,8 @@
         },
 
         regions: {
+            subDropdown: '#subs-dropdown',
+            audioDropdown: '#audio-dropdown',
             qualitySelector: '#quality-selector',
         },
 
@@ -61,7 +63,7 @@
 
         initialize: function () {
             _this = this;
-            this.renameUntitled();
+            this.views = {};
 
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
@@ -94,7 +96,9 @@
                 _this.initKeyboardShortcuts();
             });
 
+            App.vent.on('audio:lang', this.switchAudio.bind(this));
             var torrents = {};
+            this.renameUntitled();
             _.each(this.model.get('episodes'), function (value, currentEpisode) {
                 if (!torrents[value.season]) {
                     torrents[value.season] = {};
@@ -155,6 +159,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
+            //this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
             var noimg = 'images/posterholder.png';
@@ -396,6 +401,40 @@
             $('.star-container-tv').toggleClass('hidden');
             AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
+
+        switchAudio: function(lang) {
+            console.info('Audios: ' + lang);
+        },
+
+        loadDropdown: function(type, attrs) {
+            this.views[type] && this.views[type].destroy();
+            this.views[type] = new App.View.LangDropdown({
+                model: new App.Model.Lang(Object.assign({ type: type }, attrs))
+            });
+            var types = type + 'Dropdown';
+            this.getRegion(types).show(this.views[type]);
+        },
+
+        loadAudioDropdown: function() {
+            return this.loadDropdown('audio', {
+                title: i18n.__('Audio Language'),
+                selected: 'ru',
+                values: {
+                    en: 'xxx',
+                    de: 'xxx',
+                    ru: 'xxx',
+                }
+            });
+        },
+
+        // loadSubDropdown: function() {
+        //     return this.loadDropdown('sub', {
+        //         title: i18n.__('Subtitle'),
+        //         selected: this.model.get('defaultSubtitle'),
+        //         hasNull: true,
+        //         values: this.model.get('subtitle')
+        //     });
+        // },
 
         toggleWatched: function (e) {
             var edata = e.currentTarget.id.split('-');
@@ -853,6 +892,7 @@
 
         onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('audio:lang');
             App.vent.off('show:watched:' + this.model.id);
             App.vent.off('show:unwatched:' + this.model.id);
         }
