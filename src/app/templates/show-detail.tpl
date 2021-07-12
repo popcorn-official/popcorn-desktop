@@ -43,12 +43,24 @@
             <div class="shm-synopsis"><%= displaySynopsis %></div>
         </div>
         <div class="sh-actions">
-            <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
-            <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
+            <div class="flex-left">
+                <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
+                <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
+            </div>
+            <div class="flex-right dropdowns-container">
+                <div id="subs-dropdown"></div>
+                <div id="audio-dropdown"></div>
+            </div>
         </div>
     </section>
 
     <section class="show-details">
+        <div class="spinner">
+            <div class="loading-container">
+                <div class="ball"></div>
+                <div class="ball1"></div>
+            </div>
+        </div>
         <div class="sd-seasons">
             <div class="sds-title"><%= i18n.__("Seasons") %></div>
             <div class="sds-list">

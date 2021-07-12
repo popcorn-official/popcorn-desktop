@@ -57,11 +57,14 @@
 
         setLang: function (value) {
             this.model.set('selected', value);
-            if (value !== 'none') {
-                this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value.substr(0,2));
-            } else {
-                this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(value);
+            const langClass = value === 'none' ? value : value.substr(0,2);
+            this.ui.selected.removeClass().addClass('flag toggle selected-lang').addClass(langClass);
+            let title = App.Localization.nativeName(value);
+            if (langClass !== 'none' && langClass !== 'en') {
+                title += ' (' + App.Localization.name(value).replace(/\(|\)/g, '') + ')';
             }
+            this.ui.selected.attr('title', title)
+                .tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
             App.vent.trigger(this.type + ':lang', value);
         },
 

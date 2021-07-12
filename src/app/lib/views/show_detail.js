@@ -37,6 +37,8 @@
         },
 
         regions: {
+            subDropdown: '#subs-dropdown',
+            audioDropdown: '#audio-dropdown',
             qualitySelector: '#quality-selector',
         },
 
@@ -61,7 +63,7 @@
 
         initialize: function () {
             _this = this;
-            this.renameUntitled();
+            this.views = {};
 
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
@@ -94,20 +96,12 @@
                 _this.initKeyboardShortcuts();
             });
 
-            var torrents = {};
-            _.each(this.model.get('episodes'), function (value, currentEpisode) {
-                if (!torrents[value.season]) {
-                    torrents[value.season] = {};
-                }
-                torrents[value.season][value.episode] = value;
-            });
-            this.model.set('torrents', torrents);
-            this.model.set('seasonCount', Object.keys(torrents).length);
+            App.vent.on('audio:lang', this.switchAudio.bind(this));
+            this.initTorrents(this.model.get('episodes'));
         },
 
-        renameUntitled: function () {
-            var episodes = this.model.get('episodes');
-            for (var i = 0; i < episodes.length; i++) {
+        initTorrents: function (episodes) {
+            for (let i = 0; i < episodes.length; i++) {
                 if (!episodes[i].title) {
                     episodes[i].title = 'Untitled';
                 }
@@ -118,6 +112,15 @@
                     episodes[i].first_aired = 'Unknown';
                 }
             }
+            let torrents = {};
+            _.each(episodes, function (value, currentEpisode) {
+                if (!torrents[value.season]) {
+                    torrents[value.season] = {};
+                }
+                torrents[value.season][value.episode] = value;
+            });
+            this.model.set('torrents', torrents);
+            this.model.set('seasonCount', Object.keys(torrents).length);
         },
 
         initKeyboardShortcuts: function () {
@@ -155,6 +158,7 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
+            this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
             $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
             var noimg = 'images/posterholder.png';
@@ -396,6 +400,48 @@
             $('.star-container-tv').toggleClass('hidden');
             AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
+
+        switchAudio: async function(lang) {
+            if (lang === this.model.get('contextLocale')) {
+                return;
+            }
+            $('.spinner').show();
+            const provider = this.model.get('providers').torrent;
+            const data = await provider.contentOnLang(this.model.get('imdb_id'), lang);
+            this.model.set('contextLocale', data.contextLocale);
+            this.model.set('episodes', data.episodes);
+            this.initTorrents(data.episodes);
+            this.render();
+            this.onAttach();
+            console.info('Audios: ' + lang);
+        },
+
+        loadDropdown: function(type, attrs) {
+            this.views[type] && this.views[type].destroy();
+            this.views[type] = new App.View.LangDropdown({
+                model: new App.Model.Lang(Object.assign({ type: type }, attrs))
+            });
+            var types = type + 'Dropdown';
+            this.getRegion(types).show(this.views[type]);
+        },
+
+        loadAudioDropdown: function() {
+            return this.loadDropdown('audio', {
+                title: i18n.__('Audio Language'),
+                selected: this.model.get('contextLocale'),
+                values: _.object(_.map(this.model.get('exist_translations'), (item) => [item, 'data'])),
+            });
+        },
+
+        // TODO: for subtitles
+        // loadSubDropdown: function() {
+        //     return this.loadDropdown('sub', {
+        //         title: i18n.__('Subtitle'),
+        //         selected: this.model.get('defaultSubtitle'),
+        //         hasNull: true,
+        //         values: this.model.get('subtitle')
+        //     });
+        // },
 
         toggleWatched: function (e) {
             var edata = e.currentTarget.id.split('-');
@@ -853,6 +899,7 @@
 
         onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('audio:lang');
             App.vent.off('show:watched:' + this.model.id);
             App.vent.off('show:unwatched:' + this.model.id);
         }
