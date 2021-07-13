@@ -24,7 +24,11 @@ class TVApi extends Generic {
     };
 
     params.locale = this.language;
-    params.contentLocale = this.contentLangOnly ? this.contentLanguage : 'all';
+    params.contentLocale = this.contentLanguage;
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+
     if (filters.keywords) {
       params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim() : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
     }
