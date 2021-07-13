@@ -448,5 +448,6 @@
     "Browse Directoy to save to": "Открыть директорию для сохранения в",
     "Cancel and use VPN": "Отменить и использовать VPN",
     "Continue seeding torrents after restart app?": "Продолжить раздавать торренты после перезапуска приложения?",
-    "Enable VPN": "Включить VPN"
+    "Enable VPN": "Включить VPN",
+    "Updating config from internet": "Получаем настройки из этих ваших Интернетов"
 }

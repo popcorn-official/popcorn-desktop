@@ -561,7 +561,7 @@
         </div>
     </section>
 
-    <section id="apiserver">
+    <section id="apiserver" class="advanced">
         <div class="title"><%= i18n.__("API Server(s)") %></div>
         <div class="content">
             <span>
@@ -806,6 +806,12 @@
                 <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
                 <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
             </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="dhtEnable"><%= i18n.__("Update config from internet") %></label>
+                <i style="padding-left:20px" class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Update now") %>"></i>
+            </span>
+            <!--span class="advanced"><-%=Settings.dhtData %-></span-->
         </div>
     </section>
 

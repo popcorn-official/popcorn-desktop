@@ -47,7 +47,8 @@
             'click #syncTrakt': 'syncTrakt',
             'click .qr-code': 'generateQRcode',
             'click .set-current-filter': 'saveFilter',
-            'click .reset-current-filter': 'resetFilter'
+            'click .reset-current-filter': 'resetFilter',
+            'click .update-dht': 'updateDht',
         },
 
         onAttach: function () {
@@ -297,6 +298,7 @@
                 case 'protocolEncryption':
                 case 'contentLangOnly':
                 case 'vpnEnabled':
+                case 'dhtEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
@@ -642,6 +644,10 @@
                 }, 100);
                 that.alertMessageSuccess(false, false, '', i18n.__('Your Default Filters have been reset'));
             }
+        },
+
+        updateDht: function() {
+            App.DhtReader.update();
         },
 
         connectTrakt: function (e) {
