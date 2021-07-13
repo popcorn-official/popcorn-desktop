@@ -10,10 +10,14 @@ class DhtReader
         });
     }
 
-    _update()
+    update()
     {
-        var dht = new DHT({ verify: ed.verify });
-        var hash = Buffer(Settings.dht, 'hex');
+        if (!Settings.dht) {
+            return;
+        }
+        const dht = new DHT({verify: ed.verify});
+        const hash = Buffer(Settings.dht, 'hex');
+        const self=this;
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
                 if (err) {
@@ -24,7 +28,12 @@ class DhtReader
                     console.error('DHT hash not found');
                     return;
                 }
-                AdvSettings.set('dhtData', node.v.toString());
+                let newData = node.v.toString();
+                let data = AdvSettings.get('dhtData');
+                if (data !== newData) {
+                    self.alertMessageSuccess(true, i18n.__('Сonfig updated successfully'));
+                }
+                AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
                 console.log('Updated from DHT');
             });
@@ -39,11 +48,30 @@ class DhtReader
         let data = AdvSettings.get('dhtData');
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
+        if (!data) {
+            this.alertMessageSuccess(false, i18n.__('Updating config from internet'));
+        }
         if (!data || (Date.now() - last > time)) {
-            this._update();
+            this.update();
         }
     }
 
+    alertMessageSuccess(btnRestart, successDesc) {
+        var notificationModel = new App.Model.Notification({
+            title: i18n.__('Endpoints'),
+            body: successDesc,
+            type: 'success',
+        });
+
+        if (btnRestart) {
+            notificationModel.set('showRestart', true);
+        } else {
+            notificationModel.attributes.autoclose = 4000;
+        }
+
+        // Open the notification
+        App.vent.trigger('notification:show', notificationModel);
+    }
 }
 
 App.DhtReader = new DhtReader();

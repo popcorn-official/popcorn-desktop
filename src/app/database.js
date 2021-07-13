@@ -471,7 +471,9 @@ var Database = {
                 }
             })
             .then(function () {
-                App.DhtReader.updateOld();
+                if (Settings.dhtEnable) {
+                    App.DhtReader.updateOld();
+                }
             })
             .catch(function (err) {
                 win.error('Error starting up', err);

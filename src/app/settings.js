@@ -192,6 +192,7 @@ Settings.automaticUpdating = true;
 Settings.UpdateSeed = false;
 Settings.events = true;
 Settings.minimizeToTray = false;
+Settings.dhtEnable = true;
 
 // Features
 Settings.activateTorrentCollection = true;
