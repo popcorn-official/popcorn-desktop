@@ -56,7 +56,7 @@
     "bootstrap": "^3.4.1",
     "butter-provider": "0.11.0",
     "butter-sanitize": "^0.1.1",
-    "butter-settings-popcorntime.app": "0.0.6",
+    "butter-settings-popcorntime.app": "0.0.7",
     "chromecast-api": "0.3.4",
     "dayjs": "^1.10.6",
     "dlnacasts2": "0.2.0",
