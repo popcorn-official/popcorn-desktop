@@ -104,7 +104,7 @@ App.WebTorrent = new WebTorrent({
 
 App.plugins = {};
 
-fs.readFile('./.git.json', 'utf8', function (err, json) {
+fs.readFile('./git.json', 'utf8', function (err, json) {
   if (!err) {
     App.git = JSON.parse(json);
   }
