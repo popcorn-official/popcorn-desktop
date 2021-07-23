@@ -307,7 +307,7 @@ win.on('restore', function () {
 
 // Now this function is used via global keys (cmd+q and alt+f4)
 function close() {
-  $('.spinner').show();
+  win.hide();
 
   // If the WebTorrent is destroyed, that means the user has already clicked the close button.
   // Try to let the WebTorrent destroy from that closure. Even if it fails, the window will close.
