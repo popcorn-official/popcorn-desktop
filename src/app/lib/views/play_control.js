@@ -72,6 +72,7 @@
 
     setQuality: function(torrent, key) {
       _this.model.set('quality', key);
+      App.vent.trigger('change:quality', key);
     },
 
     hideUnused: function() {

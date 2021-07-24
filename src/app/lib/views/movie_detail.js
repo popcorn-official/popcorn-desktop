@@ -25,6 +25,7 @@
       'click .close-icon': 'closeDetails',
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
+      'mousedown .source-link': 'openSource',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
@@ -70,11 +71,25 @@
 
       App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
-      App.vent.on('change:quality', healthButton.render, this);
+      App.vent.on('change:quality', _this.onChangeQuality.bind(_this));
       // init fields in model
       this.model.set('displayTitle', '');
       this.model.set('displaySynopsis', '');
       this.localizeTexts();
+    },
+
+    onChangeQuality: function (quality) {
+      this.toggleSourceLink(quality);
+      healthButton.render();
+    },
+
+    toggleSourceLink: function(quality) {
+      const torrents = this.model.get('torrents');
+      if (torrents[quality].source) {
+        $('.source-link').show();
+      } else {
+        $('.source-link').hide();
+      }
     },
 
     toggleShowQuality: function(e) {
@@ -128,6 +143,7 @@
         $('.q1080').removeClass('active');
       }
 
+      this.toggleSourceLink(quality);
       win.debug('about to render health button');
       healthButton.render();
     },
@@ -242,7 +258,7 @@
 
       if (!this.model.get('torrents')) {
         // no torrents
-        $('.magnet-link, .health-icon').hide();
+        $('.magnet-link, .health-icon, .source-link').hide();
       }
 
       if (!this.model.get('rating')) {
@@ -409,6 +425,31 @@
       } else {
         nw.Shell.openExternal(magnetLink);
       }
+    },
+
+    openSource: function(e) {
+      var torrent = this.model.get('torrents')[this.model.get('quality')],
+          sourceLink;
+
+      if (torrent.source) {
+        // Movies
+        sourceLink = torrent.source.replace(/\&amp;/g, '&');
+      } else {
+        return;
+      }
+      if (e.button === 2) {
+        //if right click on magnet link
+        var clipboard = nw.Clipboard.get();
+        clipboard.set(sourceLink, 'text'); //copy link to clipboard
+        $('.notification_alert')
+            .text(i18n.__('The source link was copied to the clipboard'))
+            .fadeIn('fast')
+            .delay(2500)
+            .fadeOut('fast');
+      } else {
+        nw.Shell.openExternal(sourceLink);
+      }
     }
+
   });
 })(window.App);
