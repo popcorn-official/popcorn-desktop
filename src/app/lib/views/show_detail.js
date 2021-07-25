@@ -161,7 +161,7 @@
 
             this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
-            $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
+            $('.star-container-tv,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
