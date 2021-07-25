@@ -5,8 +5,6 @@ var Datastore = require('nedb'),
 var startupTime = window.performance.now();
 console.debug('Database path: ' + data_path);
 
-process.env.TZ = 'America/New_York'; // set same api tz
-
 db.bookmarks = new Datastore({
     filename: path.join(data_path, 'data/bookmarks.db'),
     autoload: true

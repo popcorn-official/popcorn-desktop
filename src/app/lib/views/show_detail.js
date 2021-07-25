@@ -703,7 +703,7 @@
             });
             _this.getRegion('qualitySelector').show(qualitySelector);
 
-            var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
+            var first_aired = selectedEpisode.first_aired ? dayjs.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
             var synopsis = $('.sdoi-synopsis');
             var startStreaming = $('.startStreaming');
             var localize = this.localizeEpisode(selectedEpisode);

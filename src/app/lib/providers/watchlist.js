@@ -61,60 +61,32 @@
     return Promise.all(
       items.map(function(item) {
         if (item.next_episode) {
-          if (
-            moment(item.next_episode.first_aired)
-              .fromNow()
-              .indexOf('in') !== -1
-          ) {
-            console.log(
-              '"%s" is not released yet, not showing',
-              item.show.title +
-                ' ' +
-                item.next_episode.season +
-                'x' +
-                item.next_episode.number
-            );
-          } else {
-            var show = item.show;
-            show.type = 'show';
-            show.episode = item.next_episode.number;
-            show.season = item.next_episode.season;
-            show.episode_title = item.next_episode.title;
-            show.episode_id = item.next_episode.ids.tvdb;
-            show.episode_aired = item.next_episode.first_aired;
-            show.imdb_id = item.show.ids.imdb;
-            show.tvdb_id = item.show.ids.tvdb;
-            show.rating = item.show.rating;
-            show.title = item.show.title;
-            show.trailer = item.show.trailer;
-            show.unseen = item.unseen;
+          var show = item.show;
+          show.type = 'show';
+          show.episode = item.next_episode.number;
+          show.season = item.next_episode.season;
+          show.episode_title = item.next_episode.title;
+          show.episode_id = item.next_episode.ids.tvdb;
+          show.episode_aired = item.next_episode.first_aired;
+          show.imdb_id = item.show.ids.imdb;
+          show.tvdb_id = item.show.ids.tvdb;
+          show.rating = item.show.rating;
+          show.title = item.show.title;
+          show.trailer = item.show.trailer;
+          show.unseen = item.unseen;
 
-            itemList.push(show);
-          }
-        } else {
-          if (item.movie) {
-            if (
-              moment(item.movie.released)
-                .fromNow()
-                .indexOf('in') !== -1
-            ) {
-              console.log(
-                '"%s" is not released yet, not showing',
-                item.movie.title
-              );
-            } else {
-              var movie = item.movie;
-              movie.type = 'movie';
-              movie.listed_at = item.listed_at;
-              movie.imdb_id = item.movie.ids.imdb;
-              movie.rating = item.movie.rating;
-              movie.title = item.movie.title;
-              movie.trailer = item.movie.trailer;
-              movie.year = item.movie.year;
+          itemList.push(show);
+        } else if (item.movie) {
+          var movie = item.movie;
+          movie.type = 'movie';
+          movie.listed_at = item.listed_at;
+          movie.imdb_id = item.movie.ids.imdb;
+          movie.rating = item.movie.rating;
+          movie.title = item.movie.title;
+          movie.trailer = item.movie.trailer;
+          movie.year = item.movie.year;
 
-              itemList.push(movie);
-            }
-          }
+          itemList.push(movie);
         }
       })
     )

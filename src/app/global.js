@@ -6,6 +6,7 @@ var _ = require('underscore'),
   // Machine readable
   os = require('os'),
   moment = require('moment'),
+  dayjs = require('dayjs'),
   crypt = require('crypto'),
   semver = require('semver'),
   // Files
@@ -47,3 +48,6 @@ var _ = require('underscore'),
   extPlayerlst = '',
   // setting default filters status
   curSetDefaultFilters = false;
+
+dayjs.extend(require('dayjs/plugin/relativeTime'));
+dayjs.extend(require('dayjs/plugin/localizedFormat'));
