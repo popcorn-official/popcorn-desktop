@@ -5,7 +5,6 @@ var _ = require('underscore'),
   Q = require('q'),
   // Machine readable
   os = require('os'),
-  moment = require('moment'),
   dayjs = require('dayjs'),
   crypt = require('crypto'),
   semver = require('semver'),
