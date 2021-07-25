@@ -22,6 +22,9 @@ var setLanguage = function (preferredLanguage) {
             $el.text(i18n.__(key));
         }
     });
+
+    require('dayjs/locale/' + Settings.language);
+    dayjs.locale(Settings.language);
 };
 
 App.Localization.nativeName = function (lang) {

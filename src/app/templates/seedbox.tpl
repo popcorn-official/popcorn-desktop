@@ -22,7 +22,7 @@
                     <div class="seedbox-infos-aired">
                         <i class="fa fa-upload watched seedbox-uploaded"></i>
                         <i class="fa fa-download watched seedbox-downloaded"></i>
-                        <div class="seedbox-infos-date"></div>
+                        <span class="seedbox-infos-date"></span>
                     </div>
                     <div class="seedbox-infos-synopsis">
                         <div class="torrents-info">
