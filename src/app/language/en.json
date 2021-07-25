@@ -568,5 +568,6 @@
 	"Only show content available in the preferred language": "Only show content available in the preferred language",
 	"Translations depend on availability. Also some options might not be supported by some API servers": "Translations depend on availability. Also some options might not be supported by some API servers",
 	"added": "added",
-	"Source link": "Source link"
+	"Source link": "Source link",
+	"The source link was copied to the clipboard": "The source link was copied to the clipboard"
 }
