@@ -13,7 +13,6 @@
     ] %>
     <% _.each (filters, function (filter) { if(typeof filter.current !== 'undefined' && filter.list.length !== 0){ %>
         <li class="dropdown filter <%= filter.class %>">
-            <span style="color:red"><%= filter.current %></span>
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <%= i18n.__(filter.title) %>
                 <span class="value" data-value="<%= filter.current %>"></span>
@@ -26,60 +25,6 @@
             </ul>
         </li>
     <% }}); %>
-    <% if(typeof type !== 'undefined' && types.length !== 0){ %>
-        <li class="dropdown filter types">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= i18n.__("Type") %>
-                    <span class="value" data-value="<%= type %>"><%= i18n.__(type) %></span>
-                    <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(types, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c) %></a></li>
-                <% }); %>
-            </ul>
-        </li>
-
-    <% }if(typeof rating !== 'undefined' && ratings.length !== 0){ %>
-        <li class="dropdown filter ratings">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= i18n.__("Rating") %>
-                    <span data-value="<%= rating %>" class="value"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></span>
-                    <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(ratings, function(rating) { %>
-                    <li><a href="#" data-value="<%= rating %>"><%= i18n.__(rating.capitalizeEach()) %><% if (rating !== 'All') { %>+<% } %></a></li>
-                <% }); %>
-            </ul>
-        </li>
-    <% }if(typeof genre !== 'undefined' && genres.length !== 0){ %>
-        <li class="dropdown filter genres">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= i18n.__("Genre") %>
-                    <span data-value="<%= genre %>" class="value"><%= i18n.__(genre.capitalizeEach()) %></span>
-                    <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(genres, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
-                <% }); %>
-            </ul>
-        </li>
-    <%} if(typeof sorter !== 'undefined' && sorters.length !== 0){ %>
-        <li class="dropdown filter sorters">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= i18n.__("Sort by") %>
-                    <span data-value="<%= sorter %>" class="value"><%= i18n.__(sorter.capitalizeEach()) %></span>
-                    <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-                <% _.each(sorters, function(c) { %>
-                    <li><a href="#" data-value="<%= c %>"><%= i18n.__(c.capitalizeEach()) %></a></li>
-                <% }); %>
-            </ul>
-        </li>
-    <%}%>
 </ul>
 <ul class="nav nav-hor right">
     <% if (Settings.vpnEnabled) { %>
