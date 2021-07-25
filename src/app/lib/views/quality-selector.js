@@ -45,7 +45,6 @@
                 sortedTorrents[key] = torrents[key];
             }
 
-            console.log(sortedTorrents);
             this.model.set('sortedTorrents', sortedTorrents);
             this.render();
             this.initQuality();

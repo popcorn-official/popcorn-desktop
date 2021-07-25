@@ -28,6 +28,7 @@
             'click .tab-episode': 'clickEpisode',
             'click .shmi-imdb': 'openIMDb',
             'mousedown .magnet-icon': 'openMagnet',
+            'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
@@ -395,6 +396,17 @@
             }
         },
 
+        openSource: function (e) {
+            var torrentUrl = $('.startStreaming').attr('data-source');
+            if (e.button === 2) { //if right click on magnet link
+                var clipboard = nw.Clipboard.get();
+                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
+                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else {
+                nw.Shell.openExternal(torrentUrl);
+            }
+        },
+
         switchRating: function () {
             $('.number-container-tv').toggleClass('hidden');
             $('.star-container-tv').toggleClass('hidden');
@@ -733,11 +745,13 @@
             var downloadButton = $('#download-torrent');
             startStreaming.attr('data-file', torrent.file || '');
             startStreaming.attr('data-torrent', torrent.url);
+            startStreaming.attr('data-source', torrent.source);
             startStreaming.attr('data-quality', key);
             downloadButton.attr('data-torrent', torrent.url);
             downloadButton.attr('data-file', torrent.file || '');
 
             _this.resetTorrentHealth();
+            _this.toggleSourceLink();
         },
 
         toggleQuality: function (e) {
@@ -879,6 +893,15 @@
         refreshTorrentHealth: function () {
             healthButton.reset();
             healthButton.render();
+        },
+
+        toggleSourceLink: function () {
+            const sourceURL = $('.startStreaming').attr('data-source');
+            if (sourceURL) {
+                $('.source-icon').show();
+            } else {
+                $('.source-icon').hide();
+            }
         },
 
         selectPlayer: function (e) {
