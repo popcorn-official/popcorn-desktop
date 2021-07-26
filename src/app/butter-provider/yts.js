@@ -19,6 +19,7 @@ class YTSApi extends Generic {
             torrents[torrent.quality] = {
               url: torrent.url,
               magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
+              source: movie.url,
               size: torrent.size_bytes,
               filesize: torrent.size,
               seed: torrent.seeds,
