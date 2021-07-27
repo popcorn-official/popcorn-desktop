@@ -112,14 +112,22 @@
 
             // Watched state
             var watched = false;
+            var locale = false;
 
             if (itemtype.match('movie')) {
                 watched = App.watchedMovies.indexOf(imdb) !== -1;
+                locale = this.model.get('defaultAudio');
             } else if (itemtype.match('show')) {
                 watched = App.watchedShows.indexOf(imdb) !== -1;
+                locale = this.model.get('contextLocale');
             }
 
             this.model.set('watched', watched);
+
+            if (locale && locale !== (Settings.contentLanguage || Settings.language)) {
+                console.log(this.model.get('title'));
+                this.model.set('hasNotLanguage', true);
+            }
 
             // Bookmarked state
             var bookmarked = App.userBookmarks.indexOf(imdb) !== -1;
