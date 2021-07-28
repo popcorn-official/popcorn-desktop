@@ -1,3 +1,14 @@
+## 0.4.6 - Anti MPAA vaccine - 28 July 2021
+
+New Features:
+- Multiple localization
+- Load settings from network
+- Link to source page of torrent
+
+BigFixes:
+- Remove dead tvtime
+- Fix select file from torrent file
+
 ## 0.4.5 - The next wave - 21 June 2021
 
 New Features:

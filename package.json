@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.4.5",
-  "releaseName": "The next wave",
+  "version": "0.4.6",
+  "releaseName": "Anti MPAA vaccine",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
