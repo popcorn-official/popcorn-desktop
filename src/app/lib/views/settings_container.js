@@ -536,8 +536,13 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
-                    /* falls through */
+                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    break;
                 case 'deleteTmpOnClose':
+                    scrollPos = !value ? scrollPos + 40 : scrollPos - 40;
+                    /* falls through */
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
