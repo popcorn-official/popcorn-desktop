@@ -411,6 +411,7 @@
 
         syncSetting: function (setting, value) {
             let scrollPos = that.$el.scrollTop();
+            let scrollPosOffset = 0;
             switch (setting) {
                 case 'coversShowRating':
                     if (value) {
@@ -487,7 +488,7 @@
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') {
                         $('select[name=start_screen]').change();
                     }
-                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
+                    value ? scrollPosOffset++ : scrollPosOffset--;
                     break;
                 case 'moviesTabEnable':
                     App.vent.trigger('favorites:list');
@@ -527,7 +528,7 @@
                     if (AdvSettings.get('startScreen') === 'Seedbox') {
                         $('select[name=start_screen]').change();
                     }
-                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
+                    value ? scrollPosOffset++ : scrollPosOffset--;
                     break;
                 case 'separateDownloadsDir':
                     if (value) {
@@ -536,12 +537,12 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
-                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
+                    value ? scrollPosOffset++ : scrollPosOffset--;
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'deleteTmpOnClose':
-                    scrollPos = !value ? scrollPos + 40 : scrollPos - 40;
+                    !value ? scrollPosOffset++ : scrollPosOffset--;
                     /* falls through */
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
@@ -573,6 +574,9 @@
                 default:
             }
             if (that.$el.scrollTop() !== scrollPos) {
+                if (scrollPosOffset) {
+                    scrollPos = scrollPos + scrollPosOffset * 40;
+                }
                 that.$el.scrollTop(scrollPos);
             }
         },
