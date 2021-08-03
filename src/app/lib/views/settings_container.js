@@ -487,6 +487,7 @@
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') {
                         $('select[name=start_screen]').change();
                     }
+                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
                     break;
                 case 'moviesTabEnable':
                     App.vent.trigger('favorites:list');
@@ -526,6 +527,7 @@
                     if (AdvSettings.get('startScreen') === 'Seedbox') {
                         $('select[name=start_screen]').change();
                     }
+                    scrollPos = value ? scrollPos + 40 : scrollPos - 40;
                     break;
                 case 'separateDownloadsDir':
                     if (value) {
