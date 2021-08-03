@@ -537,12 +537,16 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
-                    value ? scrollPosOffset++ : scrollPosOffset--;
+                    if (Settings.deleteTmpOnClose) {
+                        value ? scrollPosOffset++ : scrollPosOffset--;
+                    }
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
                 case 'deleteTmpOnClose':
-                    !value ? scrollPosOffset++ : scrollPosOffset--;
+                    if (!Settings.separateDownloadsDir) {
+                        !value ? scrollPosOffset++ : scrollPosOffset--;
+                    }
                     /* falls through */
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
