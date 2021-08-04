@@ -87,7 +87,7 @@
     "send": "0.16.x",
     "socks-proxy-agent": "^5.0.0",
     "srt-to-vtt": "^1.1",
-    "tar": "4.4.8",
+    "tar": "4.4.15",
     "torrentcollection4": "0.0.9",
     "trakt.tv": "7.x.x",
     "trakt.tv-images": "5.x.x",
