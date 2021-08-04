@@ -54,7 +54,7 @@ if (genre) {
             </div>
             <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__("Health false") %>" class="fa fa-circle health-icon <%= health %>"></div>
             <div data-toogle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>" class="fa fa-magnet magnet-link"></div>
-            <div data-toogle="tooltip" data-placement="left" title="<%=i18n.__("Source link") %>" class="fas fa-link source-link"></div>
+            <div data-toogle="tooltip" data-placement="left" title="" class="fas fa-link source-link"></div>
 
         </div>
 

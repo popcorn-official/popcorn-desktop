@@ -84,9 +84,9 @@
     },
 
     toggleSourceLink: function(quality) {
-      const torrents = this.model.get('torrents');
-      if (torrents[quality].source) {
-        $('.source-link').show();
+      const sourceURL = this.model.get('torrents')[this.model.get('quality')].source;
+      if (sourceURL) {
+        $('.source-link').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
       } else {
         $('.source-link').hide();
       }
