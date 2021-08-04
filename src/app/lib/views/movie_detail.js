@@ -84,10 +84,9 @@
     },
 
     toggleSourceLink: function(quality) {
-      const torrents = this.model.get('torrents'),
-            sourceLink = torrents[quality].source;
-      if (sourceLink) {
-        $('.source-link').show().attr('data-original-title', sourceLink.split('//').pop().split('/')[0]);
+      const sourceURL = this.model.get('torrents')[this.model.get('quality')].source;
+      if (sourceURL) {
+        $('.source-link').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
       } else {
         $('.source-link').hide();
       }
