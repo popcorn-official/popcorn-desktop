@@ -898,7 +898,7 @@
         toggleSourceLink: function () {
             const sourceURL = $('.startStreaming').attr('data-source');
             if (sourceURL) {
-                $('.source-icon').show();
+                $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
                 $('.source-icon').hide();
             }
