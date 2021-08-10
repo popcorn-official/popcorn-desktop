@@ -628,8 +628,9 @@
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
             </span>
             <span>
-                <p><%= i18n.__("Port to stream on") %></p>
-                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+                <p><%= i18n.__("Max. Down / Up Speed") %></p>
+                <input id="downloadLimit" type="text" size="11" name="downloadLimit" placeholder="KB/s" value="<%=Settings.downloadLimit%>"/>
+                <input id="uploadLimit" type="text" size="11" name="uploadLimit" placeholder="KB/s" value="<%=Settings.uploadLimit%>"/>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
@@ -639,7 +640,11 @@
                     return ratio;
                    }
                 %>
-                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
+                <input type="text" size="11" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
+            </span>
+            <span>
+                <p><%= i18n.__("Port to stream on") %></p>
+                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
             <% if (Settings.activateSeedbox && (!Settings.deleteTmpOnClose || Settings.separateDownloadsDir)) { %>
             <span>
