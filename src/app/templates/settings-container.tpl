@@ -249,7 +249,7 @@
                 <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
             </span>
             <span id="translation_info">
-                <em>* <%= i18n.__("Translations depend on availability. Also some options might not be supported by some API servers") %></em>
+                <em>* <%= i18n.__("Translations depend on availability. Some options also might not be supported by all API servers") %></em>
             </span>
         </div>
     </section>
