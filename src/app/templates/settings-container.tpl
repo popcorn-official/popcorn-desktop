@@ -629,8 +629,8 @@
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
-                <input id="downloadLimit" type="text" size="11" name="downloadLimit" placeholder="KB/s" value="<%=Settings.downloadLimit%>"/>
-                <input id="uploadLimit" type="text" size="11" name="uploadLimit" placeholder="KB/s" value="<%=Settings.uploadLimit%>"/>
+                <input id="downloadLimit" type="text" size="11" name="downloadLimit" placeholder="KB/s" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
+                <input id="uploadLimit" type="text" size="11" name="uploadLimit" placeholder="KB/s" value="<%=Settings.uploadLimit%>" autocomplete="off"/>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
