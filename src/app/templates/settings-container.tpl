@@ -184,7 +184,7 @@
             </span>
             <span class="advanced">
                 <p><%= i18n.__("UI Scaling") %></p>
-                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
+                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
@@ -620,12 +620,12 @@
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <p><%= i18n.__("Active Torrents Limit") %></p>
-                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>" autocomplete="off"/>
             </span>
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
-                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
