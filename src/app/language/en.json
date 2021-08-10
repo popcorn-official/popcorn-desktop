@@ -566,7 +566,7 @@
 	"Translate Posters": "Translate Posters",
 	"Translate Episode Titles": "Translate Episode Titles",
 	"Only show content available in the preferred language": "Only show content available in the preferred language",
-	"Translations depend on availability. Also some options might not be supported by some API servers": "Translations depend on availability. Also some options might not be supported by some API servers",
+	"Translations depend on availability. Some options also might not be supported by all API servers": "Translations depend on availability. Some options also might not be supported by all API servers",
 	"added": "added",
 	"The source link was copied to the clipboard": "The source link was copied to the clipboard",
 	"Max. Down / Up Speed": "Max. Down / Up Speed"
