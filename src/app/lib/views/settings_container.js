@@ -340,6 +340,17 @@
                 case 'maxActiveTorrents':
                     value = field.val();
                     break;
+                case 'downloadLimit':
+                case 'uploadLimit':
+                    var nvalue = field.val().replace(/[^0-9|-]/gi, '');
+                    if (nvalue <= 0) {
+                        nvalue = '';
+                    } else {
+                        nvalue = nvalue + ' KB/s';
+                    }
+                    field.val(nvalue);
+                    value = nvalue;
+                    break;
                 case 'bigPicture':
                     var nvalue = field.val().replace(/[^0-9]/gi, '');
                     if (nvalue === '') {
@@ -435,6 +446,8 @@
                     }
                     break;
                 case 'protocolEncryption':
+                case 'downloadLimit':
+                case 'uploadLimit':
                     this.alertMessageSuccess(true);
                     break;
                 case 'contentLanguage':
