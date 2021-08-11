@@ -211,6 +211,8 @@
             if (type === 'episode') {
                 type = 'show';
             }
+            console.log('====');
+            console.log(this.video);
             if (this.video.currentTime() / this.video.duration() >= 0.8 && type !== undefined && this.model.get('metadataCheckRequired') !== false) {
                 App.vent.trigger(type + ':watched', this.model.attributes, 'database');
             }
@@ -469,12 +471,13 @@
             // start videojs engine
             if (this.model.get('type') === 'video/youtube') {
 
-                this.video = videojs('video_player', {
+                this.video = videojs($('#video_player').get(0), {
                     techOrder: ['youtube'],
                     forceSSL: true,
-                    ytcontrols: false,
-                    quality: '720p'
-                }).ready(function () {
+                    ytcontrols: true,
+                    quality: '720p',
+                });
+                this.video.ready(function () {
                     that.player && that.player.cache_ && that.player.cache_.volume ? that.player.volume(Settings.playerVolume) : null;
                     this.addClass('vjs-has-started');
                 });
@@ -509,12 +512,13 @@
                         customSubtitles: {},
                         progressTips: {}
                     }
-                }).ready(function () {
+                });
+                this.video.ready(function () {
                     that.playerWasReady = Date.now();
                 });
                 $('head > title').text(this.model.get('title') + ' - Popcorn-Time' );
             }
-            this.player = this.video.player();
+            this.player = this.video;//.player();
             App.PlayerView = this;
 
             /* The following is a hack to make VideoJS listen to
@@ -522,18 +526,18 @@
              *  video element. Stops video pausing/playing when
              *  dragged. TODO: #fixit!
              */
-            this.player.tech.off('mousedown');
-            this.player.tech.on('mouseup', function (event) {
-                if (event.target.origEvent) {
-                    if (!event.target.origEvent.originalEvent.defaultPrevented) {
-                        that.player.tech.onClick(event);
-                    }
-                    // clean up after ourselves
-                    delete event.target.origEvent;
-                } else {
-                    that.player.tech.onClick(event);
-                }
-            });
+            // this.player.tech.off('mousedown');
+            // this.player.tech.on('mouseup', function (event) {
+            //     if (event.target.origEvent) {
+            //         if (!event.target.origEvent.originalEvent.defaultPrevented) {
+            //             that.player.tech.onClick(event);
+            //         }
+            //         // clean up after ourselves
+            //         delete event.target.origEvent;
+            //     } else {
+            //         that.player.tech.onClick(event);
+            //     }
+            // });
 
             // Force custom controls
             this.player.usingNativeControls(false);

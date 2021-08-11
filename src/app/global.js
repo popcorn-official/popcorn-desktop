@@ -36,6 +36,7 @@ var _ = require('underscore'),
   // Torrent engines
   WebTorrent = require('webtorrent'),
   torrentCollection = require('torrentcollection6'),
+  videojs = require('video.js'),
   // NodeJS
   child = require('child_process'),
   // package.json
@@ -44,6 +45,8 @@ var _ = require('underscore'),
   extPlayerlst = '',
   // setting default filters status
   curSetDefaultFilters = false;
+
+require('videojs-youtube');
 
 dayjs.extend(require('dayjs/plugin/relativeTime'));
 dayjs.extend(require('dayjs/plugin/localizedFormat'));
