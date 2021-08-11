@@ -422,11 +422,10 @@ var Database = {
             .then(function () {
                 // set app language
                 window.setLanguage(Settings.language);
+                // set content language
+                App.Providers.updateLanguage(Settings.language, Settings.contentLanguage || Settings.language, Settings.contentLangOnly);
                 // set hardware settings and usefull stuff
                 return AdvSettings.setup();
-            })
-            .then(function () {
-                App.Providers.updateLanguage(Settings.language, Settings.contentLanguage || Settings.language, Settings.contentLangOnly);
             })
             .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
@@ -445,6 +444,9 @@ var Database = {
                     // enable secure after load options
                     require('webtorrent/lib/peer.js').enableSecure();
                 }
+                App.WebTorrent.throttleDownload(parseInt(Settings.downloadLimit, 10) * 1024 || -1);
+                App.WebTorrent.throttleUpload(parseInt(Settings.uploadLimit, 10) * 1024 || -1);
+                App.WebTorrent.maxConns = parseInt(Settings.connectionLimit, 10) || 55;
             })
             .catch(function (err) {
                 win.error('Error starting up', err);

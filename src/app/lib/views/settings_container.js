@@ -342,17 +342,17 @@
                     break;
                 case 'downloadLimit':
                 case 'uploadLimit':
-                    var nvalue = field.val().replace(/[^0-9|-]/gi, '');
-                    if (nvalue <= 0) {
-                        nvalue = '';
+                    let numvalue = field.val().replace(/[^0-9|-]/gi, '');
+                    if (numvalue <= 0) {
+                        numvalue = '';
                     } else {
-                        nvalue = nvalue + ' KB/s';
+                        numvalue = numvalue + ' KB/s';
                     }
-                    field.val(nvalue);
-                    value = nvalue;
+                    field.val(numvalue);
+                    value = numvalue;
                     break;
                 case 'bigPicture':
-                    var nvalue = field.val().replace(/[^0-9]/gi, '');
+                    let nvalue = field.val().replace(/[^0-9]/gi, '');
                     if (nvalue === '') {
                         nvalue = AdvSettings.get('bigPicture');
                     } else if (nvalue < 25) {
@@ -446,9 +446,13 @@
                     }
                     break;
                 case 'protocolEncryption':
-                case 'downloadLimit':
-                case 'uploadLimit':
                     this.alertMessageSuccess(true);
+                    break;
+                case 'downloadLimit':
+                    App.WebTorrent.throttleDownload(parseInt(value, 10) * 1024 || -1);
+                    break;
+                case 'uploadLimit':
+                    App.WebTorrent.throttleUpload(parseInt(value, 10) * 1024 || -1);
                     break;
                 case 'contentLanguage':
                 case 'contentLangOnly':
