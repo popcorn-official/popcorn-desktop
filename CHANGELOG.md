@@ -4,6 +4,7 @@ New Features:
 - Multiple localization
 - Load settings from network
 - Link to source page of torrent
+- Update WebTorrent to 1.4.0 with PE/MSE support
 
 BigFixes:
 - Remove dead tvtime
