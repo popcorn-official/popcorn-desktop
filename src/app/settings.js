@@ -159,8 +159,8 @@ Settings.multipleExtSubtitles = false;
 // More options
 Settings.httpApiEnabled = false;
 Settings.httpApiPort = 8008;
-Settings.httpApiUsername = 'butter';
-Settings.httpApiPassword = 'butter';
+Settings.httpApiUsername = 'popcorn';
+Settings.httpApiPassword = 'popcorn';
 
 // Trakt.tv
 Settings.traktStatus = false;
