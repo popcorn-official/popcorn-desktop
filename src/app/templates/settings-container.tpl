@@ -629,8 +629,8 @@
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
-                <input id="downloadLimit" type="text" size="11" name="downloadLimit" placeholder="KB/s" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
-                <input id="uploadLimit" type="text" size="11" name="uploadLimit" placeholder="KB/s" value="<%=Settings.uploadLimit%>" autocomplete="off"/>
+                <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
+                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em>KB/s</em>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
@@ -640,7 +640,7 @@
                     return ratio;
                    }
                 %>
-                <input type="text" size="11" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
+                <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>

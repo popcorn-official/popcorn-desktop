@@ -345,8 +345,6 @@
                     let numvalue = field.val().replace(/[^0-9|-]/gi, '');
                     if (numvalue <= 0) {
                         numvalue = '';
-                    } else {
-                        numvalue = numvalue + ' KB/s';
                     }
                     field.val(numvalue);
                     value = numvalue;
