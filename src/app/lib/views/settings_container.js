@@ -464,12 +464,6 @@
                         this.alertMessageSuccess(true);
                     }
                     break;
-                case 'vpnEnabled':
-                case 'watchedCovers':
-                case 'defaultFilters':
-                    $('.nav-hor.left li:first').click();
-                    App.vent.trigger('settings:show');
-                    break;
                 case 'alwaysOnTop':
                     win.setAlwaysOnTop(value);
                     break;
@@ -563,9 +557,13 @@
                         !value ? scrollPosOffset++ : scrollPosOffset--;
                     }
                     /* falls through */
+                case 'vpnEnabled':
+                case 'watchedCovers':
+                case 'defaultFilters':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
+                case 'httpApiEnabled':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
