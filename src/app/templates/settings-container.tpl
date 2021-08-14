@@ -403,12 +403,12 @@
         </div>
     </section>
 
-    <% if(App.Trakt) { %>
+    <% if (App.Trakt) { %>
     <section id="trakt-tv">
         <div class="title">Trakt.tv</div>
         <div class="content">
             <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-                <% if(App.Trakt.authenticated) { %>
+                <% if (App.Trakt.authenticated) { %>
                     <span>
                         <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
                         <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
@@ -451,7 +451,7 @@
         <div class="title">OpenSubtitles</div>
         <div class="content">
             <div class="opensubtitles-options">
-                <% if(Settings.opensubtitlesAuthenticated) { %>
+                <% if (Settings.opensubtitlesAuthenticated) { %>
                     <span>
                         <%= i18n.__("You are currently connected to %s", "OpenSubtitles") %>.
                         <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
@@ -518,6 +518,7 @@
                 <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
                 <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
             </span>
+<% if (Settings.httpApiEnabled) { %>
             <span>
                 <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
@@ -548,6 +549,7 @@
                 </span>
                 <canvas id="qrcode" width="200" height="200"></canvas>
             </div><!-- /.modal -->
+<% } %>
         </div>
     </section>
 
@@ -608,7 +610,7 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if(Settings.tvshow) { %>
+            <% if (Settings.tvshow) { %>
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
                     <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
