@@ -18,64 +18,6 @@ videojs.options['children'] = {
     'errorDisplay': {}
 };
 
-//
-// vjs.Player.prototype.debugMouse_ = false;
-// vjs.Player.prototype.reportUserActivity = function (event) {
-//     /** DEBUG MOUSE CTRL+D **/
-//     if (this.debugMouse_) {
-//         console.log('Event fired at: ' + vjs.formatTime(this.player_.currentTime(), this.player_.duration()));
-//         console.log(event);
-//     }
-//     if (event !== undefined && event.type === 'mousemove') {
-//         if (event.webkitMovementX === 0 && event.webkitMovementY === 0) {
-//             return;
-//         }
-//     }
-//     this.userActivity_ = true;
-// };
-//
-// vjs.Player.prototype.listenForUserActivity = function () {
-//     var onActivity, onMouseDown, mouseInProgress, onMouseUp,
-//         activityCheck, inactivityTimeout;
-//
-//     onActivity = vjs.bind(this, this.reportUserActivity);
-//
-//     onMouseDown = function (e) {
-//         onActivity(e);
-//         clearInterval(mouseInProgress);
-//         mouseInProgress = setInterval(onActivity, 250);
-//     };
-//
-//     onMouseUp = function (e) {
-//         onActivity(e);
-//         clearInterval(mouseInProgress);
-//     };
-//
-//     this.on('mousedown', onMouseDown);
-//     this.on('mousemove', onActivity);
-//     this.on('mouseup', onMouseUp);
-//     this.on('keydown', onActivity);
-//     this.on('keyup', onActivity);
-//
-//     activityCheck = setInterval(vjs.bind(this, function () {
-//         if (this.userActivity_) {
-//             this.userActivity_ = false;
-//             this.userActive(true);
-//             clearTimeout(inactivityTimeout);
-//             inactivityTimeout = setTimeout(vjs.bind(this, function () {
-//                 if (!this.userActivity_) {
-//                     this.userActive(false);
-//                 }
-//             }), 2000);
-//         }
-//     }), 250);
-//
-//     this.on('dispose', function () {
-//         clearInterval(activityCheck);
-//         clearTimeout(inactivityTimeout);
-//     });
-// };
-//
 // vjs.Player.prototype.onFullscreenChange = function (e) {
 //     e.stopPropagation();
 //     if (this.isFullscreen()) {
@@ -429,27 +371,6 @@ videojs.options['children'] = {
 //
 //     vjs.addClass(this.el_, 'vjs-has-started');
 //     this.trigger('volumechange');
-// };
-//
-// /**
-//  * The custom progressbar we create. Updated in player.js
-//  *
-//  * @constructor
-//  */
-// vjs.LoadProgressBar = vjs.Component.extend({
-//     init: function (player, options) {
-//         vjs.Component.call(this, player, options);
-//         this.on(player, 'progress', this.update);
-//     }
-// });
-// vjs.LoadProgressBar.prototype.createEl = function () {
-//     return vjs.Component.prototype.createEl.call(this, 'div', {
-//         className: 'vjs-load-progress',
-//         innerHTML: '<span class="vjs-control-text"><span>' + this.localize('Loaded') + '</span>: 0%</span>'
-//     });
-// };
-// vjs.LoadProgressBar.prototype.update = function () {
-//     return;
 // };
 //
 // vjs.Player.prototype.volume = function (percentAsDecimal) {
