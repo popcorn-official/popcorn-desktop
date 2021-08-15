@@ -46,7 +46,5 @@ var _ = require('underscore'),
   // setting default filters status
   curSetDefaultFilters = false;
 
-require('videojs-youtube');
-
 dayjs.extend(require('dayjs/plugin/relativeTime'));
 dayjs.extend(require('dayjs/plugin/localizedFormat'));

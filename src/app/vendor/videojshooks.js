@@ -7,8 +7,6 @@ videojs.options['children'] = {
     'controlBar': {
         currentTimeDisplay : true,
         durationDisplay : true,
-        liveDisplay: false,
-        seekToLive: false,
     },
     'errorDisplay': {}
 };
@@ -497,28 +495,4 @@ videojs.options['children'] = {
 // // Remove videojs key listeners
 // vjs.Button.prototype.onKeyPress = function (event) {
 //     return;
-// };
-//
-// // Dispose needs to clear currentTimeInterval to avoid vdata error (https://github.com/videojs/video.js/issues/1484#issuecomment-55245716)
-// vjs.MediaTechController.prototype.dispose = function () {
-//     // Turn off any manual progress or timeupdate tracking
-//     if (this.manualProgress) {
-//         this.manualProgressOff();
-//     }
-//
-//     if (this.manualTimeUpdates) {
-//         this.manualTimeUpdatesOff();
-//     }
-//
-//     clearInterval(this.currentTimeInterval);
-//
-//     vjs.Component.prototype.dispose.call(this);
-// };
-// // Custom hasData function to not error if el==null (vdata error)
-// vjs.prototype.hasData = function (el) {
-//     if (!el) {
-//         return;
-//     }
-//     var id = el[vjs.expando];
-//     return !(!id || vjs.isEmpty(vjs.cache[id]));
 // };

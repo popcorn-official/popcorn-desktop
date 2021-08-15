@@ -469,7 +469,7 @@
             // start videojs engine
             if (this.model.get('type') === 'video/youtube') {
 
-                this.video = videojs($('#video_player').get(0), {
+                this.video = videojs('video_player', {
                     techOrder: ['youtube'],
                     forceSSL: true,
                     ytcontrols: false,
@@ -501,7 +501,7 @@
                     });
 
             } else {
-                this.video = videojs($('#video_player').get(0), {
+                this.video = videojs('video_player', {
                     nativeControlsForTouch: false,
                     trackTimeOffset: 0,
                     //inactivityTimeout: 2000,
