@@ -162,7 +162,7 @@
  * https://github.com/mickey/videojs-progressTips
  * Copyright (c) 2013 Michael Bensoussan; Licensed MIT */
 
-videojs.plugin('progressTips', function (options) {
+videojs.registerPlugin('progressTips', function (options) {
     var init;
     init = function () {
         var player;

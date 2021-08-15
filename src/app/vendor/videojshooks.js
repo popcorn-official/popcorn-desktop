@@ -1,12 +1,18 @@
-// videojs.options['children'] = {
-//     'mediaLoader': {},
-//     'posterImage': {},
-//     'textTrackDisplay': {},
-//     'loadingSpinner': {},
-//     //'bigPlayButton': {},
-//     'controlBar': {},
-//     'errorDisplay': {}
-// };
+videojs.options['children'] = {
+    'mediaLoader': {},
+    'posterImage': {},
+    'textTrackDisplay': {},
+    'loadingSpinner': {},
+    //'bigPlayButton': {},
+    'controlBar': {
+        currentTimeDisplay : true,
+        durationDisplay : true,
+        liveDisplay: false,
+        seekToLive: false,
+    },
+    'errorDisplay': {}
+};
+
 //
 // vjs.Player.prototype.debugMouse_ = false;
 // vjs.Player.prototype.reportUserActivity = function (event) {
