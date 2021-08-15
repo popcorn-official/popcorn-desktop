@@ -17,6 +17,17 @@ videojs.options['children'] = {
     },
     'errorDisplay': {}
 };
+videojs.getComponent('ControlBar').prototype.options_ = {
+    children: [
+        'playToggle',
+        'volumePanel',
+        'currentTimeDisplay',
+        'timeDivider',
+        'durationDisplay',
+        'progressControl',
+        'remainingTimeDisplay',
+        'customControlSpacer', 'subtitlesButton', 'audioTrackButton', 'fullscreenToggle']
+};
 
 // vjs.Player.prototype.onFullscreenChange = function (e) {
 //     e.stopPropagation();

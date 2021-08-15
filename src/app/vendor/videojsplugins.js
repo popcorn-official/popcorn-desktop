@@ -1,6 +1,10 @@
-// // VideoJS Plugins
-//
-// var Button = videojs.getComponent('Button');
+// VideoJS Plugins
+
+var Button = videojs.getComponent('Button');
+var MenuButton = videojs.getComponent('MenuButton');
+var SubsCapsMenuItem = videojs.getComponent('SubsCapsMenuItem');
+var TextTrackMenuItem = videojs.getComponent('TextTrackMenuItem');
+
 // var BiggerSubtitleButton = videojs.extend(Button, {
 //     /** @constructor */
 //     constructor: function() {
@@ -71,8 +75,96 @@
 // });
 //
 
+/**
+ * Button for subtitles menu
+ *
+ * @extends MenuButton
+ * @class SubtitlesButton
+ */
+class SubtitlesButton extends MenuButton {
+    /**
+     * Constructor for class
+     *
+     * @param {Player|Object} player The player
+     * @param {Object=} options Button options
+     * @param {string} options.direction back or forward
+     * @param {Int} options.seconds number of seconds to seek
+     */
+    constructor(player, options) {
+        super(player, options);
+        if (this.options_.direction === 'forward') {
+            this.controlText(this.localize('Seek forward {{seconds}} seconds')
+                .replace('{{seconds}}', this.options_.seconds));
+        } else if (this.options_.direction === 'back') {
+            this.controlText(this.localize('Seek back {{seconds}} seconds')
+                .replace('{{seconds}}', this.options_.seconds));
+        }
+    }
+
+    /**
+     * Return button class names which include the seek amount.
+     *
+     * @return {string} css cass string
+     */
+    buildCSSClass() {
+        return `vjs-subtitles-button ${super.buildCSSClass()}`;
+    }
+
+    /**
+     * Seek with the button's configured offset
+     */
+    handleClick() {
+        console.log('click!');
+        // const now = this.player_.currentTime();
+        //
+        // if (this.options_.direction === 'forward') {
+        //     this.player_.currentTime(now + this.options_.seconds);
+        // } else if (this.options_.direction === 'back') {
+        //     this.player_.currentTime(now - this.options_.seconds);
+        // }
+    }
+}
+
+class CustomTrackMenuItem extends TextTrackMenuItem {
+    constructor(player, options) {
+        options = options || {};
+        // fake 'empty' track
+        options['track'] = {
+            kind: 'subtitles',
+            player: player,
+            label: i18n.__('Custom...'),
+            dflt: false,
+            mode: false,
+        };
+        super(player, options);
+    }
+}
+
+videojs.registerComponent('сustomTrackMenuItem', CustomTrackMenuItem);
+videojs.registerComponent('customSubtitlesButton', SubtitlesButton);
+
+// Register the plugin with video.js.
+videojs.registerPlugin('customSubtitles', function() {
+    this.ready(() => {
+        // Find subtitlesButton
+        var subtitlesButton;
+        this.controlBar.children().forEach(function (el) {
+            if (el.name() === 'SubtitlesButton') {
+                subtitlesButton = el;
+            }
+        });
+
+        console.log(subtitlesButton);
+
+        subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
+        subtitlesButton.show(); // Always show subtitles button
+
+        this.controlBar.customSubtitlesButton = this.controlBar.addChild('customSubtitlesButton', {}, this.controlBar.children_.length - 1);
+    });
+});
+
 // // Custom Subtitles Button/Menu
-// videojs.plugin('customSubtitles', function () {
+// videojs.registerPlugin('customSubtitles', function () {
 //
 //     // Find subtitlesButton
 //     var subtitlesButton;
