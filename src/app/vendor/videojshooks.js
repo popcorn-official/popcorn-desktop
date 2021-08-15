@@ -1,3 +1,4 @@
+videojs.options.resizeManager = false;
 videojs.options['children'] = {
     'mediaLoader': {},
     'posterImage': {},
@@ -5,8 +6,14 @@ videojs.options['children'] = {
     'loadingSpinner': {},
     //'bigPlayButton': {},
     'controlBar': {
-        currentTimeDisplay : true,
-        durationDisplay : true,
+        playToggle: {
+            replay: false
+        },
+        currentTimeDisplay: true,
+        durationDisplay: true,
+        timeDivider: true,
+        pictureInPictureToggle: false,
+        remainingTimeDisplay: false,
     },
     'errorDisplay': {}
 };
