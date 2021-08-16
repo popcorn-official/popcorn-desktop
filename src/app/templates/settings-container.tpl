@@ -554,12 +554,12 @@
     </section>
 
     <section id="apiserver">
-        <div class="title"><%= i18n.__("API Server") %></div>
+        <div class="title"><%= i18n.__("API Server(s)") %></div>
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Movies Server") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Movies API Server") %></p>
+                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="<%= Settings.providers.movie.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="moviesServers">
                         <% if (Settings.customServers && Settings.customServers.movie) {
                             for (var i = 0; i < Settings.customServers.movie.length; ++i) {
@@ -574,8 +574,8 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Series Server") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Series API Server") %></p>
+                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="<%= Settings.providers.tvshow.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="seriesServers">
                         <% if (Settings.customServers && Settings.customServers.tvshow) {
                             for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
@@ -590,8 +590,8 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Anime Server") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Anime API Server") %></p>
+                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="<%= Settings.providers.anime.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="animeServers">
                         <% if (Settings.customServers && Settings.customServers.anime) {
                             for (var i = 0; i < Settings.customServers.anime.length; ++i) {
