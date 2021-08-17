@@ -7711,9 +7711,10 @@ webtorrent-health@1.x.x:
     bittorrent-tracker "^9.1.0"
     parse-torrent "^5.8.2"
 
-"webtorrent@git+https://github.com/popcorn-time-ru/webtorrent/#pt-fork":
-  version "1.3.9"
-  resolved "git+https://github.com/popcorn-time-ru/webtorrent/#e33d8bab846d14e41fa26a5dbd011c0ead94ce51"
+webtorrent@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.4.0.tgz#f875f2132a4028382f2f28475ef787fa7c22e95f"
+  integrity sha512-dnlSkPiRsk2I9pIoSdG0Zw6d6bWNkYpSoix3bu3eQRNk5xRd+7F1/K7y+tMv/svuGV9nj1aY3N8xSK5OSTyMSg==
   dependencies:
     addr-to-ip-port "^1.5.4"
     bitfield "^4.0.0"
