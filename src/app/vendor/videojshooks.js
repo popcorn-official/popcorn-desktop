@@ -26,7 +26,11 @@ videojs.getComponent('ControlBar').prototype.options_ = {
         'durationDisplay',
         'progressControl',
         'remainingTimeDisplay',
-        'customControlSpacer', 'subtitlesButton', 'audioTrackButton', 'fullscreenToggle']
+        'customControlSpacer',
+        'customSubtitlesButton',
+        'audioTrackButton',
+        'fullscreenToggle'
+    ]
 };
 
 // vjs.Player.prototype.onFullscreenChange = function (e) {

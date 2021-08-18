@@ -509,7 +509,7 @@
                     plugins: {
                         //biggerSubtitle: {},
                         //smallerSubtitle: {},
-                        customSubtitles: {},
+                        //customSubtitles: {},
                     }
                 });
                 this.video.ready(function () {
@@ -519,24 +519,6 @@
             }
             this.player = this.video;
             App.PlayerView = this;
-
-            /* The following is a hack to make VideoJS listen to
-             *  mouseup instead of mousedown for pause/play on the
-             *  video element. Stops video pausing/playing when
-             *  dragged. TODO: #fixit!
-             */
-            // this.player.tech.off('mousedown');
-            // this.player.tech.on('mouseup', function (event) {
-            //     if (event.target.origEvent) {
-            //         if (!event.target.origEvent.originalEvent.defaultPrevented) {
-            //             that.player.tech.onClick(event);
-            //         }
-            //         // clean up after ourselves
-            //         delete event.target.origEvent;
-            //     } else {
-            //         that.player.tech.onClick(event);
-            //     }
-            // });
 
             // Force custom controls
             this.player.usingNativeControls(false);
