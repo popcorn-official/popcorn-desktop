@@ -84,12 +84,12 @@ Settings.trackers = {
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
+    'udp://opentor.org:2710',
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
     'udp://tracker.uw0.xyz:6969',
     'udp://retracker.lanta-net.ru:2710',
-    'wss://tracker.openwebtorrent.com',
-    'wss://tracker.btorrent.xyz'
+    'wss://tracker.openwebtorrent.com'
   ]
 };
 
