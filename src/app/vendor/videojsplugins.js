@@ -1,7 +1,6 @@
 // VideoJS Plugins
 
 var Button = videojs.getComponent('Button');
-var MenuButton = videojs.getComponent('MenuButton');
 var SubtitlesButton = videojs.getComponent('SubtitlesButton');
 var MenuItem = videojs.getComponent('MenuItem');
 
@@ -180,7 +179,7 @@ class CustomTrackMenuItem extends MenuItem {
         let vtt = this.srt2webvtt(text);
         return new File(
             [vtt],
-            '/temp.vtt',
+            'loaded.vtt',
             {type: 'text/vtt'}
         );
     }
@@ -198,7 +197,7 @@ class CustomTrackMenuItem extends MenuItem {
         const track = videojs('video_player').addRemoteTextTrack({
             kind: 'subtitles',
             language: '00',
-            label: 'original',
+            label: i18n.__('Custom...'),
             mode: 'showing',
             src: URL.createObjectURL(file)
         }, false);
@@ -220,57 +219,3 @@ class CustomSubtitlesButton extends SubtitlesButton
     }
 }
 videojs.registerComponent('customSubtitlesButton', CustomSubtitlesButton);
-
-/**
- * Button for subtitles menu
- *
- * @extends MenuButton
- * @class SubtitlesButton
- */
-class CustomButton extends MenuButton {
-    /**
-     * Constructor for class
-     *
-     * @param {Player|Object} player The player
-     * @param {Object=} options Button options
-     * @param {string} options.direction back or forward
-     * @param {Int} options.seconds number of seconds to seek
-     */
-    constructor(player, options) {
-        super(player, options);
-        if (this.options_.direction === 'forward') {
-            this.controlText(this.localize('Seek forward {{seconds}} seconds')
-                .replace('{{seconds}}', this.options_.seconds));
-        } else if (this.options_.direction === 'back') {
-            this.controlText(this.localize('Seek back {{seconds}} seconds')
-                .replace('{{seconds}}', this.options_.seconds));
-        }
-    }
-
-    /**
-     * Return button class names which include the seek amount.
-     *
-     * @return {string} css cass string
-     */
-    buildCSSClass() {
-        return `vjs-subtitles-button ${super.buildCSSClass()}`;
-    }
-
-    /**
-     * Seek with the button's configured offset
-     */
-    handleClick() {
-        console.log('click!');
-
-
-        // const now = this.player_.currentTime();
-        //
-        // if (this.options_.direction === 'forward') {
-        //     this.player_.currentTime(now + this.options_.seconds);
-        // } else if (this.options_.direction === 'back') {
-        //     this.player_.currentTime(now - this.options_.seconds);
-        // }
-    }
-}
-
-videojs.registerComponent('customButton', CustomButton);
