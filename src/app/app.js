@@ -95,8 +95,8 @@ App.advsettings = AdvSettings;
 App.settings = Settings;
 App.WebTorrent = new WebTorrent({
   maxConns     : parseInt(Settings.connectionLimit, 10) || 55,
-  downloadLimit: parseInt(Settings.downloadLimit, 10) * 1024 || -1,
-  uploadLimit  : parseInt(Settings.uploadLimit, 10) * 1024 || -1,
+  downloadLimit: parseInt(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10) || -1,
+  uploadLimit  : parseInt(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10) || -1,
   dht          : true,
   secure       : Settings.protocolEncryption || false,
   tracker      : {
