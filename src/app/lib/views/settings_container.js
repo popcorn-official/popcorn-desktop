@@ -343,7 +343,7 @@
                     break;
                 case 'downloadLimit':
                 case 'uploadLimit':
-                    let numvalue = field.val().replace(/[^0-9|-]/gi, '');
+                    let numvalue = field.val().replace(/[^0-9|.-]/gi, '').replace(/^([^.]*\.)|\./g, '$1');
                     if (numvalue <= 0) {
                         numvalue = '';
                     }
@@ -448,17 +448,17 @@
                     this.alertMessageSuccess(true);
                     break;
                 case 'downloadLimit':
-                    App.WebTorrent.throttleDownload(parseInt(value, 10) * parseInt(Settings.maxLimitMult, 10) || -1);
+                    App.WebTorrent.throttleDownload(parseInt(parseFloat(value, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                     break;
                 case 'uploadLimit':
-                    App.WebTorrent.throttleUpload(parseInt(value, 10) * parseInt(Settings.maxLimitMult, 10) || -1);
+                    App.WebTorrent.throttleUpload(parseInt(parseFloat(value, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                     break;
                 case 'maxLimitMult':
                     if (Settings.downloadLimit) {
-                        App.WebTorrent.throttleDownload(parseInt(Settings.downloadLimit, 10) * parseInt(value, 10) || -1);
+                        App.WebTorrent.throttleDownload(parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(value, 10)) || -1);
                     }
                     if (Settings.uploadLimit) {
-                        App.WebTorrent.throttleUpload(parseInt(Settings.uploadLimit, 10) * parseInt(value, 10) || -1);
+                        App.WebTorrent.throttleUpload(parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(value, 10)) || -1);
                     }
                     break;
                 case 'contentLanguage':
