@@ -632,7 +632,19 @@
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
                 <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
-                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em>KB/s</em>
+                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
+                <%
+                    var limit_mult = {
+                        "1024": "KB/s",
+                        "1048576": "MB/s"
+                    };
+                    var select_default_mult = "";
+                    for(var key in limit_mult) {
+                        select_default_mult += "<option "+(Settings.maxLimitMult == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(limit_mult[key])+"</option>";
+                    }
+                %>
+                <select name="maxLimitMult"><%=select_default_mult%></select>
+                <span class="dropdown-arrow"></span>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
