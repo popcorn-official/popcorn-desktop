@@ -444,8 +444,8 @@ var Database = {
                     // enable secure after load options
                     require('webtorrent/lib/peer.js').enableSecure();
                 }
-                App.WebTorrent.throttleDownload(parseInt(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10) || -1);
-                App.WebTorrent.throttleUpload(parseInt(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10) || -1);
+                App.WebTorrent.throttleDownload(parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
+                App.WebTorrent.throttleUpload(parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                 App.WebTorrent.maxConns = parseInt(Settings.connectionLimit, 10) || 55;
             })
             .catch(function (err) {
