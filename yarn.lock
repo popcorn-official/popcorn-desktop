@@ -7701,7 +7701,7 @@ webtorrent-health@1.x.x:
     bittorrent-tracker "^9.1.0"
     parse-torrent "^5.8.2"
 
-webtorrent@^1.4.0:
+webtorrent@^1.5.4:
   version "1.5.4"
   resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.5.4.tgz#0f43968196414ece3e6e07687ce6a62215018a8b"
   integrity sha512-XXvOHlCskDgDjFoId0YrTebQQ/11rIJIm0MQqkBPctSA+RPrRDDooJa8yHAsVP+Aa2PtoxrKPSHr9RFDq+46aQ==
