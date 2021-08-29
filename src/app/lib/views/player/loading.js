@@ -56,6 +56,7 @@
       'mousedown .title': 'copytoclip',
       'mousedown .text_filename': 'copytoclip',
       'mousedown .text_streamurl': 'copytoclip',
+      'mousedown .magnet-icon': 'openMagnet',
       'click .playing-progressbar': 'seekStreaming'
     },
 
@@ -161,7 +162,7 @@
       $('#header').addClass('header-shadow');
       App.LoadingView = this;
       this.initKeyboardShortcuts();
-      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
+      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
         html: true,
         delay: {
           'show': 800,
@@ -335,6 +336,25 @@
 
     tempf: function (e) {
       App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+    },
+
+    openMagnet: function (e) {
+      const torrent = this.model.get('streamInfo').attributes.torrentModel.attributes.torrent;
+      if (torrent.magnetURI) {
+        var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
+        magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
+        if (e.button === 2) {
+          var clipboard = nw.Clipboard.get();
+          clipboard.set(magnetLink, 'text'); //copy link to clipboard
+          $('.notification_alert')
+          .text(i18n.__('Copied to clipboard'))
+          .fadeIn('fast')
+          .delay(2500)
+          .fadeOut('fast');
+        } else {
+          nw.Shell.openExternal(magnetLink);
+        }
+      }
     },
 
     remainingTime: function () {
