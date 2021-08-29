@@ -1,16 +1,26 @@
-## 0.4.6 - Anti MPAA vaccine - 28 July 2021
+## 0.4.6 - The Good Variant - 29 August 2021
 
 New Features:
-- Multiple localization
-- Load settings from network
-- Link to source page of torrent
-- Update WebTorrent to 1.4.0 with PE/MSE support
+- Add Localization support
+- Add multiple audio language support
+- Add maximum Download/Upload speed options
+- Add Source Link for content where data exists
+- Update WebTorrent to 1.4.0 also adding PE/MSE support
 
-BigFixes:
-- Remove dead tvtime
-- Fix select file from torrent file
+Bug Fixes:
+- Fix issue with peers not being resolved when restarting canceled stream/download
+- Fix wrong file selection on some instances where torrents contain multiple video files
+- Remove non-working TVShow Time support since their API service has been terminated
+- Various other small fixes and optimizations
 
-## 0.4.5 - The next wave - 21 June 2021
+Other:
+- Optimize app closing time
+- Settings page UI changes/updates
+- Better unreachable API error message displaying all APIs tried
+- Update torrent trackers
+- Update various modules/dependencies
+
+## 0.4.5 - The Next Wave - 21 June 2021
 
 New Features:
 - Update NWJS to 0.44.5 (https://github.com/nwjs/nw.js/blob/nw44/CHANGELOG.md)
