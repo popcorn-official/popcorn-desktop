@@ -68,7 +68,8 @@
             <div class="seed_status">
                 <!-- downloading info -->
                 <div class="loading-info">
-                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"></span><span class="text_size"></span><span class="text">)</span><br>
+                    <span class="buffer_percent"></span>&nbsp;&nbsp;&nbsp;<span class="text">(</span><span class="text_downloadedformatted"></span><span class="text_size"></span><span class="text">)</span>
+                    <span class="magnet-icon tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Magnet link") %>"><i class="fa fa-magnet"></i></span><br>
                     <span class="text_remaining"></span><span id="rbreak1"><br></span><br>
                     <span class="loading-info-text" id="rdownl"><%= i18n.__("Download") %>:&nbsp;</span>
                     <span class="download_speed value"><%= Common.fileSize(0) %>/s</span><span id="rbreak2"><br></span>
