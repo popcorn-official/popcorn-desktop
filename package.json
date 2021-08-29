@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "main": "src/app/index.html",
   "version": "0.4.6",
-  "releaseName": "Anti MPAA vaccine",
+  "releaseName": "The Good Variant",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
