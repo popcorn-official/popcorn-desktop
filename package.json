@@ -59,7 +59,6 @@
     "butter-settings-popcorntime.app": "0.0.6",
     "chromecast-api": "0.3.4",
     "dayjs": "^1.10.6",
-    "defer-request": "0.0.3",
     "dlnacasts2": "0.2.0",
     "edit-json-file": "^1.4.1",
     "flag-icon-css": "^3.5.0",
