@@ -5,7 +5,8 @@ New Features:
 - Add multiple audio language support
 - Add maximum Download/Upload speed options
 - Add Source Link for content where data exists
-- Update WebTorrent to 1.4.0 also adding PE/MSE support
+- Add Magnet Link button in the loading screen
+- Update WebTorrent to 1.5.4 also adding PE/MSE support
 
 Bug Fixes:
 - Fix issue with peers not being resolved when restarting canceled stream/download
