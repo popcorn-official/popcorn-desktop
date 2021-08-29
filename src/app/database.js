@@ -1,4 +1,4 @@
-var Datastore = require('nedb'),
+var Datastore = require('nedb-promises'),
     db = {},
     TTL = 1000 * 60 * 60 * 24;
 
@@ -25,18 +25,6 @@ db.watched = new Datastore({
     filename: path.join(data_path, 'data/watched.db'),
     autoload: true
 });
-
-function promisifyDatastore(datastore) {
-    datastore.insert = Q.denodeify(datastore.insert, datastore);
-    datastore.update = Q.denodeify(datastore.update, datastore);
-    datastore.remove = Q.denodeify(datastore.remove, datastore);
-}
-
-promisifyDatastore(db.bookmarks);
-promisifyDatastore(db.settings);
-promisifyDatastore(db.tvshows);
-promisifyDatastore(db.movies);
-promisifyDatastore(db.watched);
 
 // Create unique indexes for the various id's for shows and movies
 db.tvshows.ensureIndex({
@@ -72,19 +60,6 @@ var extractMovieIds = function (items) {
     return _.pluck(items, 'movie_id');
 };
 
-// This utilizes the exec function on nedb to turn function calls into promises
-var promisifyDb = function (obj) {
-    return Q.Promise(function (resolve, reject) {
-        obj.exec(function (error, result) {
-            if (error) {
-                return reject(error);
-            } else {
-                return resolve(result);
-            }
-        });
-    });
-};
-
 var Database = {
     addMovie: function (data) {
         return db.movies.insert(data);
@@ -97,9 +72,9 @@ var Database = {
     },
 
     getMovie: function (imdb_id) {
-        return promisifyDb(db.movies.findOne({
+        return db.movies.findOne({
             imdb_id: imdb_id
-        }));
+        });
     },
 
     addBookmark: function (imdb_id, type) {
@@ -140,11 +115,11 @@ var Database = {
             query.type = data.type;
         }
 
-        return promisifyDb(db.bookmarks.find(query).skip(offset).limit(byPage));
+        return db.bookmarks.find(query).skip(offset).limit(byPage);
     },
 
     getAllBookmarks: function () {
-        return promisifyDb(db.bookmarks.find({}))
+        return db.bookmarks.find({})
             .then(function (data) {
                 var bookmarks = [];
                 if (data) {
@@ -172,7 +147,7 @@ var Database = {
 
         win.warn('This shouldn\'t be called');
 
-        return Q();
+        return Promise.resolve();
     },
 
     markMovieAsNotWatched: function (data) {
@@ -185,9 +160,9 @@ var Database = {
     },
 
     getMoviesWatched: function () {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
             type: 'movie'
-        }));
+        });
     },
 
     /*******************************
@@ -204,9 +179,9 @@ var Database = {
     },
 
     markEpisodeAsWatched: function (data) {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
                 tvdb_id: data.tvdb_id.toString()
-            }))
+            })
             .then(function (response) {
                 if (response.length === 0) {
                     App.watchedShows.push(data.imdb_id.toString());
@@ -233,9 +208,9 @@ var Database = {
     },
 
     markEpisodeAsNotWatched: function (data) {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
                 tvdb_id: data.tvdb_id.toString()
-            }))
+            })
             .then(function (response) {
                 if (response.length === 1) {
                     App.watchedShows.splice(App.watchedShows.indexOf(data.imdb_id.toString()), 1);
@@ -255,12 +230,12 @@ var Database = {
     },
 
     checkEpisodeWatched: function (data) {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
                 tvdb_id: data.tvdb_id.toString(),
                 imdb_id: data.imdb_id.toString(),
                 season: data.season.toString(),
                 episode: data.episode.toString()
-            }))
+            })
             .then(function (data) {
                 return (data !== null && data.length > 0);
             });
@@ -269,15 +244,15 @@ var Database = {
     // return an array of watched episode for this
     // tvshow
     getEpisodesWatched: function (tvdb_id) {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
             tvdb_id: tvdb_id.toString()
-        }));
+        });
     },
 
     getAllEpisodesWatched: function () {
-        return promisifyDb(db.watched.find({
+        return db.watched.find({
             type: 'episode'
-        }));
+        });
     },
 
     // Used in bookmarks
@@ -291,26 +266,26 @@ var Database = {
     getTVShow: function (data) {
         win.warn('this isn\'t used anywhere');
 
-        return promisifyDb(db.tvshows.findOne({
+        return db.tvshows.findOne({
             _id: data.tvdb_id
-        }));
+        });
     },
 
     // Used in bookmarks
     getTVShowByImdb: function (imdb_id) {
-        return promisifyDb(db.tvshows.findOne({
+        return db.tvshows.findOne({
             imdb_id: imdb_id
-        }));
+        });
     },
 
     getSetting: function (data) {
-        return promisifyDb(db.settings.findOne({
+        return db.settings.findOne({
             key: data.key
-        }));
+        });
     },
 
     getSettings: function () {
-        return promisifyDb(db.settings.find({}));
+        return db.settings.find({});
     },
 
     getUserInfo: function () {
@@ -329,7 +304,7 @@ var Database = {
                 App.watchedShows = extractIds(data);
             });
 
-        return Q.all([bookmarks, movies, episodes]);
+        return Promise.all([bookmarks, movies, episodes]);
     },
 
     // format: {key: key_name, value: settings_value}
@@ -370,7 +345,7 @@ var Database = {
 
         fs.unlinkSync(path.join(data_path, 'data/settings.db'));
 
-        return Q.Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var req = indexedDB.deleteDatabase(App.Config.cache.name);
             req.onsuccess = function () {
                 resolve();
@@ -395,7 +370,7 @@ var Database = {
             .then(Database.getSettings)
             .then(function (data) {
                 if (data !== null) {
-                    for (var key in data) {
+                    for (let key in data) {
                         Settings[data[key].key] = data[key].value;
                     }
                 } else {

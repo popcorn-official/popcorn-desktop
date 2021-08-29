@@ -65,6 +65,20 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
+"@seald-io/binary-search-tree@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@seald-io/binary-search-tree/-/binary-search-tree-1.0.2.tgz#9f0e5cec5e0acf97f1b495f2f6d3476ddb6a94ed"
+  integrity sha512-+pYGvPFAk7wUR+ONMOlc6A+LUN4kOCFwyPLjyaeS7wVibADPHWYJNYsNtyIAwjF1AXQkuaXElnIc4XjKt55QZA==
+
+"@seald-io/nedb@^2.0.3":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@seald-io/nedb/-/nedb-2.0.4.tgz#d3c0534889b81ba1dc43cbde8721312eee13c648"
+  integrity sha512-QMSMJemcCIVhbcwVg/oASV74Qudl6ex6c1U8IwckxIvFub1TwRQcchMva30qBUIrNGrLgKXM3c+lgwfdlGa55w==
+  dependencies:
+    "@seald-io/binary-search-tree" "^1.0.2"
+    async "0.2.10"
+    localforage "^1.9.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -718,13 +732,6 @@ binary-extensions@^1.0.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.13.1.tgz#598afe54755b2868a5330d2aff9d4ebb53209b65"
   integrity sha512-Un7MIEDdUC5gNpcGDV97op1Ywk748MpHcFTHoYs6qnj1Z3j7I53VG3nwZhKzoBZmbdRNnb6WRdFlwl7tSDuZGw==
-
-binary-search-tree@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/binary-search-tree/-/binary-search-tree-0.2.5.tgz#7dbb3b210fdca082450dad2334c304af39bdc784"
-  integrity sha1-fbs7IQ/coIJFDa0jNMMErzm9x4Q=
-  dependencies:
-    underscore "~1.4.4"
 
 binary-search@^1.3.4:
   version "1.3.6"
@@ -4137,7 +4144,7 @@ load-json-file@^1.0.0:
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
 
-localforage@^1.3.0:
+localforage@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/localforage/-/localforage-1.10.0.tgz#5c465dc5f62b2807c3a84c0c6a1b1b3212781dd4"
   integrity sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==
@@ -4848,16 +4855,12 @@ ncp@^2.0.0, ncp@~2.0.0:
   resolved "https://registry.yarnpkg.com/ncp/-/ncp-2.0.0.tgz#195a21d6c46e361d2fb1281ba38b91e9df7bdbb3"
   integrity sha1-GVoh1sRuNh0vsSgbo4uR6d9727M=
 
-nedb@1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/nedb/-/nedb-1.8.0.tgz#0e3502cd82c004d5355a43c9e55577bd7bd91d88"
-  integrity sha1-DjUCzYLABNU1WkPJ5VV3vXvZHYg=
+nedb-promises@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/nedb-promises/-/nedb-promises-5.0.0.tgz#22ad56718808caa71a64afeaab4353a746f4d758"
+  integrity sha512-PZ+V+1RScHr3mZHflAMMkx35naGHKVVGtqLwdK2aado7uN2HcIcubiaVlE/X8BTa34RnIHmusVM+VeTj/pnfew==
   dependencies:
-    async "0.2.10"
-    binary-search-tree "0.2.5"
-    localforage "^1.3.0"
-    mkdirp "~0.5.1"
-    underscore "~1.4.4"
+    "@seald-io/nedb" "^2.0.3"
 
 needle@^2.5.0:
   version "2.9.0"
@@ -7260,11 +7263,6 @@ underscore@>=1.8.3, underscore@^1.13.0:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.13.1.tgz#0c1c6bd2df54b6b69f2314066d65b6cde6fcf9d1"
   integrity sha512-hzSoAVtJF+3ZtiFX0VgfFPHEDRm7Y/QPjGyNo4TVdnDTdft3tr8hEkD25a1jC+TjTuE7tkHGKkhwCgs9dgBB2g==
-
-underscore@~1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
-  integrity sha1-YaajIBBiKvoHljvzJSA88SI51gQ=
 
 undertaker-registry@^1.0.0:
   version "1.0.1"
