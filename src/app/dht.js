@@ -1,7 +1,7 @@
 'use strict';
 
 var DHT = require('bittorrent-dht');
-var ed = require('ed25519-supercop');
+var ed = require('noble-ed25519'); // better use ed25519-supercop but need rebuild ed25519 for windows
 
 class DhtReader
 {
