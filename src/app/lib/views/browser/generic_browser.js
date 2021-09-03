@@ -129,6 +129,7 @@
                 break;
             default:
             }
+            App.settings.showAdvancedSettings = true;
             App.vent.trigger('settings:show');
             curView ? $(curView).attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); }) : null;
         },
