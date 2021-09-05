@@ -475,8 +475,9 @@
                 let file = torrent.files[f];
                 // windows specific fix
                 let path = file.path.replace(/\\/g, '/');
+                let name = fileName.replace(/\\/g, '/');
                 // we use endsWith, not equals because from server may return without first directory
-                if (path.endsWith(fileName)) {
+                if (path.endsWith(name)) {
                     fileIndex = f;
                     fileSize = file.length;
                     fileName = file.path;
