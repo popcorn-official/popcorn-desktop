@@ -4,19 +4,17 @@ cask "popcorn-time" do
 
   server = "popcorn-ru.tk"
   homepage = "http://#{server}"
-  zip = "Popcorn-Time-#{version.tr("-,", "+.")}-Mac.zip"
+  zip = "Popcorn-Time-#{version}-Mac.zip"
 
   url "#{homepage}/build/#{zip}"
   name token.titlecase
   desc "BitTorrent client that includes an integrated media player"
   homepage homepage
 
-  zip.sub! version, "([0-9]+(?:\\.[0-9]+)+)"
-
   livecheck do
     url "#{homepage}/build"
     strategy :page_match
-    regex Regexp.new zip
+    regex Regexp.new zip.sub version, "([0-9]+(?:\\.[0-9]+)+)"
   end
 
   auto_updates true
