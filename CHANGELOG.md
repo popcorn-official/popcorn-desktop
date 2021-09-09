@@ -12,6 +12,7 @@ Bug Fixes:
 - Fix issue with peers not being resolved when restarting canceled stream/download
 - Fix wrong file selection on some instances where torrents contain multiple video files
 - Remove non-working TVShow Time support since their API service has been terminated
+- Fix file selection with directory on windows
 - Various other small fixes and optimizations
 
 Other:
