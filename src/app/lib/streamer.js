@@ -7,26 +7,18 @@
         this.torrent = null;
         // Torrent Backbone Model
         this.torrentModel = null;
-
         // State Backbone Model
         this.stateModel = null;
-
-        // Stream Info Backbone Model, which keeps showing ratio/download/upload info.
-        // See models/stream_info.js
+        // Stream Info Backbone Model, which keeps showing ratio/download/upload info - See models/stream_info.js
         this.streamInfo = null;
-        // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info.
-        // See models/stream_info.js
+        // Interval controller for StreamInfo view, which keeps showing ratio/download/upload info - See models/stream_info.js
         this.updateStatsInterval = null;
         // video dummy element
         this.video = null;
-
         // Boolean to indicate if subtitles are already downloaded and ready to use
         this.subtitleReady = false;
-
         // Boolean to indicate if the video file is ready
         this.canPlay = false;
-
-
         // Boolean to indicate if the process was interrupted
         this.stopped = true;
     };
@@ -109,9 +101,7 @@
           });
         },
 
-        // wrapper for handling a torrent
         start: function(model) {
-            // if webtorrent is created/running, we stop/destroy it
             if (App.WebTorrent.destroyed) {
                 this.stop();
             }
@@ -581,7 +571,6 @@
             this.stopped = false;
             this.torrentModel = model;
             this.streamInfo = new App.Model.StreamInfo();
-
             this.stateModel = new Backbone.Model({
                 state: 'connecting',
                 backdrop: this.torrentModel.get('backdrop'),
@@ -594,7 +583,7 @@
         },
 
         watchState: function () {
-          if (this.stopped) {
+            if (this.stopped) {
               return;
             }
             if (!this.torrent) {
