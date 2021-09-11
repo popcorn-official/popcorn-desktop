@@ -567,7 +567,6 @@
                 episode: episode
             };
 
-
             var episodes = [];
             var episodes_data = [];
             //var selected_quality = $(e.currentTarget).attr('data-quality');
@@ -635,25 +634,24 @@
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
-            console.log('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
             _this.unbindKeyboardShortcuts();
             App.vent.trigger('stream:start', torrentStart);
         },
 
         downloadTorrent: function(e) {
-          const torrent = $(e.currentTarget).attr('data-torrent');
-          const file = $(e.currentTarget).attr('data-file');
-          App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
-          if (Settings.showSeedboxOnDlInit) {
-            App.previousview = App.currentview;
-            App.currentview = 'Seedbox';
-            App.vent.trigger('seedbox:show');
-            $('.filter-bar').find('.active').removeClass('active');
-            $('#filterbar-seedbox').addClass('active');
-            $('#nav-filters').hide();
-          } else {
-            $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
-          }
+            const torrent = $(e.currentTarget).attr('data-torrent');
+            const file = $(e.currentTarget).attr('data-file');
+            App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
+            if (Settings.showSeedboxOnDlInit) {
+                App.previousview = App.currentview;
+                App.currentview = 'Seedbox';
+                App.vent.trigger('seedbox:show');
+                $('.filter-bar').find('.active').removeClass('active');
+                $('#filterbar-seedbox').addClass('active');
+                $('#nav-filters').hide();
+            } else {
+                $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+            }
         },
 
         closeDetails: function (e) {
