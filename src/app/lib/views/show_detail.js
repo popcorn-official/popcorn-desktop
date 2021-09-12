@@ -544,7 +544,7 @@
             }
         },
 
-        startStreaming: function (e) {
+        startStreaming: function (e, state) {
             if (e.type) {
                 e.preventDefault();
             }
@@ -572,7 +572,7 @@
             //var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
             var images = this.model.get('images');
-            if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
+            if (state !== 'downloadOnly' && AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
@@ -635,13 +635,11 @@
                 auto_play_data: episodes_data
             });
             _this.unbindKeyboardShortcuts();
-            App.vent.trigger('stream:start', torrentStart);
+            App.vent.trigger('stream:start', torrentStart, state);
         },
 
         downloadTorrent: function(e) {
-            const torrent = $(e.currentTarget).attr('data-torrent');
-            const file = $(e.currentTarget).attr('data-file');
-            App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
+            this.startStreaming(e, 'downloadOnly');
             if (Settings.showSeedboxOnDlInit) {
                 App.previousview = App.currentview;
                 App.currentview = 'Seedbox';

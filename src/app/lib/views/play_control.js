@@ -212,24 +212,7 @@
     },
 
     downloadTorrent: function() {
-      var providers = this.model.get('providers');
-      var quality = this.model.get('quality');
-      var defaultTorrent = this.model.get('torrents')[quality];
-
-      var filters = {
-        quality: quality,
-        lang: this.audio_selected
-      };
-
-      const torrent = providers.torrent.resolveStream
-        ? providers.torrent.resolveStream(
-            defaultTorrent,
-            filters,
-            this.model.attributes
-          )
-        : defaultTorrent;
-
-      App.vent.trigger('stream:download', torrent, this.model.get('title') /*mediaName*/);
+      this.startStreaming('downloadOnly');
       if (Settings.showSeedboxOnDlInit) {
         App.previousview = App.currentview;
         App.currentview = 'Seedbox';
@@ -242,7 +225,7 @@
       }
     },
 
-    startStreaming: function() {
+    startStreaming: function(state) {
       var providers = this.model.get('providers');
       var quality = this.model.get('quality');
       var defaultTorrent = this.model.get('torrents')[quality];
@@ -274,7 +257,7 @@
         cover: this.model.get('cover')
       });
 
-      App.vent.trigger('stream:start', torrentStart);
+      App.vent.trigger('stream:start', torrentStart, state);
     },
 
     playTrailer: function() {
