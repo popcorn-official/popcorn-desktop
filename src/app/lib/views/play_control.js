@@ -17,7 +17,8 @@
       'click .playerchoicehelp': 'showPlayerList',
       'click .watched-toggle': 'toggleWatched',
       'click #subs-dropdown': 'hideTooltips',
-      'click #audio-dropdown': 'hideTooltips'
+      'click #audio-dropdown': 'hideTooltips',
+      'click #quality-selector': 'hideTooltips'
     },
     regions: {
       subDropdown: '#subs-dropdown',
@@ -185,7 +186,7 @@
     },
 
     hideTooltips: function () {
-      $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle').tooltip('hide');
+      $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle, #quality-selector .qselect').tooltip('hide');
     },
 
     switchSubtitle: function(lang) {
