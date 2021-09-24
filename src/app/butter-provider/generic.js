@@ -127,7 +127,7 @@ class Provider {
     this.apiURL = _.shuffle(urls);
   }
 
-  filters() {return {};}
+  filters() {return Promise.resolve({});}
 }
 
 Provider.ArgType = {

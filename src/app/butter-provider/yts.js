@@ -166,7 +166,7 @@ class YTSApi extends Generic {
       filters.ratings[rating] = rating === 'All' ? i18n.__(rating) : (rating + '+');
     }
 
-    return filters;
+    return Promise.resolve(filters);
   }
 }
 

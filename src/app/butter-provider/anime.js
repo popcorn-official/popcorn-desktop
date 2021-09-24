@@ -161,7 +161,7 @@ class AnimeApi extends Generic {
       filters.types[type] = i18n.__(type);
     }
 
-    return filters;
+    return Promise.resolve(filters);
   }
 }
 

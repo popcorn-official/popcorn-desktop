@@ -39,7 +39,10 @@
     },
 
     initialize: function(e) {
-      App.vent.on('filter-bar:render', this.render);
+      App.vent.on('filter-bar:render', () => {
+        this.render();
+        this.setActive(App.currentview);
+      });
 
       if (VPNht.isInstalled()) {
         VPNht.isConnected().then(isConnected => {

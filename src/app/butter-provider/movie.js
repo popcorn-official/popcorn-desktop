@@ -135,7 +135,7 @@ class MovieApi extends Generic {
       filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
     }
 
-    return filters;
+    return Promise.resolve(filters);
   }
 }
 

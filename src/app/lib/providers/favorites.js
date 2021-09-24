@@ -204,7 +204,7 @@
             filters.types[type] = i18n.__(type);
         }
 
-        return filters;
+        return Promise.resolve(filters);
     };
 
     App.Providers.install(Favorites);
