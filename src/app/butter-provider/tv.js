@@ -75,50 +75,29 @@ class TVApi extends Generic {
   }
 
   filters() {
-    const data = {
-      genres: [
-        'All',
-        'Action',
-        'Adventure',
-        'Animation',
-        'Children',
-        'Comedy',
-        'Crime',
-        'Documentary',
-        'Drama',
-        'Family',
-        'Fantasy',
-        'Game Show',
-        'Home and Garden',
-        'Horror',
-        'Mini Series',
-        'Mystery',
-        'News',
-        'Reality',
-        'Romance',
-        'Science Fiction',
-        'Soap',
-        'Special Interest',
-        'Sport',
-        'Suspense',
-        'Talk Show',
-        'Thriller',
-        'Western'
-      ],
-      sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
-    };
-    let filters = {
-      genres: {},
-      sorters: {},
-    };
-    for (const genre of data.genres) {
-      filters.genres[genre] = i18n.__(genre.capitalizeEach());
-    }
-    for (const sorter of data.sorters) {
-      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
-    }
+    return this._get(0, 'shows/stat?' + new URLSearchParams({contentLocale: this.contentLanguage})).then((result) => {
 
-    return Promise.resolve(filters);
+      const data = {
+        sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+      };
+      let filters = {
+        genres: {},
+        sorters: {},
+      };
+      for (const genre of data.sorters) {
+        filters.sorters[genre] = i18n.__(genre.capitalizeEach());
+      }
+
+      filters.genres = {
+        'All': result.all.title + ' (' + result.all.count + ')',
+      };
+      delete result.all;
+      for (const key in result) {
+        filters.genres[key] = result[key].title + ' (' + result[key].count + ')'
+      }
+
+      return filters;
+    });
   }
 }
 
