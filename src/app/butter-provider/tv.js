@@ -75,7 +75,13 @@ class TVApi extends Generic {
   }
 
   filters() {
-    return this._get(0, 'shows/stat?' + new URLSearchParams({contentLocale: this.contentLanguage})).then((result) => {
+    const params = {
+      contentLocale: this.contentLanguage,
+    };
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+    return this._get(0, 'shows/stat?' + new URLSearchParams(params)).then((result) => {
 
       const data = {
         sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],

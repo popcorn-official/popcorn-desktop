@@ -88,7 +88,13 @@ class MovieApi extends Generic {
   }
 
   filters() {
-    return this._get(0, 'movies/stat?' + new URLSearchParams({contentLocale: this.contentLanguage})).then((result) => {
+    const params = {
+      contentLocale: this.contentLanguage,
+    };
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+    return this._get(0, 'movies/stat?' + new URLSearchParams(params)).then((result) => {
 
       const data = {
         sorters: ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
