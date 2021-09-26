@@ -185,44 +185,16 @@
                 }
             }
 
-            var posterCache = new Image();
-            posterCache.src = poster;
-            posterCache.onload = function () {
-                try {
-                    $('.shp-img')
-                        .css('background-image', 'url(' + poster + ')')
-                        .addClass('fadein');
-                } catch (e) {}
-                posterCache = null;
-            };
-            posterCache.onerror = function () {
-                try {
-                    $('.shp-img')
-                        .css('background-image', 'url("images/posterholder.png")')
-                        .addClass('fadein');
-                } catch (e) {}
-                posterCache = null;
-            };
-
-
-            var bgCache = new Image();
-            bgCache.src = backdrop;
-            bgCache.onload = function () {
-                try {
-                    $('.shb-img')
-                        .css('background-image', 'url(' + backdrop + ')')
-                        .addClass('fadein');
-                } catch (e) {}
-                bgCache = null;
-            };
-            bgCache.onerror = function () {
-                try {
-                    $('.shb-img')
-                        .css('background-image', 'url("images/bg-header.jpg")')
-                        .addClass('fadein');
-                } catch (e) {}
-                bgCache = null;
-            };
+            Common.loadImage(poster).then((img) => {
+                $('.shp-img')
+                    .css('background-image', 'url(' + (img || noimg) + ')')
+                    .addClass('fadein');
+            });
+            Common.loadImage(backdrop).then((img) => {
+                $('.shb-img')
+                    .css('background-image', 'url(' + (img || nobg) + ')')
+                    .addClass('fadein');
+            });
 
             this.selectNextEpisode();
 

@@ -196,38 +196,6 @@
       var noimg = 'images/posterholder.png';
       var nobg = 'images/bg-header.jpg';
 
-      var setImage = {
-        poster: function(img) {
-          this.ui.poster.attr('src', img || noimg).addClass('fadein');
-        }.bind(this),
-        backdrop: function(img) {
-          this.ui.backdrop
-            .css('background-image', 'url(' + (img || nobg) + ')')
-            .addClass('fadein');
-        }.bind(this)
-      };
-
-      var loadImage = function(img, type) {
-        var cache = new Image();
-        cache.src = img;
-
-        cache.onload = function() {
-          if (img.indexOf('.gif') !== -1) {
-            // freeze gifs
-            var c = document.createElement('canvas');
-            var w = (c.width = img.width);
-            var h = (c.height = img.height);
-
-            c.getContext('2d').drawImage(cache, 0, 0, w, h);
-            img = c.toDataURL();
-          }
-          setImage[type](img);
-        };
-
-        cache.onerror = function(e) {
-          setImage[type](null);
-        };
-      };
       var images = this.model.get('images');
       var p =
         this.model.get('image') ||
@@ -248,8 +216,14 @@
         }
       }
 
-      loadImage(p, 'poster');
-      loadImage(b, 'backdrop');
+      Common.loadImage(p).then((img) => {
+        this.ui.poster.attr('src', img || noimg).addClass('fadein');
+      });
+      Common.loadImage(b).then((img) => {
+        this.ui.backdrop
+            .css('background-image', 'url(' + (img || nobg) + ')')
+            .addClass('fadein');
+      });
     },
 
     hideUnused: function() {
