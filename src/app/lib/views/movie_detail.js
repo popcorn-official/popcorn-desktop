@@ -16,9 +16,6 @@
       watchedIcon: '.watched-toggle',
       backdrop: '.backdrop',
       poster: '.mcover-image',
-      q2160p: '.q2160',
-      q1080p: '.q1080',
-      q720p: '.q720'
     },
 
     events: {
@@ -29,9 +26,6 @@
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
-      'click .q2160': 'toggleShowQuality',
-      'click .q1080': 'toggleShowQuality',
-      'click .q720': 'toggleShowQuality',
       'click .health-icon': 'resetTorrentHealth',
       'mousedown .mcover-image': 'clickPoster'
     },
@@ -79,73 +73,19 @@
     },
 
     onChangeQuality: function (quality) {
+      this.model.set('quality', quality);
       this.toggleSourceLink(quality);
+      win.debug('about to render health button');
       healthButton.render();
     },
 
     toggleSourceLink: function(quality) {
-      const sourceURL = this.model.get('torrents')[this.model.get('quality')].source;
+      const sourceURL = this.model.get('torrents')[quality].source;
       if (sourceURL) {
         $('.source-link').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
       } else {
         $('.source-link').hide();
       }
-    },
-
-    toggleShowQuality: function(e) {
-      if ($(e.currentTarget).hasClass('disabled')) {
-        return;
-      }
-      var quality = $(e.currentTarget);
-      var currentQuality = quality.text();
-      if (currentQuality === '4K') {
-        currentQuality = '2160p';
-      }
-      this.updateQuality(currentQuality);
-    },
-
-    updateQuality: function(quality) {
-      this.model.set('quality', quality);
-      this.refreshUiQuality();
-    },
-
-    refreshUiQuality: function() {
-      win.debug('quality changed');
-      const quality = this.model.get('quality');
-      const torrents = this.model.get('torrents');
-
-      if (torrents['2160p'] === undefined) {
-        $('.q2160').addClass('disabled');
-      }
-
-      if (torrents['1080p'] === undefined) {
-        $('.q1080').addClass('disabled');
-      }
-
-      if (torrents['720p'] === undefined) {
-        $('.q720').addClass('disabled');
-      }
-
-      if (quality === '2160p') {
-        $('.q2160').addClass('active');
-
-        $('.q1080').removeClass('active');
-        $('.q720').removeClass('active');
-      } else if (quality === '1080p') {
-        $('.q1080').addClass('active');
-
-        $('.q2160').removeClass('active');
-        $('.q720').removeClass('active');
-      } else {
-        $('.q720').addClass('active');
-
-        $('.q2160').removeClass('active');
-        $('.q1080').removeClass('active');
-      }
-
-      this.toggleSourceLink(quality);
-      win.debug('about to render health button');
-      healthButton.render();
     },
 
     onAttach: function() {
@@ -159,8 +99,6 @@
       this.loadComponents();
       this.initKeyboardShortcuts();
       healthButton.render();
-
-      this.refreshUiQuality();
 
       if (curSynopsis.vstatus !== null && curSynopsis.cast === '') {
         this.showCast();
