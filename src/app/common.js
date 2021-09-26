@@ -302,3 +302,5 @@ Common.Promises = {
 };
 
 Common.getTorrentUri = torrent => torrent.magnet || torrent.url || torrent;
+
+Common.qualityCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
