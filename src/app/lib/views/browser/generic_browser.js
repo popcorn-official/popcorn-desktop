@@ -77,6 +77,9 @@
         },
 
         onFilterChange: function () {
+            if (!this.filter.get('load')) {
+                return;
+            }
             if (Settings.defaultFilters === 'remember' || curSetDefaultFilters) {
                 this.saveFilter();
             }
