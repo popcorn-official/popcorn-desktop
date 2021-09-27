@@ -34,6 +34,7 @@
             this.setModelStates();
             this.isAprilFools();
             this.localizeTexts();
+            this.setQualityDisplayed();
         },
 
         onAttach: function () {
@@ -47,6 +48,18 @@
                     'hide': 100
                 }
             });
+        },
+
+        setQualityDisplayed: function() {
+            let torrents = this.model.get('torrents');
+            if (!App.settings.moviesShowQuality || !torrents) {
+                this.model.set('qualityList', '');
+                return;
+            }
+            let keys = Object.keys(torrents).sort(Common.qualityCollator.compare);
+            keys = keys.filter((key) => key !== '480p');
+            this.model.set('qualityList', keys.length ? keys.join('/') : 'HDRip');
+            console.log(this.model.get('qualityList'));
         },
 
         localizeTexts: function () {

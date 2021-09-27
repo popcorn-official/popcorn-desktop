@@ -9,7 +9,6 @@
         events: {
             'click .qselect': 'selectItem',
         },
-        collator: new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'}),
         initialize: function () {
             this.updateTorrents(this.model.get('torrents'));
         },
@@ -24,7 +23,7 @@
                 if (!torrent) {
                     continue;
                 }
-                if (!selectedKey || this.collator.compare(key, Settings[this.model.get('defaultQualityKey')]) <= 0) {
+                if (!selectedKey || Common.qualityCollator.compare(key, Settings[this.model.get('defaultQualityKey')]) <= 0) {
                     selectedKey = key;
                 }
             }
@@ -32,7 +31,7 @@
         },
 
         updateTorrents: function (torrents) {
-            let keys = Object.keys(torrents).sort(this.collator.compare);
+            let keys = Object.keys(torrents).sort(Common.qualityCollator.compare);
             let sortedTorrents = {};
             for (let key of this.model.get('required')) {
                 sortedTorrents[key] = false;
