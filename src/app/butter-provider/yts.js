@@ -95,7 +95,7 @@ class YTSApi extends Generic {
       }
     }
     if (filters.rating && filters.rating !== 'All') {
-      params.minimum_rating = filters.rating;
+      params.minimum_rating = filters.rating.replace('r', '');
     }
 
     const uri = `api/v2/list_movies.json?` + new URLSearchParams(params);
@@ -163,7 +163,11 @@ class YTSApi extends Generic {
       filters.types[type] = i18n.__(type);
     }
     for (const rating of data.ratings) {
-      filters.ratings[rating] = rating === 'All' ? i18n.__(rating) : (rating + '+');
+      if (rating === 'All') {
+        filters.ratings[rating] = i18n.__(rating);
+      } else {
+        filters.ratings['r' + rating] = rating + '+';
+      }
     }
 
     return Promise.resolve(filters);
