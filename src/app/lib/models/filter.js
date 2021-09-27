@@ -21,7 +21,7 @@
                 this.set('genres', filters.genres || []);
                 this.set('sorters', filters.sorters || []);
                 this.set('types', filters.types || []);
-                this.set('ratings', filters.types || []);
+                this.set('ratings', filters.ratings || []);
 
                 this.init();
                 App.vent.trigger('filter-bar:render');
