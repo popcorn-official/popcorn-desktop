@@ -233,7 +233,7 @@
                 $('.number-container-tv').removeClass('hidden');
             }
 
-            if (AdvSettings.get('hideSeasons') && this.model.get('seasonCount') < 2) {
+            if (this.model.get('seasonCount') < 2) {
                 this.ui.seasonTab.hide();
             }
 
