@@ -57,7 +57,7 @@
                 return;
             }
             let keys = Object.keys(torrents).sort(Common.qualityCollator.compare);
-            keys = keys.filter((key) => key !== '480p');
+            keys = keys.filter((key) => key !== '480p' && key !== '3D');
             this.model.set('qualityList', keys.length ? keys.join('/') : 'HDRip');
         },
 
