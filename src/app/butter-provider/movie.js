@@ -94,29 +94,53 @@ class MovieApi extends Generic {
     if (!this.contentLangOnly) {
       params.showAll = 1;
     }
-    return this._get(0, 'movies/stat?' + new URLSearchParams(params)).then((result) => {
+    return this._get(0, 'movies/stat?' + new URLSearchParams(params))
+        .then((result) => this.formatFiltersFromServer(
+          ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
+          result
+        )).catch(() => {
+          const data = {
+            genres: [
+              'All',
+              'Action',
+              'Adventure',
+              'Animation',
+              'Biography',
+              'Comedy',
+              'Crime',
+              'Documentary',
+              'Drama',
+              'Family',
+              'Fantasy',
+              'Film-Noir',
+              'History',
+              'Horror',
+              'Music',
+              'Musical',
+              'Mystery',
+              'Romance',
+              'Sci-Fi',
+              'Short',
+              'Sport',
+              'Thriller',
+              'War',
+              'Western'
+            ],
+            sorters: ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
+          };
+          let filters = {
+            genres: {},
+            sorters: {},
+          };
+          for (const genre of data.genres) {
+            filters.genres[genre] = i18n.__(genre.capitalizeEach());
+          }
+          for (const sorter of data.sorters) {
+            filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+          }
 
-      const data = {
-        sorters: ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
-      };
-      let filters = {
-        genres: {},
-        sorters: {},
-      };
-      for (const genre of data.sorters) {
-        filters.sorters[genre] = i18n.__(genre.capitalizeEach());
-      }
-
-      filters.genres = {
-        'All': result.all.title + ' (' + result.all.count + ')',
-      };
-      delete result.all;
-      for (const key in result) {
-        filters.genres[key] = result[key].title + ' (' + result[key].count + ')'
-      }
-
-      return filters;
-    });
+          return Promise.resolve(filters);
+        });
   }
 }
 
