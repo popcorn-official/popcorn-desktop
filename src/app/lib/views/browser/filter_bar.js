@@ -2,6 +2,7 @@
   'use strict';
 
   App.View.FilterBar = Marionette.View.extend({
+    template: '#filter-bar-tpl',
     className: 'filter-bar',
     ui: {
       searchForm: '.search form',
@@ -38,7 +39,10 @@
     },
 
     initialize: function(e) {
-      App.vent.on('filter-bar:render', this.render);
+      App.vent.on('filter-bar:render', () => {
+        this.render();
+        this.setActive(App.currentview);
+      });
 
       if (VPNht.isInstalled()) {
         VPNht.isConnected().then(isConnected => {
@@ -126,9 +130,13 @@
           break;
       }
 
-      try {
-        this.fixFilter();
-      } catch (e) {}
+      $('#nav-filters .filter').each(function(i, item) {
+        $(item).find('.active').removeClass('active');
+        const value = $(item).find('.value');
+        const li = $(item).find('li a[data-value="' + value.data('value') + '"]');
+        li.addClass('active');
+        value.text(li.text());
+      });
     },
     rightclick_search: function(e) {
       e.preventDefault();
@@ -224,30 +232,6 @@
     focusSearch: function() {
       this.$('.search input').focus();
     },
-    fixFilter: function() {
-      $('.genres .active').removeClass('active');
-      $('.sorters .active').removeClass('active');
-      $('.types .active').removeClass('active');
-      $('.ratings .active').removeClass('active');
-
-      var genre = $('.genres .value').data('value');
-      var sorter = $('.sorters .value').data('value');
-      var type = $('.types .value').data('value');
-      var rating = $('.ratings .value').data('value');
-
-      $('.genres li')
-        .find('[data-value="' + genre + '"]')
-        .addClass('active');
-      $('.sorters li')
-        .find('[data-value="' + sorter + '"]')
-        .addClass('active');
-      $('.types li')
-        .find('[data-value="' + type + '"]')
-        .addClass('active');
-      $('.ratings li')
-        .find('[data-value="' + rating + '"]')
-        .addClass('active');
-    },
     search: function(e) {
       App.vent.trigger('about:close');
       App.vent.trigger('torrentCollection:close');
@@ -325,7 +309,7 @@
         });
       }
 
-      this.ui.sorterValue.text(i18n.__(sorter.capitalizeEach()));
+      this.ui.sorterValue.text($(e.target).text());
       this.previousSort = sorter;
     },
 
@@ -337,7 +321,7 @@
       $(e.target).addClass('active');
 
       var type = $(e.target).attr('data-value');
-      this.ui.typeValue.text(i18n.__(type));
+      this.ui.typeValue.text($(e.target).text());
 
       this.model.set({
         keyword: '',
@@ -352,7 +336,7 @@
 
       var genre = $(e.target).attr('data-value');
 
-      this.ui.genreValue.text(i18n.__(genre.capitalizeEach()));
+      this.ui.genreValue.text($(e.target).text());
 
       this.model.set({
         keyword: '',
@@ -366,9 +350,7 @@
       $(e.target).addClass('active');
 
       const rating = $(e.target).attr('data-value');
-      const ratingLabel = rating === 'All' ? rating : `${rating}+`;
-
-      this.ui.ratingValue.text(i18n.__(ratingLabel.capitalizeEach()));
+      this.ui.ratingValue.text($(e.target).text());
 
       this.model.set({
         keyword: '',
@@ -507,9 +489,5 @@
     },
 
     randomMovie: function() {}
-  });
-
-  App.View.FilterBar = App.View.FilterBar.extend({
-    template: '#filter-bar-tpl'
   });
 })(window.App);

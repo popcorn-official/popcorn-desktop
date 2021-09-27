@@ -9,12 +9,7 @@
     if (moviesServer && moviesServer.includes('://yts')) {
       var MovieBrowser = App.View.PCTBrowser.extend({
         collectionModel: App.Model.MovieCollection,
-        filters: {
-          genres: App.Config.genres,
-          sorters: App.Config.sorters,
-          types: App.Config.types_yts,
-          ratings: App.Config.ratings_yts
-        }
+        provider: 'YTSApi',
       });
       App.View.MovieBrowser = MovieBrowser;
       cache[Object.keys(App.Providers._cache)[0]] = App.Providers.get('YTSApi');

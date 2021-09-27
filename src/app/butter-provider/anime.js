@@ -1,7 +1,8 @@
 'use strict';
 
-var Generic = require('./generic');
-var sanitize = require('butter-sanitize');
+const Generic = require('./generic');
+const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class AnimeApi extends Generic {
   constructor(args) {
@@ -95,6 +96,72 @@ class AnimeApi extends Generic {
 
       return sanitize(result);
     });
+  }
+
+  filters() {
+    const data = {
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Cars',
+        'Comedy',
+        'Dementia',
+        'Demons',
+        'Drama',
+        'Ecchi',
+        'Fantasy',
+        'Game',
+        'Harem',
+        'Historical',
+        'Horror',
+        'Josei',
+        'Kids',
+        'Magic',
+        'Martial Arts',
+        'Mecha',
+        'Military',
+        'Music',
+        'Mystery',
+        'Parody',
+        'Police',
+        'Psychological',
+        'Romance',
+        'Samurai',
+        'School',
+        'Sci-Fi',
+        'Seinen',
+        'Shoujo',
+        'Shoujo Ai',
+        'Shounen',
+        'Shounen Ai',
+        'Slice of Life',
+        'Space',
+        'Sports',
+        'Super Power',
+        'Supernatural',
+        'Thriller',
+        'Vampire'
+      ],
+      sorters: ['popularity', 'name', 'year'],
+      types: ['All', 'Movies', 'TV', 'OVA', 'ONA']
+    };
+    let filters = {
+      genres: {},
+      sorters: {},
+      types: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+    for (const type of data.types) {
+      filters.types[type] = i18n.__(type);
+    }
+
+    return Promise.resolve(filters);
   }
 }
 

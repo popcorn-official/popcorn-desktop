@@ -1,6 +1,13 @@
 var memoize = require('memoizee');
 var _ = require('lodash');
+const i18n = require('i18n');
 const socksProxyAgent = require( 'socks-proxy-agent' );
+
+String.prototype.capitalizeEach = function () {
+  return this.replace(/\w*/g, function (txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
 
 var processArgs = function(config, args) {
   var newArgs = {};
@@ -119,7 +126,29 @@ class Provider {
       urls = urls.split(',').map((x) => x.trim()).filter((x) => !!x);
     }
     this.apiURL = _.shuffle(urls);
+  }
 
+  filters() {return Promise.resolve({});}
+
+  formatFiltersFromServer(sorters, data)
+  {
+    let filters = {
+      genres: {},
+      sorters: {},
+    };
+    for (const genre of sorters) {
+      filters.sorters[genre] = i18n.__(genre.capitalizeEach());
+    }
+
+    filters.genres = {
+      'All': data.all.title + ' (' + data.all.count + ')',
+    };
+    delete data.all;
+    for (const key in data) {
+      filters.genres[key] = data[key].title + ' (' + data[key].count + ')'
+    }
+
+    return filters;
   }
 }
 

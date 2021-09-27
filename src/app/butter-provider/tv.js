@@ -2,7 +2,7 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
-const TVDB = require('node-tvdb');
+const i18n = require('i18n');
 
 class TVApi extends Generic {
   constructor(args) {
@@ -71,6 +71,65 @@ class TVApi extends Generic {
       return data;
       return sanitize(data);
     });
+  }
+
+  filters() {
+    const params = {
+      contentLocale: this.contentLanguage,
+    };
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+    return this._get(0, 'shows/stat?' + new URLSearchParams(params))
+        .then((result) => this.formatFiltersFromServer(
+            ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+            result
+        )).catch(() => {
+          const data = {
+            genres: [
+              'All',
+              'Action',
+              'Adventure',
+              'Animation',
+              'Children',
+              'Comedy',
+              'Crime',
+              'Documentary',
+              'Drama',
+              'Family',
+              'Fantasy',
+              'Game Show',
+              'Home and Garden',
+              'Horror',
+              'Mini Series',
+              'Mystery',
+              'News',
+              'Reality',
+              'Romance',
+              'Science Fiction',
+              'Soap',
+              'Special Interest',
+              'Sport',
+              'Suspense',
+              'Talk Show',
+              'Thriller',
+              'Western'
+            ],
+            sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+          };
+          let filters = {
+            genres: {},
+            sorters: {},
+          };
+          for (const genre of data.genres) {
+            filters.genres[genre] = i18n.__(genre.capitalizeEach());
+          }
+          for (const sorter of data.sorters) {
+            filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+          }
+
+          return Promise.resolve(filters);
+        });
   }
 }
 
