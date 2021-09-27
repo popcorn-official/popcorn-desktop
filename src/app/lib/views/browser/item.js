@@ -210,29 +210,11 @@
                 }
             }
 
-            var setImage = function (img) {
+            Common.loadImage(poster).then((img) => {
                 if (this.ui.cover.css) {
-                this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
+                    this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
                 }
-            }.bind(this);
-
-            var posterCache = new Image();
-            posterCache.src = poster;
-
-            posterCache.onload = function () {
-                if (poster.indexOf('.gif') !== -1) { // freeze gifs
-                    var c = document.createElement('canvas');
-                    var w  = c.width = posterCache.width;
-                    var h = c.height = posterCache.height;
-
-                    c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
-                    poster = c.toDataURL();
-                }
-                setImage(poster);
-            };
-            posterCache.onerror = function (e) {
-                setImage(noimg);
-            };
+            });
         },
 
         setTooltips: function () {

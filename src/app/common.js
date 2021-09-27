@@ -291,6 +291,27 @@ Common.normalize = (function () {
 	};
 })();
 
+Common.loadImage = function(img) {
+	return new Promise(function(resolve, reject) {
+		let cache = new Image();
+		cache.onload = () => {
+			if (img.indexOf('.gif') !== -1) {
+				// freeze gifs
+				let c = document.createElement('canvas');
+				let w = (c.width = img.width);
+				let h = (c.height = img.height);
+
+				c.getContext('2d').drawImage(cache, 0, 0, w, h);
+				img = c.toDataURL();
+			}
+			resolve(img);
+		};
+
+		cache.onerror = () => resolve(null);
+		cache.src = img;
+	});
+};
+
 Common.Promises = {
 	allSettled: function (promises) {
 		var wrappedPromises = promises.map(
