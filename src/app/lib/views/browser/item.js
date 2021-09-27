@@ -59,7 +59,6 @@
             let keys = Object.keys(torrents).sort(Common.qualityCollator.compare);
             keys = keys.filter((key) => key !== '480p');
             this.model.set('qualityList', keys.length ? keys.join('/') : 'HDRip');
-            console.log(this.model.get('qualityList'));
         },
 
         localizeTexts: function () {
