@@ -11,6 +11,7 @@
         },
 
         initialize: function () {
+            this.set('load', false);
             this.set('genres', []);
             this.set('sorters', []);
             this.set('types', []);
@@ -24,6 +25,7 @@
                 this.set('ratings', filters.ratings || []);
 
                 this.init();
+                this.set('load', true);
                 App.vent.trigger('filter-bar:render');
             });
         },
