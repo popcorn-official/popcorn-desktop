@@ -172,7 +172,7 @@
 
         getSavedFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
+            return filters[this.currentView()] || {};
         }
     });
 
