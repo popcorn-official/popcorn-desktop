@@ -2,13 +2,6 @@
     'use strict';
 
     var Filter = Backbone.Model.extend({
-        defaults: {
-            genres: [],
-            sorters: [],
-            types: [],
-            order: -1,
-            ratings: []
-        },
 
         initialize: function () {
             this.set('load', false);
