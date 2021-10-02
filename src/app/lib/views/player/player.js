@@ -202,7 +202,7 @@
                         var playingNext = $('.playing_next');
 
                         if (!this.precachestarted) {
-                            App.vent.trigger('preload:start', this.next_episode_model);
+                            App.vent.trigger('stream:start', this.next_episode_model, 'preload');
                             this.precachestarted = true;
                         }
 
