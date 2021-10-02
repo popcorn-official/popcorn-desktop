@@ -11,7 +11,7 @@
         <div class="sh-metadata">
             <div class="shm-title"><%= displayTitle %></div>
             <div class="shm-infos">
-                <div class="shmi-year"><%= year %></div>
+                <div class="shmi-year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Release Info") %>"><%= year %></div>
                     <span class="dot"></span>
                 <div class="shmi-runtime"><%= runtime %> min</div>
                     <span class="dot"></span>

@@ -26,6 +26,7 @@
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
+            'click .shmi-year': 'openRelInfo',
             'click .shmi-imdb': 'openIMDb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
@@ -161,7 +162,7 @@
 
             this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
-            $('.star-container-tv,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
+            $('.star-container-tv,.shmi-year,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
@@ -350,6 +351,10 @@
                         }
                     }
                 });
+        },
+
+        openRelInfo: function () {
+            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
         },
 
         openIMDb: function () {
