@@ -20,6 +20,8 @@
 
     events: {
       'click .close-icon': 'closeDetails',
+      'click .year': 'openRelInfo',
+      'click .certification': 'openCert',
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
@@ -103,6 +105,10 @@
       if (curSynopsis.vstatus !== null && curSynopsis.cast === '') {
         this.showCast();
       }
+
+      $('[data-toggle="tooltip"]').tooltip({
+        html: true
+      });
     },
     localizeTexts: function() {
         const locale = this.model.get('locale');
@@ -307,10 +313,16 @@
       healthButton.render();
     },
 
-    openIMDb: function() {
-      nw.Shell.openExternal(
-        'https://www.imdb.com/title/' + this.model.get('imdb_id')
-      );
+    openRelInfo: function () {
+      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
+    },
+
+    openCert: function () {
+      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/parentalguide');
+    },
+
+    openIMDb: function () {
+      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
     },
 
     openMagnet: function(e) {
