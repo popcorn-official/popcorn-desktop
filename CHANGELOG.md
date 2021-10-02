@@ -1,13 +1,13 @@
-## 0.4.6 - The Good Variant - 29 August 2021
+## 0.4.6 - The Good Variant - 03 October 2021
 
 New Features:
 - Add Localization support
 - Add multiple audio language support
 - Add maximum Download/Upload speed options
-- Add Source Link for content where data exists
-- Add Magnet Link button in the loading screen
+- Add Source, Release Info and Parental Guide links for content where data exists
+- Add a Magnet Link button in the loading screen
+- Add support for fetching the Genres list from the API
 - Update WebTorrent to 1.5.5 also adding PE/MSE support
-- Load genres list from provider
 
 Bug Fixes:
 - Fix issue with peers not being resolved when restarting canceled stream/download
