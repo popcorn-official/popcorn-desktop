@@ -26,13 +26,13 @@ if (genre) {
         <div class="title"><%= displayTitle %></div>
 
         <div class="metadatas">
-            <div class="metaitem"><%= year %></div>
+            <div class="metaitem"></div><div class="year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Release Info") %>"><%= year %></div>
             <div class="metaitem"><%= runtime %> min</div>
             <div class="metaitem"><%= genre.join(" / ") %></div>
             <% if((typeof(certification) !== 'undefined') && (certification !== null) && (certification !== '') && (certification !== 'NR')) { %>
-                <div class="metaitem"><%= certification %></div>
+                <div class="metaitem"></div><div class="certification" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Parental Guide") %>"><%= certification %></div>
             <% } %>
-            <div class="metaitem"></div><div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Show cast") %>" class="fa fa-users show-cast"></div>
+            <div class="metaitem"></div><div class="fa fa-users show-cast" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Show cast") %>"></div>
             <div class="metaitem"></div><div data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Open IMDb page") %>" class="movie-imdb-link"></div>
             <div class="metaitem rating-container">
                 <div class="star-container" data-toggle="tooltip" data-container="body" data-placement="right" title="<%= rating %>/10">
