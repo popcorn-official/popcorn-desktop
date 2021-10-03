@@ -714,6 +714,14 @@
         },
 
         rebuildBookmarks: function (e) {
+            var btn = $(e.currentTarget);
+
+            if (!this.areYouSure(btn, i18n.__('Rebuilding bookmarks...'))) {
+                return;
+            }
+
+            this.alertMessageWait(i18n.__('We are rebuilding your database'));
+
             Database.getAllBookmarks()
                 .then(function (data) {
                     let movieProvider = App.Config.getProviderForType('movie')[0];
@@ -740,6 +748,7 @@
                                 });
                         }
                     }
+                    that.alertMessageSuccess(true);
                 });
         },
 
