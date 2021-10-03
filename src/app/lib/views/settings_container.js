@@ -24,6 +24,7 @@
             'click .close-icon': 'closeSettings',
             'change select,input': 'saveSetting',
             'contextmenu input': 'rightclick_field',
+            'click .rebuild-bookmarks': 'rebuildBookmarks',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
@@ -710,6 +711,36 @@
             AdvSettings.set('opensubtitlesPassword', '');
             AdvSettings.set('opensubtitlesAuthenticated', false);
             setTimeout(self.render, 200);
+        },
+
+        rebuildBookmarks: function (e) {
+            Database.getAllBookmarks()
+                .then(function (data) {
+                    let movieProvider = App.Config.getProviderForType('movie')[0];
+                    let showProvider = App.Config.getProviderForType('tvshow')[0];
+                    for (let item of data) {
+                        if (item.type === 'movie') {
+                            movieProvider.fetch({keywords: item.imdb_id}).then(function (movies) {
+                                if (movies.results.length !== 1) {
+                                    return;
+                                }
+                                let movie = movies.results[0];
+                                Database.deleteMovie(item.imdb_id);
+                                movie.providers = [movieProvider.name];
+                                Database.addMovie(movie);
+                            });
+                        }
+                        if (item.type === 'show') {
+                            showProvider.detail(item.imdb_id, {
+                                contextLocale: App.settings.contextLanguage || App.settings.language
+                            }).then(function (show) {
+                                    Database.deleteTVShow(item.imdb_id);
+                                    show.providers = [showProvider.name];
+                                    Database.addTVShow(show);
+                                });
+                        }
+                    }
+                });
         },
 
         flushBookmarks: function (e) {
