@@ -172,7 +172,6 @@
 
     hideUnused: function() {
       var id = this.model.get('imdb_id');
-      win.info('hideunused (' + this.model.get('imdb_id') + ')');
 
       if (!this.model.get('torrents')) {
         // no torrents
