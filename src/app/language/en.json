@@ -571,5 +571,7 @@
 	"The source link was copied to the clipboard": "The source link was copied to the clipboard",
 	"Max. Down / Up Speed": "Max. Down / Up Speed",
 	"Show Release Info": "Show Release Info",
-	"Parental Guide": "Parental Guide"
+	"Parental Guide": "Parental Guide",
+	"Rebuild bookmarks database": "Rebuild bookmarks database",
+	"Rebuilding bookmarks...": "Rebuilding bookmarks..."
 }
