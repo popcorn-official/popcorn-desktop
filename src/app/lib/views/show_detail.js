@@ -404,7 +404,6 @@
             this.initTorrents(data.episodes);
             this.render();
             this.onAttach();
-            console.info('Audios: ' + lang);
         },
 
         loadDropdown: function(type, attrs) {
