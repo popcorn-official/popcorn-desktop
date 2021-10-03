@@ -119,15 +119,7 @@ var Database = {
     },
 
     getAllBookmarks: function () {
-        return db.bookmarks.find({})
-            .then(function (data) {
-                var bookmarks = [];
-                if (data) {
-                    bookmarks = extractIds(data);
-                }
-
-                return bookmarks;
-            });
+        return db.bookmarks.find({});
     },
 
     markMoviesWatched: function (data) {
@@ -291,7 +283,7 @@ var Database = {
     getUserInfo: function () {
         var bookmarks = Database.getAllBookmarks()
             .then(function (data) {
-                App.userBookmarks = data;
+                App.userBookmarks = extractIds(data);
             });
 
         var movies = Database.getMoviesWatched()
