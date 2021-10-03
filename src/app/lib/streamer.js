@@ -23,6 +23,8 @@
         this.stopped = true;
         // Boolean to indicate if Watch now or just Download
         this.downloadOnly = false;
+        // Boolean to indicate preload episode state
+        this.preload = false;
     };
 
     WebTorrentStreamer.prototype = {
@@ -111,7 +113,7 @@
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
 
-            if (!this.downloadOnly) {
+            if (!this.downloadOnly && !this.preload) {
                 this.fetchTorrent(this.torrentModel.get('torrent'), location, model.get('title')).then(function (torrent) {
                     this.torrentModel.set('torrent', this.torrent = torrent);
                     this.linkTransferStatus();
@@ -559,6 +561,7 @@
         setModels: function (model, state) {
             this.stopped = false;
             this.downloadOnly = state === 'downloadOnly' ? true : false;
+            this.preload = state === 'preload' ? true : false;
             this.torrentModel = model;
             this.streamInfo = new App.Model.StreamInfo();
             this.stateModel = new Backbone.Model({
@@ -569,7 +572,7 @@
                 show_controls: false,
                 streamInfo: this.streamInfo
             });
-            if (!this.downloadOnly) {
+            if (!this.downloadOnly && !this.preload) {
                 App.vent.trigger('stream:started', this.stateModel);
             } else {
                 this.stopped = true;
@@ -633,7 +636,7 @@
         },
 
         onSubtitlesFound: function (subs) {
-            if (this.stopped && !this.downloadOnly) {
+            if (this.stopped && !this.downloadOnly && !this.preload) {
                 return;
             }
 
@@ -723,7 +726,7 @@
         },
 
         handleSubtitles: function () {
-            if (this.stopped && !this.downloadOnly) {
+            if (this.stopped && !this.downloadOnly && !this.preload) {
                 return;
             }
             // set default subtitle language (passed by a view or settings)
@@ -754,7 +757,7 @@
         },
 
         buildSubtitleQuery: function () {
-            if (this.stopped && !this.downloadOnly) {
+            if (this.stopped && !this.downloadOnly && !this.preload) {
                 return;
             }
 
