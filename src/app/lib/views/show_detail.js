@@ -743,7 +743,7 @@
                 $nextEpisode[0].scrollIntoView(false);
             }
 
-            if (e.type) {
+            if (e && e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
