@@ -80,7 +80,6 @@
         selectQuality: function (key) {
             $(this.ui.list).find('div').removeClass('active');
             $(this.ui.list).find('div:contains("'+key+'")').addClass('active');
-            console.log('Select quality: ', key);
             var torrents = this.model.get('sortedTorrents');
             var callback = this.model.get('selectCallback');
             callback(torrents[key], key);
