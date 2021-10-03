@@ -91,7 +91,7 @@
     },
 
     onAttach: function() {
-      win.info('Show movie detail (' + this.model.get('imdb_id') + ')');
+      win.info('Show movie details (' + this.model.get('imdb_id') + ')');
 
       App.MovieDetailView = this;
 

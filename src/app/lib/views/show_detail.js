@@ -152,6 +152,8 @@
         },
 
         onAttach: function () {
+            win.info('Show series details (' + this.model.get('imdb_id') + ')');
+
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {

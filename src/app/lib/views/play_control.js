@@ -195,7 +195,6 @@
         lang = 'none';
       }
       this.subtitle_selected = lang;
-      console.info('Subtitles: ' + this.subtitle_selected);
     },
 
     switchAudio: function(lang) {
@@ -204,7 +203,6 @@
         lang = 'none';
       }
       this.audio_selected = lang;
-      console.info('Audios: ' + lang);
 
       if (this.getRegion('qualitySelector').currentView) {
         this.model.set('torrents', audios[lang]);
