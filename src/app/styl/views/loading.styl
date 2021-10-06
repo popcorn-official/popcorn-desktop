@@ -270,18 +270,6 @@
                 top 12px
                 font-size 12px
 
-        .magnet-icon
-            float right
-            cursor pointer
-            transition opacity .2s
-            opacity 0.4
-
-            &:hover
-                opacity 1
-
-            &:active
-                opacity 1
-
         .loading-info
             width auto
             height auto
@@ -293,6 +281,21 @@
             right 0
             background: rgba(0, 0, 0, .6)
             display inline-block
+
+            &:hover > .magnet-icon
+                opacity 0.4
+
+                &:hover
+                    opacity 1
+
+                &:active
+                    opacity 1
+
+            .magnet-icon
+                float right
+                cursor pointer
+                transition opacity .2s
+                opacity 0
 
             span
                 position relative
