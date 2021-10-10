@@ -218,7 +218,7 @@
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
 
-            if ($('.loading .maximize-icon').is(':visible')) {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
                 $('.sdow-watchnow, #download-torrent').addClass('disabled');
                 $('#watch-now').prop('disabled', true);
             }
