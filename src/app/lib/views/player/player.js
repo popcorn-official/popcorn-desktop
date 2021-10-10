@@ -20,7 +20,8 @@
             pause: '#osd_pause',
             play: '#osd_play',
             minimizeIcon: '.minimize-icon',
-            maximizeIcon: '.maximize-icon'
+            maximizeIcon: '.maximize-icon',
+            maxPlayCtrlIcon: '#max_play_ctrl'
         },
 
         events: {
@@ -34,6 +35,7 @@
             'mousedown .eye-info-player': 'filenametoclip',
             'click .minimize-icon': 'minDetails',
             'click .maximize-icon': 'minDetails',
+            'click #max_play_ctrl': 'maxPlayCtrl',
             'click .vjs-play-control': 'togglePlay'
         },
 
@@ -125,6 +127,12 @@
                 }
                 this.bindKeyboardShortcuts();
             }
+        },
+
+        maxPlayCtrl: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('.vjs-play-control').click();
         },
 
         updateDownloaded: function () {
@@ -378,6 +386,7 @@
                 this.ui.play.show().delay(50).queue(function () {
                     this.ui.play.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
+                this.ui.maxPlayCtrlIcon.removeClass('fa-play').addClass('fa-pause');
                 App.vent.trigger('player:play');
             }
 
@@ -394,6 +403,7 @@
                 this.ui.pause.show().delay(50).queue(function () {
                     this.ui.pause.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
+                this.ui.maxPlayCtrlIcon.removeClass('fa-pause').addClass('fa-play');
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
