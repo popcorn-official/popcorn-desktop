@@ -705,8 +705,8 @@ var handleVideoFile = function (file) {
     App.vent.trigger('stream:ready', localVideo); // start stream
     App.Device.Collection.setDevice(tmpPlayer);
 
-    $('.eye-info-player, .player .maximize-icon #maxdllb').hide();
-    $('.player .maximize-icon .downloadedPercent_player').addClass('fas fa-folder-open').html('&nbsp;&nbsp;');
+    $('.eye-info-player, .maximize-icon #maxdllb').hide();
+    $('.maximize-icon .downloadedPercent_player').addClass('fas fa-folder-open').html('&nbsp;&nbsp;');
     $('.vjs-load-progress').css('width', '100%');
   });
 };
