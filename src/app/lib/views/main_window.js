@@ -581,9 +581,11 @@
           model: streamModel
         })
       );
-      this.getRegion('Content').$el.hide();
-      if (this.getRegion('MovieDetail').$el !== undefined) {
-        this.getRegion('MovieDetail').$el.hide();
+      if ($('.loading .maximize-icon').is(':hidden')) {
+        this.getRegion('Content').$el.hide();
+        if (this.getRegion('MovieDetail').$el !== undefined) {
+          this.getRegion('MovieDetail').$el.hide();
+        }
       }
     },
 
