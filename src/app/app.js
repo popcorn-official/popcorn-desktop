@@ -705,7 +705,8 @@ var handleVideoFile = function (file) {
     App.vent.trigger('stream:ready', localVideo); // start stream
     App.Device.Collection.setDevice(tmpPlayer);
 
-    $('.eye-info-player').hide();
+    $('.eye-info-player, .player .maximize-icon #maxdllb').hide();
+    $('.player .maximize-icon').addClass('done');
     $('.vjs-load-progress').css('width', '100%');
   });
 };
