@@ -480,6 +480,7 @@
                 });
                 this.ui.eyeInfo.hide();
                 $('.maximize-icon #maxdllb').hide();
+                $('.maximize-icon .downloadedPercent_player').addClass('fab fa-youtube').html('&nbsp;&nbsp;');
                 $('.player-title, .player .maximize-icon .title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
@@ -721,7 +722,7 @@
             this.model.set('tvdb_id', false);
             this.model.set('episode_id', false);
             this.model.set('metadataCheckRequired', false);
-            $('.player-title').text(title);
+            $('.player-title, .player .maximize-icon .title').text(title);
 
             // remove subtitles
             var subs = this.model.get('subtitle');
