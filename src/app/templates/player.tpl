@@ -28,7 +28,7 @@
 </div>
 <div class="maximize-icon">
     <span class="downloadedPercent_player"></span>
-    <span class="fas fa-play"></span>
+    <span class="fas fa-pause" id="max_play_ctrl"></span>
     <span class="title"><%= title %></span>
     <span id="maxdllb">@ </span>
     <span class="download_speed_player" id="maxdl"></span>
