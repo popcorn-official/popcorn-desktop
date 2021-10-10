@@ -490,7 +490,6 @@
                 });
                 this.ui.eyeInfo.hide();
                 $('.maximize-icon #maxdllb').hide();
-                $('.maximize-icon .downloadedPercent_player').addClass('fab fa-youtube').html('&nbsp;&nbsp;');
                 $('.player-title, .player .maximize-icon .title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
