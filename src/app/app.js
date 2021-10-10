@@ -706,7 +706,7 @@ var handleVideoFile = function (file) {
     App.Device.Collection.setDevice(tmpPlayer);
 
     $('.eye-info-player, .player .maximize-icon #maxdllb').hide();
-    $('.player .maximize-icon').addClass('done');
+    $('.player .maximize-icon .downloadedPercent_player').addClass('fas fa-folder-open').html('&nbsp;&nbsp;');
     $('.vjs-load-progress').css('width', '100%');
   });
 };
