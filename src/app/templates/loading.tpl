@@ -4,7 +4,7 @@
   <div class="fa fa-angle-down minimize-icon tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Minimize") %>"></div>
   <div class="maximize-icon">
       <span class="buffer_percent"></span>
-      <span class="fa fa-play"></span>
+      <span class="fa fa-play" id="max_play_ctrl"></span>
       <span class="title"></span>
       <span id="maxdllb">@ </span>
       <span class="download_speed value" id="maxdl"></span>
