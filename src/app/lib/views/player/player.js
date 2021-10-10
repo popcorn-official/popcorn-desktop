@@ -479,8 +479,8 @@
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
-                this.ui.minimizeIcon.hide();
-                $('.player-title').text(this.model.get('title') + ' - Trailer');
+                $('.maximize-icon #maxdllb').hide();
+                $('.player-title, .player .maximize-icon .title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
