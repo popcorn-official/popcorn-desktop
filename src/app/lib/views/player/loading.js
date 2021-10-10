@@ -52,6 +52,7 @@
       'click .backward': 'backwardStreaming',
       'click .minimize-icon': 'minDetails',
       'click .maximize-icon': 'minDetails',
+      'click #max_play_ctrl': 'maxPlayCtrl',
       'click .show-pcontrols': 'showpcontrols',
       'mousedown .title': 'copytoclip',
       'mousedown .text_filename': 'copytoclip',
@@ -157,6 +158,12 @@
       }
     },
 
+    maxPlayCtrl: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('.vjs-play-control').click();
+    },
+
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
@@ -200,6 +207,7 @@
         if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
           this.ui.player.text(streamInfo.get('device').get('name'));
           this.ui.streaming.css('visibility', 'visible');
+          $('#max_play_ctrl').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
         }
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.progressbar.parent().css('visibility', 'hidden');
@@ -381,13 +389,12 @@
 
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
-      $('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
+      $('.pause, #max_play_ctrl').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
     },
 
     resumeStreaming: function() {
-      win.debug('Play triggered');
       App.vent.trigger('device:unpause');
-      $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
+      $('.play, #max_play_ctrl').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
     },
 
     stopStreaming: function() {
