@@ -1,9 +1,10 @@
-## 0.4.6 - The Good Variant - 03 October 2021
+## 0.4.6 - The Good Variant - 10 October 2021
 
 New Features:
 - Add Localization support
 - Add multiple audio language support
 - Add maximum Download/Upload speed options
+- Add ability to minimize the native media player
 - Add Source, Release Info and Parental Guide links for content where data exists
 - Add a Magnet Link button in the loading screen
 - Add a Rebuild bookmarks database function/button in the settings
