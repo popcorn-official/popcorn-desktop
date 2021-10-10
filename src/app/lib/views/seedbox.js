@@ -57,7 +57,7 @@
 			this.render();
 			this.addTorrentHooks();
 
-			if ($('.loading .maximize-icon').is(':visible')) {
+			if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
 				let currentHash;
 				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
 				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled') : null;
