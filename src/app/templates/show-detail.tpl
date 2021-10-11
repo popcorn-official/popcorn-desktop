@@ -9,9 +9,9 @@
             <div class="shp-img"></div>
         </div>
         <div class="sh-metadata">
-            <div class="shm-title"><%= title %></div>
+            <div class="shm-title"><%= displayTitle %></div>
             <div class="shm-infos">
-                <div class="shmi-year"><%= year %></div>
+                <div class="shmi-year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Show Release Info") %>"><%= year %></div>
                     <span class="dot"></span>
                 <div class="shmi-runtime"><%= runtime %> min</div>
                     <span class="dot"></span>
@@ -40,15 +40,27 @@
                     <div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %><em>/10</em></div>
                 </div>
             </div>
-            <div class="shm-synopsis"><%= synopsis %></div>
+            <div class="shm-synopsis"><%= displaySynopsis %></div>
         </div>
         <div class="sh-actions">
-            <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
-            <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
+            <div class="flex-left">
+                <div class="sha-bookmark"><%=i18n.__("Add to bookmarks") %></div>
+                <div class="sha-watched"><%=i18n.__("Mark as Seen") %></div>
+            </div>
+            <div class="flex-right dropdowns-container">
+                <div id="subs-dropdown"></div>
+                <div id="audio-dropdown"></div>
+            </div>
         </div>
     </section>
 
     <section class="show-details">
+        <div class="spinner">
+            <div class="loading-container">
+                <div class="ball"></div>
+                <div class="ball1"></div>
+            </div>
+        </div>
         <div class="sd-seasons">
             <div class="sds-title"><%= i18n.__("Seasons") %></div>
             <div class="sds-list">
@@ -72,9 +84,9 @@
                             <a href="#" class="episodeData">
                                 <span><%=episodeData.episode %></span>
                                 <% if (Settings.activateSeedbox) { %>
-                                <div style="max-width:calc(60vw - 395px)"><%=episodeData.title %></div>
+                                <div style="max-width:calc(60vw - 395px)"><%=localizeEpisode(episodeData).listTitle %></div>
                                 <% } else { %>
-                                <div><%=episodeData.title %></div>
+                                <div><%=localizeEpisode(episodeData).listTitle %></div>
                                 <% } %>
                             </a>
 
@@ -94,6 +106,7 @@
             <div class="sdo-infos">
                 <div class="sdoi-title"></div>
                 <div class="sdoi-links">
+                    <div data-toggle="tooltip" data-placement="left" title="" class="fas fa-link source-icon"></div>
                     <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-icon"></div>
                     <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health Unknown') %>" class="fa fa-circle health-icon None"></div>
                 </div>

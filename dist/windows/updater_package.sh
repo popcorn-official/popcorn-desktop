@@ -27,7 +27,7 @@ if [ "${POP_NEW_NW}" = "TRUE" ]; then
 fi
 
 cp "${basedir}/package.json" "${outdir}"
-cp "${basedir}/.git.json" "${outdir}"
+cp "${basedir}/git.json" "${outdir}"
 
 cd ${outdir}
 vers=$(sed -n "s|\s*\"version\"\:\ \"\(.*\)\"\,|\1|p" "${basedir}/package.json")

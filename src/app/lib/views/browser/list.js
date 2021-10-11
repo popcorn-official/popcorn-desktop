@@ -108,21 +108,24 @@
                     var errorURL;
                     switch (App.currentview) {
                     case 'movies':
-                        errorURL = App.Config.getProviderForType('movie')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
                         break;
                     case 'shows':
-                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
                         break;
                     case 'anime':
-                        errorURL = App.Config.getProviderForType('anime')[0].apiURL[0];
+                        errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
                         break;
                     default:
                         errorURL = '';
                     }
-                    var dspURL = errorURL.slice(-1) === '/' ? errorURL.replace(/http:\/\/|https:\/\//g, '').slice(0, -1) : errorURL.replace(/http:\/\/|https:\/\//g, '');
+                    errorURL.forEach(function(e, index) {
+                        errorURL[index] = '<a class="links" href="' + e + '">' + e.replace(/http:\/\/|https:\/\/|\/$/g, '') + '</a>';
+                    });
+                    errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
                     return ErrorView.extend({
                         retry: true,
-                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', '<a class="links" href="' + errorURL + '">' + dspURL + '</a>')
+                        error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', errorURL)
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({

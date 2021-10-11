@@ -93,10 +93,6 @@
                 <input class="settings-checkbox" name="animeTabEnable" id="animeTabEnable" type="checkbox" <%=(Settings.animeTabEnable? "checked='checked'":"")%>>
                 <label class="settings-label" for="animeTabEnable"><%= i18n.__("Anime") %></label>
             </span>
-            <span>
-                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
-                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
-            </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
@@ -188,7 +184,7 @@
             </span>
             <span class="advanced">
                 <p><%= i18n.__("UI Scaling") %></p>
-                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
+                <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
@@ -201,6 +197,59 @@
             <span class="advanced">
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
                 <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
+            </span>
+        </div>
+    </section>
+
+    <section id="localisation">
+        <div class="title"><%= i18n.__("Localisation") %></div>
+        <div class="content">
+            <span>
+                <div class="dropdown subtitles-language">
+                    <p><%= i18n.__("Preferred Content Language") %></p>
+                    <%
+                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
+                        for(var key in App.Localization.allTranslations) {
+                            key = App.Localization.allTranslations[key];
+                            if (App.Localization.langcodes[key] !== undefined) {
+                                langs += "<option "+(Settings.contentLanguage == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                            }
+                        }
+                    %>
+                    <select name="contentLanguage"><%=langs%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="contentLangOnly" id="contentLangOnly" type="checkbox" <%=(Settings.contentLangOnly? "checked='checked'":"")%>>
+                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in the preferred language") %> </label>
+            </span>
+            <span>
+                <div class="dropdown translateTitle">
+                    <p><%= i18n.__("Title translation") %></p>
+                    <select name="translateTitle">
+                        <option <%=(Settings.translateTitle == "translated-origin"? "selected='selected'":"") %> value="translated-origin"><%= i18n.__("Translated - Original") %></option>
+                        <option <%=(Settings.translateTitle == "origin-translated"? "selected='selected'":"") %> value="origin-translated"><%= i18n.__("Original - Translated") %></option>
+                        <option <%=(Settings.translateTitle == "translated"? "selected='selected'":"") %> value="translated"><%= i18n.__("Translated only") %></option>
+                        <option <%=(Settings.translateTitle == "origin"? "selected='selected'":"") %> value="origin"><%= i18n.__("Original only") %></option>
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="translateEpisodes" id="translateEpisodes" type="checkbox" <%=(Settings.translateEpisodes? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateEpisodes"><%= i18n.__("Translate Episode Titles") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="translateSynopsis" id="translateSynopsis" type="checkbox" <%=(Settings.translateSynopsis? "checked='checked'":"")%>>
+                <label class="settings-label" for="translateSynopsis"><%= i18n.__("Translate Synopsis") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="translatePosters" id="translatePosters" type="checkbox" <%=(Settings.translatePosters? "checked='checked'":"")%>>
+                <label class="settings-label" for="translatePosters"><%= i18n.__("Translate Posters") %></label>
+            </span>
+            <span id="translation_info">
+                <em>* <%= i18n.__("Translations depend on availability. Some options also might not be supported by all API servers") %></em>
             </span>
         </div>
     </section>
@@ -354,12 +403,12 @@
         </div>
     </section>
 
-    <% if(App.Trakt) { %>
+    <% if (App.Trakt) { %>
     <section id="trakt-tv">
         <div class="title">Trakt.tv</div>
         <div class="content">
             <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-                <% if(App.Trakt.authenticated) { %>
+                <% if (App.Trakt.authenticated) { %>
                     <span>
                         <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
                         <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
@@ -398,35 +447,11 @@
     </section>
     <% } %>
 
-    <% if(App.TVShowTime) { %>
-    <section id="tvshowtime">
-        <div class="title">TVShow Time</div>
-        <div class="content">
-            <div class="tvshowtime-options <%= App.TVShowTime.authenticated ? " authenticated" : "" %>">
-                <% if(App.TVShowTime.authenticated) { %>
-                    <span>
-                        <%= i18n.__("You are currently connected to %s", "TVShow Time") %>.
-                        <a id="disconnect-tvst" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-                    </span>
-                <% } else { %>
-                    <span>
-                        <div class="btn-settings" id="connect-with-tvst">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "TVShow Time") %>
-                        </div>
-                        <div class="tvst-loading-spinner" style="display: none"></div>
-                    </span>
-                <% } %>
-            </div>
-        </div>
-    </section>
-    <% } %>
-
     <section id="opensubtitles">
         <div class="title">OpenSubtitles</div>
         <div class="content">
             <div class="opensubtitles-options">
-                <% if(Settings.opensubtitlesAuthenticated) { %>
+                <% if (Settings.opensubtitlesAuthenticated) { %>
                     <span>
                         <%= i18n.__("You are currently connected to %s", "OpenSubtitles") %>.
                         <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
@@ -493,6 +518,7 @@
                 <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
                 <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
             </span>
+<% if (Settings.httpApiEnabled) { %>
             <span>
                 <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
@@ -523,16 +549,17 @@
                 </span>
                 <canvas id="qrcode" width="200" height="200"></canvas>
             </div><!-- /.modal -->
+<% } %>
         </div>
     </section>
 
     <section id="apiserver">
-        <div class="title"><%= i18n.__("API Server") %></div>
+        <div class="title"><%= i18n.__("API Server(s)") %></div>
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Movies Server") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Movies API Server") %></p>
+                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="<%= Settings.providers.movie.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="moviesServers">
                         <% if (Settings.customServers && Settings.customServers.movie) {
                             for (var i = 0; i < Settings.customServers.movie.length; ++i) {
@@ -547,8 +574,8 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Series Server") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Series API Server") %></p>
+                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="<%= Settings.providers.tvshow.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="seriesServers">
                         <% if (Settings.customServers && Settings.customServers.tvshow) {
                             for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
@@ -563,8 +590,8 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Custom Anime Server") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="http(s)://server.com/ (support .onion and .i2p urls)">
+                    <p><%= i18n.__("Anime API Server") %></p>
+                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="<%= Settings.providers.anime.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
                     <datalist id="animeServers">
                         <% if (Settings.customServers && Settings.customServers.anime) {
                             for (var i = 0; i < Settings.customServers.anime.length; ++i) {
@@ -583,7 +610,7 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if(Settings.tvshow) { %>
+            <% if (Settings.tvshow) { %>
             <span>
                 <p><%= i18n.__("TV Show API Endpoint") %></p>
                     <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
@@ -595,16 +622,29 @@
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <p><%= i18n.__("Active Torrents Limit") %></p>
-                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>"/>
+                <input id="maxActiveTorrents" type="number" name="maxActiveTorrents" value="<%=Settings.maxActiveTorrents%>" autocomplete="off"/>
             </span>
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
-                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>"/>
+                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
             </span>
             <span>
-                <p><%= i18n.__("Port to stream on") %></p>
-                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+                <p><%= i18n.__("Max. Down / Up Speed") %></p>
+                <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
+                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
+                <%
+                    var limit_mult = {
+                        "1024": "KB/s",
+                        "1048576": "MB/s"
+                    };
+                    var select_default_mult = "";
+                    for(var key in limit_mult) {
+                        select_default_mult += "<option "+(Settings.maxLimitMult == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(limit_mult[key])+"</option>";
+                    }
+                %>
+                <select name="maxLimitMult"><%=select_default_mult%></select>
+                <span class="dropdown-arrow"></span>
             </span>
             <span id="overallRatio">
                 <p><%= i18n.__("Overall Ratio") %></p>
@@ -615,6 +655,10 @@
                    }
                 %>
                 <input type="text" size="20" name="overallRatio" value="<%= overallRatio() %>">&nbsp;&nbsp;&nbsp;<em><%= Common.fileSize(Settings.totalDownloaded) %><i class="fa fa-arrow-circle-down"></i><%= Common.fileSize(Settings.totalUploaded) %><i class="fa fa-arrow-circle-up"></i></em>
+            </span>
+            <span>
+                <p><%= i18n.__("Port to stream on") %></p>
+                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
             <% if (Settings.activateSeedbox && (!Settings.deleteTmpOnClose || Settings.separateDownloadsDir)) { %>
             <span>
@@ -758,6 +802,7 @@
     </section>
 
     <div class="btns">
+        <div class="btn-settings rebuild-bookmarks"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
         <div class="btn-settings flush-bookmarks"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush bookmarks database") %></div>
         <div class="btn-settings flush-databases"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush all databases") %></div>
         <div class="btn-settings default-settings"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>

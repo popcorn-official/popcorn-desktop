@@ -348,7 +348,7 @@ Section
     File "..\..\package.json"
     File "..\..\build\${APP_NAME}\${ARCH}\${APP_LAUNCHER}"
     File "..\..\CHANGELOG.md"
-    File /nonfatal "..\..\.git.json"
+    File /nonfatal "..\..\git.json"
 
     ;Set output path to InstallDir
     SetOutPath "\\?\$INSTDIR\node_modules"

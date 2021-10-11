@@ -52,10 +52,12 @@
       'click .backward': 'backwardStreaming',
       'click .minimize-icon': 'minDetails',
       'click .maximize-icon': 'minDetails',
+      'click #max_play_ctrl': 'maxPlayCtrl',
       'click .show-pcontrols': 'showpcontrols',
       'mousedown .title': 'copytoclip',
       'mousedown .text_filename': 'copytoclip',
       'mousedown .text_streamurl': 'copytoclip',
+      'mousedown .magnet-icon': 'openMagnet',
       'click .playing-progressbar': 'seekStreaming'
     },
 
@@ -156,12 +158,18 @@
       }
     },
 
+    maxPlayCtrl: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('.vjs-play-control').click();
+    },
+
     onAttach: function() {
       $('.filter-bar').hide();
       $('#header').addClass('header-shadow');
       App.LoadingView = this;
       this.initKeyboardShortcuts();
-      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols').tooltip({
+      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
         html: true,
         delay: {
           'show': 800,
@@ -199,6 +207,7 @@
         if (streamInfo.get('device') && streamInfo.get('device').get('type') !== 'local') {
           this.ui.player.text(streamInfo.get('device').get('name'));
           this.ui.streaming.css('visibility', 'visible');
+          $('#max_play_ctrl').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
         }
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.progressbar.parent().css('visibility', 'hidden');
@@ -337,6 +346,25 @@
       App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
     },
 
+    openMagnet: function (e) {
+      const torrent = this.model.get('streamInfo').attributes.torrentModel.attributes.torrent;
+      if (torrent.magnetURI) {
+        var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
+        magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
+        if (e.button === 2) {
+          var clipboard = nw.Clipboard.get();
+          clipboard.set(magnetLink, 'text'); //copy link to clipboard
+          $('.notification_alert')
+          .text(i18n.__('Copied to clipboard'))
+          .fadeIn('fast')
+          .delay(2500)
+          .fadeOut('fast');
+        } else {
+          nw.Shell.openExternal(magnetLink);
+        }
+      }
+    },
+
     remainingTime: function () {
       var streamInfo = this.model.get('streamInfo');
       var timeLeft = streamInfo.get('time_left');
@@ -361,13 +389,12 @@
 
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
-      $('.pause').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
+      $('.pause, #max_play_ctrl').removeClass('fa-pause').removeClass('pause').addClass('fa-play').addClass('play');
     },
 
     resumeStreaming: function() {
-      win.debug('Play triggered');
       App.vent.trigger('device:unpause');
-      $('.play').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
+      $('.play, #max_play_ctrl').removeClass('fa-play').removeClass('play').addClass('fa-pause').addClass('pause');
     },
 
     stopStreaming: function() {

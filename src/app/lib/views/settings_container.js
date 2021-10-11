@@ -24,6 +24,7 @@
             'click .close-icon': 'closeSettings',
             'change select,input': 'saveSetting',
             'contextmenu input': 'rightclick_field',
+            'click .rebuild-bookmarks': 'rebuildBookmarks',
             'click .flush-bookmarks': 'flushBookmarks',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
@@ -39,8 +40,6 @@
             'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
-            'click #connect-with-tvst': 'connectWithTvst',
-            'click #disconnect-tvst': 'disconnectTvst',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'click .reset-tvshow': 'resettvshow',
@@ -268,10 +267,12 @@
                         AdvSettings.set('lastTab', App.currentview);
                     }
                 /* falls through */
+                case 'translateTitle':
                 case 'watchedCovers':
                 case 'defaultFilters':
                 case 'theme':
                 case 'delSeedboxCache':
+                case 'maxLimitMult':
                     value = $('option:selected', field).val();
                     break;
                 case 'poster_size':
@@ -283,6 +284,9 @@
                         App.vent.trigger('updatePostersSizeStylesheet');
                     });
                     break;
+                case 'contentLanguage':
+                    value = $('option:selected', field).val();
+                    break;
                 case 'language':
                     value = $('option:selected', field).val();
                     i18n.setLocale(value);
@@ -292,12 +296,15 @@
                 case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
                 case 'protocolEncryption':
+                case 'contentLangOnly':
                 case 'vpnEnabled':
                 case 'coversShowRating':
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
                 case 'nativeWindowFrame':
+                case 'translatePosters':
                 case 'translateSynopsis':
+                case 'translateEpisodes':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
                 case 'traktSyncOnStart':
@@ -335,8 +342,17 @@
                 case 'maxActiveTorrents':
                     value = field.val();
                     break;
+                case 'downloadLimit':
+                case 'uploadLimit':
+                    let numvalue = field.val().replace(/[^0-9|.-]/gi, '').replace(/^([^.]*\.)|\./g, '$1');
+                    if (numvalue <= 0) {
+                        numvalue = '';
+                    }
+                    field.val(numvalue);
+                    value = numvalue;
+                    break;
                 case 'bigPicture':
-                    var nvalue = field.val().replace(/[^0-9]/gi, '');
+                    let nvalue = field.val().replace(/[^0-9]/gi, '');
                     if (nvalue === '') {
                         nvalue = AdvSettings.get('bigPicture');
                     } else if (nvalue < 25) {
@@ -406,6 +422,7 @@
 
         syncSetting: function (setting, value) {
             let scrollPos = that.$el.scrollTop();
+            let scrollPosOffset = 0;
             switch (setting) {
                 case 'coversShowRating':
                     if (value) {
@@ -431,12 +448,31 @@
                 case 'protocolEncryption':
                     this.alertMessageSuccess(true);
                     break;
-                case 'vpnEnabled':
+                case 'downloadLimit':
+                    App.WebTorrent.throttleDownload(parseInt(parseFloat(value, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
+                    break;
+                case 'uploadLimit':
+                    App.WebTorrent.throttleUpload(parseInt(parseFloat(value, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
+                    break;
+                case 'maxLimitMult':
+                    if (Settings.downloadLimit) {
+                        App.WebTorrent.throttleDownload(parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(value, 10)) || -1);
+                    }
+                    if (Settings.uploadLimit) {
+                        App.WebTorrent.throttleUpload(parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(value, 10)) || -1);
+                    }
+                    break;
+                case 'contentLanguage':
+                case 'contentLangOnly':
+                    App.Providers.updateLanguage(Settings.language, value || Settings.language, Settings.contentLangOnly);
+                    this.alertMessageSuccess(true);
+                    break;
                 case 'language':
-                case 'watchedCovers':
-                case 'defaultFilters':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
+                    if (!Settings.contentLanguage) {
+                        this.alertMessageSuccess(true);
+                    }
                     break;
                 case 'alwaysOnTop':
                     win.setAlwaysOnTop(value);
@@ -471,6 +507,7 @@
                     if (AdvSettings.get('startScreen') === 'Torrent-collection') {
                         $('select[name=start_screen]').change();
                     }
+                    value ? scrollPosOffset++ : scrollPosOffset--;
                     break;
                 case 'moviesTabEnable':
                     App.vent.trigger('favorites:list');
@@ -510,6 +547,7 @@
                     if (AdvSettings.get('startScreen') === 'Seedbox') {
                         $('select[name=start_screen]').change();
                     }
+                    value ? scrollPosOffset++ : scrollPosOffset--;
                     break;
                 case 'separateDownloadsDir':
                     if (value) {
@@ -518,11 +556,24 @@
                             fs.mkdir(torrent_cache_dir2, function (err) {});
                         }
                     }
-                    /* falls through */
+                    if (Settings.deleteTmpOnClose) {
+                        value ? scrollPosOffset++ : scrollPosOffset--;
+                    }
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    break;
                 case 'deleteTmpOnClose':
+                    if (!Settings.separateDownloadsDir) {
+                        !value ? scrollPosOffset++ : scrollPosOffset--;
+                    }
+                    /* falls through */
+                case 'vpnEnabled':
+                case 'watchedCovers':
+                case 'defaultFilters':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
+                case 'httpApiEnabled':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
@@ -550,6 +601,9 @@
                 default:
             }
             if (that.$el.scrollTop() !== scrollPos) {
+                if (scrollPosOffset) {
+                    scrollPos = scrollPos + scrollPosOffset * 40;
+                }
                 that.$el.scrollTop(scrollPos);
             }
         },
@@ -601,28 +655,6 @@
             App.Trakt.disconnect();
             this.ui.success_alert.show().delay(3000).fadeOut(400);
             this.render();
-        },
-
-        connectWithTvst: function () {
-            var self = this;
-
-            $('#connect-with-tvst > i').css('visibility', 'hidden');
-            $('.tvst-loading-spinner').show();
-
-            App.vent.on('system:tvstAuthenticated', function () {
-                $('.tvst-loading-spinner').hide();
-                self.render();
-            });
-            App.TVShowTime.authenticate(function (activateUri) {
-                nw.Shell.openExternal(activateUri);
-            });
-        },
-
-        disconnectTvst: function () {
-            var self = this;
-            App.TVShowTime.disconnect(function () {
-                self.render();
-            });
         },
 
         connectOpensubtitles: function (e) {
@@ -679,6 +711,45 @@
             AdvSettings.set('opensubtitlesPassword', '');
             AdvSettings.set('opensubtitlesAuthenticated', false);
             setTimeout(self.render, 200);
+        },
+
+        rebuildBookmarks: function (e) {
+            var btn = $(e.currentTarget);
+
+            if (!this.areYouSure(btn, i18n.__('Rebuilding bookmarks...'))) {
+                return;
+            }
+
+            this.alertMessageWait(i18n.__('We are rebuilding your database'));
+
+            Database.getAllBookmarks()
+                .then(function (data) {
+                    let movieProvider = App.Config.getProviderForType('movie')[0];
+                    let showProvider = App.Config.getProviderForType('tvshow')[0];
+                    for (let item of data) {
+                        if (item.type === 'movie') {
+                            movieProvider.fetch({keywords: item.imdb_id}).then(function (movies) {
+                                if (movies.results.length !== 1) {
+                                    return;
+                                }
+                                let movie = movies.results[0];
+                                Database.deleteMovie(item.imdb_id);
+                                movie.providers = [movieProvider.name];
+                                Database.addMovie(movie);
+                            });
+                        }
+                        if (item.type === 'show') {
+                            showProvider.detail(item.imdb_id, {
+                                contextLocale: App.settings.contextLanguage || App.settings.language
+                            }).then(function (show) {
+                                    Database.deleteTVShow(item.imdb_id);
+                                    show.providers = [showProvider.name];
+                                    Database.addTVShow(show);
+                                });
+                        }
+                    }
+                    that.alertMessageSuccess(true);
+                });
         },
 
         flushBookmarks: function (e) {

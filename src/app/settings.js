@@ -34,10 +34,6 @@ var Settings = {
     client_secret:
       'f55b0a53c63af683588b47f6de94226b7572a6f83f40bd44c58a7c83fe1f2cb1'
   },
-  tvshowtime: {
-    client_id: 'iM2Vxlwr93imH7nwrTEZ',
-    client_secret: 'ghmK6ueMJjQLHBwsaao1tw3HUF7JVp_GQTwDwhCn'
-  },
   fanart: {
     api_key: 'ce4bba4b3cc473306c6cddb4e1cb0da4'
   },
@@ -62,9 +58,14 @@ Settings.providers = {
     uri: [
     ]
   },
+  anime: {
+    order: 3,
+    name: 'Anime',
+    uri: [
+    ]
+  },
   subtitle: 'OpenSubtitles',
   metadata: 'Trakttv',
-  tvst: 'TVShowTime',
   torrentCache: 'TorrentCache'
 };
 
@@ -75,7 +76,6 @@ Settings.trackers = {
     'udp://tracker.tiny-vps.com:6969',
     'udp://tracker.openbittorrent.com:1337',
     'udp://tracker.leechers-paradise.org:6969',
-    'udp://p4p.arenabg.ch:1337',
     'udp://p4p.arenabg.com:1337',
     'udp://tracker.internetwarriors.net:1337',
     'udp://9.rarbg.to:2710',
@@ -84,11 +84,12 @@ Settings.trackers = {
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
+    'udp://opentor.org:2710',
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
     'udp://tracker.uw0.xyz:6969',
-    'wss://tracker.openwebtorrent.com',
-    'wss://tracker.btorrent.xyz'
+    'udp://retracker.lanta-net.ru:2710',
+    'wss://tracker.openwebtorrent.com'
   ]
 };
 
@@ -100,6 +101,8 @@ Settings.proxyServer = '';
 
 // User interface
 Settings.language = '';
+Settings.contentLanguage = '';
+Settings.contentLangOnly = false;
 Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
@@ -115,6 +118,12 @@ Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 Settings.bigPicture = 100;
 
+//Localisation
+Settings.translateTitle = 'translated-origin';
+Settings.translatePosters = true;
+Settings.translateSynopsis = true;
+Settings.translateEpisodes = true;
+
 //Playback
 Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = false;
@@ -125,7 +134,6 @@ Settings.chosenPlayer = 'local';
 Settings.alwaysOnTop = false;
 Settings.theme = 'Official_-_Dark_theme';
 Settings.ratingStars = true; //trigger on click in details
-Settings.hideSeasons = true;
 Settings.startScreen = 'Movies';
 Settings.lastTab = '';
 Settings.defaultFilters = 'default';
@@ -150,8 +158,8 @@ Settings.multipleExtSubtitles = false;
 // More options
 Settings.httpApiEnabled = false;
 Settings.httpApiPort = 8008;
-Settings.httpApiUsername = 'butter';
-Settings.httpApiPassword = 'butter';
+Settings.httpApiUsername = 'popcorn';
+Settings.httpApiPassword = 'popcorn';
 
 // Trakt.tv
 Settings.traktStatus = false;
@@ -159,9 +167,6 @@ Settings.traktLastSync = false;
 Settings.traktLastActivities = false;
 Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
-
-// TVShow Time
-Settings.tvstAccessToken = '';
 
 // OpenSubtitles
 Settings.opensubtitlesAutoUpload = true;
@@ -171,6 +176,9 @@ Settings.opensubtitlesPassword = '';
 
 // Advanced options
 Settings.connectionLimit = 55;
+Settings.downloadLimit = '';
+Settings.uploadLimit = '';
+Settings.maxLimitMult = 1024;
 Settings.streamPort = 0; // 0 = Random
 Settings.protocolEncryption = false;
 Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
@@ -180,7 +188,7 @@ Settings.deleteTmpOnClose = true;
 Settings.separateDownloadsDir = false;
 Settings.delSeedboxCache = 'ask';
 Settings.continueSeedingOnStart = false;
-Settings.vpnEnabled = true;
+Settings.vpnEnabled = false;
 Settings.maxActiveTorrents = 5;
 Settings.automaticUpdating = true;
 Settings.UpdateSeed = false;

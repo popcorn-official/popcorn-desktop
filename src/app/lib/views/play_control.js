@@ -17,7 +17,8 @@
       'click .playerchoicehelp': 'showPlayerList',
       'click .watched-toggle': 'toggleWatched',
       'click #subs-dropdown': 'hideTooltips',
-      'click #audio-dropdown': 'hideTooltips'
+      'click #audio-dropdown': 'hideTooltips',
+      'click #quality-selector': 'hideTooltips'
     },
     regions: {
       subDropdown: '#subs-dropdown',
@@ -34,7 +35,9 @@
         this.model.get('title')
       );
       if (!this.model.get('langs')) {
-        this.model.set('langs', { en: undefined });
+        this.model.set('langs', { en: this.model.get('torrents') });
+      } else {
+        this.model.set('torrents', this.model.get('langs')[this.model.get('defaultAudio')]);
       }
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));
@@ -62,7 +65,7 @@
       this.model.on('change:langs', this.loadAudioDropdown.bind(this));
       this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
 
-      if ($('.loading .maximize-icon').is(':visible')) {
+      if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
         $('.button:not(#download-torrent)').addClass('disabled');
         $('#watch-now, #watch-trailer, .playerchoice').prop('disabled', true);
       }
@@ -70,6 +73,7 @@
 
     setQuality: function(torrent, key) {
       _this.model.set('quality', key);
+      App.vent.trigger('change:quality', key);
     },
 
     hideUnused: function() {
@@ -132,7 +136,7 @@
     },
 
     setUiStates: function() {
-      $('.star-container,.movie-imdb-link,.q720,input,.magnet-link,.show-cast').tooltip({
+      $('.star-container,.movie-imdb-link,.q720,input,.magnet-link,.source-link,.show-cast').tooltip({
         html: true
       });
 
@@ -182,7 +186,7 @@
     },
 
     hideTooltips: function () {
-      $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle').tooltip('hide');
+      $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle, #quality-selector .qselect').tooltip('hide');
     },
 
     switchSubtitle: function(lang) {
@@ -191,12 +195,6 @@
         lang = 'none';
       }
       this.subtitle_selected = lang;
-      if (lang === 'en') {
-          $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
-      } else {
-          $('#subs-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')').tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
-      }
-      console.info('Subtitles: ' + this.subtitle_selected);
     },
 
     switchAudio: function(lang) {
@@ -205,33 +203,15 @@
         lang = 'none';
       }
       this.audio_selected = lang;
-      if (lang === 'en') {
-          $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang)).tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
-      } else {
-          $('#audio-dropdown .flag.toggle').attr('title', App.Localization.nativeName(lang) + '<br>(' + App.Localization.name(lang).replace(/\(|\)/g, '') + ')').tooltip({delay: {show: 800, hide: 100}, html: true}).tooltip('fixTitle');
+
+      if (this.getRegion('qualitySelector').currentView) {
+        this.model.set('torrents', audios[lang]);
+        this.getRegion('qualitySelector').currentView.updateTorrents(audios[lang]);
       }
-      console.info('Audios: ' + lang);
     },
 
     downloadTorrent: function() {
-      var providers = this.model.get('providers');
-      var quality = this.model.get('quality');
-      var defaultTorrent = this.model.get('torrents')[quality];
-
-      var filters = {
-        quality: quality,
-        lang: this.audio_selected
-      };
-
-      const torrent = providers.torrent.resolveStream
-        ? providers.torrent.resolveStream(
-            defaultTorrent,
-            filters,
-            this.model.attributes
-          )
-        : defaultTorrent;
-
-      App.vent.trigger('stream:download', torrent, this.model.get('title') /*mediaName*/);
+      this.startStreaming('downloadOnly');
       if (Settings.showSeedboxOnDlInit) {
         App.previousview = App.currentview;
         App.currentview = 'Seedbox';
@@ -244,7 +224,7 @@
       }
     },
 
-    startStreaming: function() {
+    startStreaming: function(state) {
       var providers = this.model.get('providers');
       var quality = this.model.get('quality');
       var defaultTorrent = this.model.get('torrents')[quality];
@@ -276,7 +256,7 @@
         cover: this.model.get('cover')
       });
 
-      App.vent.trigger('stream:start', torrentStart);
+      App.vent.trigger('stream:start', torrentStart, state);
     },
 
     playTrailer: function() {

@@ -9,12 +9,7 @@
     if (moviesServer && moviesServer.includes('://yts')) {
       var MovieBrowser = App.View.PCTBrowser.extend({
         collectionModel: App.Model.MovieCollection,
-        filters: {
-          genres: App.Config.genres,
-          sorters: App.Config.sorters,
-          types: App.Config.types_yts,
-          ratings: App.Config.ratings_yts
-        }
+        provider: 'YTSApi',
       });
       App.View.MovieBrowser = MovieBrowser;
       cache[Object.keys(App.Providers._cache)[0]] = App.Providers.get('YTSApi');
@@ -24,6 +19,20 @@
     animeServer ? cache[Object.keys(App.Providers._cache)[2]].setApiUrls(animeServer) : null;
     for (let provider in cache) {
       cache[provider].proxy = proxy;
+    }
+  }
+
+  function updateProviderLanguage (language, contentLanguage, contentLangOnly = false) {
+    for (let provider in cache) {
+      if (cache[provider] && cache[provider].hasOwnProperty('language')) {
+        cache[provider].language = language;
+      }
+      if (cache[provider] && cache[provider].hasOwnProperty('contentLanguage')) {
+        cache[provider].contentLanguage = contentLanguage;
+      }
+      if (cache[provider] && cache[provider].hasOwnProperty('contentLangOnly')) {
+        cache[provider].contentLangOnly = contentLangOnly;
+      }
     }
   }
 
@@ -109,6 +118,7 @@
   App.Providers.delete = delProvider;
   App.Providers.install = installProvider;
   App.Providers.updateConnection = updateProviderConnection;
+  App.Providers.updateLanguage = updateProviderLanguage;
 
   App.Providers.getFromRegistry = getProviderFromRegistry;
 })(window.App);

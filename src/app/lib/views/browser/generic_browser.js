@@ -26,17 +26,20 @@
         },
 
         initialize: function () {
-            this.filter = new App.Model.Filter(this.filters);
-
+            const provider = this.provider ? App.Providers.get(this.provider) : App.Config.getProviderForType(this.providerType)[0];
+            let initFilter = {};
             if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') {
-                this.filter.set(this.getSavedFilter());
+                initFilter = this.getSavedFilter();
             }
+            initFilter.provider = provider;
 
-            this.collection = new this.collectionModel([], {
-                filter: this.filter
-            });
+            this.filter = new App.Model.Filter(initFilter);
 
-            this.collection.fetch();
+            // this.collection = new this.collectionModel([], {
+            //     filter: this.filter
+            // });
+            //
+            // this.collection.fetch();
 
             this.listenTo(this.filter, 'change', this.onFilterChange);
 
@@ -49,9 +52,9 @@
 
             this.showChildView('FilterBar', this.bar);
 
-            this.showChildView('ItemList', new App.View.List({
-                collection: this.collection
-            }));
+            // this.showChildView('ItemList', new App.View.List({
+            //     collection: this.collection
+            // }));
 
             if (!isNaN(startupTime)) {
                 win.debug('Butter %s startup time: %sms', Settings.version, (window.performance.now() - startupTime).toFixed(3)); // started in database.js;
@@ -76,6 +79,9 @@
         },
 
         onFilterChange: function () {
+            if (!this.filter.get('load')) {
+                return;
+            }
             if (Settings.defaultFilters === 'remember' || curSetDefaultFilters) {
                 this.saveFilter();
             }
@@ -166,7 +172,7 @@
 
         getSavedFilter: function () {
             var filters = AdvSettings.get('filters') || {};
-            return filters[this.currentView()] || this.filter.pick('sorter', 'genre', 'type', 'order', 'rating');
+            return filters[this.currentView()] || {};
         }
     });
 

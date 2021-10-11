@@ -7,6 +7,8 @@
         className: 'player',
         player: null,
         prevSub: null,
+        wasFullscreen: false,
+        wasMinimized: false,
 
         ui: {
             eyeInfo: '.eye-info-player',
@@ -14,8 +16,12 @@
             uploadSpeed: '.upload_speed_player',
             activePeers: '.active_peers_player',
             downloaded: '.downloaded_player',
-            pause: '.fa-pause',
-            play: '.fa-play'
+            downloadedPercent: '.downloadedPercent_player',
+            pause: '#osd_pause',
+            play: '#osd_play',
+            minimizeIcon: '.minimize-icon',
+            maximizeIcon: '.maximize-icon',
+            maxPlayCtrlIcon: '#max_play_ctrl'
         },
 
         events: {
@@ -27,11 +33,19 @@
             'click .vjs-subtitles-button': 'toggleSubtitles',
             'click .vjs-text-track': 'moveSubtitles',
             'mousedown .eye-info-player': 'filenametoclip',
+            'click .minimize-icon': 'minDetails',
+            'click .maximize-icon': 'minDetails',
+            'click #max_play_ctrl': 'maxPlayCtrl',
             'click .vjs-play-control': 'togglePlay'
         },
 
         initialize: function () {
             _this = this;
+
+            if ($('.loading .maximize-icon').is(':visible')) {
+                this.wasMinimized = true;
+            }
+
             this.listenTo(this.model, 'change:downloadSpeed', this.updateDownloadSpeed);
             this.listenTo(this.model, 'change:uploadSpeed', this.updateUploadSpeed);
             this.listenTo(this.model, 'change:active_peers', this.updateActivePeers);
@@ -39,18 +53,16 @@
 
             this.inFullscreen = win.isFullscreen;
             this.playerWasReady = false;
-
             this.remaining = false;
             this.createdRemaining = false;
             this.firstPlay = true;
-
             this.boundedMouseScroll = this.mouseScroll.bind(this);
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
-              if (_.last(App.ViewStack) === 'app-overlay') {
-                _this.bindKeyboardShortcuts();
-              }
+                if (_.last(App.ViewStack) === 'app-overlay') {
+                    _this.bindKeyboardShortcuts();
+                }
             });
         },
 
@@ -78,13 +90,61 @@
             this.ui.activePeers.text(this.model.get('active_peers'));
         },
 
+        minDetails: function () {
+            if (this.ui.minimizeIcon.is(':visible')) {
+                if (win.isFullscreen) {
+                    this.toggleFullscreen();
+                    this.wasFullscreen = true;
+                }
+                $('.player').css({'height': '0', 'width': '0'});
+                $('.player .video-js').css('display', 'none');
+                $('#content').show();
+                if ($('#movie-detail') !== undefined) {
+                    $('#movie-detail').show();
+                }
+                $('#player_drag').hide();
+                $('#header').show();
+                this.ui.minimizeIcon.hide();
+                this.ui.maximizeIcon.show();
+                this.unbindKeyboardShortcuts();
+                Mousetrap.bind(['esc', 'backspace'], function (e) {
+                    App.vent.trigger('show:closeDetail');
+                    App.vent.trigger('movie:closeDetail');
+                });
+            } else {
+                $('.player, .player .video-js').removeAttr('style');
+                $('#content').hide();
+                if ($('#movie-detail') !== undefined) {
+                    $('#movie-detail').hide();
+                }
+                $('#player_drag').show();
+                $('#header').removeClass('header-shadow').hide();
+                this.ui.maximizeIcon.hide();
+                this.ui.minimizeIcon.show();
+                if (this.wasFullscreen) {
+                    this.toggleFullscreen();
+                    this.wasFullscreen = false;
+                }
+                this.bindKeyboardShortcuts();
+            }
+        },
+
+        maxPlayCtrl: function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $('.vjs-play-control').click();
+        },
+
         updateDownloaded: function () {
             if (this.model.get('downloadedPercent').toFixed(0) < 100 || this.model.get('size') === 0) {
                 if (this.model.get('size') !== 0) {
                     this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + this.model.get('downloadedFormatted') + ' / ' + Common.fileSize(this.model.get('size')) + ')');
+                    this.ui.downloadedPercent.html(this.model.get('downloadedPercent').toFixed(0) + '%');
                 } else {
                     this.ui.downloaded.html('(' + this.model.get('downloadedFormatted') + ' / ' + i18n.__('Unknown') + ')');
+                    this.ui.downloadedPercent.html(i18n.__('Unknown') + ' %');
                 }
+
                 $('.vjs-load-progress').css('width', this.model.get('downloadedPercent').toFixed(0) + '%');
                 this.remaining = true;
 
@@ -97,8 +157,10 @@
             } else {
                 $('.details-info-player #sstatel').text(i18n.__('Downloaded'));
                 this.ui.downloaded.html(this.model.get('downloadedPercent').toFixed(0) + '%&nbsp;&nbsp;&nbsp;(' + Common.fileSize(this.model.get('size')) + ')<br>');
-                $('.details-info-player #dloaddd, .download_speed_player, .details-info-player #apeersss, .active_peers_player').hide();
+                this.ui.downloadedPercent.html(this.model.get('downloadedPercent').toFixed(0) + '%');
+                $('.details-info-player #dloaddd, .download_speed_player, .details-info-player #apeersss, .active_peers_player, .maximize-icon #maxdllb').hide();
                 $('.vjs-load-progress').css('width', '100%');
+                this.ui.maximizeIcon.addClass('done');
                 this.remaining = false;
             }
 
@@ -202,7 +264,7 @@
                         var playingNext = $('.playing_next');
 
                         if (!this.precachestarted) {
-                            App.vent.trigger('preload:start', this.next_episode_model);
+                            App.vent.trigger('stream:start', this.next_episode_model, 'preload');
                             this.precachestarted = true;
                         }
 
@@ -324,6 +386,7 @@
                 this.ui.play.show().delay(50).queue(function () {
                     this.ui.play.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
+                this.ui.maxPlayCtrlIcon.removeClass('fa-play').addClass('fa-pause');
                 App.vent.trigger('player:play');
             }
 
@@ -340,6 +403,7 @@
                 this.ui.pause.show().delay(50).queue(function () {
                     this.ui.pause.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
                 }.bind(this));
+                this.ui.maxPlayCtrlIcon.removeClass('fa-pause').addClass('fa-play');
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }
@@ -386,6 +450,9 @@
             $('#player_drag').show();
             var that = this;
 
+            $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions').addClass('disabled');
+            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
+
             // Double Click to toggle Fullscreen
             $('#video_player, .state-info-player').dblclick(function (event) {
                 that.toggleFullscreen();
@@ -401,6 +468,14 @@
                 this.processNext();
             }
 
+            this.$('.tooltipped').tooltip({
+                html: true,
+                delay: {
+                    'show': 800,
+                    'hide': 0
+                }
+            });
+
             // start videojs engine
             if (this.model.get('type') === 'video/youtube') {
 
@@ -414,7 +489,8 @@
                     this.addClass('vjs-has-started');
                 });
                 this.ui.eyeInfo.hide();
-                $('.player-title').text(this.model.get('title') + ' - Trailer');
+                $('.maximize-icon #maxdllb').hide();
+                $('.player-title, .player .maximize-icon .title').text(this.model.get('title') + ' - Trailer');
 
                 // XXX Sammuel86 Trailer UI Show FIX/HACK
                 $('.trailer_mouse_catch')
@@ -492,7 +568,6 @@
             this.player.on('pause', this.onPlayerPause.bind(this));
             this.player.on('error', this.onPlayerError.bind(this));
 
-            this.bindKeyboardShortcuts();
             this.metadataCheck();
 
             $('.player-header-background').appendTo('div#video_player');
@@ -506,12 +581,35 @@
 
             // set fullscreen state & previous state
             if (Settings.alwaysFullscreen && !this.inFullscreen) {
-                this.toggleFullscreen();
+                if (this.wasMinimized) {
+                    this.wasFullscreen = true;
+                } else {
+                    this.toggleFullscreen();
+                }
             }
             if (this.inFullscreen) {
                 win.leaveFullscreen();
                 this.toggleFullscreen();
             }
+            if (this.wasMinimized) {
+                $('.player').css({'height': '0', 'width': '0'});
+                $('.player .video-js').css('display', 'none');
+                $('#player_drag').hide();
+                $('#header').show();
+                this.ui.minimizeIcon.hide();
+                this.ui.maximizeIcon.show();
+                this.unbindKeyboardShortcuts();
+                Mousetrap.bind(['esc', 'backspace'], function (e) {
+                    App.vent.trigger('show:closeDetail');
+                    App.vent.trigger('movie:closeDetail');
+                });
+            } else {
+                this.bindKeyboardShortcuts();
+            }
+
+            Mousetrap.bind('ctrl+v', function (e) {
+                e.preventDefault();
+            });
 
             // don't hide controls when hovering following classes:
             $('.vjs-menu-content, .eye-info-player, .playing_next, .verify_metadata').hover(function () {
@@ -633,7 +731,7 @@
             this.model.set('tvdb_id', false);
             this.model.set('episode_id', false);
             this.model.set('metadataCheckRequired', false);
-            $('.player-title').text(title);
+            $('.player-title, .player .maximize-icon .title').text(title);
 
             // remove subtitles
             var subs = this.model.get('subtitle');
@@ -1049,7 +1147,10 @@
             if (this.inFullscreen && !win.isFullscreen) {
                 $('.btn-os.fullscreen').removeClass('active');
             }
+            $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions').removeClass('disabled').removeProp('disabled');
             this.unbindKeyboardShortcuts();
+            Mousetrap.bind('ctrl+v', function (e) {
+            });
             App.vent.trigger('player:close');
             var vjsPlayer = document.getElementById('video_player');
             if (vjsPlayer) {

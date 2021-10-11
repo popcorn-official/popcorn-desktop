@@ -2,23 +2,15 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
-const TVDB = require('node-tvdb');
+const i18n = require('i18n');
 
 class TVApi extends Generic {
   constructor(args) {
     super(args);
 
     this.language = args.language;
-
-    try {
-      this.tvdb = new TVDB('7B95D15E1BE1D75A');
-      this.tvdb.getLanguages().then(langlist => (this.TVDBLangs = langlist));
-    } catch (err) {
-      this.TVDBLangs = false;
-      console.warn(
-        'Something went wrong with TVDB, overviews can\'t be translated.'
-      );
-    }
+    this.contentLanguage = args.contentLanguage || this.language;
+    this.contentLangOnly = args.contentLangOnly || false;
   }
 
   extractIds(items) {
@@ -30,6 +22,12 @@ class TVApi extends Generic {
       sort: 'seeds',
       limit: '50'
     };
+
+    params.locale = this.language;
+    params.contentLocale = this.contentLanguage;
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
 
     if (filters.keywords) {
       params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim() : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
@@ -56,57 +54,82 @@ class TVApi extends Generic {
   }
 
   detail(torrent_id, old_data, debug) {
-    const uri = `show/${torrent_id}`;
+    return this.contentOnLang(torrent_id, old_data.contextLocale);
+  }
+
+  contentOnLang(torrent_id, lang) {
+    const params = {};
+    if (this.language) {
+      params.locale = this.language;
+    }
+    if (this.language !== lang) {
+      params.contentLocale = lang;
+    }
+    const uri = `show/${torrent_id}?` + new URLSearchParams(params);
 
     return this._get(0, uri).then(data => {
-      console.log(data._id);
-      if (this.translate && this.language !== 'en') {
-        let langAvailable;
-        for (let x = 0; x < this.TVDBLangs.length; x++) {
-          if (this.TVDBLangs[x].abbreviation.indexOf(this.language) > -1) {
-            langAvailable = true;
-            break;
-          }
-        }
-
-        if (!langAvailable) {
-          return sanitize(data);
-        } else {
-          const reqTimeout = setTimeout(() => sanitize(data), 2000);
-
-          console.info(
-            `Request to TVApi: '${old_data.title}' - ${this.language}`
-          );
-          return this.tvdb
-            .getSeriesAllById(old_data.tvdb_id)
-            .then(localization => {
-              clearTimeout(reqTimeout);
-
-              data = Object.assign(data, {
-                synopsis: localization.Overview
-              });
-
-              for (let i = 0; i < localization.Episodes.length; i++) {
-                for (let j = 0; j < data.episodes.length; j++) {
-                  if (
-                    localization.Episodes[i].id.toString() ===
-                    data.episodes[j].tvdb_id.toString()
-                  ) {
-                    data.episodes[j].overview =
-                      localization.Episodes[i].Overview;
-                    break;
-                  }
-                }
-              }
-
-              return sanitize(data);
-            })
-            .catch(err => sanitize(data));
-        }
-      } else {
-        return sanitize(data);
-      }
+      return data;
+      return sanitize(data);
     });
+  }
+
+  filters() {
+    const params = {
+      contentLocale: this.contentLanguage,
+    };
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+    return this._get(0, 'shows/stat?' + new URLSearchParams(params))
+        .then((result) => this.formatFiltersFromServer(
+            ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+            result
+        )).catch(() => {
+          const data = {
+            genres: [
+              'All',
+              'Action',
+              'Adventure',
+              'Animation',
+              'Children',
+              'Comedy',
+              'Crime',
+              'Documentary',
+              'Drama',
+              'Family',
+              'Fantasy',
+              'Game Show',
+              'Home and Garden',
+              'Horror',
+              'Mini Series',
+              'Mystery',
+              'News',
+              'Reality',
+              'Romance',
+              'Science Fiction',
+              'Soap',
+              'Special Interest',
+              'Sport',
+              'Suspense',
+              'Talk Show',
+              'Thriller',
+              'Western'
+            ],
+            sorters: ['trending', 'popularity', 'updated', 'year', 'name', 'rating'],
+          };
+          let filters = {
+            genres: {},
+            sorters: {},
+          };
+          for (const genre of data.genres) {
+            filters.genres[genre] = i18n.__(genre.capitalizeEach());
+          }
+          for (const sorter of data.sorters) {
+            filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+          }
+
+          return Promise.resolve(filters);
+        });
   }
 }
 

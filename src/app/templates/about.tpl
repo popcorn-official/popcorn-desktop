@@ -8,7 +8,7 @@
         <div class="title-version">
             <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id="changelog"><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
             <% if(App.git) { %>
-                - <small><i><%= App.git.branch %> (<a class="links" href="<%= Settings.commitUrl %>/<%= App.git.commit %>"><%= App.git.commit.slice(0,8) %></a>)</i></small>
+                - <small><i>(<a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= Settings.commitUrl %>/<%= App.git.commit %>"><%= App.git.commit %></a>)</i></small>
             <% } %>
             <small>&nbsp;&nbsp;&nbsp;<a href="<%= Settings.issuesUrl %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
         </div>

@@ -36,19 +36,17 @@ Download and install:
 
 
 ### MacOS:
-Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://github.com/Homebrew/homebrew-cask#homebrew-cask)):_
-  * **Latest release**:  
-  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time`
-  * Or **latest dev build (for testers)**:  
-  `brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git`  
-  `brew install --cask popcorn-time-beta`
-  
+Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://docs.brew.sh/Cask-Cookbook)):_
+  ~~~ rb
+  brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git
+  brew install --cask popcorn-time
+  ~~~
+
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
-  repo = 'popcorn-official/popcorn-desktop'
+  repo = "popcorn-official/popcorn-desktop"
   tap repo, "https://github.com/#{repo}.git"
-  cask 'popcorn-time'
+  cask "popcorn-time"
   ~~~
 
 Update from _zip_ file:  
@@ -68,17 +66,17 @@ Download and install:
 Via archive and command line (tested on ubuntu 18.04 and 20.04):
   1. Download Popcorn Time archive:  
       * For the **latest release**:  
-      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.5-linux64.zip`  
+      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.6-linux64.zip`  
   _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
-  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.5/Popcorn-Time-0.4.5-linux64.zip`_
+  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.6/Popcorn-Time-0.4.6-linux64.zip`_
       * Or for the **latest dev build (for testers)**:  
-      `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.5_linux64.zip -O Popcorn-Time-0.4.5-linux64.zip`
+      `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.6_linux64.zip -O Popcorn-Time-0.4.6-linux64.zip`
   2. Create popcorn-time folder in /opt/:  
   `sudo mkdir /opt/popcorn-time`  
   3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working):  
   `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`  
   4. Extract the zip in /opt/popcorn-time:  
-  `sudo unzip Popcorn-Time-0.4.5-linux64.zip -d /opt/popcorn-time`  
+  `sudo unzip Popcorn-Time-0.4.6-linux64.zip -d /opt/popcorn-time`  
   5. Create symlink of Popcorn-Time in /usr/bin:  
   `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`  
   6. Create .desktop file (so the launcher):  

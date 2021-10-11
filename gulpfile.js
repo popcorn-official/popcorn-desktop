@@ -19,7 +19,7 @@ const gulp = require('gulp'),
   currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
   yargs = require('yargs'),
   nib = require('nib'),
-  git = require('git-rev'),
+  git = require('git-describe'),
   zip = require('gulp-zip'),
   fs = require('fs'),
   path = require('path'),
@@ -93,6 +93,15 @@ const parseReqDeps = () => {
       }
     );
   });
+};
+
+const curVersion = () => {
+    if (fs.existsSync('./git.json')) {
+        const gitData = require('./git.json');
+        return gitData.semver;
+    } else {
+        return pkJson.version;
+    }
 };
 
 // console.log for thenable promises
@@ -245,7 +254,7 @@ gulp.task('compresszip', () => {
         return gulp
           .src(sources + '/**')
           .pipe(
-            zip(pkJson.name + '-' + pkJson.version + '_' + platform + '.zip')
+            zip(pkJson.name + '-' + curVersion() + '_' + platform + '.zip')
           )
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
@@ -275,7 +284,7 @@ gulp.task('compressUpdater', () => {
         console.log('Packaging updater for: %s', platform);
         return gulp
           .src(path.join('build', updateFile))
-          .pipe(zip('update-' + pkJson.version + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
@@ -418,7 +427,7 @@ gulp.task('nwjs', () => {
         './README.md',
         './CHANGELOG.md',
         './LICENSE.txt',
-        './.git.json'
+        './git.json'
       ];
       // add node_modules
       nw.options.files = nw.options.files.concat(requiredDeps);
@@ -444,17 +453,17 @@ gulp.task('nwjs', () => {
     });
 });
 
-// create .git.json (used in 'About')
+// create git.json (used in 'About')
 gulp.task('injectgit', () => {
-  return Promise.all([promiseCallback(git.branch), promiseCallback(git.long)])
+  return git.gitDescribe()
     .then(
       (gitInfo) =>
         new Promise((resolve, reject) => {
           fs.writeFile(
-            '.git.json',
+            'git.json',
             JSON.stringify({
-              branch: gitInfo[0],
-              commit: gitInfo[1]
+              commit: gitInfo.hash.substr(1),
+              semver: gitInfo.semverString,
             }),
             (error) => {
               return error ? reject(error) : resolve(gitInfo);
@@ -463,8 +472,8 @@ gulp.task('injectgit', () => {
         })
     )
     .then((gitInfo) => {
-      console.log('Branch:', gitInfo[0]);
-      console.log('Commit:', gitInfo[1].substr(0, 8));
+      console.log('Hash:', gitInfo.hash.substr(1));
+      console.log('Raw:', gitInfo.raw);
     })
     .catch((error) => {
       console.log(error);
@@ -572,7 +581,7 @@ gulp.task('deb', () => {
           nwVersion,
           platform,
           pkJson.name,
-          pkJson.version,
+          curVersion(),
           releasesDir
         ]);
 
@@ -686,7 +695,7 @@ gulp.task('prepareUpdater:win', () => {
           )
           .pipe(gulpRename('update.exe'))
           .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
-          .pipe(zip('update-' + pkJson.version + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(

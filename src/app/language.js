@@ -6,6 +6,7 @@ var setLanguage = function (preferredLanguage) {
         var lang = App.Localization.detectLocale();
         i18n.setLocale(lang);
         AdvSettings.set('language', lang);
+        Settings.language = lang;
     } else {
         i18n.setLocale(preferredLanguage);
     }
@@ -21,6 +22,9 @@ var setLanguage = function (preferredLanguage) {
             $el.text(i18n.__(key));
         }
     });
+
+    require('dayjs/locale/' + Settings.language);
+    dayjs.locale(Settings.language);
 };
 
 App.Localization.nativeName = function (lang) {

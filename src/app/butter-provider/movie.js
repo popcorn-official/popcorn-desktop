@@ -2,12 +2,15 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class MovieApi extends Generic {
   constructor(args) {
     super(args);
 
     this.language = args.language;
+    this.contentLanguage = args.contentLanguage || this.language;
+    this.contentLangOnly = args.contentLangOnly || false;
   }
 
   _formatForPopcorn(movies) {
@@ -31,11 +34,10 @@ class MovieApi extends Generic {
           synopsis: movie.synopsis,
           trailer: movie.trailer !== null ? movie.trailer : false,
           certification: movie.certification,
-          torrents:
-            movie.torrents['en'] !== null
-              ? movie.torrents['en']
-              : movie.torrents[Object.keys(movie.torrents)[0]],
-          langs: movie.torrents
+          torrents: movie.torrents[movie.contextLocale],
+          langs: movie.torrents,
+          defaultAudio: movie.contextLocale,
+          locale: movie.locale || null,
         });
       }
     });
@@ -55,6 +57,12 @@ class MovieApi extends Generic {
       sort: 'seeds',
       limit: '50'
     };
+
+    params.locale = this.language;
+    params.contentLocale = this.contentLanguage;
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
 
     if (filters.keywords) {
       params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim() : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
@@ -77,6 +85,62 @@ class MovieApi extends Generic {
 
   detail(torrent_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
+  }
+
+  filters() {
+    const params = {
+      contentLocale: this.contentLanguage,
+    };
+    if (!this.contentLangOnly) {
+      params.showAll = 1;
+    }
+    return this._get(0, 'movies/stat?' + new URLSearchParams(params))
+        .then((result) => this.formatFiltersFromServer(
+          ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
+          result
+        )).catch(() => {
+          const data = {
+            genres: [
+              'All',
+              'Action',
+              'Adventure',
+              'Animation',
+              'Biography',
+              'Comedy',
+              'Crime',
+              'Documentary',
+              'Drama',
+              'Family',
+              'Fantasy',
+              'Film-Noir',
+              'History',
+              'Horror',
+              'Music',
+              'Musical',
+              'Mystery',
+              'Romance',
+              'Sci-Fi',
+              'Short',
+              'Sport',
+              'Thriller',
+              'War',
+              'Western'
+            ],
+            sorters: ['trending', 'popularity', 'last added', 'year', 'title', 'rating'],
+          };
+          let filters = {
+            genres: {},
+            sorters: {},
+          };
+          for (const genre of data.genres) {
+            filters.genres[genre] = i18n.__(genre.capitalizeEach());
+          }
+          for (const sorter of data.sorters) {
+            filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+          }
+
+          return Promise.resolve(filters);
+        });
   }
 }
 

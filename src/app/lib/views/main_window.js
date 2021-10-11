@@ -170,11 +170,6 @@
         )
       );
 
-      App.vent.on(
-        'system:tvstAuthenticated',
-        _.bind(this.tvstAuthenticated, this)
-      );
-
       // Stream events
       App.vent.on('stream:started', _.bind(this.streamStarted, this));
       App.vent.on('stream:ready', _.bind(this.streamReady, this));
@@ -558,10 +553,6 @@
       );
     },
 
-    tvstAuthenticated: function() {
-      win.info('TVShow Time: authenticated');
-    },
-
     streamStarted: function(stateModel) {
       // People wanted to keep the active
       // modal (tvshow/movie) detail open when
@@ -590,9 +581,11 @@
           model: streamModel
         })
       );
-      this.getRegion('Content').$el.hide();
-      if (this.getRegion('MovieDetail').$el !== undefined) {
-        this.getRegion('MovieDetail').$el.hide();
+      if ($('.loading .maximize-icon').is(':hidden')) {
+        this.getRegion('Content').$el.hide();
+        if (this.getRegion('MovieDetail').$el !== undefined) {
+          this.getRegion('MovieDetail').$el.hide();
+        }
       }
     },
 

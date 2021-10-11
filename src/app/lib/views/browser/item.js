@@ -33,6 +33,8 @@
         initialize: function () {
             this.setModelStates();
             this.isAprilFools();
+            this.localizeTexts();
+            this.setQualityDisplayed();
         },
 
         onAttach: function () {
@@ -46,6 +48,40 @@
                     'hide': 100
                 }
             });
+        },
+
+        setQualityDisplayed: function() {
+            let torrents = this.model.get('torrents');
+            if (!App.settings.moviesShowQuality || !torrents) {
+                this.model.set('qualityList', '');
+                return;
+            }
+            let keys = Object.keys(torrents).sort(Common.qualityCollator.compare);
+            keys = keys.filter((key) => key !== '480p' && key !== '3D');
+            this.model.set('qualityList', keys.length ? keys.join('/') : 'HDRip');
+        },
+
+        localizeTexts: function () {
+            var title = this.model.get('title');
+            var locale = this.model.get('locale');
+
+            let title1 = title;
+            let title2;
+            if (locale && locale.title) {
+                if (Settings.translateTitle === 'translated-origin') {
+                    title1 = locale.title;
+                    title2 = title;
+                }
+                if (Settings.translateTitle === 'origin-translated') {
+                    title2 = locale.title;
+                }
+                if (Settings.translateTitle === 'translated') {
+                    title1 = locale.title;
+                }
+            }
+
+            this.model.set('title1', title1);
+            this.model.set('title2', title2);
         },
 
         hoverItem: function (e) {
@@ -166,29 +202,18 @@
                 this.model.set('getmetarunned', true);
             }
 
-            var setImage = function (img) {
+            if (Settings.translatePosters) {
+                var locale = this.model.get('locale');
+                if (locale && locale.poster) {
+                    poster = locale.poster;
+                }
+            }
+
+            Common.loadImage(poster).then((img) => {
                 if (this.ui.cover.css) {
-                this.ui.cover.css('background-image', 'url(' + img + ')').addClass('fadein');
+                    this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
                 }
-            }.bind(this);
-
-            var posterCache = new Image();
-            posterCache.src = poster;
-
-            posterCache.onload = function () {
-                if (poster.indexOf('.gif') !== -1) { // freeze gifs
-                    var c = document.createElement('canvas');
-                    var w  = c.width = posterCache.width;
-                    var h = c.height = posterCache.height;
-
-                    c.getContext('2d').drawImage(posterCache, 0, 0, w, h);
-                    poster = c.toDataURL();
-                }
-                setImage(poster);
-            };
-            posterCache.onerror = function (e) {
-                setImage(noimg);
-            };
+            });
         },
 
         setTooltips: function () {

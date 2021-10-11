@@ -1,4 +1,32 @@
-## 0.4.5 - The next wave - 21 June 2021
+## 0.4.6 - The Good Variant - 11 October 2021
+
+New Features:
+- Add Localization support
+- Add multiple audio language support
+- Add maximum Download/Upload speed options
+- Add ability to minimize the native media player
+- Add Source, Release Info and Parental Guide links for content where data exists
+- Add a Magnet Link button in the loading screen
+- Add a Rebuild bookmarks database function/button in the settings
+- Add support for fetching the Genres list from the API
+- Update WebTorrent to 1.5.5 also adding PE/MSE support
+
+Bug Fixes:
+- Fix issue with peers not being resolved when restarting canceled stream/download
+- Fix wrong file selection on some instances where torrents contain multiple video files
+- Fix issue where the subtitles and cover image weren't being downloaded when using the Download function
+- Fix file/directory selection on Windows
+- Remove non-working TVShow Time support since their API service has been terminated
+
+Other:
+- Optimize app closing time
+- Settings page UI changes/updates
+- Better unreachable API error message displaying all APIs tried
+- Update torrent trackers
+- Update various modules/dependencies
+- Various other small fixes and optimizations
+
+## 0.4.5 - The Next Wave - 21 June 2021
 
 New Features:
 - Update NWJS to 0.44.5 (https://github.com/nwjs/nw.js/blob/nw44/CHANGELOG.md)

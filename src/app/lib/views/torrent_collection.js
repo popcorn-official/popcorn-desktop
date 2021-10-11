@@ -57,7 +57,7 @@
             if (Settings.toggleSengines) {
                 this.togglesengines();
             }
-            if ($('.loading .maximize-icon').is(':visible')) {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
                 $('.file-item, .collection-actions').addClass('disabled').prop('disabled', true);
             }
 

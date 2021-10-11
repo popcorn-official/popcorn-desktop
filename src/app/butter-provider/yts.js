@@ -2,6 +2,7 @@
 
 const Generic = require('./generic');
 const sanitize = require('butter-sanitize');
+const i18n = require('i18n');
 
 class YTSApi extends Generic {
   constructor(args) {
@@ -15,6 +16,19 @@ class YTSApi extends Generic {
     if (movies) {
       movies.forEach(movie => {
         if (movie.torrents) {
+          let torrents = movie.torrents.reduceRight(function (torrents, torrent) {
+            torrents[torrent.quality] = {
+              url: torrent.url,
+              magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
+              source: movie.url,
+              size: torrent.size_bytes,
+              filesize: torrent.size,
+              seed: torrent.seeds,
+              peer: torrent.peers
+            };
+            return torrents;
+          }, {});
+          let curLang = movie.language.replace('cn', 'zh-cn');
           results.push({
             type: 'movie',
             imdb_id: movie.imdb_code,
@@ -31,18 +45,9 @@ class YTSApi extends Generic {
             synopsis: movie.description_full,
             trailer: 'https://www.youtube.com/watch?v=' + movie.yt_trailer_code || false,
             certification: movie.mpa_rating,
-            torrents: movie.torrents.reduceRight(function (torrents, torrent) {
-              torrents[torrent.quality] = {
-                url: torrent.url,
-                magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
-                size: torrent.size_bytes,
-                filesize: torrent.size,
-                seed: torrent.seeds,
-                peer: torrent.peers
-              };
-              return torrents;
-            }, {}),
-            langs: {[movie.language.replace('cn', 'zh-cn')]: {}}
+            torrents: torrents,
+            defaultAudio: curLang,
+            langs: {[curLang]: torrents}
           });
         }
       });
@@ -90,7 +95,7 @@ class YTSApi extends Generic {
       }
     }
     if (filters.rating && filters.rating !== 'All') {
-      params.minimum_rating = filters.rating;
+      params.minimum_rating = filters.rating.replace('r', '');
     }
 
     const uri = `api/v2/list_movies.json?` + new URLSearchParams(params);
@@ -101,6 +106,71 @@ class YTSApi extends Generic {
 
   detail(torrent_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
+  }
+
+  filters() {
+    const data = {
+      genres: [
+        'All',
+        'Action',
+        'Adventure',
+        'Animation',
+        'Biography',
+        'Comedy',
+        'Crime',
+        'Documentary',
+        'Drama',
+        'Family',
+        'Fantasy',
+        'Film-Noir',
+        'History',
+        'Horror',
+        'Music',
+        'Musical',
+        'Mystery',
+        'Romance',
+        'Sci-Fi',
+        'Short',
+        'Sport',
+        'Thriller',
+        'War',
+        'Western'
+      ],
+      sorters: [
+        'trending',
+        'popularity',
+        'last added',
+        'year',
+        'title',
+        'rating'
+      ],
+      types: ['All', '720p', '1080p', '2160p', '3D'],
+      ratings: ['All', '9', '8', '7', '6', '5', '4', '3', '2', '1']
+    };
+    let filters = {
+      genres: {},
+      sorters: {},
+      types: {},
+      ratings: {},
+    };
+    for (const genre of data.genres) {
+      filters.genres[genre] = i18n.__(genre.capitalizeEach());
+    }
+    for (const sorter of data.sorters) {
+      filters.sorters[sorter] = i18n.__(sorter.capitalizeEach());
+    }
+    for (const type of data.types) {
+      filters.types[type] = i18n.__(type);
+    }
+    for (const rating of data.ratings) {
+      if (rating === 'All') {
+        filters.ratings[rating] = i18n.__(rating);
+      } else {
+        filters.ratings['r' + rating] = rating + '+';
+      }
+    }
+
+    return Promise.resolve(filters);
   }
 }
 

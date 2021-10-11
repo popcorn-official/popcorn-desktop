@@ -52,7 +52,7 @@
             data[lang] = data[lang].url;
         }
 
-        console.info(Object.keys(data).length + ' subtitles found');
+        win.info(Object.keys(data).length + ' subtitles found');
 
         return Common.sanitize(data);
     };

@@ -54,7 +54,7 @@
         "inherits": true,
         "Q": true,
         "os": true,
-        "moment": true,
+        "dayjs": true,
         "crypt": true,
         "semver": true,
         "fs": true,

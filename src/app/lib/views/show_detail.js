@@ -26,8 +26,10 @@
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
+            'click .shmi-year': 'openRelInfo',
             'click .shmi-imdb': 'openIMDb',
             'mousedown .magnet-icon': 'openMagnet',
+            'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .shmi-rating': 'switchRating',
@@ -37,6 +39,8 @@
         },
 
         regions: {
+            subDropdown: '#subs-dropdown',
+            audioDropdown: '#audio-dropdown',
             qualitySelector: '#quality-selector',
         },
 
@@ -61,11 +65,16 @@
 
         initialize: function () {
             _this = this;
-            this.renameUntitled();
+            this.views = {};
 
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
 
             //Handle keyboard shortcuts when other views are appended or removed
+            // init fields in model
+            this.model.set('displayTitle', '');
+            this.model.set('displaySynopsis', '');
+            this.model.set('localizeEpisode', this.localizeEpisode);
+            this.localizeTexts();
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function () {
@@ -89,20 +98,12 @@
                 _this.initKeyboardShortcuts();
             });
 
-            var torrents = {};
-            _.each(this.model.get('episodes'), function (value, currentEpisode) {
-                if (!torrents[value.season]) {
-                    torrents[value.season] = {};
-                }
-                torrents[value.season][value.episode] = value;
-            });
-            this.model.set('torrents', torrents);
-            this.model.set('seasonCount', Object.keys(torrents).length);
+            App.vent.on('audio:lang', this.switchAudio.bind(this));
+            this.initTorrents(this.model.get('episodes'));
         },
 
-        renameUntitled: function () {
-            var episodes = this.model.get('episodes');
-            for (var i = 0; i < episodes.length; i++) {
+        initTorrents: function (episodes) {
+            for (let i = 0; i < episodes.length; i++) {
                 if (!episodes[i].title) {
                     episodes[i].title = 'Untitled';
                 }
@@ -113,6 +114,15 @@
                     episodes[i].first_aired = 'Unknown';
                 }
             }
+            let torrents = {};
+            _.each(episodes, function (value, currentEpisode) {
+                if (!torrents[value.season]) {
+                    torrents[value.season] = {};
+                }
+                torrents[value.season][value.episode] = value;
+            });
+            this.model.set('torrents', torrents);
+            this.model.set('seasonCount', Object.keys(torrents).length);
         },
 
         initKeyboardShortcuts: function () {
@@ -142,6 +152,8 @@
         },
 
         onAttach: function () {
+            win.info('Show series details (' + this.model.get('imdb_id') + ')');
+
             bookmarked = App.userBookmarks.indexOf(this.model.get('imdb_id')) !== -1;
 
             if (bookmarked) {
@@ -150,8 +162,9 @@
                 this.ui.bookmarkIcon.removeClass('selected');
             }
 
+            this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
-            $('.star-container-tv,.shmi-imdb,.magnet-icon').tooltip();
+            $('.star-container-tv,.shmi-year,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
@@ -166,44 +179,25 @@
             if (!backdrop) {
               backdrop = images.banner || nobg;
             }
-            var posterCache = new Image();
-            posterCache.src = poster;
-            posterCache.onload = function () {
-                try {
-                    $('.shp-img')
-                        .css('background-image', 'url(' + poster + ')')
-                        .addClass('fadein');
-                } catch (e) {}
-                posterCache = null;
-            };
-            posterCache.onerror = function () {
-                try {
-                    $('.shp-img')
-                        .css('background-image', 'url("images/posterholder.png")')
-                        .addClass('fadein');
-                } catch (e) {}
-                posterCache = null;
-            };
 
+            if (Settings.translatePosters) {
+                var locale = this.model.get('locale');
+                if (locale) {
+                    poster = locale.poster ? locale.poster : poster;
+                    backdrop = locale.backdrop ? locale.backdrop : backdrop;
+                }
+            }
 
-            var bgCache = new Image();
-            bgCache.src = backdrop;
-            bgCache.onload = function () {
-                try {
-                    $('.shb-img')
-                        .css('background-image', 'url(' + backdrop + ')')
-                        .addClass('fadein');
-                } catch (e) {}
-                bgCache = null;
-            };
-            bgCache.onerror = function () {
-                try {
-                    $('.shb-img')
-                        .css('background-image', 'url("images/bg-header.jpg")')
-                        .addClass('fadein');
-                } catch (e) {}
-                bgCache = null;
-            };
+            Common.loadImage(poster).then((img) => {
+                $('.shp-img')
+                    .css('background-image', 'url(' + (img || noimg) + ')')
+                    .addClass('fadein');
+            });
+            Common.loadImage(backdrop).then((img) => {
+                $('.shb-img')
+                    .css('background-image', 'url(' + (img || nobg) + ')')
+                    .addClass('fadein');
+            });
 
             this.selectNextEpisode();
 
@@ -214,7 +208,7 @@
                 $('.number-container-tv').removeClass('hidden');
             }
 
-            if (AdvSettings.get('hideSeasons') && this.model.get('seasonCount') < 2) {
+            if (this.model.get('seasonCount') < 2) {
                 this.ui.seasonTab.hide();
             }
 
@@ -224,12 +218,56 @@
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
 
-            if ($('.loading .maximize-icon').is(':visible')) {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
                 $('.sdow-watchnow, #download-torrent').addClass('disabled');
                 $('#watch-now').prop('disabled', true);
             }
         },
-
+        localizeTexts: function () {
+            const locale = this.model.get('locale');
+            let title = this.model.get('title');
+            if (Settings.translateTitle === 'translated-origin' || Settings.translateTitle === 'translated') {
+                if (locale && locale.title) {
+                    title = locale.title;
+                }
+            }
+            let synopsis = this.model.get('synopsis');
+            if (Settings.translateSynopsis) {
+                if (locale && locale.synopsis) {
+                    synopsis = locale.synopsis;
+                }
+            }
+            this.model.set('displayTitle', title);
+            this.model.set('displaySynopsis', synopsis);
+        },
+        localizeEpisode: function (episode) {
+            let title = episode.title;
+            let listTitle = episode.title;
+            let overview = episode.overview;
+            if (Settings.translateEpisodes && episode.locale) {
+                if (Settings.translateSynopsis && episode.locale.overview) {
+                    overview = episode.locale.overview;
+                }
+                if (episode.locale.title) {
+                    if (Settings.translateTitle === 'translated-origin') {
+                        title = episode.locale.title;
+                        listTitle = episode.locale.title + ' (' + episode.title + ')';
+                    }
+                    if (Settings.translateTitle === 'origin-translated') {
+                        listTitle = episode.title + ' (' + episode.locale.title + ')';
+                    }
+                    if (Settings.translateTitle === 'translated') {
+                        title = episode.locale.title;
+                        listTitle = episode.locale.title;
+                    }
+                }
+            }
+            return {
+                title,
+                listTitle,
+                overview,
+            };
+        },
         selectNextEpisode: function () {
 
             var episodesSeen = [];
@@ -317,6 +355,10 @@
                 });
         },
 
+        openRelInfo: function () {
+            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
+        },
+
         openIMDb: function () {
             nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
         },
@@ -333,11 +375,63 @@
             }
         },
 
+        openSource: function (e) {
+            var torrentUrl = $('.startStreaming').attr('data-source');
+            if (e.button === 2) { //if right click on magnet link
+                var clipboard = nw.Clipboard.get();
+                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
+                $('.notification_alert').text(i18n.__('The source link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            } else {
+                nw.Shell.openExternal(torrentUrl);
+            }
+        },
+
         switchRating: function () {
             $('.number-container-tv').toggleClass('hidden');
             $('.star-container-tv').toggleClass('hidden');
             AdvSettings.set('ratingStars', $('.number-container-tv').hasClass('hidden'));
         },
+
+        switchAudio: async function(lang) {
+            if (lang === this.model.get('contextLocale')) {
+                return;
+            }
+            $('.spinner').show();
+            const provider = this.model.get('providers').torrent;
+            const data = await provider.contentOnLang(this.model.get('imdb_id'), lang);
+            this.model.set('contextLocale', data.contextLocale);
+            this.model.set('episodes', data.episodes);
+            this.initTorrents(data.episodes);
+            this.render();
+            this.onAttach();
+        },
+
+        loadDropdown: function(type, attrs) {
+            this.views[type] && this.views[type].destroy();
+            this.views[type] = new App.View.LangDropdown({
+                model: new App.Model.Lang(Object.assign({ type: type }, attrs))
+            });
+            var types = type + 'Dropdown';
+            this.getRegion(types).show(this.views[type]);
+        },
+
+        loadAudioDropdown: function() {
+            return this.loadDropdown('audio', {
+                title: i18n.__('Audio Language'),
+                selected: this.model.get('contextLocale'),
+                values: _.object(_.map(this.model.get('exist_translations'), (item) => [item, 'data'])),
+            });
+        },
+
+        // TODO: for subtitles
+        // loadSubDropdown: function() {
+        //     return this.loadDropdown('sub', {
+        //         title: i18n.__('Subtitle'),
+        //         selected: this.model.get('defaultSubtitle'),
+        //         hasNull: true,
+        //         values: this.model.get('subtitle')
+        //     });
+        // },
 
         toggleWatched: function (e) {
             var edata = e.currentTarget.id.split('-');
@@ -428,7 +522,7 @@
             }
         },
 
-        startStreaming: function (e) {
+        startStreaming: function (e, state) {
             if (e.type) {
                 e.preventDefault();
             }
@@ -451,13 +545,12 @@
                 episode: episode
             };
 
-
             var episodes = [];
             var episodes_data = [];
             //var selected_quality = $(e.currentTarget).attr('data-quality');
             var auto_play = false;
             var images = this.model.get('images');
-            if (AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
+            if (state !== 'downloadOnly' && AdvSettings.get('playNextEpisodeAuto') && this.model.get('imdb_id').indexOf('mal') === -1) {
                 _.each(this.model.get('episodes'), function (value) {
                     var epaInfo = {
                         id: parseInt(value.season) * 100 + parseInt(value.episode),
@@ -519,25 +612,22 @@
                 auto_id: parseInt(season) * 100 + parseInt(episode),
                 auto_play_data: episodes_data
             });
-            console.log('Playing next episode automatically:', AdvSettings.get('playNextEpisodeAuto'));
             _this.unbindKeyboardShortcuts();
-            App.vent.trigger('stream:start', torrentStart);
+            App.vent.trigger('stream:start', torrentStart, state);
         },
 
         downloadTorrent: function(e) {
-          const torrent = $(e.currentTarget).attr('data-torrent');
-          const file = $(e.currentTarget).attr('data-file');
-          App.vent.trigger('stream:download', torrent, this.model.get('title'), file);
-          if (Settings.showSeedboxOnDlInit) {
-            App.previousview = App.currentview;
-            App.currentview = 'Seedbox';
-            App.vent.trigger('seedbox:show');
-            $('.filter-bar').find('.active').removeClass('active');
-            $('#filterbar-seedbox').addClass('active');
-            $('#nav-filters').hide();
-          } else {
-            $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
-          }
+            this.startStreaming(e, 'downloadOnly');
+            if (Settings.showSeedboxOnDlInit) {
+                App.previousview = App.currentview;
+                App.currentview = 'Seedbox';
+                App.vent.trigger('seedbox:show');
+                $('.filter-bar').find('.active').removeClass('active');
+                $('#filterbar-seedbox').addClass('active');
+                $('#nav-filters').hide();
+            } else {
+                $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+            }
         },
 
         closeDetails: function (e) {
@@ -599,16 +689,17 @@
             });
             _this.getRegion('qualitySelector').show(qualitySelector);
 
-            var first_aired = selectedEpisode.first_aired ? moment.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
+            var first_aired = selectedEpisode.first_aired ? dayjs.unix(selectedEpisode.first_aired).locale(Settings.language).format('LLLL') : '';
             var synopsis = $('.sdoi-synopsis');
             var startStreaming = $('.startStreaming');
+            var localize = this.localizeEpisode(selectedEpisode);
 
             $('.tab-episode.active').removeClass('active');
             $elem.addClass('active');
             $('.sdoi-number').text(i18n.__('Season %s', selectedEpisode.season) + ', ' + i18n.__('Episode %s', selectedEpisode.episode));
-            $('.sdoi-title').text(selectedEpisode.title);
+            $('.sdoi-title').text(localize.title);
             $('.sdoi-date').text(i18n.__('Aired Date') + ': ' + first_aired);
-            synopsis.text(selectedEpisode.overview);
+            synopsis.text(localize.overview);
 
             //pull the scroll always to top
             synopsis.scrollTop(0);
@@ -628,11 +719,13 @@
             var downloadButton = $('#download-torrent');
             startStreaming.attr('data-file', torrent.file || '');
             startStreaming.attr('data-torrent', torrent.url);
+            startStreaming.attr('data-source', torrent.source);
             startStreaming.attr('data-quality', key);
             downloadButton.attr('data-torrent', torrent.url);
             downloadButton.attr('data-file', torrent.file || '');
 
             _this.resetTorrentHealth();
+            _this.toggleSourceLink();
         },
 
         toggleQuality: function (e) {
@@ -651,7 +744,7 @@
                 $nextEpisode[0].scrollIntoView(false);
             }
 
-            if (e.type) {
+            if (e && e.type) {
                 e.preventDefault();
                 e.stopPropagation();
             }
@@ -776,6 +869,15 @@
             healthButton.render();
         },
 
+        toggleSourceLink: function () {
+            const sourceURL = $('.startStreaming').attr('data-source');
+            if (sourceURL) {
+                $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
+            } else {
+                $('.source-icon').hide();
+            }
+        },
+
         selectPlayer: function (e) {
             var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
             _this.model.set('device', player);
@@ -794,6 +896,7 @@
 
         onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('audio:lang');
             App.vent.off('show:watched:' + this.model.id);
             App.vent.off('show:unwatched:' + this.model.id);
         }

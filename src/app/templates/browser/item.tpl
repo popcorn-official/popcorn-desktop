@@ -30,40 +30,26 @@
     </div>
 </div>
 
-<p class="title tooltipped" <% if(title.length > 20){ %> title="<%= title %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title %></p>
+<p class="title tooltipped" <% if(title.length > 20){ %> title="<%= title1 %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title1 %></p>
+<% if (typeof title2 !== 'undefined' && title2 !== '') { %>
+    <p class="title2 tooltipped" <% if(title2.length > 20){ %> title="<%= title2 %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title2 %></p>
+<%} %>
 <p class="year">
-    <% if (typeof year !== 'undefined') {%>
+    <% if (typeof year !== 'undefined') { %>
         <%= year %>
-    <%} %>
+    <% } %>
 </p>
 
-<% if (typeof item_data !== 'undefined') {%>
-        <p class="seasons data">
-            <%= i18n.__(item_data) %>
-        </p>
-<% } else if(typeof num_seasons !== 'undefined'){%>
+<% if (typeof item_data !== 'undefined') { %>
+    <p class="seasons data">
+        <%= i18n.__(item_data) %>
+    </p>
+<% } else if (typeof num_seasons !== 'undefined') { %>
     <p class="seasons">
         <%= num_seasons %> <%= num_seasons == 1 ? i18n.__("Season") : i18n.__("Seasons") %>
     </p>
-<%}else if (typeof torrents !== 'undefined') { %>
-    <p id="movie_quality" class="seasons quality" <% if(Settings.moviesShowQuality){ %> style="display: block;" <% } %> >
-        <% q720 = torrents["720p"] !== undefined; q1080 = torrents["1080p"] !== undefined; q2160 = torrents["2160p"] !== undefined;
-        if (q720 && q1080 && q2160) { %>
-            720p/1080p/2160p
-        <% } else if (q720 && q1080) { %>
-            720p/1080p
-        <% } else if (q720 && q2160) { %>
-            720p/2160p
-        <% } else if (q1080 && q2160) { %>
-            1080p/2160p
-        <% } else if (q2160) { %>
-            2160p
-        <% } else if (q1080) { %>
-            1080p
-        <% } else if (q720) { %>
-            720p
-        <% } else { %>
-            HDRip
-        <% } %>
+<% } else if (typeof qualityList !== 'undefined') { %>
+    <p class="seasons quality">
+        <%= qualityList %>
     </p>
-<%} %>
+<% } %>

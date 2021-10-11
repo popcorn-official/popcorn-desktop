@@ -57,7 +57,7 @@
 			this.render();
 			this.addTorrentHooks();
 
-			if ($('.loading .maximize-icon').is(':visible')) {
+			if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
 				let currentHash;
 				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
 				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled') : null;
@@ -377,7 +377,7 @@
 			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
-			try { $('.seedbox-infos-date').text(stats.ctime); } catch(err) {}
+			try { $('.seedbox-infos-date').text(i18n.__('added') + ' ' + dayjs(stats.ctime).fromNow()); } catch(err) {}
 			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
 			if (torrent.progress >= 1) {

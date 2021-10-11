@@ -1,11 +1,12 @@
 <div class="player-header-background vjs-control-bar">
-    <i class="state-info-player fas fa-play"></i>
-    <i class="state-info-player fas fa-pause"></i>
+    <i class="state-info-player fas fa-play" id="osd_play"></i>
+    <i class="state-info-player fas fa-pause" id="osd_pause"></i>
     <div class="player-title"><%= title %></div>
     <div class="details-player">
         <% if(quality) { %>
         <span class="quality-info-player"><%= quality %></span>
         <% } %>
+        <span class="fas fa-angle-down minimize-icon"></span>
         <span class="fas fa-times close-info-player"></span>
         <div class="download-info-player">
             <i class="fas fa-eye eye-info-player"></i>
@@ -24,6 +25,14 @@
             </div>
         </div>
     </div>
+</div>
+<div class="maximize-icon">
+    <span class="downloadedPercent_player"></span>
+    <span class="fas fa-pause" id="max_play_ctrl"></span>
+    <span class="title"><%= title %></span>
+    <span id="maxdllb">@ </span>
+    <span class="download_speed_player" id="maxdl"></span>
+    <span class="fa fa-angle-up tooltipped" id="maxic" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Restore") %>"></span>
 </div>
 <div class="trailer_mouse_catch"></div>
 <div class="verify-metadata vjs-control-window">

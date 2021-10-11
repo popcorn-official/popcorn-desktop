@@ -94,16 +94,19 @@ App.db = Database;
 App.advsettings = AdvSettings;
 App.settings = Settings;
 App.WebTorrent = new WebTorrent({
-  maxConns: parseInt(Settings.connectionLimit, 10) || 55,
-  tracker: {
-     announce: Settings.trackers.forced
-  },
-  dht: true,
+  maxConns     : parseInt(Settings.connectionLimit, 10) || 55,
+  downloadLimit: parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
+  uploadLimit  : parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
+  dht          : true,
+  secure       : Settings.protocolEncryption || false,
+  tracker      : {
+    announce: Settings.trackers.forced
+  }
 });
 
 App.plugins = {};
 
-fs.readFile('./.git.json', 'utf8', function (err, json) {
+fs.readFile('./git.json', 'utf8', function (err, json) {
   if (!err) {
     App.git = JSON.parse(json);
   }
@@ -306,7 +309,7 @@ win.on('restore', function () {
 
 // Now this function is used via global keys (cmd+q and alt+f4)
 function close() {
-  $('.spinner').show();
+  win.hide();
 
   // If the WebTorrent is destroyed, that means the user has already clicked the close button.
   // Try to let the WebTorrent destroy from that closure. Even if it fails, the window will close.
@@ -702,7 +705,7 @@ var handleVideoFile = function (file) {
     App.vent.trigger('stream:ready', localVideo); // start stream
     App.Device.Collection.setDevice(tmpPlayer);
 
-    $('.eye-info-player').hide();
+    $('.eye-info-player, .maximize-icon #maxdllb').hide();
     $('.vjs-load-progress').css('width', '100%');
   });
 };

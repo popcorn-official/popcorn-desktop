@@ -14,43 +14,7 @@
 
     return files
       .map(function(file) {
-        if (!file.match(/\.js$/) || file.match(/generic.js$/) || file.match(/tvshowtime.js$/)) {
-          return null;
-        }
-
-        win.info('loading local provider', file);
-
-        var q = Q.defer();
-
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-
-        script.type = 'text/javascript';
-        script.src = 'lib/providers/' + file;
-
-        script.onload = function() {
-          win.info('loaded', file);
-          q.resolve(file);
-        };
-
-        head.appendChild(script);
-
-        return q.promise;
-      })
-      .filter(function(q) {
-        return q;
-      });
-  }
-
-  function loadLocalProvidersDelayed() {
-    var appPath = '';
-    var providerPath = './src/app/lib/providers/';
-
-    var files = fs.readdirSync(providerPath);
-
-    return files
-      .map(function(file) {
-        if (!file.match(/tvshowtime.js$/)) {
+        if (!file.match(/\.js$/) || file.match(/generic.js$/)) {
           return null;
         }
 
@@ -85,7 +49,7 @@
 
   function loadProvidersJSON(fn) {
     return pkJson.providers.map(function(providerPath) {
-      win.info('loading npm', providerPath);
+      win.info('loading json', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
   }
@@ -125,9 +89,7 @@
 
   function loadProvidersDelayed() {
     return Q.all(
-      loadLocalProvidersDelayed()
-        .concat(loadNpmProviders())
-        .concat(loadLegacyNpmProviders())
+      loadNpmProviders().concat(loadLegacyNpmProviders())
     );
   }
 
