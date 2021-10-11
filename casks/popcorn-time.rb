@@ -1,5 +1,5 @@
 cask "popcorn-time" do
-  version "0.4.5"
+  version "0.4.6"
   sha256 "cacf8ed13b427bceb481ba88ff97ff297f7e9e0487f1411f8d20ff87dd674ddb"
 
   server = "popcorn-ru.tk"
