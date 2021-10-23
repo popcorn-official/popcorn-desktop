@@ -383,10 +383,10 @@
 				for (const file of torrent.files) {
 					if (supported.indexOf(path.extname(file.name).toLowerCase()) !== -1) {
 						if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-							$fileList.append(`<li class="file-item"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
 							$('.seedbox .item-play').prop('disabled', true);
 						} else {
-							$fileList.append(`<li class="file-item"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
 						}
 					}
 				}
@@ -405,7 +405,7 @@
 			} else if ($('.progress-bar').hasClass('done')) {
 				$('.progress-bar').removeClass('done');
 			}
-			this.$('.item-play, .item-open').tooltip({
+			this.$('.file-item, .item-play, .item-open').tooltip({
 				html: true,
 				delay: {
 					'show': 800,
