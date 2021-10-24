@@ -411,6 +411,10 @@
 					'show': 800,
 					'hide': 100
 				}
+			}).hover(function(e){
+				if ($(e.target).is('.item-play') || $(e.target).is('.item-open')) {
+					$('.file-item').tooltip('hide');
+				}
 			});
 		},
 
