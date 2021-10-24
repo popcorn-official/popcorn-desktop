@@ -1,9 +1,6 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('webtorrent-health');
-    var cancelTorrentHealth = function () {};
-    var torrentHealthRestarted = null;
     let healthButton;
 
     var _this, bookmarked;
@@ -366,24 +363,12 @@
         openMagnet: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-torrent').replace(/\&amp;/g, '&');
             torrentUrl = torrentUrl.split('&tr=')[0] + _.union(decodeURIComponent(torrentUrl).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-            if (e.button === 2) { //if right click on magnet link
-                var clipboard = nw.Clipboard.get();
-                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
-                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-            } else {
-                nw.Shell.openExternal(torrentUrl);
-            }
+            Common.openOrClipboardLink(e, torrentUrl, i18n.__('magnet link'));
         },
 
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
-            if (e.button === 2) { //if right click on magnet link
-                var clipboard = nw.Clipboard.get();
-                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
-                $('.notification_alert').text(i18n.__('The source link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-            } else {
-                nw.Shell.openExternal(torrentUrl);
-            }
+            Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
         },
 
         switchRating: function () {

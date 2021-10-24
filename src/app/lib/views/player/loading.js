@@ -54,9 +54,7 @@
       'click .maximize-icon': 'minDetails',
       'click #max_play_ctrl': 'maxPlayCtrl',
       'click .show-pcontrols': 'showpcontrols',
-      'mousedown .title': 'copytoclip',
-      'mousedown .text_filename': 'copytoclip',
-      'mousedown .text_streamurl': 'copytoclip',
+      'mousedown .copytoclip': 'copytoclip',
       'mousedown .magnet-icon': 'openMagnet',
       'click .playing-progressbar': 'seekStreaming'
     },
@@ -351,17 +349,7 @@
       if (torrent.magnetURI) {
         var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
         magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-        if (e.button === 2) {
-          var clipboard = nw.Clipboard.get();
-          clipboard.set(magnetLink, 'text'); //copy link to clipboard
-          $('.notification_alert')
-          .text(i18n.__('Copied to clipboard'))
-          .fadeIn('fast')
-          .delay(2500)
-          .fadeOut('fast');
-        } else {
-          nw.Shell.openExternal(magnetLink);
-        }
+        Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
       }
     },
 
@@ -379,13 +367,7 @@
       }
     },
 
-    copytoclip: function (e) {
-      if (e.button === 2) {
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(e.target.textContent, 'text');
-        $('.notification_alert').text(i18n.__('Copied to clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
+    copytoclip: (e) => Common.openOrClipboardLink(e, e.target.textContent, i18n.__($(e.target).data('copy')), true),
 
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
