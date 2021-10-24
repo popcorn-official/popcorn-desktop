@@ -302,7 +302,7 @@
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
-				torrent: thisTorrent,
+				torrent: thisTorrent.magnetURI,
 				title: thisTorrent.name,
 				defaultSubtitle: Settings.subtitle_language,
 				device: App.Device.Collection.selected,
