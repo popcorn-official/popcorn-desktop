@@ -1,9 +1,6 @@
 (function(App) {
   'use strict';
-  // Torrent Health
-  var torrentHealth = require('webtorrent-health'),
-    healthButton,
-    curSynopsis;
+  var healthButton, curSynopsis;
 
   var _this;
   App.View.MovieDetail = Marionette.View.extend({
@@ -249,13 +246,7 @@
       $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
     },
 
-    clickPoster: function(e) {
-      if (e.button === 2) {
-        var clipboard = nw.Clipboard.get();
-        clipboard.set($('.mcover-image')[0].src, 'text');
-        $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
+    clickPoster: (e) => Common.openOrClipboardLink(e, $('.mcover-image')[0].src, i18n.__('image url'), true),
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
@@ -336,18 +327,7 @@
         magnetLink = torrent.url.replace(/\&amp;/g, '&');
       }
       magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-      if (e.button === 2) {
-        //if right click on magnet link
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(magnetLink, 'text'); //copy link to clipboard
-        $('.notification_alert')
-          .text(i18n.__('The magnet link was copied to the clipboard'))
-          .fadeIn('fast')
-          .delay(2500)
-          .fadeOut('fast');
-      } else {
-        nw.Shell.openExternal(magnetLink);
-      }
+      Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
     },
 
     openSource: function(e) {
@@ -360,18 +340,7 @@
       } else {
         return;
       }
-      if (e.button === 2) {
-        //if right click on magnet link
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(sourceLink, 'text'); //copy link to clipboard
-        $('.notification_alert')
-            .text(i18n.__('The source link was copied to the clipboard'))
-            .fadeIn('fast')
-            .delay(2500)
-            .fadeOut('fast');
-      } else {
-        nw.Shell.openExternal(sourceLink);
-      }
+      Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
     }
 
   });

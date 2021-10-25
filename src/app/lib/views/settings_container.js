@@ -1,7 +1,6 @@
 (function (App) {
     'use strict';
-    var clipboard = nw.Clipboard.get(),
-        waitComplete,
+    var waitComplete,
         oldTmpLocation,
         oldDownloadsLocation,
         that;

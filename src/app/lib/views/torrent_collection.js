@@ -468,13 +468,7 @@
             }
             magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
 
-            if (e.button === 2) { //if right click on magnet link
-                var clipboard = nw.Clipboard.get();
-                clipboard.set(magnetLink, 'text'); //copy link to clipboard
-                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-            } else {
-                nw.Shell.openExternal(magnetLink);
-            }
+            Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
         },
 
         deleteItem: function (e) {
