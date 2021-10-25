@@ -22,6 +22,7 @@
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
+      'mousedown .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
@@ -341,6 +342,12 @@
         return;
       }
       Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+    },
+
+    openTmdb: function(e) {
+      console.log(this.model);
+      let tmdbLink = '';
+      Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
     }
 
   });

@@ -25,6 +25,7 @@
             'click .tab-episode': 'clickEpisode',
             'click .shmi-year': 'openRelInfo',
             'click .shmi-imdb': 'openIMDb',
+            'click .shmi-tmdb-link': 'openTmdb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
@@ -369,6 +370,12 @@
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
             Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+        },
+
+        openTmdb: function(e) {
+            console.log(this.model);
+            let tmdbLink = '';
+            Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
         },
 
         switchRating: function () {
