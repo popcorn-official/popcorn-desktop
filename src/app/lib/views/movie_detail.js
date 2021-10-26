@@ -366,7 +366,7 @@
           });
           return tmp;
         }());
-        movie && movie.movie_results && movie.movie_results[0].id ? this.model.set('tmdb_id', tmdb) : null;
+        movie && movie.movie_results && movie.movie_results[0] && movie_results[0].id ? this.model.set('tmdb_id', movie.movie_results[0].id) : null;
         tmdb = this.model.get('tmdb_id');
       }
 
@@ -374,7 +374,7 @@
         let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
         Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
       } else {
-        $('.tmdb-link').css('cursor', 'not-allowed').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
+        $('.tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
       }
     }
 
