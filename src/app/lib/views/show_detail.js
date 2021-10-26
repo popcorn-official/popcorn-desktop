@@ -397,8 +397,12 @@
                 tmdb = this.model.get('tmdb_id');
             }
 
-            let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
-            Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
+            if (tmdb) {
+                let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
+                Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
+            } else {
+                $('.shmi-tmdb-link').css('cursor', 'not-allowed').attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
+            }
         },
 
         switchRating: function () {
