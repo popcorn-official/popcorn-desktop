@@ -366,7 +366,7 @@
           });
           return tmp;
         }());
-        movie && movie.movie_results && movie.movie_results[0] && movie_results[0].id ? this.model.set('tmdb_id', movie.movie_results[0].id) : null;
+        movie && movie.movie_results && movie.movie_results[0] && movie.movie_results[0].id ? this.model.set('tmdb_id', movie.movie_results[0].id) : null;
         tmdb = this.model.get('tmdb_id');
       }
 
