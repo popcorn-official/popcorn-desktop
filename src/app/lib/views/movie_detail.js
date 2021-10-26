@@ -353,7 +353,7 @@
         let movie = (function () {
           let tmp = null;
           $.ajax({
-            url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
+            url: 'http://api.themoviedb.org/3/find/' + imdb + '?api_key=' + api_key + '&external_source=imdb_id',
             type: 'get',
             dataType: 'json',
             timeout: 5000,
@@ -365,7 +365,7 @@
           });
           return tmp;
         }());
-        tmdb = movie.id;
+        tmdb = movie.movie_results[0].id;
       }
 
       let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
