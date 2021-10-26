@@ -162,7 +162,7 @@
 
             this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
-            $('.star-container-tv,.shmi-year,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
+            $('.star-container-tv,.shmi-year,.shmi-imdb,.shmi-tmdb-link,.magnet-icon,.source-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
@@ -374,14 +374,14 @@
 
         openTmdb: function(e) {
             let imdb = this.model.get('imdb_id'),
-                tmdb = this.model.get('tmdb_id'),
-                api_key = Settings.tmdb.api_key;
+            tmdb = this.model.get('tmdb_id'),
+            api_key = Settings.tmdb.api_key;
 
             if (!tmdb) {
                 let show = (function () {
                     let tmp = null;
                     $.ajax({
-                        url: 'http://api.themoviedb.org/3/tv/' + imdb + '?api_key=' + api_key,
+                        url: 'http://api.themoviedb.org/3/find/' + imdb + '?api_key=' + api_key + '&external_source=imdb_id',
                         type: 'get',
                         dataType: 'json',
                         timeout: 5000,
@@ -393,7 +393,7 @@
                     });
                     return tmp;
                 }());
-                tmdb = show.id;
+                tmdb = show.tv_results[0].id;
             }
 
             let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;

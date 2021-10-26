@@ -573,5 +573,6 @@
 	"Show Release Info": "Show Release Info",
 	"Parental Guide": "Parental Guide",
 	"Rebuild bookmarks database": "Rebuild bookmarks database",
-	"Rebuilding bookmarks...": "Rebuilding bookmarks..."
+	"Rebuilding bookmarks...": "Rebuilding bookmarks...",
+	"Submit metadata and translations": "Submit metadata and translations"
 }
