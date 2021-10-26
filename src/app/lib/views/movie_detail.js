@@ -22,7 +22,7 @@
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
-      'mousedown .tmdb-link': 'openTmdb',
+      'click .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
