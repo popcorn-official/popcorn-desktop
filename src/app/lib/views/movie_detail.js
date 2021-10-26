@@ -346,15 +346,11 @@
     },
 
     openTmdb: function(e) {
-      if (this.model.get('getmetarunned')) {
-        return;
-      }
-
       let imdb = this.model.get('imdb_id'),
       tmdb = this.model.get('tmdb_id'),
       api_key = Settings.tmdb.api_key;
 
-      if (!tmdb) {
+      if (!tmdb && !this.model.get('getmetarunned')) {
         let movie = (function () {
           let tmp = null;
           $.ajax({
