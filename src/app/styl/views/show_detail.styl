@@ -84,8 +84,16 @@
                     color: #fff
                     -webkit-font-smoothing: antialiased
 
-                div.shmi-year, div.shmi-tmdb-link
+                div.shmi-year
                     cursor: pointer
+
+                div.shmi-tmdb-link
+                    cursor: pointer
+                    opacity: 0.4
+                    transition: opacity .3s ease-in
+
+                    &:hover
+                        opacity: 1
 
                 div.shmi-imdb
                     cursor: pointer
