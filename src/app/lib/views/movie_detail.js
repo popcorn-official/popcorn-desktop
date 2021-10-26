@@ -213,6 +213,7 @@
       !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
       (!this.model.get('poster') || this.model.get('poster') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('poster', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null;
       (!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+      !this.model.get('tmdb_id') && movie && movie.id ? this.model.set('tmdb_id', movie.id) : null;
       if (movie && movie.credits && movie.credits.cast && movie.credits.crew && (movie.credits.cast[0] || movie.credits.crew[0])) {
         curSynopsis.old = this.model.get('synopsis');
         curSynopsis.crew = movie.credits.crew.filter(function (el) {return el.job === 'Director';}).map(function (el) {return '<span>' + el.job + '&nbsp;-&nbsp;</span><span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p class="sline">&nbsp;</p>';
@@ -365,7 +366,8 @@
           });
           return tmp;
         }());
-        tmdb = movie.movie_results[0].id;
+        movie && movie.movie_results && movie.movie_results[0].id ? this.model.set('tmdb_id', tmdb) : null;
+        tmdb = this.model.get('tmdb_id');
       }
 
       let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
