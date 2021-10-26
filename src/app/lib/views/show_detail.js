@@ -393,7 +393,8 @@
                     });
                     return tmp;
                 }());
-                tmdb = show.tv_results[0].id;
+                show && show.tv_results && show.tv_results[0].id ? this.model.set('tmdb_id', tmdb) : null;
+                tmdb = this.model.get('tmdb_id');
             }
 
             let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
