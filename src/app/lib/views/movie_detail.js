@@ -350,22 +350,22 @@
       api_key = Settings.tmdb.api_key;
 
       if (!tmdb) {
-          let movie = (function () {
-              let tmp = null;
-              $.ajax({
-                  url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
-                  type: 'get',
-                  dataType: 'json',
-                  timeout: 5000,
-                  async: false,
-                  global: false,
-                  success: function (data) {
-                      tmp = data;
-                  }
-              });
-              return tmp;
-          }());
-          tmdb = movie.id;
+        let movie = (function () {
+          let tmp = null;
+          $.ajax({
+            url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
+            type: 'get',
+            dataType: 'json',
+            timeout: 5000,
+            async: false,
+            global: false,
+            success: function (data) {
+              tmp = data;
+            }
+          });
+          return tmp;
+        }());
+        tmdb = movie.id;
       }
 
       let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
