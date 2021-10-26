@@ -393,7 +393,7 @@
                     });
                     return tmp;
                 }());
-                show && show.tv_results && show.tv_results[0].id ? this.model.set('tmdb_id', tmdb) : null;
+                show && show.tv_results && show.tv_results[0] && show.tv_results[0].id ? this.model.set('tmdb_id', show.tv_results[0].id) : null;
                 tmdb = this.model.get('tmdb_id');
             }
 
@@ -401,7 +401,7 @@
                 let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
                 Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
             } else {
-                $('.shmi-tmdb-link').css('cursor', 'not-allowed').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
+                $('.shmi-tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
             }
         },
 

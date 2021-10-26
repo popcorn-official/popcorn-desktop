@@ -199,6 +199,7 @@
                 (!this.model.get('runtime') || this.model.get('runtime') === '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
                 !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
                 (!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+                !this.model.get('tmdb_id') && movie && movie.id ? this.model.set('tmdb_id', movie.id) : null;
                 this.model.set('getmetarunned', true);
             }
 
