@@ -345,8 +345,7 @@
     },
 
     openTmdb: function(e) {
-      console.log(this.model);
-      let tmdbLink = '';
+      let tmdbLink = 'https://www.themoviedb.org/movie/' + this.model.get('tmdb_id');
       Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
     }
 
