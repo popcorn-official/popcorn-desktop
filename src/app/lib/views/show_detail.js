@@ -25,6 +25,7 @@
             'click .tab-episode': 'clickEpisode',
             'click .shmi-year': 'openRelInfo',
             'click .shmi-imdb': 'openIMDb',
+            'click .shmi-tmdb-link': 'openTmdb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
@@ -369,6 +370,34 @@
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
             Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+        },
+
+        openTmdb: function(e) {
+            let imdb = this.model.get('imdb_id'),
+                tmdb = this.model.get('tmdb_id'),
+                api_key = Settings.tmdb.api_key;
+
+            if (!tmdb) {
+                let show = (function () {
+                    let tmp = null;
+                    $.ajax({
+                        url: 'http://api.themoviedb.org/3/tv/' + imdb + '?api_key=' + api_key,
+                        type: 'get',
+                        dataType: 'json',
+                        timeout: 5000,
+                        async: false,
+                        global: false,
+                        success: function (data) {
+                            tmp = data;
+                        }
+                    });
+                    return tmp;
+                }());
+                tmdb = show.id;
+            }
+
+            let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
+            Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
         },
 
         switchRating: function () {

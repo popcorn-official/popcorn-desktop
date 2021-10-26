@@ -22,6 +22,7 @@
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
+      'mousedown .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
@@ -341,6 +342,34 @@
         return;
       }
       Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+    },
+
+    openTmdb: function(e) {
+      let imdb = this.model.get('imdb_id'),
+      tmdb = this.model.get('tmdb_id'),
+      api_key = Settings.tmdb.api_key;
+
+      if (!tmdb) {
+          let movie = (function () {
+              let tmp = null;
+              $.ajax({
+                  url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
+                  type: 'get',
+                  dataType: 'json',
+                  timeout: 5000,
+                  async: false,
+                  global: false,
+                  success: function (data) {
+                      tmp = data;
+                  }
+              });
+              return tmp;
+          }());
+          tmdb = movie.id;
+      }
+
+      let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
+      Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
     }
 
   });

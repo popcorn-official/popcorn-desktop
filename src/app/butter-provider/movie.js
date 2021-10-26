@@ -21,6 +21,7 @@ class MovieApi extends Generic {
         results.push({
           type: 'movie',
           imdb_id: movie.imdb_id,
+          tmdb_id: movie.tmdb_id,
           title: movie.title,
           year: movie.year,
           genre: movie.genres,

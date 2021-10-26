@@ -11,7 +11,7 @@
         <div class="sh-metadata">
             <div class="shm-title"><%= displayTitle %></div>
             <div class="shm-infos">
-                <div class="shmi-year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__("Show Release Info") %>"><%= year %></div>
+                <div class="shmi-year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Show Release Info') %>"><%= year %></div>
                     <span class="dot"></span>
                 <div class="shmi-runtime"><%= runtime %> min</div>
                     <span class="dot"></span>
@@ -39,6 +39,8 @@
                     </div>
                     <div class="number-container-tv hidden"><%= Math.round(rating.percentage) / 10 %><em>/10</em></div>
                 </div>
+                <span class="dot"></span>
+                <div class="shmi-tmdb-link" data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Submit metadata and translations to TMDb') %>"><i class="fa fa-pencil-alt"></i></div>
             </div>
             <div class="shm-synopsis"><%= displaySynopsis %></div>
         </div>
