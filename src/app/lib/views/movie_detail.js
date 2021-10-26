@@ -374,7 +374,7 @@
         let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
         Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
       } else {
-        $('.tmdb-link').css('cursor', 'not-allowed').attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
+        $('.tmdb-link').css('cursor', 'not-allowed').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
       }
     }
 
