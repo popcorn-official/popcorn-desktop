@@ -300,6 +300,7 @@
                 case 'coversShowRating':
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
+                case 'showSubmitMeta':
                 case 'nativeWindowFrame':
                 case 'translatePosters':
                 case 'translateSynopsis':
@@ -573,6 +574,7 @@
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
                 case 'httpApiEnabled':
+                case 'showSubmitMeta':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
