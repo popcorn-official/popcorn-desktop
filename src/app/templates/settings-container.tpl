@@ -114,6 +114,10 @@
             </span>
             <% } %>
             <span class="advanced">
+                <input class="settings-checkbox" name="showSubmitMeta" id="showSubmitMeta" type="checkbox" <%=(Settings.showSubmitMeta? "checked='checked'":"")%>>
+                <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
+            </span>
+            <span class="advanced">
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
                         <%
