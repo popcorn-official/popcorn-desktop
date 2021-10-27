@@ -31,6 +31,7 @@
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
+			'click .item-download': 'downloadItem',
 			'click .item-play': 'playItem',
 			'click .item-open': 'openItem'
 		},
@@ -79,6 +80,10 @@
 			App.WebTorrent.torrents.forEach((torrent) => {
 				this.onAddTorrent(torrent);
 			});
+
+			setTimeout(function() {
+				$('.tab-torrent.active').click();
+			}, 500);
 
 			updateInterval = setInterval(() => {
 				this.updateView($('.tab-torrent.active'));
@@ -298,6 +303,24 @@
 			}
 		},
 
+		downloadItem: function (e) {
+			const hash = $('.tab-torrent.active')[0].getAttribute('id');
+			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+			var torrentStart = new Backbone.Model({
+				torrent: thisTorrent.magnetURI,
+				title: thisTorrent.name,
+				defaultSubtitle: Settings.subtitle_language,
+				device: App.Device.Collection.selected,
+				file_name: e.target.parentNode.firstChild.innerHTML
+			});
+			$('#resume-'+hash).show();
+			$('#play-'+hash).hide();
+			e.target.parentNode.style.opacity = 1;
+			e.target.parentNode.childNodes[3].style.display = 'inline-block';
+			e.target.parentNode.childNodes[2].style.display = 'none';
+			App.vent.trigger('stream:start', torrentStart, 'downloadOnly');
+		},
+
 		playItem: function (e) {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
@@ -311,6 +334,9 @@
 			$('#resume-'+hash).show();
 			$('#play-'+hash).hide();
 			$('#trash-'+hash).addClass('disabled');
+			e.target.parentNode.style.opacity = 1;
+			e.target.parentNode.childNodes[3].style.display = 'inline-block';
+			e.target.parentNode.childNodes[2].style.display = 'none';
 			App.vent.trigger('stream:start', torrentStart);
 		},
 
@@ -373,10 +399,18 @@
 				for (const file of torrent.files) {
 					if (supported.indexOf(path.extname(file.name).toLowerCase()) !== -1) {
 						if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-							$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
+								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							} else {
+								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
+							}
 							$('.seedbox .item-play').prop('disabled', true);
 						} else {
-							$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
+								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+							} else {
+								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
+							}
 						}
 					}
 				}
@@ -395,14 +429,14 @@
 			} else if ($('.progress-bar').hasClass('done')) {
 				$('.progress-bar').removeClass('done');
 			}
-			this.$('.file-item, .item-play, .item-open').tooltip({
+			this.$('.file-item, .item-download, .item-play, .item-open').tooltip({
 				html: true,
 				delay: {
 					'show': 800,
 					'hide': 100
 				}
 			}).hover(function(e){
-				if ($(e.target).is('.item-play') || $(e.target).is('.item-open')) {
+				if ($(e.target).is('.item-download') || $(e.target).is('.item-play') || $(e.target).is('.item-open')) {
 					$('.file-item').tooltip('hide');
 				}
 			});
