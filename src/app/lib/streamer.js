@@ -323,7 +323,7 @@
 
         linkTransferStatus: function () {
             this.torrent.on('download', function () {
-                if (this.torrentModel) {
+                if (this.torrentModel && this.torrent) {
                     this.torrentModel.set('downloadSpeed', Common.fileSize(this.torrent.downloadSpeed) + '/s');
                     this.torrentModel.set('downloaded', Math.round(this.torrent.downloaded).toFixed(2));
                     this.torrentModel.set('downloadedFormatted', Common.fileSize(this.torrent.downloaded));
@@ -334,7 +334,7 @@
             }.bind(this));
 
             this.torrent.on('upload', function () {
-                if (this.torrentModel) {
+                if (this.torrentModel && this.torrent) {
                     this.torrentModel.set('uploadSpeed', Common.fileSize(this.torrent.uploadSpeed) + '/s');
                     this.torrentModel.set('active_peers', this.torrent.numPeers);
                 }
