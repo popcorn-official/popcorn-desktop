@@ -409,9 +409,7 @@
 						if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
 							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
-								if (!totalPer || totalPer < 1) {
-									totalSize = totalSize + file.length;
-								}
+								totalSize = totalSize + file.length;
 							} else {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
 							}
@@ -419,9 +417,7 @@
 						} else {
 							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
-								if (!totalPer || totalPer < 1) {
-									totalSize = totalSize + file.length;
-								}
+								totalSize = totalSize + file.length;
 							} else {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
 							}
