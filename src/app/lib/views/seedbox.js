@@ -4,6 +4,8 @@
 	var torrentsDir = path.join(App.settings.tmpLocation + '/TorrentCache/'),
 		torrentsDir2 = path.join(App.settings.downloadsLocation + '/TorrentCache/'),
 		toDel = [],
+		totalSize,
+		totalPer,
 		updateInterval;
 
 	const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
@@ -73,6 +75,7 @@
 		},
 
 		addTorrentHooks() {
+			var _this = this;
 			App.WebTorrent.on('torrent', (torrent) => {
 				this.onAddTorrent(torrent);
 			});
@@ -82,8 +85,8 @@
 			});
 
 			setTimeout(function() {
-				$('.tab-torrent.active').click();
-			}, 500);
+				_this.updateView($('.tab-torrent.active'), true);
+			}, 100);
 
 			updateInterval = setInterval(() => {
 				this.updateView($('.tab-torrent.active'));
@@ -304,6 +307,7 @@
 		},
 
 		downloadItem: function (e) {
+			var _this = this;
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
@@ -315,13 +319,14 @@
 			});
 			$('#resume-'+hash).show();
 			$('#play-'+hash).hide();
-			e.target.parentNode.style.opacity = 1;
-			e.target.parentNode.childNodes[3].style.display = 'inline-block';
-			e.target.parentNode.childNodes[2].style.display = 'none';
+			setTimeout(function() {
+				_this.updateView($('.tab-torrent.active'), true);
+			}, 100);
 			App.vent.trigger('stream:start', torrentStart, 'downloadOnly');
 		},
 
 		playItem: function (e) {
+			var _this = this;
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
@@ -334,9 +339,9 @@
 			$('#resume-'+hash).show();
 			$('#play-'+hash).hide();
 			$('#trash-'+hash).addClass('disabled');
-			e.target.parentNode.style.opacity = 1;
-			e.target.parentNode.childNodes[3].style.display = 'inline-block';
-			e.target.parentNode.childNodes[2].style.display = 'none';
+			setTimeout(function() {
+				_this.updateView($('.tab-torrent.active'), true);
+			}, 100);
 			App.vent.trigger('stream:start', torrentStart);
 		},
 
@@ -386,6 +391,9 @@
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
+				if (!totalPer || totalPer < 1) {
+					totalSize = 0;
+				}
 				this.updateHealth(torrent);
 				const $fileList = $('.torrents-info > ul.file-list');
 				$fileList.empty();
@@ -401,6 +409,9 @@
 						if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
 							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+								if (!totalPer || totalPer < 1) {
+									totalSize = totalSize + file.length;
+								}
 							} else {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped disabled" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
 							}
@@ -408,6 +419,9 @@
 						} else {
 							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left" style="display:none"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left"></i></li>`);
+								if (!totalPer || totalPer < 1) {
+									totalSize = totalSize + file.length;
+								}
 							} else {
 								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left" style="opacity:0.3"><a>${file.name}</a><i class="fa fa-play item-play tooltipped" title="` + i18n.__('Watch Now') + `" data-placement="left"></i><i class="fa fa-download item-download tooltipped" title="` + i18n.__('Download') + `" data-placement="left"></i><i class="fa fa-folder-open item-open tooltipped" title="` + i18n.__('Cache Folder') + `" data-placement="left" style="display:none"></i></li>`);
 							}
@@ -416,19 +430,21 @@
 				}
 			}
 
+			totalPer = 1 / (totalSize / torrent.downloaded);
 			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
 			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(i18n.__('added') + ' ' + dayjs(stats.ctime).fromNow()); } catch(err) {}
-			$('.progress-bar').css('width', (torrent.progress * 100).toFixed(2) + '%');
-			$('.progress-percentage>span').text((torrent.progress * 100).toFixed(2) + '%');
-			if (torrent.progress >= 1) {
+			if (totalPer >= 1) {
 				if (!$('.progress-bar').hasClass('done')) {
 					$('.progress-bar').addClass('done');
 				}
+				totalPer = 1;
 			} else if ($('.progress-bar').hasClass('done')) {
 				$('.progress-bar').removeClass('done');
 			}
+			$('.progress-bar').css('width', ((totalPer || 0) * 100).toFixed(2) + '%');
+			$('.progress-percentage>span').text(((totalPer || 0) * 100).toFixed(2) + '%');
 			this.$('.file-item, .item-download, .item-play, .item-open').tooltip({
 				html: true,
 				delay: {
