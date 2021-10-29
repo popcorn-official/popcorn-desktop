@@ -273,6 +273,22 @@
                                   filter brightness(110%)
                                   backdrop-filter brightness(110%)
 
+                              &.unselected
+                                  opacity 0.3
+
+                                  &:hover
+                                      opacity 0.5
+
+                                      & > .item-download,
+                                      & > .item-open,
+                                      & > .item-play
+                                          display inline-block
+
+                                  .item-download,
+                                  .item-open,
+                                  .item-play
+                                      display none
+
                               a
                                   color $FileSelectorText
                                   text-decoration blink
@@ -292,6 +308,9 @@
                                   cursor pointer
                                   left calc(100% + 7px)
                                   top -17px
+
+                                  &:hover
+                                      color $CloseButtonHover
 
                               .item-play
                                   left calc(100% - 5px)
