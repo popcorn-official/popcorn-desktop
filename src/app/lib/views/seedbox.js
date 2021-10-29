@@ -304,6 +304,7 @@
 			} else {
 				App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
 			}
+			$('.file-item').tooltip('hide');
 		},
 
 		downloadItem: function (e) {
@@ -432,7 +433,7 @@
 						'hide': 100
 					}
 				});
-				$('.item-download, .item-play, .item-open').hover(function(){
+				$('.item-play').hover(function(){
 					$('.file-item').tooltip('hide');
 				});
 			}
