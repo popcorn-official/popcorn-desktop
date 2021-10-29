@@ -280,24 +280,23 @@
                                       opacity 0.5
 
                                       & > .item-download,
-                                      & > .item-open,
-                                      & > .item-play
+                                      & > .item-open
                                           display inline-block
 
                                   .item-download,
-                                  .item-open,
-                                  .item-play
+                                  .item-open
                                       display none
 
                               a
                                   color $FileSelectorText
                                   text-decoration blink
-                                  width 100%
+                                  width calc(100% - 25px)
                                   display block
                                   transition all 0.3s
                                   overflow hidden
                                   white-space nowrap
                                   text-overflow ellipsis
+                                  margin-left 25px
 
                               .item-download,
                               .item-open,
@@ -313,7 +312,7 @@
                                       color $CloseButtonHover
 
                               .item-play
-                                  left calc(100% - 5px)
+                                  left 0px
 
                                   &.disabled
                                       cursor not-allowed
