@@ -273,24 +273,25 @@
                                   filter brightness(110%)
                                   backdrop-filter brightness(110%)
 
+                                  & > .item-cancel
+                                      display inline-block
+
                               &.unselected
                                   opacity 0.3
 
                                   &:hover
                                       opacity 0.5
 
-                                      & > .item-download,
-                                      & > .item-open
+                                      & > .item-download
                                           display inline-block
 
-                                  .item-download,
-                                  .item-open
+                                  .item-download
                                       display none
 
                               a
                                   color $FileSelectorText
                                   text-decoration blink
-                                  width calc(100% - 25px)
+                                  width calc(100% - 20px)
                                   display block
                                   transition all 0.3s
                                   overflow hidden
@@ -299,7 +300,7 @@
                                   margin-left 25px
 
                               .item-download,
-                              .item-open,
+                              .item-cancel,
                               .item-play
                                   position relative
                                   color: $TextError
@@ -317,6 +318,9 @@
                                   &.disabled
                                       cursor not-allowed
                                       opacity 0.3
+
+                              .item-cancel
+                                  display none
 
                               .item-icon
                                   position relative
