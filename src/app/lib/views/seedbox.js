@@ -34,9 +34,9 @@
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
 			'click .file-item': 'openItem',
-			'click .item-play': 'playItem',
-			'click .item-download': 'downloadItem',
-			'click .item-cancel': 'cancelItem'
+			'click .item-play': 'addItem',
+			'click .item-download': 'addItem',
+			'click .item-remove': 'removeItem'
 		},
 
 		initialize: function () {
@@ -302,8 +302,9 @@
 			App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
 		},
 
-		playItem: function (e) {
+		addItem: function (e) {
 			e.stopPropagation();
+			const target = $(e.target);
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
@@ -317,36 +318,18 @@
 				this.onResumeTorrentClicked($('.tab-torrent.active'), hash);
 				$('#resume-'+hash).show();
 				$('#play-'+hash).hide();
-				$('#trash-'+hash).addClass('disabled');
 			}
 			setTimeout(() => {
 				this.updateView($('.tab-torrent.active'), true);
-				$('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+				if (target.hasClass('item-play')) {
+					$('#trash-'+hash).addClass('disabled');
+					$('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+				}
 			}, 100);
-			App.vent.trigger('stream:start', torrentStart);
+			App.vent.trigger('stream:start', torrentStart, target.hasClass('item-play') ? '' : 'downloadOnly' );
 		},
 
-		downloadItem: function (e) {
-			e.stopPropagation();
-			const hash = $('.tab-torrent.active')[0].getAttribute('id');
-			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
-			var torrentStart = new Backbone.Model({
-				torrent: thisTorrent.magnetURI,
-				title: thisTorrent.name,
-				defaultSubtitle: Settings.subtitle_language,
-				device: App.Device.Collection.selected,
-				file_name: e.target.parentNode.firstChild.innerHTML
-			});
-			if (thisTorrent.paused) {
-				this.onResumeTorrentClicked($('.tab-torrent.active'), hash);
-				$('#resume-'+hash).show();
-				$('#play-'+hash).hide();
-			}
-			setTimeout(() => this.updateView($('.tab-torrent.active'), true), 100);
-			App.vent.trigger('stream:start', torrentStart, 'downloadOnly');
-		},
-
-		cancelItem: function (e) {
+		removeItem: function (e) {
 			e.stopPropagation();
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
@@ -433,7 +416,7 @@
 						title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a>
 						<i class="fa fa-play item-play"></i>
 						<i class="fa fa-download item-download"${ selected ? ' style="display:none"' : '' }></i>
-						<i class="fa fa-trash item-cancel"${ selected ? '' : ' style="display:none"' }></i>
+						<i class="fa fa-trash item-remove"${ selected ? '' : ' style="display:none"' }></i>
 					</li>`);
 				}
 				if (active) {
@@ -447,7 +430,7 @@
 						'hide': 100
 					}
 				});
-				$('.item-play, .item-download, .item-cancel').hover(function(){
+				$('.item-play, .item-download, .item-remove').hover(function(){
 					$('.file-item').tooltip('hide');
 				});
 			}
