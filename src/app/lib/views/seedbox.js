@@ -294,11 +294,12 @@
 			this.updateView($(e.currentTarget), true /*wasJustSelected*/);
 		},
 
-		openItem: function () {
+		openItem: function (e) {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
-			const location = App.settings.separateDownloadsDir && !torrent._servers[0]
-				? Settings.downloadsLocation : Settings.tmpLocation;
+			const filename = e.target.innerHTML;
+			const filepath = torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, '');
+			const location = App.settings.separateDownloadsDir && !torrent._servers[0] ? path.join(Settings.downloadsLocation, filepath) : path.join(Settings.tmpLocation, filepath);
 			App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
 		},
 
