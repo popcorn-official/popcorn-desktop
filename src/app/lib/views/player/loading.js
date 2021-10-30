@@ -44,7 +44,7 @@
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
       'click #cancel-button-vpn': 'cancelStreamingVPN',
-      'click .open-button': 'tempf',
+      'click .open-button': 'openItem',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
       'click .play': 'resumeStreaming',
@@ -340,8 +340,9 @@
       }
     },
 
-    tempf: function (e) {
-      App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+    openItem: function (e) {
+      const location = this.model.get('streamInfo').attributes.videoFile.replace(/[^\\/]*$/, '');
+      App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
     },
 
     openMagnet: function (e) {
