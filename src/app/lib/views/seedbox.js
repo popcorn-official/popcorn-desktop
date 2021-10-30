@@ -75,7 +75,6 @@
 		},
 
 		addTorrentHooks() {
-			var _this = this;
 			App.WebTorrent.on('torrent', (torrent) => {
 				this.onAddTorrent(torrent);
 			});
@@ -84,9 +83,7 @@
 				this.onAddTorrent(torrent);
 			});
 
-			setTimeout(function() {
-				_this.updateView($('.tab-torrent.active'), true);
-			}, 100);
+			setTimeout(() => this.updateView($('.tab-torrent.active'), true), 100);
 
 			updateInterval = setInterval(() => {
 				this.updateView($('.tab-torrent.active'));
@@ -299,15 +296,12 @@
 		openItem: function () {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
-			if (App.settings.separateDownloadsDir && !torrent._servers[0]) {
-				App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.downloadsLocation) : nw.Shell.openItem(Settings.downloadsLocation);
-			} else {
-				App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
-			}
+			const location = App.settings.separateDownloadsDir && !torrent._servers[0]
+				? Settings.downloadsLocation : Settings.tmpLocation;
+			App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
 		},
 
 		downloadItem: function (e) {
-			var _this = this;
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
@@ -319,14 +313,11 @@
 			});
 			$('#resume-'+hash).show();
 			$('#play-'+hash).hide();
-			setTimeout(function() {
-				_this.updateView($('.tab-torrent.active'), true);
-			}, 100);
+			setTimeout(() => this.updateView($('.tab-torrent.active'), true), 100);
 			App.vent.trigger('stream:start', torrentStart, 'downloadOnly');
 		},
 
 		playItem: function (e) {
-			var _this = this;
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			var torrentStart = new Backbone.Model({
@@ -339,8 +330,8 @@
 			$('#resume-'+hash).show();
 			$('#play-'+hash).hide();
 			$('#trash-'+hash).addClass('disabled');
-			setTimeout(function() {
-				_this.updateView($('.tab-torrent.active'), true);
+			setTimeout(() => {
+				this.updateView($('.tab-torrent.active'), true);
 				$('.seedbox .item-play').addClass('disabled').prop('disabled', true);
 			}, 100);
 			App.vent.trigger('stream:start', torrentStart);
@@ -405,26 +396,29 @@
 						return 0;
 					});
 				} catch (err) {}
+
+				let active = $('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible');
 				for (const file of torrent.files) {
-					if (supported.indexOf(path.extname(file.name).toLowerCase()) !== -1) {
-						if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
-								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play disabled"></i><i class="fa fa-download item-download" style="display:none"></i><i class="fa fa-folder-open item-open"></i></li>`);
-								totalSize = totalSize + file.length;
-							} else {
-								$fileList.append(`<li class="file-item tooltipped unselected" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play disabled"></i><i class="fa fa-download item-download"></i><i class="fa fa-folder-open item-open" style="display:none"></i></li>`);
-							}
-							$('.seedbox .item-play').prop('disabled', true);
-						} else {
-							if (torrent._selections.some(function (el) { return el.from == file._startPiece || el.to == file._endPiece; })) {
-								$fileList.append(`<li class="file-item tooltipped" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play"></i><i class="fa fa-download item-download" style="display:none"></i><i class="fa fa-folder-open item-open"></i></li>`);
-								totalSize = totalSize + file.length;
-							} else {
-								$fileList.append(`<li class="file-item tooltipped unselected" title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a><i class="fa fa-play item-play"></i><i class="fa fa-download item-download"></i><i class="fa fa-folder-open item-open" style="display:none"></i></li>`);
-							}
-						}
+					if (supported.indexOf(path.extname(file.name).toLowerCase()) === -1) {
+						continue;
 					}
+					let selected = false;
+					if (torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
+						selected = true;
+						totalSize = totalSize + file.length;
+					}
+
+					$fileList.append(`<li class="file-item tooltipped${ selected ? '' : ' unselected' }" 
+						title="${Common.fileSize(file.length)}" data-placement="left"><a>${file.name}</a>
+						<i class="fa fa-play item-play"></i>
+						<i class="fa fa-download item-download"${ selected ? ' style="display:none"' : '' }></i>
+						<i class="fa fa-folder-open item-open"${ selected ? '' : ' style="display:none"' }></i>
+					</li>`);
 				}
+				if (active) {
+					$('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+				}
+
 				$('.file-item').tooltip({
 					html: true,
 					delay: {
