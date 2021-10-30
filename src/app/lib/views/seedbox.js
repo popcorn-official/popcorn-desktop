@@ -351,9 +351,9 @@
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			const filename = e.target.parentNode.firstChild.innerHTML;
-			const fileIndex = thisTorrent.files.filter(obj => { return obj.name === filename; })[0].index;
-			if (!thisTorrent.files[fileIndex]._fileStreams.size) {
-				thisTorrent.files[fileIndex].deselect(0);
+			const file = thisTorrent.files.filter(obj => { return obj.name === filename; })[0];
+			if (!file._fileStreams.size) {
+				file.deselect(0);
 				setTimeout(() => this.updateView($('.tab-torrent.active'), true), 100);
 			}
 		},
