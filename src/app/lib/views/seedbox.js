@@ -33,7 +33,7 @@
 			'mousedown .resume-torrent': 'onResumeTorrentClicked',
 			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
-			'click .file-item': 'openItem',
+			'dblclick .file-item': 'openItem',
 			'click .item-play': 'addItem',
 			'click .item-download': 'addItem',
 			'click .item-remove': 'removeItem'
@@ -297,7 +297,7 @@
 		openItem: function (e) {
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
-			const filename = e.target.innerHTML;
+			const filename = e.target.firstChild.innerHTML || e.target.innerHTML;
 			const filepath = torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, '');
 			const location = App.settings.separateDownloadsDir && !torrent._servers[0] ? path.join(Settings.downloadsLocation, filepath) : path.join(Settings.tmpLocation, filepath);
 			App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
