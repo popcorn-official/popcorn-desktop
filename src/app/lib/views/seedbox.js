@@ -5,6 +5,7 @@
 		torrentsDir2 = path.join(App.settings.downloadsLocation + '/TorrentCache/'),
 		toDel = [],
 		totalSize,
+		totalDownloaded,
 		totalPer,
 		updateInterval;
 
@@ -388,9 +389,6 @@
 			const torrent = App.WebTorrent.get(infoHash);
 
 			if (wasJustSelected) {
-				if (!totalPer || totalPer < 1) {
-					totalSize = 0;
-				}
 				this.updateHealth(torrent);
 				const $fileList = $('.torrents-info > ul.file-list');
 				$fileList.empty();
@@ -408,9 +406,8 @@
 						continue;
 					}
 					let selected = false;
-					if (torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
+					if (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
 						selected = true;
-						totalSize = totalSize + file.length;
 					}
 
 					$fileList.append(`<li class="file-item tooltipped${ selected ? '' : ' unselected' }" 
@@ -436,9 +433,26 @@
 				});
 			}
 
-			totalPer = 1 / (totalSize / torrent.downloaded);
+			totalSize = 0;
+			totalDownloaded = 0;
+			totalPer = torrent.downloaded ? 1 : 0;
+
+			for (const file of torrent.files) {
+				if (supported.indexOf(path.extname(file.name).toLowerCase()) === -1) {
+					continue;
+				}
+				if (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
+					totalSize = totalSize + file.length;
+					totalDownloaded = totalDownloaded + file.downloaded;
+				}
+			}
+
+			if (totalSize) {
+				totalPer = 1 / (totalSize / totalDownloaded);
+			}
+
 			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
-			$('.seedbox-downloaded').text(' ' + formatBytes(torrent.downloaded));
+			$('.seedbox-downloaded').text(' ' + formatBytes(totalDownloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(i18n.__('added') + ' ' + dayjs(stats.ctime).fromNow()); } catch(err) {}
 			if (totalPer >= 1) {
