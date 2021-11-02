@@ -20,6 +20,7 @@
                         <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health Unknown') %>" class="fa fa-circle health-icon None tooltipped"></div>
                     </div>
                     <div class="seedbox-infos-aired">
+                        <i class="fa fa-hdd watched seedbox-totalsize"></i>
                         <i class="fa fa-download watched seedbox-downloaded"></i>
                         <i class="fa fa-upload watched seedbox-uploaded"></i>
                         <span class="seedbox-infos-date"></span>
