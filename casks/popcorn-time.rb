@@ -1,6 +1,6 @@
 cask "popcorn-time" do
   version "0.4.6"
-  sha256 "cacf8ed13b427bceb481ba88ff97ff297f7e9e0487f1411f8d20ff87dd674ddb"
+  sha256 "cddc2f156dd3cd4fbc7ccd3b3a02c00d3546886dcad183cd1f5dcd984b609c2c"
 
   server = "popcorn-ru.tk"
   homepage = "http://#{server}"
