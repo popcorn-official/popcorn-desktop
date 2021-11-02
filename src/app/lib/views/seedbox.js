@@ -452,6 +452,7 @@
 			}
 
 			torrent.name ? $('.seedbox-infos-title').text(torrent.name) : $('.seedbox-infos-title').text(i18n.__('connecting'));
+			$('.seedbox-totalsize').text(' ' + formatBytes(totalSize));
 			$('.seedbox-downloaded').text(' ' + formatBytes(totalDownloaded));
 			$('.seedbox-uploaded').text(' ' + formatBytes(torrent.uploaded));
 			try { $('.seedbox-infos-date').text(i18n.__('added') + ' ' + dayjs(stats.ctime).fromNow()); } catch(err) {}
