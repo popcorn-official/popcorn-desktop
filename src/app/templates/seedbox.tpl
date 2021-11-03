@@ -33,7 +33,7 @@
                     <div class="progress-wrapper">
                         <div class="progress-info">
                             <div class="progress-label">
-                                <span>Download progress</span>
+                                <span><%= i18n.__('Unknown time remaining') %></span>
                             </div>
                             <div class="progress-percentage">
                                 <span>0%</span>

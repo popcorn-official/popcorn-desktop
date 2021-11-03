@@ -365,6 +365,22 @@
 			healthButton.render();
 		},
 
+		remainingTime: function (downloadSpeed) {
+			var timeRemaining = Math.round((totalSize - totalDownloaded) / downloadSpeed);
+			if (isNaN(timeRemaining) || timeRemaining < 0) {
+				timeRemaining = 0;
+			}
+			if (timeRemaining === undefined || !isFinite(timeRemaining) || totalSize === 0) {
+				return i18n.__('Unknown time remaining');
+			} else if (timeRemaining > 3600) {
+				return i18n.__('%s hour(s) remaining', Math.round(timeRemaining / 3600));
+			} else if (timeRemaining > 60) {
+				return i18n.__('%s minute(s) remaining', Math.round(timeRemaining / 60));
+			} else if (timeRemaining <= 60) {
+				return i18n.__('%s second(s) remaining', timeRemaining);
+			}
+		},
+
 		updateView: function ($elem, wasJustSelected = false) {
 			if (!wasJustSelected) {
 				App.WebTorrent.torrents.forEach(function(torrent) {
@@ -460,9 +476,12 @@
 				if (!$('.progress-bar').hasClass('done')) {
 					$('.progress-bar').addClass('done');
 				}
+				$('.progress-label span').text(i18n.__('Downloaded'));
 				totalPer = 1;
 			} else if ($('.progress-bar').hasClass('done')) {
 				$('.progress-bar').removeClass('done');
+			} else {
+				$('.progress-label span').text(this.remainingTime(torrent.downloadSpeed));
 			}
 			$('.progress-bar').css('width', ((totalPer || 0) * 100).toFixed(2) + '%');
 			$('.progress-percentage>span').text(((totalPer || 0) * 100).toFixed(2) + '%');
