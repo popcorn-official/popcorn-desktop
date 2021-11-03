@@ -107,7 +107,7 @@ var Database = {
     // format: {page: page, keywords: title}
     getBookmarks: function (data) {
         var page = data.page - 1;
-        var byPage = 50;
+        var byPage = 500;
         var offset = page * byPage;
         var query = {};
 
