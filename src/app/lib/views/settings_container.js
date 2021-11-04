@@ -724,12 +724,14 @@
             this.alertMessageWait(i18n.__('We are rebuilding your database'));
 
             Database.getAllBookmarks()
-                .then(function (data) {
+                .then(async function (data) {
                     let movieProvider = App.Config.getProviderForType('movie')[0];
                     let showProvider = App.Config.getProviderForType('tvshow')[0];
-                    for (let item of data) {
+                    for (let n in data) {
+                        let item = data[n];
+                        console.log(item);
                         if (item.type === 'movie') {
-                            movieProvider.fetch({keywords: item.imdb_id}).then(function (movies) {
+                            await movieProvider.fetch({keywords: item.imdb_id, page:1}).then(function (movies) {
                                 if (movies.results.length !== 1) {
                                     return;
                                 }
@@ -740,7 +742,7 @@
                             });
                         }
                         if (item.type === 'show') {
-                            showProvider.detail(item.imdb_id, {
+                            await showProvider.detail(item.imdb_id, {
                                 contextLocale: App.settings.contextLanguage || App.settings.language
                             }).then(function (show) {
                                     Database.deleteTVShow(item.imdb_id);
@@ -748,6 +750,9 @@
                                     Database.addTVShow(show);
                                 });
                         }
+                        that.alertMessageWait(i18n.__('Rebuilding bookmarks (%s)', n+'/'+data.length));
+                        // api has nginx limit rps
+                        await new Promise(resolve => setTimeout(resolve, 700));
                     }
                     that.alertMessageSuccess(true);
                 });
