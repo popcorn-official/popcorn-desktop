@@ -738,7 +738,7 @@
                                 let movie = movies.results[0];
                                 Database.deleteMovie(item.imdb_id);
                                 movie.providers = {};
-                                movie.providers.torrent = [movieProvider.name];
+                                movie.providers.torrent = movieProvider;
                                 Database.addMovie(movie);
                             });
                         }
@@ -748,7 +748,7 @@
                             }).then(function (show) {
                                     Database.deleteTVShow(item.imdb_id);
                                     show.providers = {};
-                                    show.providers.torrent = [showProvider.name];
+                                    show.providers.torrent = showProvider;
                                     Database.addTVShow(show);
                                 });
                         }
