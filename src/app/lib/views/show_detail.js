@@ -416,8 +416,8 @@
                 return;
             }
             $('.spinner').show();
-            const provider = this.model.get('providers').torrent;
-            const data = await provider.contentOnLang(this.model.get('imdb_id'), lang);
+            const showProvider = App.Config.getProviderForType('tvshow')[0];
+            const data = await showProvider.contentOnLang(this.model.get('imdb_id'), lang);
             this.model.set('contextLocale', data.contextLocale);
             this.model.set('episodes', data.episodes);
             this.initTorrents(data.episodes);

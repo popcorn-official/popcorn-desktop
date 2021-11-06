@@ -729,7 +729,6 @@
                     let showProvider = App.Config.getProviderForType('tvshow')[0];
                     for (let n in data) {
                         let item = data[n];
-                        console.log(item);
                         if (item.type === 'movie') {
                             await movieProvider.fetch({keywords: item.imdb_id, page:1}).then(function (movies) {
                                 if (movies.results.length !== 1) {
