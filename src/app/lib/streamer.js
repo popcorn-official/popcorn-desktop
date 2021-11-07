@@ -463,6 +463,7 @@
                     fileSize = file.length;
                     fileName = file.path;
                     file.select();
+                    file.hidden = false;
                 } else {
                 //    file.deselect();
                 }
