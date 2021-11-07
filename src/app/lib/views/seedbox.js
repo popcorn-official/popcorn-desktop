@@ -339,6 +339,7 @@
 			const file = thisTorrent.files.filter(obj => { return obj.name === filename; })[0];
 			if (!file._fileStreams.size) {
 				file.deselect(0);
+				file.hidden = true;
 				setTimeout(() => this.updateView($('.tab-torrent.active'), true), 100);
 			}
 		},
@@ -422,7 +423,7 @@
 						continue;
 					}
 					let selected = false;
-					if (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
+					if (!file.hidden && (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; }))) {
 						selected = true;
 					}
 
@@ -457,7 +458,7 @@
 				if (supported.indexOf(path.extname(file.name).toLowerCase()) === -1) {
 					continue;
 				}
-				if (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; })) {
+				if (!file.hidden && (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; }))) {
 					totalSize = totalSize + file.length;
 					totalDownloaded = totalDownloaded + file.downloaded;
 				}
