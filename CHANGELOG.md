@@ -1,3 +1,16 @@
+## 0.4.7 - Title - date
+
+New Features:
+- Add more languages
+- Add play and download video file from seedbox
+- Add link to TMDB.org media page for edit description
+- Add load config from internet
+
+Bug Fixes:
+- Fix rebuild movies bookmarks
+- Fix calculate torrent size in seedbox
+- Fix favourites order
+
 ## 0.4.6 - The Good Variant - 11 October 2021
 
 New Features:
