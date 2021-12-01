@@ -66,7 +66,7 @@ class MovieApi extends Generic {
     }
 
     if (filters.keywords) {
-      params.keywords = this.apiURL[0].includes('popcorn-ru') ? filters.keywords.trim() : filters.keywords.trim().replace(/[^a-zA-Z0-9]|\s/g, '% ');
+      params.keywords = filters.keywords.trim();
     }
     if (filters.genre) {
       params.genre = filters.genre;
