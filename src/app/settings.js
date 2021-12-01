@@ -87,7 +87,7 @@ Settings.trackers = {
     'udp://opentor.org:2710',
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
-    'udp://explodie.org:6969/announce',
+    'udp://explodie.org:6969',
     'udp://retracker.lanta-net.ru:2710',
     'wss://tracker.openwebtorrent.com'
   ]
