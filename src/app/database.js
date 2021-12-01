@@ -389,7 +389,7 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
-                if (typeof Settings.dhtData === 'string') {
+                if ((Settings.dhtEnable && typeof Settings.dhtData === 'string')) {
                     let dhtInfo = JSON.parse(Settings.dhtData);
                     if (typeof dhtInfo === 'object') {
                         Database.applyDhtSettings(dhtInfo);
