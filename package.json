@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.4.6",
-  "releaseName": "The Good Variant",
+  "version": "0.4.7",
+  "releaseName": "Title",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
