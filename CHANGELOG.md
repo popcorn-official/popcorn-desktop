@@ -1,15 +1,19 @@
-## 0.4.7 - Title - date
+## 0.4.7 - Title - 01 December 2021
 
 New Features:
+- Add Play/Download functions to the Seedbox and various other right pane fixes and additions
+- Add ability of updating the API server urls using DHT
+- Add a link for contributing media information to TMDB
 - Add more languages
-- Add play and download video file from seedbox
-- Add link to TMDB.org media page for edit description
-- Add load config from internet
 
 Bug Fixes:
-- Fix rebuild movies bookmarks
-- Fix calculate torrent size in seedbox
-- Fix favourites order
+- Fix the Rebuild bookmarks database function
+- Fix the incorrect sorting/filtering of bookmarks when more than 50
+
+Other:
+- Update torrent trackers
+- Update various modules/dependencies
+- Various other small fixes and optimizations
 
 ## 0.4.6 - The Good Variant - 11 October 2021
 
