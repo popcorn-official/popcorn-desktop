@@ -825,16 +825,16 @@ bittorrent-tracker@^9.1.0:
     bufferutil "^4.0.3"
     utf-8-validate "^5.0.5"
 
-bittorrent-tracker@^9.18.2:
-  version "9.18.2"
-  resolved "https://registry.yarnpkg.com/bittorrent-tracker/-/bittorrent-tracker-9.18.2.tgz#208f27d69bfb81ccb620655557f8778636bf0e6e"
-  integrity sha512-r4v+gIi/aQP4h0rvx7WVjnEFvu7Vw2ePPFzoyQjdPfyoJaV/JTdD3kFTZBaVO/Egj5y2O2Y+bTCdPIgD2MzT+A==
+bittorrent-tracker@^9.18.3:
+  version "9.18.3"
+  resolved "https://registry.yarnpkg.com/bittorrent-tracker/-/bittorrent-tracker-9.18.3.tgz#0b2d8a20c8974d118c010b2fc99ff4d914e6cb92"
+  integrity sha512-IhLKp8wUgA7WXTfJggw/HB8qxhwlLNDWRraUFxXRHTgOQXcMiKITGcErzvC7B7mMOcUnk0wiUsZdaaQ8lzz3LQ==
   dependencies:
     bencode "^2.0.1"
     bittorrent-peerid "^1.3.3"
     bn.js "^5.2.0"
     chrome-dgram "^3.0.6"
-    clone "^1.0.2"
+    clone "^2.0.0"
     compact2string "^1.4.1"
     debug "^4.1.1"
     ip "^1.1.5"
@@ -1409,7 +1409,7 @@ clone@^1.0.0, clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
-clone@^2.1.1:
+clone@^2.0.0, clone@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-2.1.2.tgz#1b7f4b9f591f1e8f83670401600345a02887435f"
   integrity sha1-G39Ln1kfHo+DZwQBYANFoCiHQ18=
@@ -2577,10 +2577,10 @@ fresh@0.5.2:
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
   integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
 
-fs-chunk-store@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-2.0.3.tgz#21e51f1833a84a07cb5e911d058dae084030375a"
-  integrity sha512-qQi93nHX3880gtoQPt1hKQcuYBNVfCbMk8OVRDqR0cJ0riheELW25ry9yl7pII8E9gOAONTGKBD5N/zGHFSVQg==
+fs-chunk-store@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/fs-chunk-store/-/fs-chunk-store-2.0.4.tgz#ca797b7032a3752d1e7553cb9cec8970395cc34a"
+  integrity sha512-JfeKRPPWkLaUoNKZdi+eLPKzZkZK1pdj2Y5lidEw9fUCkglvK/muLe6ONjdvn8yAGrDsk4tkjNp52GS658yy0g==
   dependencies:
     queue-microtask "^1.2.2"
     random-access-file "^2.0.1"
@@ -3293,9 +3293,9 @@ http-headers@^3.0.1:
   dependencies:
     next-line "^1.1.0"
 
-"http-node@github:feross/http-node#webtorrent":
+"http-node@github:webtorrent/http-node#webtorrent":
   version "1.2.0"
-  resolved "https://codeload.github.com/feross/http-node/tar.gz/342ef8624495343ffd050bd0808b3750cf0e3974"
+  resolved "https://codeload.github.com/webtorrent/http-node/tar.gz/342ef8624495343ffd050bd0808b3750cf0e3974"
   dependencies:
     chrome-net "^3.3.3"
     freelist "^1.0.3"
@@ -7120,14 +7120,14 @@ toidentifier@1.0.0:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
 
-torrent-discovery@^9.4.5:
-  version "9.4.6"
-  resolved "https://registry.yarnpkg.com/torrent-discovery/-/torrent-discovery-9.4.6.tgz#b7e1262a77d14242aaf52eec382f6a142f49e2ae"
-  integrity sha512-11FlrGmDvgD3RJhZLrC749yyqS7tKx3gXWbYN7xayVYsAcc6f8lQRQQIOF7TBgJE4f0e+ZS8dsct++aOlxFjRw==
+torrent-discovery@^9.4.6:
+  version "9.4.7"
+  resolved "https://registry.yarnpkg.com/torrent-discovery/-/torrent-discovery-9.4.7.tgz#d45ee78cb6a7004a8f3cd203ee7df915088bea70"
+  integrity sha512-7Zw474LJE5r3Momi4ykBYkjgcFhENbUxcAFs5cBllUkv9ErJPzPEGmpEuqX7V8TkLS+Clmt/l5CjV5IFHg/A/A==
   dependencies:
     bittorrent-dht "^10.0.2"
     bittorrent-lsd "^1.1.1"
-    bittorrent-tracker "^9.18.2"
+    bittorrent-tracker "^9.18.3"
     debug "^4.3.2"
     run-parallel "^1.2.0"
 
@@ -7704,10 +7704,10 @@ webtorrent-health@1.x.x:
     bittorrent-tracker "^9.1.0"
     parse-torrent "^5.8.2"
 
-webtorrent@^1.5.5:
-  version "1.5.5"
-  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.5.5.tgz#af09e0ac660ac16fea1c838fdd00e56b57f9fc21"
-  integrity sha512-YAEtWZxxf8N6DvdLgt79fQlIXSJU0G61YEkcWyBA+aopQGV0vCAMp1N/ifKIFt760pgKV+qzwRSbVP+/lBJ08g==
+webtorrent@^1.5.8:
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.5.8.tgz#1dcb26347a8c0ea15a20b77f1c85dea9ce4f170b"
+  integrity sha512-ltYdloqDamay36XN8FZ+O2fqRQNDt+JGhRbOt1gCBeC+fFhke3WxEVs3/A2UtKjhwN8OEp3Go7tWU9R0S+29Lw==
   dependencies:
     addr-to-ip-port "^1.5.4"
     bitfield "^4.0.0"
@@ -7721,8 +7721,8 @@ webtorrent@^1.5.5:
     debug "^4.3.2"
     end-of-stream "^1.4.4"
     escape-html "^1.0.3"
-    fs-chunk-store "^2.0.3"
-    http-node "github:feross/http-node#webtorrent"
+    fs-chunk-store "^2.0.4"
+    http-node "github:webtorrent/http-node#webtorrent"
     immediate-chunk-store "^2.2.0"
     load-ip-set "^2.2.1"
     lt_donthave "^1.0.1"
@@ -7736,7 +7736,6 @@ webtorrent@^1.5.5:
     random-iterate "^1.0.1"
     randombytes "^2.1.0"
     range-parser "^1.2.1"
-    readable-stream "^3.6.0"
     render-media "^4.1.0"
     run-parallel "^1.2.0"
     run-parallel-limit "^1.1.0"
@@ -7749,7 +7748,7 @@ webtorrent@^1.5.5:
     stream-to-blob "^2.0.1"
     stream-to-blob-url "^3.0.2"
     stream-with-known-length-to-buffer "^1.0.4"
-    torrent-discovery "^9.4.5"
+    torrent-discovery "^9.4.6"
     torrent-piece "^2.0.1"
     unordered-array-remove "^1.0.2"
     ut_metadata "^3.5.2"
