@@ -30,9 +30,9 @@
 		events: {
 			'mousedown .magnet-icon': 'openMagnet',
 			'mousedown .health-icon': 'healthClicked',
-			'mousedown .pause-torrent': 'onPauseTorrentClicked',
-			'mousedown .resume-torrent': 'onResumeTorrentClicked',
-			'mousedown .trash-torrent': 'onRemoveTorrentClicked',
+			'click .pause-torrent': 'onPauseTorrentClicked',
+			'click .resume-torrent': 'onResumeTorrentClicked',
+			'click .trash-torrent': 'onRemoveTorrentClicked',
 			'click .tab-torrent': 'clickTorrent',
 			'dblclick .file-item': 'openItem',
 			'click .item-play': 'addItem',
@@ -62,7 +62,7 @@
 			if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
 				let currentHash;
 				try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
-				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled') : null;
+				currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled').prop('disabled', true) : null;
 			}
 		},
 
@@ -197,6 +197,7 @@
 		},
 
 		onPauseTorrentClicked(e, id) {
+			e.stopPropagation();
 			const torrent = this.getTorrentFromEvent(e, id);
 			if (torrent) {
 				this.pauseTorrent(torrent);
@@ -204,6 +205,7 @@
 		},
 
 		onResumeTorrentClicked(e, id) {
+			e.stopPropagation();
 			const torrent = this.getTorrentFromEvent(e, id);
 			if (torrent) {
 				torrent.resume();
@@ -220,6 +222,7 @@
 		},
 
 		onRemoveTorrentClicked(e) {
+			e.stopPropagation();
 			const torrent = this.getTorrentFromEvent(e);
 			if (torrent) {
 				if (App.settings.delSeedboxCache === 'always') {
@@ -324,7 +327,7 @@
 			setTimeout(() => {
 				this.updateView($('.tab-torrent.active'), true);
 				if (target.hasClass('item-play')) {
-					$('#trash-'+hash).addClass('disabled');
+					$('#trash-'+hash).addClass('disabled').prop('disabled', true);
 					$('.seedbox .item-play').addClass('disabled').prop('disabled', true);
 				}
 			}, 100);
@@ -461,8 +464,10 @@
 				if (!file.hidden && (file.done || torrent._selections.some(function (el) { return el.from === file._startPiece || el.to === file._endPiece; }))) {
 					totalSize = totalSize + file.length;
 					totalDownloaded = totalDownloaded + file.downloaded;
-					let thisElement = document.evaluate("//a[text()='" + file.name + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
-					$(thisElement).attr('title', Common.fileSize(file.downloaded) + ' / ' + Common.fileSize(file.length)).tooltip('fixTitle');
+					try {
+						let thisElement = document.evaluate("//a[text()='" + file.name + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
+						$(thisElement).attr('title', Common.fileSize(file.downloaded) + ' / ' + Common.fileSize(file.length)).tooltip('fixTitle');
+					} catch(err) {}
 				}
 			}
 
