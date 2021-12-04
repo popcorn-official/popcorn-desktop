@@ -13,6 +13,7 @@ Bug Fixes:
 Other:
 - Update torrent trackers
 - Update various modules/dependencies
+- Update WebTorrent to 1.5.8
 - Various other small fixes and optimizations
 
 ## 0.4.6 - The Good Variant - 11 October 2021
