@@ -49,7 +49,7 @@ class DhtReader
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.alertMessageSuccess(false, i18n.__('Updating config from internet'));
+            this.alertMessageSuccess(false, i18n.__('Updating config from these of yours Internets'));
         }
         if (!data || (Date.now() - last > time)) {
             this.update();
