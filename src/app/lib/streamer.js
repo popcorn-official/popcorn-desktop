@@ -468,12 +468,15 @@
                 //    file.deselect();
                 }
             }
+            if (!fileName.startsWith(torrent.path)) {
+                fileName = path.join(torrent.path, fileName);
+            }
 
             return {
                 name: path.basename(fileName),
                 size: fileSize,
                 index: fileIndex,
-                path: path.join(torrent.path, fileName)
+                path: fileName
             };
         },
 
@@ -486,15 +489,13 @@
             if (isFormatted) {
                 this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
                 this.handleSubtitles();
+            } else if (isRead) {
+                this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
+                this.lookForMetadata(torrent);
             } else {
-                if (isRead) {
-                    this.torrentModel.set('video_file', this.selectFile(torrent, fileName));
-                    this.lookForMetadata(torrent);
-                } else {
-                    this.openFileSelector(torrent);
-                    this.stopped = true;
-                    throw 'interrupt';
-                }
+                this.openFileSelector(torrent);
+                this.stopped = true;
+                throw 'interrupt';
             }
             return;
         },
