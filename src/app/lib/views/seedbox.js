@@ -197,7 +197,7 @@
 		},
 
 		onPauseTorrentClicked(e, id) {
-			e.stopPropagation();
+			try { e.stopPropagation(); } catch(err) {}
 			const torrent = this.getTorrentFromEvent(e, id);
 			if (torrent) {
 				this.pauseTorrent(torrent);
@@ -205,7 +205,7 @@
 		},
 
 		onResumeTorrentClicked(e, id) {
-			e.stopPropagation();
+			try { e.stopPropagation(); } catch(err) {}
 			const torrent = this.getTorrentFromEvent(e, id);
 			if (torrent) {
 				torrent.resume();
@@ -222,7 +222,7 @@
 		},
 
 		onRemoveTorrentClicked(e) {
-			e.stopPropagation();
+			try { e.stopPropagation(); } catch(err) {}
 			const torrent = this.getTorrentFromEvent(e);
 			if (torrent) {
 				if (App.settings.delSeedboxCache === 'always') {
