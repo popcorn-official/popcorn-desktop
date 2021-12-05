@@ -302,8 +302,7 @@
 			const hash = $('.tab-torrent.active')[0].getAttribute('id');
 			const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 			const filename = e.target.firstChild.innerHTML || e.target.innerHTML;
-			const filepath = torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, '');
-			const location = App.settings.separateDownloadsDir && !torrent._servers[0] ? path.join(Settings.downloadsLocation, filepath) : path.join(Settings.tmpLocation, filepath);
+			const location = torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, '');
 			App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
 		},
 
