@@ -3,7 +3,7 @@
   "companyName": "Popcorn Time",
   "installIcon": "./src/app/images/popcorntime.ico",
   "unInstallIcon": "./src/app/images/butter_uninstall.ico",
-  "homepage": "http://popcorntime.sh/",
+  "homepage": "https://popcorntime.app/",
   "bugs": "https://github.com/popcorn-official/popcorn-desktop/issues",
   "repository": {
     "type": "git",
