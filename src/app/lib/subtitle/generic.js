@@ -1,7 +1,7 @@
 (function (App) {
     'use strict';
 
-    var srt2vtt = require('srt-to-vtt');
+    var captions = require('node-captions');
 
     var self;
 
@@ -139,9 +139,27 @@
             try {
                 var srtPath = data.path;
                 var vttPath = srtPath.replace('.srt', '.vtt');
-                fs.createReadStream(srtPath)
-                    .pipe(srt2vtt())
-                    .pipe(fs.createWriteStream(vttPath));
+                var srtData = fs.readFileSync(srtPath);
+                self.decode(srtData, data.language, function (srtDecodedData) {
+                    captions.srt.parse(srtDecodedData, function (err, vttData) {
+                        if (err) {
+                            return cb(err, null);
+                        }
+
+                        // Save vtt as UTF-8 encoded, so that foreign subs will be shown correctly on ext. devices.
+                        fs.writeFile(vttPath, captions.vtt.generate(captions.srt.toJSON(vttData)), 'utf8', function (err) {
+                            if (err) {
+                                return cb(err, null);
+                            } else {
+                                cb(null, {
+                                    vtt: vttPath,
+                                    srt: srtPath,
+                                    encoding: 'utf8'
+                                });
+                            }
+                        });
+                    });
+                });
             } catch (e) {
                 cb(e, null);
             }

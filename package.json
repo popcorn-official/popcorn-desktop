@@ -73,6 +73,7 @@
     "mousetrap": "~1.6.2",
     "mv": "2.x.x",
     "nedb-promises": "^5.0.0",
+    "node-captions": "0.4.6",
     "node-tvdb": "^4.1.0",
     "opensubtitles-api": "^5.1.2",
     "q": "2.0.3",
