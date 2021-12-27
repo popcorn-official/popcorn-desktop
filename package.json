@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "main": "src/app/index.html",
   "version": "0.4.7",
-  "releaseName": "Title",
+  "releaseName": "Merry Omicron",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",

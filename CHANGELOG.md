@@ -1,4 +1,4 @@
-## 0.4.7 - Title - 01 December 2021
+## 0.4.7 - Merry Omicron - 01 December 2021
 
 New Features:
 - Add Play/Download functions to the Seedbox and various other right pane fixes and additions
