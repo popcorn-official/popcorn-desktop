@@ -28,17 +28,19 @@ cask "popcorn-time" do
 
     db = "#{app_support}/Popcorn-Time/Default/data/settings.db"
 
-    %w[Movies Series].each do |medium|
-      setting = {
-        key:   "custom#{medium}Server",
-        value: "https://#{server}/",
-        _id:   SecureRandom.alphanumeric,
-      }
-      settings = File.read(db).lines
+    if File.exists?(db)
+      %w[Movies Series].each do |medium|
+        setting = {
+          key:   "custom#{medium}Server",
+          value: "https://#{server}/",
+          _id:   SecureRandom.alphanumeric,
+        }
+        settings = File.read(db).lines
 
-      next if settings.grep(/#{setting[:key]}/).any?
+        next if settings.grep(/#{setting[:key]}/).any?
 
-      `echo '#{setting.to_json}' >> '#{db}'`
+        `echo '#{setting.to_json}' >> '#{db}'`
+      end
     end
   end
 
