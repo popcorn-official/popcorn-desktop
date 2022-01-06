@@ -12,7 +12,7 @@
   "license": "GPL-3.0",
   "main": "src/app/index.html",
   "version": "0.4.7",
-  "releaseName": "Merry Omicron",
+  "releaseName": "The reports of my death are greatly exaggerated",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",

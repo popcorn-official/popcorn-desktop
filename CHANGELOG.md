@@ -1,4 +1,4 @@
-## 0.4.7 - Merry Omicron - 01 December 2021
+## 0.4.7 - The reports of my death are greatly exaggerated - 10 January 2022
 
 New Features:
 - Add Play/Download functions to the Seedbox and various other right pane fixes and additions
