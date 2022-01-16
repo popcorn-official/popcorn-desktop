@@ -301,6 +301,7 @@
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
                 case 'showSubmitMeta':
+                case 'showUndoRBookmark':
                 case 'nativeWindowFrame':
                 case 'translatePosters':
                 case 'translateSynopsis':
