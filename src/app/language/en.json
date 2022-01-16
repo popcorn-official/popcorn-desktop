@@ -552,7 +552,7 @@
 	"Ask me every time": "Ask me every time",
 	"Enable Protocol Encryption": "Enable Protocol Encryption",
 	"Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage": "Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage",
-	"Show the Seedbox when adding a new download": "Show the Seedbox when adding a new download",
+	"Show the Seedbox when a new download is added": "Show the Seedbox when a new download is added",
 	"Download added": "Download added",
 	"Change API Server": "Change API Server",
 	"Localisation": "Localisation",
@@ -577,5 +577,10 @@
 	"Submit metadata & translations": "Submit metadata & translations",
 	"Not available": "Not available",
 	"Cast not available": "Cast not available",
-	"Show the 'Submit metadata & translations' button": "Show the 'Submit metadata & translations' button"
+	"Show the 'Submit metadata & translations' button": "Show the 'Submit metadata & translations' button",
+	"Show an 'Undo' button when a bookmark is removed": "Show an 'Undo' button when a bookmark is removed",
+	"was added to bookmarks": "was added to bookmarks",
+	"was removed from bookmarks": "was removed from bookmarks",
+	"Bookmark restored": "Bookmark restored",
+	"Undo": "Undo"
 }

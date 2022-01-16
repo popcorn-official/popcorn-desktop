@@ -142,6 +142,7 @@ Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
 Settings.showSeedboxOnDlInit = true;
 Settings.showSubmitMeta = true;
+Settings.showUndoRBookmark = true;
 
 // Quality
 Settings.shows_default_quality = '720p';
