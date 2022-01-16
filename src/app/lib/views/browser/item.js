@@ -382,18 +382,7 @@
                 this.toggleFavorite(e);
                 $('.favourites-toggle').text(i18n.__('Remove from bookmarks')).addClass('selected');
                 $('.sha-bookmark').text(i18n.__('Remove from bookmarks')).addClass('selected');
-                App.vent.trigger('notification:show', new App.Model.Notification({
-                    title: '',
-                    body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was added to bookmarks'),
-                    showClose: false,
-                    autoclose: 3000,
-                    type: 'success',
-                    buttons: [{ title: i18n.__('Bookmark restored'), action: function () {
-                        var id = window.setTimeout(function() {}, 0);
-                        while (id--) { window.clearTimeout(id); }
-                        App.vent.trigger('notification:close');
-                    }}]
-                }));
+                $('.notification_alert').stop().text(i18n.__('Bookmark restored')).fadeIn('fast').delay(1500).fadeOut('fast');
             }.bind(this));
 
             if (bookmarked) {
