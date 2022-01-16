@@ -421,6 +421,9 @@
                     }
                 }.bind(this)).then(function () {
                     if (Settings.showUndoRBookmark) {
+                        var id = window.setTimeout(function() {}, 0);
+                        while (id--) { window.clearTimeout(id); }
+                        App.vent.trigger('notification:close');
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: '',
                             body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was removed from bookmarks'),
