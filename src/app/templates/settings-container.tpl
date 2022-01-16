@@ -110,9 +110,13 @@
             <% if (Settings.activateSeedbox) { %>
             <span class="advanced">
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
-                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when adding a new download") %></label>
+                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when a new download is added") %></label>
             </span>
             <% } %>
+            <span class="advanced">
+                <input class="settings-checkbox" name="showUndoRBookmark" id="showUndoRBookmark" type="checkbox" <%=(Settings.showUndoRBookmark? "checked='checked'":"")%>>
+                <label class="settings-label" for="showUndoRBookmark"><%= i18n.__("Show an 'Undo' button when a bookmark is removed") %></label>
+            </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="showSubmitMeta" id="showSubmitMeta" type="checkbox" <%=(Settings.showSubmitMeta? "checked='checked'":"")%>>
                 <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
