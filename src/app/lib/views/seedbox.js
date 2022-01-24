@@ -109,11 +109,11 @@
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
-                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
-                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-download watched"></i><span id="download-${torrent.infoHash}"> 0 Kb/s</span>
+                <i class="fa fa-upload watched"></i><span id="upload-${torrent.infoHash}"> 0 Kb/s</span>
                 <i class="fa fa-pause-circle watched pause-torrent tooltipped" id="resume-${torrent.infoHash}"  title="Pause" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? 'none' : ''};"></i>
-                <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
+                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
               </li>`
 			);
 
