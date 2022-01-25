@@ -20,7 +20,7 @@
 			dm = decimals || 2,
 			sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 			i = Math.floor(Math.log(bytes) / Math.log(k));
-		return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+		return (bytes / Math.pow(k, i)).toFixed(dm) + ' ' + sizes[i];
 	};
 
 	var Seedbox = Marionette.View.extend({
