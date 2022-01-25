@@ -17,7 +17,7 @@
 		}
 
 		let k = 1024,
-			dm = decimals || 2,
+			dm = decimals || 1,
 			sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 			i = Math.floor(Math.log(bytes) / Math.log(k));
 		return (bytes / Math.pow(k, i)).toFixed(dm) + ' ' + sizes[i];
