@@ -95,7 +95,7 @@
     "urijs": "^1.19.7",
     "video.js": "4.11.4",
     "videojs-youtube": "1.2.10",
-    "webtorrent": "^1.5.8",
+    "webtorrent": "^1.7.0",
     "webtorrent-health": "1.x.x"
   },
   "devDependencies": {
