@@ -582,5 +582,6 @@
 	"was added to bookmarks": "was added to bookmarks",
 	"was removed from bookmarks": "was removed from bookmarks",
 	"Bookmark restored": "Bookmark restored",
-	"Undo": "Undo"
+	"Undo": "Undo",
+	"Remaining runtime before start preloading next episode": "Remaining runtime before start preloading next episode"
 }
