@@ -258,7 +258,7 @@
 
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
-                if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
+                if ((this.video.duration() - this.video.currentTime()) < (Settings.preloadNextEpisodeTime * 60) && this.video.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
                         var playingNext = $('.playing_next');
@@ -268,12 +268,14 @@
                             this.precachestarted = true;
                         }
 
-                        win.info('Showing Auto Play message');
-                        this.autoplayisshown = true;
-                        playingNext.show();
-                        playingNext.appendTo('div#video_player');
-                        if (!this.player.userActive()) {
-                            this.player.userActive(true);
+                        if ((this.video.duration() - this.video.currentTime()) < 60) {
+                            win.info('Showing Auto Play message');
+                            this.autoplayisshown = true;
+                            playingNext.show();
+                            playingNext.appendTo('div#video_player');
+                            if (!this.player.userActive()) {
+                                this.player.userActive(true);
+                            }
                         }
                     }
 

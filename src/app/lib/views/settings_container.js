@@ -365,6 +365,14 @@
                     value = nvalue;
                     win.zoomLevel = Math.log(value/100) / Math.log(1.2);
                     break;
+                case 'preloadNextEpisodeTime':
+                    let nnvalue = field.val().replace(/[^0-9]/gi, '');
+                    if (!nnvalue || nnvalue <= 0) {
+                        nnvalue = 1;
+                    }
+                    field.val(nnvalue);
+                    value = nnvalue;
+                    break;
                 case 'tmpLocation':
                     tmpLocationChanged = true;
                     value = field.val();
@@ -576,6 +584,7 @@
                 case 'torColSearchMore':
                 case 'httpApiEnabled':
                 case 'showSubmitMeta':
+                case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;

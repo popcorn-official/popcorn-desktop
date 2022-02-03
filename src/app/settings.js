@@ -127,6 +127,7 @@ Settings.translateEpisodes = true;
 //Playback
 Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = false;
+Settings.preloadNextEpisodeTime = 1;
 Settings.activateLoCtrl = false;
 Settings.chosenPlayer = 'local';
 
