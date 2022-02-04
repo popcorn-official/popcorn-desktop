@@ -121,7 +121,11 @@
                 padding: 3px 5px
                 font-size: 1.2em
 
-            &.edited input, input:focus
+            // Hide the search box when it is not focused or edited
+            //&.edited input, input:focus
+            // Show the search box at all times
+            // (Using #searchbox to increase specificity, to override the selector below)
+            input#searchbox
                 width: 180px
                 background-color: $SearchBoxBg
                 color: $FilterBarText
