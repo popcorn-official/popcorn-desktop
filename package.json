@@ -19,7 +19,8 @@
     "css": "gulp css",
     "dist": "gulp dist",
     "start": "gulp run",
-    "test": "gulp test"
+    "test": "gulp test",
+    "postinstall": "patch-package"
   },
   "chromium-args": "--enable-node-worker",
   "engines": {
@@ -75,6 +76,8 @@
     "nedb-promises": "^5.0.0",
     "node-tvdb": "^4.1.0",
     "opensubtitles-api": "^5.1.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "q": "2.0.3",
     "querystring": "^0.2.0",
     "readdirp": "2.x.x",

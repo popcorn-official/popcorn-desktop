@@ -1,0 +1,13 @@
+https://github.com/thibauts/node-upnp-mediarenderer-client/pull/36
+Fix Samsung DLNA
+--- a/node_modules/upnp-mediarenderer-client/index.js
++++ b/node_modules/upnp-mediarenderer-client/index.js
+@@ -144,7 +144,7 @@ MediaRendererClient.prototype.load = function(url, options, callback) {
+ 
+   this.callAction('ConnectionManager', 'PrepareForConnection', params, function(err, result) {
+     if(err) {
+-      if(err.code !== 'ENOACTION') {
++      if( ! ['ENOACTION', 'EUPNP'].includes(err.code)) {
+         return callback(err);
+       }
+       //
