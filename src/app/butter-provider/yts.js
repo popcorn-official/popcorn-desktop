@@ -108,6 +108,10 @@ class YTSApi extends Generic {
     return new Promise((resolve, reject) => resolve(old_data));
   }
 
+  torrents(imdb_id, lang) {
+    return new Promise((resolve, reject) => resolve([]));
+  }
+
   filters() {
     const data = {
       genres: [

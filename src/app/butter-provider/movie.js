@@ -84,8 +84,17 @@ class MovieApi extends Generic {
 
   random() {}
 
-  detail(torrent_id, old_data, debug) {
+  detail(imdb_id, old_data, debug) {
     return new Promise((resolve, reject) => resolve(old_data));
+  }
+
+  torrents(imdb_id, lang) {
+    const params = {
+      locale: this.language,
+      contentLocale: lang,
+    };
+    const uri = `movie/${imdb_id}/torrents?` + new URLSearchParams(params);
+    return this._get(0, uri);
   }
 
   filters() {
