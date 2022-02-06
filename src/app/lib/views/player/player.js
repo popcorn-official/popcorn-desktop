@@ -1,6 +1,11 @@
 (function (App) {
     'use strict';
 
+    // I found on my Linux that setting both hue-rotate(0) and saturate(anything) was buggy: the entire image turned orange!
+    // So for now, we disable the hue adjustment.
+    // If we determine this is a Linux-only issue, we could disable this only for Linux.
+    const disableHueSlider = true;
+
     var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
@@ -792,6 +797,11 @@
         },
 
         adjustHue: function (difference) {
+            if (disableHueSlider) {
+                this.displayOverlayMsg(i18n.__('Hue') + ': ' + i18n.__('Disabled'));
+                $('.vjs-overlay').css('opacity', '1');
+                return;
+            }
             this.filters.hue += difference;
             this.applyFilters();
             this.displayOverlayMsg(i18n.__('Hue') + ': ' + (this.filters.hue.toFixed(0)));
@@ -808,7 +818,8 @@
         applyFilters: function (difference) {
             const { brightness, contrast, hue, saturation } = this.filters;
             var curVideo = $('#video_player_html5_api');
-            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) hue-rotate(${hue}deg) saturate(${saturation})`;
+            const hueAdjustment = disableHueSlider ? '' : `hue-rotate(${hue}deg)`;
+            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
         },
 
         bindKeyboardShortcuts: function () {
