@@ -39,12 +39,11 @@
                   cursor: pointer
 
                   .watched
-                      padding 9px 0
+                      padding 10px 0
                       color: $ShowWatchedIcon_false
                       transition color .5s
-
-                      &:hover
-                          color: $ShowWatchedIcon_hover
+                      font-size: 0.9em
+                      font-family: "Font Awesome 5 Free", "Open Sans SemiBold"
 
                       &.true
                           color: $ShowWatchedIcon_true
@@ -52,6 +51,10 @@
                       &.disabled
                           cursor: not-allowed
                           opacity: 0.2
+
+                  .watched:not(.fa-download):not(.fa-upload)
+                      &:hover
+                          color: $ShowWatchedIcon_true
 
               li:nth-child(odd)
                   background-color $ShowBgColor2
@@ -136,6 +139,10 @@
 
               .seedbox-torrent-list ul li.active i
                   color: rgba($EpisodeSelectorText,.5)
+
+              .seedbox-torrent-list ul li.active i:not(.fa-download):not(.fa-upload)
+                  &:hover
+                      color: $EpisodeSelectorText
 
               .seedbox-torrent-list ul li.error
                   background: $NotificationError
@@ -248,6 +255,7 @@
 
                       i
                           margin-right: 5px
+                          font-family: "Font Awesome 5 Free", "Open Sans SemiBold"
 
                   .seedbox-infos-synopsis
                       color: $ShowText1
