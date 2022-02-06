@@ -102,11 +102,7 @@
                 <% }); %>
             </div>
         </div>
-        <% if (Settings.activateSeedbox) { %>
-        <div class="sd-overview" style="min-width:480px">
-        <% } else { %>
         <div class="sd-overview">
-        <% } %>
             <div class="sdo-infos">
                 <div class="sdoi-title"></div>
                 <div class="sdoi-links">
@@ -130,6 +126,7 @@
                 <% } %>
             </div>
         </div>
+        <div class="sd-torrents"></div>
     </section>
 
 </div>
