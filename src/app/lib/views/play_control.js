@@ -327,9 +327,10 @@
     },
 
     showAllTorrents: function() {
-      this.model.set('showTorrents', true);
-      this.ui.showTorrents.hide();
-      App.vent.trigger('update:torrents', this.audio_selected);
+      const show = !this.model.get('showTorrents');
+      this.model.set('showTorrents', show);
+      this.ui.showTorrents.html(i18n.__(show ? 'Less' : 'More'));
+      App.vent.trigger('update:torrents', show ? this.audio_selected : null);
    },
 
     onBeforeDestroy: function() {
