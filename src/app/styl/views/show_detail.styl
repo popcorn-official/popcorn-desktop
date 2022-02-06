@@ -518,8 +518,11 @@
                     text-align: justify
                     margin-top: 10px
                     padding: 2px 15px 5px 0
-                    height: calc(100vh - 425px)
+                    height: calc(100vh - 625px)
                     scrollable()
+
+            #torrent-list
+                height: 200px;
 
             .sdo-watch
                 height: 60px
@@ -538,8 +541,12 @@
                         opacity: 1
                         filter: none
 
+                .show-all-torrents
+                    margin-top: 6px
+                    float: left
+
                 .sdow-quality
-                    margin-top: 20px
+                    margin-top: 12px
                     float: left
 
                     div
@@ -573,6 +580,7 @@
                         visibility: hidden
         .sd-torrents
             grid-area: torrents;
+            max-height: 300px;
 
         > .spinner
             position: fixed;

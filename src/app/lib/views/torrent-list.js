@@ -39,7 +39,7 @@
             const download = !$(e.target).hasClass('item-play');
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
-                title: torrent.title,
+                title: this.model.get('select') && !download ? null : torrent.title,
                 defaultSubtitle: Settings.subtitle_language,
                 device: App.Device.Collection.selected,
                 // file_name: e.target.parentNode.firstChild.innerHTML

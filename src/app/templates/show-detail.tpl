@@ -116,8 +116,10 @@
                 </div>
                 <div class="sdoi-synopsis"></div>
             </div>
+            <div id="torrent-list"></div>
             <div class="sdo-watch">
                 <div id="quality-selector"></div>
+                <div id="show-all-torrents" class="button show-all-torrents"><%=i18n.__("More") %></div>
                 <div class="sdow-watchnow">
                     <div id="player-chooser"></div>
                 </div>
@@ -126,7 +128,7 @@
                 <% } %>
             </div>
         </div>
-        <div class="sd-torrents"></div>
+        <div class="sd-torrents" id="torrent-show-list"></div>
     </section>
 
 </div>
