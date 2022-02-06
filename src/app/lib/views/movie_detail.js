@@ -65,11 +65,16 @@
 
       App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
+      App.vent.on('update:torrents', _this.onUpdateTorrentsList.bind(_this));
       App.vent.on('change:quality', _this.onChangeQuality.bind(_this));
       // init fields in model
       this.model.set('displayTitle', '');
       this.model.set('displaySynopsis', '');
       this.localizeTexts();
+    },
+
+    onUpdateTorrentsList: function(lang) {
+      console.log('Update Torrents: ', lang);
     },
 
     onChangeQuality: function (quality) {
@@ -252,6 +257,7 @@
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
+      App.vent.off('update:torrents');
       App.vent.off('change:quality');
       this.unbindKeyboardShortcuts();
       Object.values(this.views).forEach(v => v.destroy());
