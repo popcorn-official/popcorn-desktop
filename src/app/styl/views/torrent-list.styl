@@ -1,0 +1,40 @@
+#torrent-list
+  overflow: auto
+  color: white
+
+  table
+    width: 100%
+    table-layout: auto;
+    tr:nth-of-type(odd)
+      td
+        color: lightgray
+    td
+      padding: 3px;
+
+      &.ellipsis
+        position: relative;
+      &.ellipsis:before
+        content: '&nbsp;';
+        visibility: hidden;
+      &.ellipsis span
+        position: absolute;
+        left: 0;
+        right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+      &.provider
+        width: 30px
+        img
+          cursor: pointer;
+          height: 24px;
+
+      &.info
+        width:0.1%;
+        white-space: nowrap;
+        text-align: right;
+      &.action
+        width: 30px;
+        i
+          cursor: pointer;
