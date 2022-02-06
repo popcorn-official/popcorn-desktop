@@ -122,7 +122,7 @@ if [ "$rd_dep" = "yes" ]; then
     echo "Successfully setup for Popcorn Time"
 fi
 
-if gulp build; then
+if yarn build; then
     echo "Popcorn Time built successfully!"
     if [[ `uname -s` != *"NT"* ]]; then # if not windows
         ./Create-Desktop-Entry

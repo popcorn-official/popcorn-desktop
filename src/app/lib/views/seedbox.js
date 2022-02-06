@@ -13,14 +13,14 @@
 
 	var formatBytes = function (bytes, decimals) {
 		if (bytes === 0) {
-			return '0 Bytes';
+			return '0 B';
 		}
 
 		let k = 1024,
-			dm = decimals || 2,
-			sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+			dm = decimals || 1,
+			sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
 			i = Math.floor(Math.log(bytes) / Math.log(k));
-		return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+		return (bytes / Math.pow(k, i)).toFixed(dm) + ' ' + sizes[i];
 	};
 
 	var Seedbox = Marionette.View.extend({
@@ -109,11 +109,11 @@
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
-                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
-                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-download watched" id="download-${torrent.infoHash}">0 Kb/s</i>
+                <i class="fa fa-upload watched" id="upload-${torrent.infoHash}">0 Kb/s</i>
                 <i class="fa fa-pause-circle watched pause-torrent tooltipped" id="resume-${torrent.infoHash}"  title="Pause" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? 'none' : ''};"></i>
-                <i class="fa fa-upload watched" id="upload-${torrent.infoHash}"> 0 Kb/s</i>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}"> 0 Kb/s</i>
+                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
               </li>`
 			);
 
@@ -464,7 +464,7 @@
 					totalSize = totalSize + file.length;
 					totalDownloaded = totalDownloaded + file.downloaded;
 					try {
-						let thisElement = document.evaluate("//a[text()='" + file.name + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
+						const thisElement = document.evaluate(`//a[text()='${file.name}']`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
 						$(thisElement).attr('title', Common.fileSize(file.downloaded) + ' / ' + Common.fileSize(file.length)).tooltip('fixTitle');
 					} catch(err) {}
 				}
