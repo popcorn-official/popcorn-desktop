@@ -12,6 +12,7 @@
       'click #watch-now': 'startStreaming',
       'click #watch-trailer': 'playTrailer',
       'click #download-torrent': 'downloadTorrent',
+      'click #show-all-torrents': 'showAllTorrents',
       'click .favourites-toggle': 'toggleFavourite',
       'click .playerchoicemenu li a': 'selectPlayer',
       'click .playerchoicehelp': 'showPlayerList',
@@ -208,6 +209,10 @@
         this.model.set('torrents', audios[lang]);
         this.getRegion('qualitySelector').currentView.updateTorrents(audios[lang]);
       }
+
+      if (this.model.get('showTorrents')) {
+        App.vent.trigger('update:torrents', this.audio_selected);
+      }
     },
 
     downloadTorrent: function() {
@@ -315,6 +320,11 @@
         type: 'success'
       }));
     },
+
+    showAllTorrents: function() {
+      this.model.set('showTorrents', true);
+      App.vent.trigger('update:torrents', this.audio_selected);
+   },
 
     onBeforeDestroy: function() {
       App.vent.off('sub:lang');
