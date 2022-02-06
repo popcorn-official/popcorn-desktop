@@ -31,7 +31,8 @@
     },
 
     regions: {
-      PlayControl: '#play-control'
+      PlayControl: '#play-control',
+      TorrentList: '#torrent-list',
     },
 
     initialize: function() {
@@ -74,7 +75,15 @@
     },
 
     onUpdateTorrentsList: function(lang) {
-      console.log('Update Torrents: ', lang);
+      console.log('Update Torrents List: ', lang);
+      const provider = App.Config.getProviderForType('movie')[0];
+      this.getRegion('TorrentList').empty();
+      const torrentList = new App.View.TorrentList({
+        model: new Backbone.Model({
+          promise: provider.torrents(this.model.get('imdb_id'), lang),
+        }),
+      });
+      this.getRegion('TorrentList').show(torrentList);
     },
 
     onChangeQuality: function (quality) {
