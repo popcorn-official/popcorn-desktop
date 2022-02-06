@@ -9,6 +9,7 @@
         className: 'shows-container-contain',
 
         ui: {
+            showTorrents: '.show-all-torrents',
             startStreaming: '#watch-now',
             bookmarkIcon: '.sha-bookmark',
             seasonTab: '.sd-seasons'
@@ -20,6 +21,7 @@
             'click .watched': 'toggleWatched',
             'click #watch-now': 'startStreaming',
             'click #download-torrent': 'downloadTorrent',
+            'click #show-all-torrents': 'showAllTorrents',
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
@@ -37,6 +39,8 @@
         },
 
         regions: {
+            torrentList: '#torrent-list',
+            torrentShowList: '#torrent-show-list',
             subDropdown: '#subs-dropdown',
             audioDropdown: '#audio-dropdown',
             qualitySelector: '#quality-selector',
@@ -96,6 +100,7 @@
                 _this.initKeyboardShortcuts();
             });
 
+            App.vent.on('update:torrents', _this.onUpdateTorrentsList.bind(_this));
             App.vent.on('audio:lang', this.switchAudio.bind(this));
             this.initTorrents(this.model.get('episodes'));
         },
@@ -147,6 +152,34 @@
             Mousetrap.unbind(['ctrl+up', 'command+up']);
             Mousetrap.unbind(['ctrl+down', 'command+down']);
             Mousetrap.unbind('f');
+        },
+
+        onUpdateTorrentsList: function(info) {
+            console.log('Update Torrents List: ', info);
+            if (!info) {
+                this.getRegion('torrentList').empty();
+                this.getRegion('torrentShowList').empty();
+                return;
+            }
+            const showProvider = App.Config.getProviderForType('tvshow')[0];
+            if (!info.episodeOnly) {
+                this.getRegion('torrentShowList').empty();
+                const torrentShowList = new App.View.TorrentList({
+                    model: new Backbone.Model({
+                        promise: showProvider.torrents(this.model.get('imdb_id'), info.locale),
+                        select: true,
+                    }),
+                });
+                this.getRegion('torrentShowList').show(torrentShowList);
+            }
+            const episode = this.model.get('selectedEpisode');
+            this.getRegion('torrentList').empty();
+            const torrentList = new App.View.TorrentList({
+                model: new Backbone.Model({
+                    promise: showProvider.episodeTorrents(this.model.get('imdb_id'), info.locale, episode.season, episode.episode),
+                }),
+            });
+            this.getRegion('torrentList').show(torrentList);
         },
 
         onAttach: function () {
@@ -423,6 +456,9 @@
             this.initTorrents(data.episodes);
             this.render();
             this.onAttach();
+            App.vent.trigger('update:torrents', this.model.get('showTorrents') ? {
+                locale: this.model.get('contextLocale'),
+            } : null);
         },
 
         loadDropdown: function(type, attrs) {
@@ -731,6 +767,11 @@
             startStreaming.attr('data-title', selectedEpisode.title);
 
             _this.ui.startStreaming.show();
+
+            App.vent.trigger('update:torrents', this.model.get('showTorrents') ? {
+                locale: this.model.get('contextLocale'),
+                episodeOnly: true,
+            } : null);
         },
 
         selectTorrent: function(torrent, key) {
@@ -913,8 +954,18 @@
             }));
         },
 
+        showAllTorrents: function() {
+            const show = !this.model.get('showTorrents');
+            this.model.set('showTorrents', show);
+            this.ui.showTorrents.html(i18n.__(show ? 'Less' : 'More'));
+            App.vent.trigger('update:torrents', show ? {
+                locale: this.model.get('contextLocale'),
+            } : null);
+        },
+
         onBeforeDestroy: function () {
             this.unbindKeyboardShortcuts();
+            App.vent.off('update:torrents');
             App.vent.off('audio:lang');
             App.vent.off('show:watched:' + this.model.id);
             App.vent.off('show:unwatched:' + this.model.id);

@@ -53,11 +53,29 @@ class TVApi extends Generic {
     });
   }
 
-  detail(torrent_id, old_data, debug) {
-    return this.contentOnLang(torrent_id, old_data.contextLocale);
+  detail(imdb_id, old_data, debug) {
+    return this.contentOnLang(imdb_id, old_data.contextLocale);
   }
 
-  contentOnLang(torrent_id, lang) {
+  torrents(imdb_id, lang) {
+    const params = {
+      locale: this.language,
+      contentLocale: lang,
+    };
+    const uri = `show/${imdb_id}/torrents?` + new URLSearchParams(params);
+    return this._get(0, uri);
+  }
+
+  episodeTorrents(imdb_id, lang, season, episode) {
+    const params = {
+      locale: this.language,
+      contentLocale: lang,
+    };
+    const uri = `show/${imdb_id}/${season}/${episode}/torrents?` + new URLSearchParams(params);
+    return this._get(0, uri);
+  }
+
+  contentOnLang(imdb_id, lang) {
     const params = {};
     if (this.language) {
       params.locale = this.language;
@@ -65,7 +83,7 @@ class TVApi extends Generic {
     if (this.language !== lang) {
       params.contentLocale = lang;
     }
-    const uri = `show/${torrent_id}?` + new URLSearchParams(params);
+    const uri = `show/${imdb_id}?` + new URLSearchParams(params);
 
     return this._get(0, uri).then(data => {
       return data;
