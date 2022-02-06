@@ -464,7 +464,7 @@
 					totalSize = totalSize + file.length;
 					totalDownloaded = totalDownloaded + file.downloaded;
 					try {
-						let thisElement = document.evaluate("//a[text()='" + file.name + "']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
+						const thisElement = document.evaluate(`//a[text()='${file.name}']`, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.parentNode;
 						$(thisElement).attr('title', Common.fileSize(file.downloaded) + ' / ' + Common.fileSize(file.length)).tooltip('fixTitle');
 					} catch(err) {}
 				}
