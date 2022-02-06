@@ -335,12 +335,17 @@
         z-index: 1
         background: $ShowBgColor1
         height: calc(100vh - 282px)
-        display: flex
-        flex-direction: row
+        display: grid
         padding-left: 20px /* left-pad */
+        gap: 10px;
+        grid-template-columns: fit-content(165px) 2fr minmax(480px, 1fr);
+        grid-template-rows: 2fr auto;
+        grid-template-areas: "seasons  episodes overview" "torrents torrents overview";
 
         .sd-seasons ul, .sd-episodes ul
-            height: calc(100vh - 340px)
+            position: absolute;
+            top:45px;
+            bottom:0;
             cursor: pointer
             direction: rtl
             white-space: nowrap
@@ -406,6 +411,8 @@
                     text-overflow: ellipsis
 
         .sd-seasons, .sd-episodes
+            position: relative;
+            height: 100%;
             .sds-title, .sde-title
                 font-size: 24px
                 overflow: hidden
@@ -417,9 +424,6 @@
 
         .sd-seasons
             min-width: 165px
-            max-width: 165px
-            flex-shrink: 1
-            flex-grow: 1
             padding: 10px
 
             .sds-list ul a
@@ -428,7 +432,7 @@
                 white-space: nowrap
 
         .sd-episodes
-            flex-grow: 2
+            grid-area: episodes;
             padding: 10px
 
             .sde-list ul li a
@@ -442,10 +446,7 @@
 
         .sd-overview
             background: $ShowBgColor2
-            flex-grow: 1
-            flex-shrink: 0
-            width: 35vw
-            min-width: 375px
+            grid-area: overview;
             padding: 10px 30px 10px 18px /* right pad */
 
             .sdo-infos
@@ -570,10 +571,8 @@
 
                     &.disabled
                         visibility: hidden
-
-        /* ugly rule to bypass restrictions */
-        .sd-seasons[style*="display: none"] + .sd-episodes ul a div
-            max-width: calc(60vw - 100px)
+        .sd-torrents
+            grid-area: torrents;
 
         > .spinner
             position: fixed;
