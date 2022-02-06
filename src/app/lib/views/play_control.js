@@ -5,6 +5,7 @@
   App.View.PlayControl = Marionette.View.extend({
     template: '#play-control-tpl',
     ui: {
+      showTorrents: '.show-all-torrents',
       bookmarkIcon: '.favourites-toggle',
       watchedIcon: '.watched-toggle'
     },
@@ -40,6 +41,7 @@
       } else {
         this.model.set('torrents', this.model.get('langs')[this.model.get('defaultAudio')]);
       }
+      this.model.set('showTorrents', false);
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));
       App.vent.on('audio:lang', this.switchAudio.bind(this));
@@ -65,6 +67,8 @@
       this.setUiStates();
       this.model.on('change:langs', this.loadAudioDropdown.bind(this));
       this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
+      this.model.set('showTorrents', false);
+      this.ui.showTorrents.show();
 
       if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
         $('.button:not(#download-torrent)').addClass('disabled');
@@ -203,6 +207,7 @@
       if (audios === undefined || audios[lang] === undefined) {
         lang = 'none';
       }
+      this.old_audio_selected = this.audio_selected;
       this.audio_selected = lang;
 
       if (this.getRegion('qualitySelector').currentView) {
@@ -210,7 +215,7 @@
         this.getRegion('qualitySelector').currentView.updateTorrents(audios[lang]);
       }
 
-      if (this.model.get('showTorrents')) {
+      if (this.model.get('showTorrents') && this.old_audio_selected !== this.audio_selected) {
         App.vent.trigger('update:torrents', this.audio_selected);
       }
     },
@@ -323,6 +328,7 @@
 
     showAllTorrents: function() {
       this.model.set('showTorrents', true);
+      this.ui.showTorrents.hide();
       App.vent.trigger('update:torrents', this.audio_selected);
    },
 
