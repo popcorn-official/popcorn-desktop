@@ -1,6 +1,11 @@
 (function (App) {
     'use strict';
 
+    // I found on my Linux that setting both hue-rotate(0) and saturate(anything) was buggy: the entire image turned orange!
+    // So for now, we disable the hue adjustment.
+    // If we determine this is a Linux-only issue, we could disable this only for Linux.
+    const disableHueSlider = true;
+
     var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
@@ -57,6 +62,15 @@
             this.createdRemaining = false;
             this.firstPlay = true;
             this.boundedMouseScroll = this.mouseScroll.bind(this);
+
+            this.zoom = 1.0;
+
+            this.filters = {
+                brightness: 1.0,
+                contrast: 1.0,
+                hue: 0,
+                saturation: 1.0,
+            };
 
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
@@ -760,6 +774,54 @@
             }
         },
 
+        adjustZoom: function (difference) {
+            var v = $('video')[0];
+            this.zoom += difference;
+            v.style.transform = `scale(${this.zoom})`;
+            this.displayOverlayMsg(i18n.__('Zoom') + ': ' + (this.zoom.toFixed(2)));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustBrightness: function (difference) {
+            this.filters.brightness += difference;
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Brightness') + ': ' + this.filters.brightness.toFixed(2));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustContrast: function (difference) {
+            this.filters.contrast += difference;
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Contrast') + ': ' + (this.filters.contrast.toFixed(2)));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustHue: function (difference) {
+            if (disableHueSlider) {
+                this.displayOverlayMsg(i18n.__('Hue') + ': ' + i18n.__('Disabled'));
+                $('.vjs-overlay').css('opacity', '1');
+                return;
+            }
+            this.filters.hue += difference;
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Hue') + ': ' + (this.filters.hue.toFixed(0)));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustSaturation: function (difference) {
+            this.filters.saturation += difference;
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Saturation') + ': ' + (this.filters.saturation.toFixed(2)));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        applyFilters: function (difference) {
+            const { brightness, contrast, hue, saturation } = this.filters;
+            var curVideo = $('#video_player_html5_api');
+            const hueAdjustment = disableHueSlider ? '' : `hue-rotate(${hue}deg)`;
+            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
+        },
+
         bindKeyboardShortcuts: function () {
             var that = this;
 
@@ -920,6 +982,46 @@
                 that.scaleWindow(2);
             });
 
+            Mousetrap.bind('w', function (e) {
+                that.adjustZoom(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('e', function (e) {
+                that.adjustZoom(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+1', function (e) {
+                that.adjustContrast(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+2', function (e) {
+                that.adjustContrast(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+3', function (e) {
+                that.adjustBrightness(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+4', function (e) {
+                that.adjustBrightness(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+5', function (e) {
+                that.adjustHue(-2);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+6', function (e) {
+                that.adjustHue(+2);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+7', function (e) {
+                that.adjustSaturation(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+8', function (e) {
+                that.adjustSaturation(+0.05);
+            }, 'keydown');
+
             // multimedia keys
             // Change when mousetrap can be extended
             $('body').bind('keydown', function (e) {
@@ -1004,6 +1106,26 @@
             Mousetrap.unbind('1');
 
             Mousetrap.unbind('2');
+
+            Mousetrap.unbind('w');
+
+            Mousetrap.unbind('e');
+
+            Mousetrap.unbind('shift+1');
+
+            Mousetrap.unbind('shift+2');
+
+            Mousetrap.unbind('shift+3');
+
+            Mousetrap.unbind('shift+4');
+
+            Mousetrap.unbind('shift+5');
+
+            Mousetrap.unbind('shift+6');
+
+            Mousetrap.unbind('shift+7');
+
+            Mousetrap.unbind('shift+8');
 
             // multimedia keys
             // Change when mousetrap can be extended
