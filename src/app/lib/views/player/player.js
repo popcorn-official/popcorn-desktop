@@ -775,7 +775,7 @@
             if (this.zoom < 0) {
                 this.zoom = 0;
             }
-            v.style.transform = `scale(${this.zoom})`;
+            v.style.transform = this.zoom === 1 ? '' : `scale(${this.zoom})`;
             this.displayOverlayMsg(i18n.__('Zoom') + ': ' + (this.zoom * 100).toFixed(0) + '%');
             $('.vjs-overlay').css('opacity', '1');
         },
@@ -825,7 +825,9 @@
         applyFilters: function (difference) {
             const { brightness, contrast, hue, saturation } = this.filters;
             var curVideo = $('#video_player_html5_api');
-            const hueAdjustment = `hue-rotate(${hue}deg)`;
+            // On some devices, the image turns orange if both hue-rotate() and saturate() are used!
+            // So we only add the hue-rotate() filter if requested by the user.
+            const hueAdjustment = hue === 0 ? '' : `hue-rotate(${hue}deg)`;
             curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
         },
 
