@@ -1,11 +1,6 @@
 (function (App) {
     'use strict';
 
-    // I found on my Linux that setting both hue-rotate(0) and saturate(anything) was buggy: the entire image turned orange!
-    // So for now, we disable the hue adjustment.
-    // If we determine this is a Linux-only issue, we could disable this only for Linux.
-    const disableHueSlider = true;
-
     var _this;
     var Player = Marionette.View.extend({
         template: '#player-tpl',
@@ -777,48 +772,60 @@
         adjustZoom: function (difference) {
             var v = $('video')[0];
             this.zoom += difference;
+            if (this.zoom < 0) {
+                this.zoom = 0;
+            }
             v.style.transform = `scale(${this.zoom})`;
-            this.displayOverlayMsg(i18n.__('Zoom') + ': ' + (this.zoom.toFixed(2)));
+            this.displayOverlayMsg(i18n.__('Zoom') + ': ' + (this.zoom * 100).toFixed(0) + '%');
             $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustBrightness: function (difference) {
             this.filters.brightness += difference;
+            if (this.filters.brightness < 0) {
+                this.filters.brightness = 0;
+            }
             this.applyFilters();
-            this.displayOverlayMsg(i18n.__('Brightness') + ': ' + this.filters.brightness.toFixed(2));
+            this.displayOverlayMsg(i18n.__('Brightness') + ': ' + (this.filters.brightness * 100).toFixed(0) + '%');
             $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustContrast: function (difference) {
             this.filters.contrast += difference;
+            if (this.filters.contrast < 0) {
+                this.filters.contrast = 0;
+            }
             this.applyFilters();
-            this.displayOverlayMsg(i18n.__('Contrast') + ': ' + (this.filters.contrast.toFixed(2)));
+            this.displayOverlayMsg(i18n.__('Contrast') + ': ' + (this.filters.contrast * 100).toFixed(0) + '%');
             $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustHue: function (difference) {
-            if (disableHueSlider) {
-                this.displayOverlayMsg(i18n.__('Hue') + ': ' + i18n.__('Disabled'));
-                $('.vjs-overlay').css('opacity', '1');
-                return;
-            }
             this.filters.hue += difference;
+            if (this.filters.hue < -180) {
+                this.filters.hue = -180;
+            } else if (this.filters.hue > 180) {
+                this.filters.hue = 180;
+            }
             this.applyFilters();
-            this.displayOverlayMsg(i18n.__('Hue') + ': ' + (this.filters.hue.toFixed(0)));
+            this.displayOverlayMsg(i18n.__('Hue') + ': ' + this.filters.hue.toFixed(0));
             $('.vjs-overlay').css('opacity', '1');
         },
 
         adjustSaturation: function (difference) {
             this.filters.saturation += difference;
+            if (this.filters.saturation < 0) {
+                this.filters.saturation = 0;
+            }
             this.applyFilters();
-            this.displayOverlayMsg(i18n.__('Saturation') + ': ' + (this.filters.saturation.toFixed(2)));
+            this.displayOverlayMsg(i18n.__('Saturation') + ': ' + (this.filters.saturation * 100).toFixed(0) + '%');
             $('.vjs-overlay').css('opacity', '1');
         },
 
         applyFilters: function (difference) {
             const { brightness, contrast, hue, saturation } = this.filters;
             var curVideo = $('#video_player_html5_api');
-            const hueAdjustment = disableHueSlider ? '' : `hue-rotate(${hue}deg)`;
+            const hueAdjustment = `hue-rotate(${hue}deg)`;
             curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
         },
 
@@ -1007,11 +1014,11 @@
             }, 'keydown');
 
             Mousetrap.bind('shift+5', function (e) {
-                that.adjustHue(-2);
+                that.adjustHue(-1);
             }, 'keydown');
 
             Mousetrap.bind('shift+6', function (e) {
-                that.adjustHue(+2);
+                that.adjustHue(+1);
             }, 'keydown');
 
             Mousetrap.bind('shift+7', function (e) {
