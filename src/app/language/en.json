@@ -583,5 +583,15 @@
 	"was removed from bookmarks": "was removed from bookmarks",
 	"Bookmark restored": "Bookmark restored",
 	"Undo": "Undo",
-	"Remaining runtime before start preloading next episode": "Remaining runtime before start preloading next episode"
+	"Remaining runtime before start preloading next episode": "Remaining runtime before start preloading next episode",
+	"Decrease Zoom by": "Decrease Zoom by",
+	"Increase Zoom by": "Increase Zoom by",
+	"Decrease Contrast by": "Decrease Contrast by",
+	"Increase Contrast by": "Increase Contrast by",
+	"Decrease Brightness by": "Decrease Brightness by",
+	"Increase Brightness by": "Increase Brightness by",
+	"Rotate Hue counter-clockwise by": "Rotate Hue counter-clockwise by",
+	"Rotate Hue clockwise by": "Rotate Hue clockwise by",
+	"Decrease Saturation by": "Decrease Saturation by",
+	"Increase Saturation by": "Increase Saturation by"
 }

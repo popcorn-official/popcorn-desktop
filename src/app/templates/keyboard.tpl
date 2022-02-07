@@ -284,6 +284,46 @@
                         <td><span class="key">0</span></td>
                         <td><%= i18n.__("Set player window to half of video resolution") %></td>
                     </tr>
+                    <tr>
+                        <td><span class="key">w</span></td>
+                        <td><%= i18n.__("Decrease Zoom by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key">e</span></td>
+                        <td><%= i18n.__("Increase Zoom by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">1</span></td>
+                        <td><%= i18n.__("Decrease Contrast by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">2</span></td>
+                        <td><%= i18n.__("Increase Contrast by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">3</span></td>
+                        <td><%= i18n.__("Decrease Brightness by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">4</span></td>
+                        <td><%= i18n.__("Increase Brightness by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">5</span></td>
+                        <td><%= i18n.__("Rotate Hue counter-clockwise by") %> 1&deg;</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">6</span></td>
+                        <td><%= i18n.__("Rotate Hue clockwise by") %> 1&deg;</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">7</span></td>
+                        <td><%= i18n.__("Decrease Saturation by") %> 5%</td>
+                    </tr>
+                    <tr>
+                        <td><span class="key shiftleft"><%= i18n.__("shift") %></span>+<span class="key">8</span></td>
+                        <td><%= i18n.__("Increase Saturation by") %> 5%</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
