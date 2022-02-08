@@ -800,24 +800,24 @@
     <section id="miscellaneous">
         <div class="title"><%= i18n.__("Miscellaneous") %></div>
         <div class="content">
-            <span class="advanced">
-                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
+            <span>
+                <input class="settings-checkbox" name="dhtEnable" id="dthEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
+                <i style="margin-left:8px;cursor:pointer" class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
             </span>
             <span>
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
-                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
+                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Automatically update the app when a new version is available") %></label>
+                <i style="margin-left:8px;cursor:pointer" class="update-app fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
                 <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
-                <label class="settings-label" for="dhtEnable"><%= i18n.__("Update config from internet") %></label>
-                <i style="padding-left:20px" class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Update now") %>"></i>
+                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
-            <!--span class="advanced"><-%=Settings.dhtData %-></span-->
         </div>
     </section>
 
