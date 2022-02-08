@@ -801,7 +801,7 @@
         <div class="title"><%= i18n.__("Miscellaneous") %></div>
         <div class="content">
             <span>
-                <input class="settings-checkbox" name="dhtEnable" id="dthEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
+                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
                 <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
                 <i style="margin-left:8px;cursor:pointer" class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
             </span>
