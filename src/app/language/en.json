@@ -598,5 +598,10 @@
 	"Rotate Hue counter-clockwise by": "Rotate Hue counter-clockwise by",
 	"Rotate Hue clockwise by": "Rotate Hue clockwise by",
 	"Decrease Saturation by": "Decrease Saturation by",
-	"Increase Saturation by": "Increase Saturation by"
+	"Increase Saturation by": "Increase Saturation by",
+	"Automatically update the API Server URLs": "Automatically update the API Server URLs",
+	"Enable automatically updating the API Server URLs": "Enable automatically updating the API Server URLs",
+	"Automatically update the app when a new version is available": "Automatically update the app when a new version is available",
+	"Enable automatically updating the app when a new version is available": "Enable automatically updating the app when a new version is available",
+	"Check for updates": "Check for updates"
 }
