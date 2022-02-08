@@ -193,11 +193,11 @@ Settings.delSeedboxCache = 'ask';
 Settings.continueSeedingOnStart = false;
 Settings.vpnEnabled = false;
 Settings.maxActiveTorrents = 5;
-Settings.automaticUpdating = true;
+Settings.automaticUpdating = '';
 Settings.UpdateSeed = false;
+Settings.dhtEnable = ''
 Settings.events = true;
 Settings.minimizeToTray = false;
-Settings.dhtEnable = true;
 
 // Features
 Settings.activateTorrentCollection = true;
