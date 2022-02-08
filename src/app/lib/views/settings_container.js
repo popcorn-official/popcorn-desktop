@@ -299,7 +299,7 @@
                 case 'protocolEncryption':
                 case 'contentLangOnly':
                 case 'vpnEnabled':
-                case 'dhtEnabled':
+                case 'dhtEnable':
                 case 'coversShowRating':
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
@@ -657,7 +657,7 @@
         },
 
         updateDht: function() {
-            App.DhtReader.update().catch(function (err) {win.error('dhtReader.update()', err);});;
+            App.DhtReader.update();
         },
 
         updateApp: function() {
