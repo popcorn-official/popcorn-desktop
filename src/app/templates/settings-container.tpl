@@ -812,7 +812,7 @@
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
-                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate update seeding") %></label>
+                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
