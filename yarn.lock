@@ -1061,10 +1061,10 @@ butter-sanitize@^0.1.1:
   dependencies:
     sanitizer "^0.1.3"
 
-butter-settings-popcorntime.app@0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/butter-settings-popcorntime.app/-/butter-settings-popcorntime.app-0.0.6.tgz#4f43e3a658f90d00a991566a59e18d37fe1ba3d2"
-  integrity sha512-fmboxwTi9X6yPUu3jc64hOIlSm42EWAag2WV/9D9AO/B2FaL96qXuDwp+5U1U6iQ3qtti3lxNRWTUuUdkYduOw==
+butter-settings-popcorntime.app@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/butter-settings-popcorntime.app/-/butter-settings-popcorntime.app-0.0.7.tgz#962b2fb32fd42b05d2a90a288521e4b9c4ec6c08"
+  integrity sha512-Tk45ZkYpD9V9yv8y8bi1cn1YPEYsbRsjyQII0L7I8OLh8qa8v6wnR0ExMVGRRBx/LmVNeplEEjPwExFCbk20Bw==
 
 bytes@^3.0.0:
   version "3.1.0"
@@ -5022,6 +5022,11 @@ nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+
+noble-ed25519@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/noble-ed25519/-/noble-ed25519-1.2.5.tgz#ed6dde9213debcf121083d18daecb30bb6416753"
+  integrity sha512-7vst+4UhM5QU3jJ3pUqPMKBCOePrxBojmoQa59qcSnYvjFF/T4jqb4WISlfslcWyBw7G5H9V/acpcAxMd8DzUQ==
 
 node-fetch@^1.0.1:
   version "1.7.3"

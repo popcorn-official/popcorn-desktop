@@ -4,14 +4,14 @@ var Settings = {
   projectUrl: 'https://popcorntime.app',
   projectCi: 'https://ci.popcorntime.app',
   projectBlog: 'https://blog.popcorntime.app/',
-  projectForum: 'https://www.reddit.com/r/PopcornTime',
+  projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
-  projectForum3: 'https://www.reddit.com/r/PopcornTimeApp',
   statusUrl: 'http://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
   sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
   commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
+  dht: '',
   updateKey:
     '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
@@ -197,6 +197,7 @@ Settings.automaticUpdating = true;
 Settings.UpdateSeed = false;
 Settings.events = true;
 Settings.minimizeToTray = false;
+Settings.dhtEnable = true;
 
 // Features
 Settings.activateTorrentCollection = true;
