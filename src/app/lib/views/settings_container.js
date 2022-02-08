@@ -49,6 +49,7 @@
             'click .set-current-filter': 'saveFilter',
             'click .reset-current-filter': 'resetFilter',
             'click .update-dht': 'updateDht',
+            'click .update-app': 'updateApp'
         },
 
         onAttach: function () {
@@ -656,7 +657,11 @@
         },
 
         updateDht: function() {
-            App.DhtReader.update();
+            App.DhtReader.update().catch(function (err) {win.error('dhtReader.update()', err);});;
+        },
+
+        updateApp: function() {
+            App.Updater().update().catch(function (err) {win.error('updater.update()', err);});
         },
 
         connectTrakt: function (e) {
