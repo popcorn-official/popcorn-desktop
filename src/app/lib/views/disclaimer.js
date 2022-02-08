@@ -18,6 +18,8 @@
         acceptDisclaimer: function (e) {
             e.preventDefault();
             Mousetrap.unpause();
+            AdvSettings.set('dhtEnable', document.getElementById('dhtEnableFR').checked ? true : false);
+            AdvSettings.set('automaticUpdating', document.getElementById('automaticUpdatingFR').checked ? true : false);
             AdvSettings.set('disclaimerAccepted', 1);
             App.vent.trigger('disclaimer:close');
         },
