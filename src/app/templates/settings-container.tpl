@@ -561,7 +561,7 @@
         </div>
     </section>
 
-    <section id="apiserver" class="advanced">
+    <section id="apiserver">
         <div class="title"><%= i18n.__("API Server(s)") %></div>
         <div class="content">
             <span>
