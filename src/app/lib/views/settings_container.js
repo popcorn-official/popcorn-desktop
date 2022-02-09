@@ -612,6 +612,11 @@
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;
+                case 'dhtEnable':
+                    if (Settings.dhtEnable) {
+                        this.updateDht();
+                    }
+                    break;
                 default:
             }
             if (that.$el.scrollTop() !== scrollPos) {
