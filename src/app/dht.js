@@ -52,7 +52,7 @@ class DhtReader
         if (!data) {
             App.vent.trigger('notification:show', new App.Model.Notification({
                 title: i18n.__('Please wait') + '...',
-                body: i18n.__('Updating config..') + '.',
+                body: i18n.__('Updating the API Server URLs') + '.',
                 type: 'danger',
                 autoclose: 4000
             }));
