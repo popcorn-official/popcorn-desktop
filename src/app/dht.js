@@ -32,7 +32,7 @@ class DhtReader
                 let data = AdvSettings.get('dhtData');
                 App.vent.trigger('notification:close');
                 if (e === 'enable' || data !== newData) {
-                    self.alertMessageSuccess(true, i18n.__('Сonfig updated successfully'));
+                    self.alertMessageSuccess(true);
                 }
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
@@ -50,22 +50,28 @@ class DhtReader
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.alertMessageSuccess(false, i18n.__('Updating config from these of yours Internets'));
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Please wait') + '...',
+                body: i18n.__('Updating config..') + '.',
+                type: 'danger',
+                autoclose: 4000
+            }));
         }
         if (!data || (Date.now() - last > time)) {
             this.update();
         }
     }
 
-    alertMessageSuccess(btnRestart, successDesc) {
+    alertMessageSuccess(btnRestart, btn, btnText, successDesc) {
         var notificationModel = new App.Model.Notification({
-            title: i18n.__('Endpoints'),
+            title: i18n.__('Success'),
             body: successDesc,
             type: 'success',
         });
 
         if (btnRestart) {
             notificationModel.set('showRestart', true);
+            notificationModel.set('body', i18n.__('Please restart your application'));
         } else {
             notificationModel.attributes.autoclose = 4000;
         }
