@@ -615,6 +615,7 @@
                 case 'dhtEnable':
                     if (Settings.dhtEnable) {
                         App.DhtReader.update('enable');
+                        this.alertMessageWait(i18n.__('Updating config..'));
                     } else {
                         this.alertMessageSuccess(true);
                     }
@@ -665,6 +666,7 @@
 
         updateDht: function() {
             App.DhtReader.update();
+            this.alertMessageWait(i18n.__('Updating config..'));
         },
 
         updateApp: function() {
