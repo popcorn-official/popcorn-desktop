@@ -1,6 +1,6 @@
 <ul class="nav nav-hor left">
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
-    <li class="source <%= tab.type %>TabShow"><%= i18n.__(tab.name) %></li>
+    <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="top" title="<%= App.Config.getProviderForType(tab.type)[0].apiURL.slice(0).toString().split('//').pop().split('/')[0] %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
     <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
 </ul>
