@@ -603,5 +603,6 @@
 	"Enable automatically updating the API Server URLs": "Enable automatically updating the API Server URLs",
 	"Automatically update the app when a new version is available": "Automatically update the app when a new version is available",
 	"Enable automatically updating the app when a new version is available": "Enable automatically updating the app when a new version is available",
-	"Check for updates": "Check for updates"
+	"Check for updates": "Check for updates",
+	"Updating the API Server URLs": "Updating the API Server URLs"
 }
