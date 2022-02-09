@@ -224,6 +224,13 @@
         }
       });
 
+      $('.providerinfo').tooltip({
+        delay: {
+          'show': 2000,
+          'hide': 100
+        }
+      });
+
       if (!this.previousSort) {
         this.previousSort = $('.sorters .active').data('value') || $('.sorters .value').data('value');
       }
