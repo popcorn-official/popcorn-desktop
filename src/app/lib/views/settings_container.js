@@ -615,6 +615,8 @@
                 case 'dhtEnable':
                     if (Settings.dhtEnable) {
                         App.DhtReader.update('enable');
+                    } else {
+                        this.alertMessageSuccess(true);
                     }
                     break;
                 default:
