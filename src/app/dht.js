@@ -30,6 +30,7 @@ class DhtReader
                 }
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
+                App.vent.trigger('notification:close');
                 if (e === 'enable' || data !== newData) {
                     self.alertMessageSuccess(true, i18n.__('Сonfig updated successfully'));
                 }
