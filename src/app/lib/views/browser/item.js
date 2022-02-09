@@ -51,7 +51,7 @@
 
             $('.providerinfo').tooltip({
                 delay: {
-                    'show': 2000,
+                    'show': 2400,
                     'hide': 100
                 },
                 html: true
