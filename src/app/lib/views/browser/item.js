@@ -53,7 +53,8 @@
                 delay: {
                     'show': 2000,
                     'hide': 100
-                }
+                },
+                html: true
             });
         },
 
