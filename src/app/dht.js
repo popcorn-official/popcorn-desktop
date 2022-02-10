@@ -33,6 +33,8 @@ class DhtReader
                 App.vent.trigger('notification:close');
                 if (e === 'enable' || data !== newData) {
                     self.alertMessageSuccess(true);
+                } else if (e === 'manual') {
+                    self.alertMessageSuccess();
                 }
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
@@ -74,6 +76,7 @@ class DhtReader
             notificationModel.set('body', i18n.__('Please restart your application'));
         } else {
             notificationModel.attributes.autoclose = 4000;
+            notificationModel.set('body', i18n.__('API Server URLs already updated'));
         }
 
         // Open the notification
