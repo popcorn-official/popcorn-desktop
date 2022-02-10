@@ -392,6 +392,7 @@ var Database = {
                 if ((Settings.dhtEnable && typeof Settings.dhtData === 'string')) {
                     let dhtInfo = JSON.parse(Settings.dhtData);
                     if (typeof dhtInfo === 'object') {
+                        Settings.dhtInfo = dhtInfo;
                         Database.applyDhtSettings(dhtInfo);
                     }
                 }
