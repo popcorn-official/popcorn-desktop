@@ -29,11 +29,11 @@
 
             <p>By using '<%= Settings.projectName %>' or accessing this site you affirm that you are either more than 18 years of age, or an emancipated minor, or possess legal parental or guardian consent, and are fully able and competent to enter into the terms, conditions, obligations, affirmations, representations, and warranties set forth in these Terms of Service, and to abide by and comply with these Terms of Service. In any case, you affirm that you are over the age of 13, as the Service is not intended for children under 13. If you are under 13 years of age, then please do not use the Service. There are lots of other great web sites for you. Talk to your parents about what sites are appropriate for you.</p>
         </div>
-        <span style="font-size: 0.9em;display: block;margin: 8px 0;">
+        <span class="dhtEnableSpn">
             <input class="settings-checkbox" name="dhtEnableFR" id="dhtEnableFR" type="checkbox" <%=(Settings.dhtEnable === false ? "":"checked='checked'")%>>
             <label class="settings-label" for="dhtEnableFR"><%= i18n.__("Enable automatically updating the API Server URLs") %></label>
         </span>
-        <span style="font-size: 0.9em;display: block;margin: 8px 0;">
+        <span class="automaticUpdatingSpn">
             <input class="settings-checkbox" name="automaticUpdatingFR" id="automaticUpdatingFR" type="checkbox" <%=(Settings.automaticUpdating === false ? "":"checked='checked'")%>>
             <label class="settings-label" for="automaticUpdatingFR"><%= i18n.__("Enable automatically updating the app when a new version is available") %></label>
         </span><br>
