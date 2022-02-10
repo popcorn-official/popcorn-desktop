@@ -195,7 +195,7 @@ Settings.vpnEnabled = false;
 Settings.maxActiveTorrents = 5;
 Settings.automaticUpdating = '';
 Settings.UpdateSeed = false;
-Settings.dhtEnable = ''
+Settings.dhtEnable = '';
 Settings.events = true;
 Settings.minimizeToTray = false;
 
