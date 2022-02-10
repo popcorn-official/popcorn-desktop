@@ -94,7 +94,7 @@ class DhtReader
             self.alertMessageSuccess(true);
         };
         var dontchangeapis = function () {
-            App.vent.trigger('notification:close');
+            self.alertMessageSuccess(true);
         };
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
