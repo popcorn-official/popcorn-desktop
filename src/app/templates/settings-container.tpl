@@ -572,14 +572,16 @@
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Movies API Server") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="<%= Settings.providers.movie.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Movies API Server(s)") %></p>
+                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
                     <datalist id="moviesServers">
-                        <% if (Settings.customServers && Settings.customServers.movie) {
-                            for (var i = 0; i < Settings.customServers.movie.length; ++i) {
+                        <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
+                           Settings.dhtData ? movieServList = movieServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < movieServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.movie[i] %>">
-                        <% }} %>
+                        <option value="<%= movieServList[i] %>">
+                        <% } %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
@@ -588,14 +590,16 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Series API Server") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="<%= Settings.providers.tvshow.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Series API Server(s)") %></p>
+                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
                     <datalist id="seriesServers">
-                        <% if (Settings.customServers && Settings.customServers.tvshow) {
-                            for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
+                        <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
+                           Settings.dhtData ? seriesServList = seriesServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < seriesServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.tvshow[i] %>">
-                        <% }} %>
+                        <option value="<%= seriesServList[i] %>">
+                        <% } %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
@@ -604,14 +608,16 @@
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Anime API Server") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="<%= Settings.providers.anime.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Anime API Server(s)") %></p>
+                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
                     <datalist id="animeServers">
-                        <% if (Settings.customServers && Settings.customServers.anime) {
-                            for (var i = 0; i < Settings.customServers.anime.length; ++i) {
+                        <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
+                           Settings.dhtData ? animeServList = animeServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < animeServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.anime[i] %>">
-                        <% }} %>
+                        <option value="<%= animeServList[i] %>">
+                        <% } %>
                     </datalist>
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
