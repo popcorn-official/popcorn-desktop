@@ -575,6 +575,7 @@
                     <p><%= i18n.__("Movies API Server") %></p>
                     <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="<%= Settings.dhtInfo ? 'use dht: ' + Settings.dhtInfo.server : '' %>">
                     <datalist id="moviesServers">
+                        <option value=" " label="Load data from DHT">
                         <% if (Settings.customServers && Settings.customServers.movie) {
                             for (var i = 0; i < Settings.customServers.movie.length; ++i) {
                         %>
@@ -591,6 +592,7 @@
                     <p><%= i18n.__("Series API Server") %></p>
                     <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="<%= Settings.dhtInfo ? 'use dht: ' + Settings.dhtInfo.server : '' %>">
                     <datalist id="seriesServers">
+                        <option value=" " label="Load data from DHT">
                         <% if (Settings.customServers && Settings.customServers.tvshow) {
                             for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
                         %>
@@ -607,6 +609,7 @@
                     <p><%= i18n.__("Anime API Server") %></p>
                     <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="<%= Settings.dhtInfo ? 'use dht: ' + Settings.dhtInfo.server : '' %>">
                     <datalist id="animeServers">
+                        <option value=" " label="Load data from DHT">
                         <% if (Settings.customServers && Settings.customServers.anime) {
                             for (var i = 0; i < Settings.customServers.anime.length; ++i) {
                         %>
