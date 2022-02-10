@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const sanitize = require('butter-sanitize');
 const i18n = require('i18n');
 
 class YTSApi extends Generic {
@@ -53,7 +52,7 @@ class YTSApi extends Generic {
       });
     }
     return {
-      results: sanitize(results),
+      results: results,
       hasMore: movies ? movies.movie_count > movies.page_number * movies.limit : false
     };
   }

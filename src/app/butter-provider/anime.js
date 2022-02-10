@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const sanitize = require('butter-sanitize');
 const i18n = require('i18n');
 
 class AnimeApi extends Generic {
@@ -56,7 +55,7 @@ class AnimeApi extends Generic {
         };
       });
 
-      return { results: sanitize(animes), hasMore: true };
+      return { results: animes, hasMore: true };
     });
   }
 
@@ -94,7 +93,7 @@ class AnimeApi extends Generic {
         result = Object.extend(result, { episodes: anime.episodes });
       }
 
-      return sanitize(result);
+      return result;
     });
   }
 

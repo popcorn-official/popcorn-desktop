@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const sanitize = require('butter-sanitize');
 const i18n = require('i18n');
 
 class MovieApi extends Generic {
@@ -44,7 +43,7 @@ class MovieApi extends Generic {
     });
 
     return {
-      results: sanitize(results),
+      results: results,
       hasMore: true
     };
   }

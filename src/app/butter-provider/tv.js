@@ -1,7 +1,6 @@
 'use strict';
 
 const Generic = require('./generic');
-const sanitize = require('butter-sanitize');
 const i18n = require('i18n');
 
 class TVApi extends Generic {
@@ -47,7 +46,7 @@ class TVApi extends Generic {
       data.forEach(entry => (entry.type = 'show'));
 
       return {
-        results: sanitize(data),
+        results: data,
         hasMore: true
       };
     });
@@ -69,7 +68,6 @@ class TVApi extends Generic {
 
     return this._get(0, uri).then(data => {
       return data;
-      return sanitize(data);
     });
   }
 
