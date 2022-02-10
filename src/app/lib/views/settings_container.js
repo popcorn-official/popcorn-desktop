@@ -614,8 +614,7 @@
                     break;
                 case 'dhtEnable':
                     if (Settings.dhtEnable) {
-                        App.DhtReader.update('enable');
-                        this.alertMessageWait(i18n.__('Updating the API Server URLs'));
+                        this.updateDht('enable');
                     } else {
                         this.alertMessageSuccess(true);
                     }
@@ -664,8 +663,14 @@
             }
         },
 
-        updateDht: function() {
-            App.DhtReader.update();
+        updateDht: function(e) {
+            let updateMode = '';
+            if (e === 'enable') {
+                updateMode = e;
+            } else if (e) {
+                updateMode = 'manual';
+            }
+            App.DhtReader.update(updateMode);
             this.alertMessageWait(i18n.__('Updating the API Server URLs'));
         },
 
