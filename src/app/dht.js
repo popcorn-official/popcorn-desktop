@@ -98,7 +98,7 @@ class DhtReader
         };
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
-            body: i18n.__('Change API server(s) to the new URLs?'),
+            body: i18n.__('Change API Server(s) to the new URLs?'),
             type: 'success',
             showRestart: false,
             buttons: [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]
