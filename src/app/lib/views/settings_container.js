@@ -49,7 +49,10 @@
             'click .set-current-filter': 'saveFilter',
             'click .reset-current-filter': 'resetFilter',
             'click .update-dht': 'updateDht',
-            'click .update-app': 'updateApp'
+            'click .update-app': 'updateApp',
+            'mousedown #customMoviesServer': 'showFullDatalist',
+            'mousedown #customSeriesServer': 'showFullDatalist',
+            'mousedown #customAnimeServer': 'showFullDatalist'
         },
 
         onAttach: function () {
@@ -747,6 +750,18 @@
             AdvSettings.set('opensubtitlesPassword', '');
             AdvSettings.set('opensubtitlesAuthenticated', false);
             setTimeout(self.render, 200);
+        },
+
+        showFullDatalist: function(e) {
+            if(!e.detail || e.detail == 1){
+                var tmpDlist = $(e.target).val();
+                $(e.target).val('');
+                $(e.target).one('blur', function() {
+                    if (!$(e.target).val()) {
+                        $(e.target).val(tmpDlist);
+                    }
+                });
+            }
         },
 
         rebuildBookmarks: function (e) {
