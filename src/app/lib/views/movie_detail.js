@@ -100,10 +100,6 @@
       this.initKeyboardShortcuts();
       healthButton.render();
 
-      if (curSynopsis.vstatus !== null && curSynopsis.cast === '') {
-        this.showCast();
-      }
-
       $('[data-toggle="tooltip"]').tooltip({
         html: true
       });
@@ -187,26 +183,14 @@
       }
     },
 
-    getMetaData: function () {
+    getMetaData: async function () {
       curSynopsis.vstatus = false;
       var imdb = this.model.get('imdb_id'),
-      api_key = Settings.tmdb.api_key,
-      lang = Settings.language,
-      movie = (function () {
-        var tmp = null;
-        $.ajax({
-          url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&language=' + lang + '&append_to_response=videos,credits',
-          type: 'get',
-          dataType: 'json',
-          timeout: 5000,
-          async: false,
-          global: false,
-          success: function (data) {
-            tmp = data;
-          }
-        });
-        return tmp;
-      }());
+          api_key = Settings.tmdb.api_key,
+          lang = Settings.language;
+      const response = await fetch('http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&language=' + lang + '&append_to_response=videos,credits');
+      const movie = await response.json();
+
       (!this.model.get('synopsis') || (Settings.translateSynopsis && Settings.language !== 'en')) && movie && movie.overview ? this.model.set('synopsis', movie.overview) : null;
       (!this.model.get('rating') || this.model.get('rating') === '0' || this.model.get('rating') === '0.0') && movie && movie.vote_average ? this.model.set('rating', movie.vote_average) : null;
       (!this.model.get('runtime') || this.model.get('runtime') === '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
@@ -219,6 +203,10 @@
         curSynopsis.crew = movie.credits.crew.filter(function (el) {return el.job === 'Director';}).map(function (el) {return '<span>' + el.job + '&nbsp;-&nbsp;</span><span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p class="sline">&nbsp;</p>';
         curSynopsis.allcast = movie.credits.cast.map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p>&nbsp;</p>';
         curSynopsis.cast = movie.credits.cast.slice(0,10).map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + (movie.credits.cast.length > 10 ? '&nbsp;&nbsp;&nbsp;<span class="showall-cast">more...</span>' : '') + '<p>&nbsp;</p>';
+      }
+
+      if (curSynopsis.vstatus === false && curSynopsis.cast === '') {
+        this.showCast();
       }
     },
 
