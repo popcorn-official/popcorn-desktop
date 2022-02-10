@@ -1001,7 +1001,7 @@
         alertMessageWait: function (waitDesc) {
             App.vent.trigger('notification:show', new App.Model.Notification({
                 title: i18n.__('Please wait') + '...',
-                body: waitDesc + '.',
+                body: waitDesc,
                 type: 'danger'
             }));
         },
