@@ -13,6 +13,8 @@ class DhtReader
     update(e)
     {
         if (!Settings.dht) {
+            $('.update-dht').removeClass('fa-spin fa-spinner').addClass('fa-redo');
+            App.vent.trigger('notification:close');
             return;
         }
         const dht = new DHT({verify: ed.verify});
@@ -20,6 +22,8 @@ class DhtReader
         const self=this;
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
+                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('fa-redo');
+                App.vent.trigger('notification:close');
                 if (err) {
                     console.error(err);
                     return;
@@ -30,7 +34,6 @@ class DhtReader
                 }
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
-                App.vent.trigger('notification:close');
                 if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
                     self.alertMessageApply();
                 } else if (data !== newData || e === 'enable') {
@@ -40,7 +43,6 @@ class DhtReader
                 }
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
-                console.log('Updated from DHT');
             });
         });
     }
