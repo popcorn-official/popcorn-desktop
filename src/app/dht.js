@@ -31,7 +31,9 @@ class DhtReader
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
                 App.vent.trigger('notification:close');
-                if (e === 'enable' || data !== newData) {
+                if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
+                    self.alertMessageApply();
+                } else if (data !== newData || e === 'enable') {
                     self.alertMessageSuccess(true);
                 } else if (e === 'manual') {
                     self.alertMessageSuccess();
@@ -78,6 +80,29 @@ class DhtReader
             notificationModel.attributes.autoclose = 4000;
             notificationModel.set('body', i18n.__('API Server URLs already updated'));
         }
+
+        // Open the notification
+        App.vent.trigger('notification:show', notificationModel);
+    }
+
+    alertMessageApply() {
+        var self = this;
+        var changeapis = function () {
+            AdvSettings.set('customMoviesServer', '');
+            AdvSettings.set('customSeriesServer', '');
+            AdvSettings.set('customAnimeServer', '');
+            self.alertMessageSuccess(true);
+        };
+        var dontchangeapis = function () {
+            App.vent.trigger('notification:close');
+        };
+        var notificationModel = new App.Model.Notification({
+            title: i18n.__('Success'),
+            body: i18n.__('Change API server(s) to the new URLs?'),
+            type: 'success',
+            showRestart: false,
+            buttons: [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]
+        });
 
         // Open the notification
         App.vent.trigger('notification:show', notificationModel);
