@@ -49,7 +49,6 @@
             'click .set-current-filter': 'saveFilter',
             'click .reset-current-filter': 'resetFilter',
             'click .update-dht': 'updateDht',
-            'click .update-app': 'updateApp',
             'mousedown #customMoviesServer': 'showFullDatalist',
             'mousedown #customSeriesServer': 'showFullDatalist',
             'mousedown #customAnimeServer': 'showFullDatalist'
@@ -674,11 +673,8 @@
                 updateMode = 'manual';
             }
             App.DhtReader.update(updateMode);
+            $('.update-dht').removeClass('fa-redo').addClass('fa-spin fa-spinner');
             this.alertMessageWait(i18n.__('Updating the API Server URLs'));
-        },
-
-        updateApp: function() {
-            App.Updater().update().catch(function (err) {win.error('updater.update()', err);});
         },
 
         connectTrakt: function (e) {
