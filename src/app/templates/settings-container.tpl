@@ -573,7 +573,7 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Movies API Server(s)") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
+                    <input type="text" size="65" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
                     <datalist id="moviesServers">
                         <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
@@ -592,7 +592,7 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Series API Server(s)") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
+                    <input type="text" size="65" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
                     <datalist id="seriesServers">
                         <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
@@ -611,7 +611,7 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Anime API Server(s)") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
+                    <input type="text" size="65" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
                     <datalist id="animeServers">
                         <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
