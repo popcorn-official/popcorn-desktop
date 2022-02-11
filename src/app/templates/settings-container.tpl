@@ -583,9 +583,6 @@
                         <option value="<%= movieServList[i] %>">
                         <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
@@ -602,9 +599,6 @@
                         <option value="<%= seriesServList[i] %>">
                         <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
@@ -621,9 +615,6 @@
                         <option value="<%= animeServList[i] %>">
                         <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
