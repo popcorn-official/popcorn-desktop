@@ -83,6 +83,7 @@
       const provider = App.Config.getProviderForType('movie')[0];
       const torrentList = new App.View.TorrentList({
         model: new Backbone.Model({
+          provider,
           promise: provider.torrents(this.model.get('imdb_id'), lang),
         }),
       });

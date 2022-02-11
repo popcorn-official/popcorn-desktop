@@ -166,6 +166,7 @@
                 this.getRegion('torrentShowList').empty();
                 const torrentShowList = new App.View.TorrentList({
                     model: new Backbone.Model({
+                        provider: showProvider,
                         promise: showProvider.torrents(this.model.get('imdb_id'), info.locale),
                         select: true,
                     }),
@@ -176,6 +177,7 @@
             this.getRegion('torrentList').empty();
             const torrentList = new App.View.TorrentList({
                 model: new Backbone.Model({
+                    provider: showProvider,
                     promise: showProvider.episodeTorrents(this.model.get('imdb_id'), info.locale, episode.season, episode.episode),
                 }),
             });

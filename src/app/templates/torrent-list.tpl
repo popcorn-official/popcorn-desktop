@@ -1,7 +1,7 @@
 <table>
     <%_.each(torrents, function(torrent, k) { %>
     <tr data-key="<%=k %>">
-        <td class="provider"><img data-href="<%=torrent.source %>" src="/src/app/images/icon.png" alt="<%=torrent.provider %>"/></td>
+        <td class="provider"><img data-href="<%=torrent.source %>" src="<%=torrent.icon %>" alt="<%=torrent.provider %>"/></td>
         <td title="<%=torrent.title %>" class="ellipsis"><span><%=torrent.title %></span></td>
         <td class="info"><%=torrent.seed || torrent.seeds %>/<%=torrent.peer || torrent.peers %></td>
         <td class="info"><%=torrent.quality %></td>

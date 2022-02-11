@@ -12,6 +12,7 @@
         },
         initialize: function() {
             this.model.set('torrents', []);
+            this.icons = App.Providers.get('Icons');
         },
         onAttach: function () {
             this.model.set('torrents', []);
@@ -19,8 +20,16 @@
         },
 
         updateTorrents: function (torrents) {
-            this.model.set('torrents', torrents);
-            this.render();
+            const provider = this.model.get('provider');
+            let loadIcons = [];
+            for(let torrent of torrents) {
+                loadIcons.push(this.icons.getLink(provider, torrent.provider)
+                    .then((icon) => torrent.icon = icon || '/src/app/images/icon.png'));
+            }
+            Promise.all(loadIcons).then((data) => {
+                this.model.set('torrents', torrents);
+                this.render();
+            });
         },
 
         getTorrent: function(node) {
