@@ -289,6 +289,38 @@
             input
                 text-overflow ellipsis
 
+            .valid-tick
+                width 20px
+                height 20px
+                display inline-flex
+                line-height 12px
+
+                &:before
+                    content "\2714"
+                    font-family Arial
+                    font-size 17px
+                    font-weight bold
+                    text-shadow 0 0 10px #4EEE30
+                    color #4EEE30
+                    position relative
+                    top 1px
+
+            .invalid-cross
+                width 20px
+                height 20px
+                display inline-flex
+                margin-left -27px
+                line-height 12px
+                vertical-align top
+
+                &:before
+                    content "\2573"
+                    font-family Arial
+                    font-size 12px
+                    font-weight bolder
+                    text-shadow 0 0 10px #EE3030
+                    color #EE3030
+
         #connection
             #overallRatio
                 pointer-events: none
