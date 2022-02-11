@@ -3,17 +3,16 @@
 var DHT = require('bittorrent-dht');
 var ed = require('noble-ed25519'); // better use ed25519-supercop but need rebuild ed25519 for windows
 
-class DhtReader
-{
+class DhtReader {
     constructor(options) {
         this.options = _.defaults(options || {}, {
         });
     }
 
-    update(e)
-    {
+    update(e) {
         if (!Settings.dht) {
-            $('.update-dht').removeClass('fa-spin fa-spinner').addClass('fa-redo');
+            $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+            setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 4000);
             App.vent.trigger('notification:close');
             return;
         }
@@ -22,18 +21,17 @@ class DhtReader
         const self=this;
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
-                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('fa-redo');
                 App.vent.trigger('notification:close');
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                if (!node || !node.v) {
-                    console.error('DHT hash not found');
+                if (err || !node || !node.v) {
+                    err ? console.error(err) : console.error('DHT hash not found');
+                    $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+                    setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 4000);
                     return;
                 }
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
+                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
+                setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 4000);
                 if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
                     self.alertMessageApply();
                 } else if (data !== newData || e === 'enable') {
@@ -47,8 +45,7 @@ class DhtReader
         });
     }
 
-    updateOld()
-    {
+    updateOld() {
         if (!Settings.dht) {
             return;
         }
