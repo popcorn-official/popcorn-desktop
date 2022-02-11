@@ -23,7 +23,7 @@ class DhtReader {
             dht.get(hash, function (err, node) {
                 App.vent.trigger('notification:close');
                 if (err || !node || !node.v) {
-                    err ? console.error(err) : console.error('DHT hash not found');
+                    console.error(err || 'DHT hash not found');
                     $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
                     setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 4000);
                     return;
