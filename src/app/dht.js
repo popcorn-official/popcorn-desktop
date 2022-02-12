@@ -9,6 +9,7 @@ class DhtReader {
     }
 
     update(e) {
+        const self = this;
         if (!Settings.dht) {
             $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
             setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
@@ -20,7 +21,6 @@ class DhtReader {
         }
         const dht = new DHT({verify: ed.verify});
         const hash = Buffer(Settings.dht, 'hex');
-        const self=this;
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
                 App.vent.trigger('notification:close');
