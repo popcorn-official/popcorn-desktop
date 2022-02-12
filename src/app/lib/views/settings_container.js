@@ -102,8 +102,10 @@
 
         rightclick_field: function (e) {
             e.preventDefault();
-            var menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
-            menu.popup(e.originalEvent.x, e.originalEvent.y);
+            if (e.target !== document.getElementById('customMoviesServer') && e.target !== document.getElementById('customSeriesServer') && e.target !== document.getElementById('customAnimeServer')) {
+                var menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
+                menu.popup(e.originalEvent.x, e.originalEvent.y);
+            }
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
@@ -710,14 +712,20 @@
         },
 
         showFullDatalist: function(e) {
-            if(!e.detail || e.detail == 1){
+            if (!e.detail || e.detail == 1) {
                 var tmpDlist = $(e.target).val();
-                $(e.target).val('');
-                $(e.target).one('blur', function() {
-                    if (!$(e.target).val()) {
-                        $(e.target).val(tmpDlist);
-                    }
-                });
+                if (e.button === 0){
+                    $(e.target).val('');
+                    $(e.target).one('blur', function() {
+                        if (!$(e.target).val()) {
+                            $(e.target).val(tmpDlist);
+                        }
+                    });
+                } else if (e.button === 2) {
+                    var clipboard = nw.Clipboard.get();
+                    clipboard.set(tmpDlist, 'text');
+                    $('.notification_alert').text(i18n.__('The API Server url(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+                }
             }
         },
 
