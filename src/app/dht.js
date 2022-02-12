@@ -58,14 +58,9 @@ class DhtReader {
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            App.vent.trigger('notification:show', new App.Model.Notification({
-                title: i18n.__('Please wait') + '...',
-                body: i18n.__('Updating the API Server URLs'),
-                type: 'danger',
-                autoclose: true
-            }));
-        }
-        if (!data || (Date.now() - last > time)) {
+            this.alertMessageWait();
+            this.update('enable');
+        } else if (Date.now() - last > time) {
             this.update();
         }
     }
@@ -101,8 +96,16 @@ class DhtReader {
             title: i18n.__('Success'),
             body: i18n.__('Change API Server(s) to the new URLs?'),
             type: 'success',
-            showRestart: false,
             buttons: [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]
+        });
+        App.vent.trigger('notification:show', notificationModel);
+    }
+
+    alertMessageWait() {
+        var notificationModel = new App.Model.Notification({
+            title: i18n.__('Please wait') + '...',
+            body: i18n.__('Updating the API Server URLs'),
+            type: 'danger'
         });
         App.vent.trigger('notification:show', notificationModel);
     }
@@ -111,7 +114,6 @@ class DhtReader {
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Error'),
             body: i18n.__('API Server URLs could not be updated'),
-            showRestart: false,
             type: 'error',
             autoclose: true
         });
