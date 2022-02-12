@@ -82,12 +82,12 @@ class DhtReader {
                 notificationModel.set('title', i18n.__('Please wait') + '...');
                 notificationModel.set('body', i18n.__('Updating the API Server URLs'));
                 notificationModel.set('type', 'danger');
-                notificationModel.set('autoclose', true);
                 break;
             case 'error':
                 notificationModel.set('title', i18n.__('Error'));
                 notificationModel.set('body', i18n.__('API Server URLs could not be updated'));
                 notificationModel.set('type', 'error');
+                notificationModel.set('autoclose', true);
                 break;
             case 'change':
                 notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
