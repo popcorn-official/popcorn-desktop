@@ -66,14 +66,13 @@ class DhtReader {
     }
 
     alertMessage(alertType) {
-        var self = this;
         var changeServer = function () {
             let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? AdvSettings.get('dhtData').split('server":"')[1].split('","git":"')[0] : '';
             AdvSettings.set('customMoviesServer', newServer);
             AdvSettings.set('customSeriesServer', newServer);
             AdvSettings.set('customAnimeServer', newServer);
-            self.alertMessage('restart');
-        };
+            this.alertMessage('restart');
+        }.bind(this);
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
             type: 'success',
@@ -92,7 +91,7 @@ class DhtReader {
                 break;
             case 'change':
                 notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
-                notificationModel.set('buttons', [{ title: '<label class="change-server">' + i18n.__('Yes') + '</label>', action: changeServer }, { title: '<label class="dont-change-server">' + i18n.__('No') + '</label>', action: function () {self.alertMessage('restart');}}]);
+                notificationModel.set('buttons', [{ title: '<label class="change-server">' + i18n.__('Yes') + '</label>', action: changeServer }, { title: '<label class="dont-change-server">' + i18n.__('No') + '</label>', action: function () {this.alertMessage('restart');}.bind(this)}]);
                 break;
             case 'restart':
                 notificationModel.set('body', i18n.__('Please restart your application'));
