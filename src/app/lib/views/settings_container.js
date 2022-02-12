@@ -41,7 +41,6 @@
             'click #unauthTrakt': 'disconnectTrakt',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
-            'click .reset-tvshow': 'resettvshow',
             'change #tmpLocation': 'updateCacheDirectory',
             'change #downloadsLocation': 'updateDownloadsDirectory',
             'click #syncTrakt': 'syncTrakt',
@@ -153,26 +152,6 @@
             App.vent.trigger('settings:close');
         },
 
-        resettvshow: function () {
-            var value = [{
-                url: 'https:///',
-                strictSSL: true
-            }, {
-                url: 'https:///',
-                strictSSL: true
-            }];
-            App.settings['tvshow'] = value;
-            //save to db
-            App.db.writeSetting({
-                key: 'tvshow',
-                value: value
-            }).then(function () {
-                that.ui.success_alert.show().delay(3000).fadeOut(400);
-            });
-
-            that.syncSetting('tvshow', value);
-        },
-
         generateQRcode: function () {
             var qrcodecanvus = document.getElementById('qrcode'),
                 QRCodeInfo = {
@@ -246,19 +225,6 @@
                 case 'httpApiPort':
                     apiDataChanged = true;
                     value = parseInt(field.val());
-                    break;
-                case 'tvshow':
-                    value = field.val();
-                    if (value.substr(-1) !== '/') {
-                        value += '/';
-                    }
-                    if (value.substr(0, 8) !== 'https://' && value.substr(0, 7) !== 'http://') {
-                        value = 'http://' + value;
-                    }
-                    value = [{
-                        url: value,
-                        strictSSL: value.substr(0, 8) === 'https://'
-                    }];
                     break;
                 case 'subtitle_size':
                 case 'tv_detail_jump_to':
@@ -606,11 +572,6 @@
                     break;
                 case 'translateSynopsis':
                     App.Providers.delete('Yts');
-                    $('.nav-hor.left li:first').click();
-                    App.vent.trigger('settings:show');
-                    break;
-                case 'tvshow':
-                    App.Providers.delete('tvshow');
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     break;

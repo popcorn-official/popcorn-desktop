@@ -624,15 +624,6 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if (Settings.tvshow) { %>
-            <span>
-                <p><%= i18n.__("TV Show API Endpoint") %></p>
-                    <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
-                    <% if (Settings.tvshow.length <= 1) { %>
-                    &nbsp;&nbsp;<i class="reset-tvshow fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
-                    <% } %>
-            </span>
-            <% } %>
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <p><%= i18n.__("Active Torrents Limit") %></p>
