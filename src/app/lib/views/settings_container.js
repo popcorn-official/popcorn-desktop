@@ -724,7 +724,7 @@
                 } else if (e.button === 2) {
                     var clipboard = nw.Clipboard.get();
                     clipboard.set(tmpDlist, 'text');
-                    $('.notification_alert').text(i18n.__('The API Server url(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+                    $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
                 }
             }
         },
