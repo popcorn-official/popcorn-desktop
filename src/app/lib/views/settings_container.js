@@ -1028,7 +1028,7 @@
                 notificationModel.set('showRestart', true);
                 notificationModel.set('body', i18n.__('Please restart your application'));
             } else {
-                notificationModel.attributes.autoclose = 4000;
+                notificationModel.attributes.autoclose = true;
             }
 
             // Open the notification
