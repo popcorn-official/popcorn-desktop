@@ -1,9 +1,10 @@
-## 0.4.7 - The reports of my death are greatly exaggerated - 10 January 2022
+## 0.4.7 - The reports of my death are greatly exaggerated - 13 February 2022
 
 New Features:
 - Add Play/Download functions to the Seedbox and various other right pane fixes and additions
 - Add ability of updating the API server urls using DHT
 - Add a link for contributing media information to TMDB
+- Show torrent list for current media
 - Add more languages
 
 Bug Fixes:
