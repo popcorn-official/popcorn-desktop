@@ -607,5 +607,6 @@
 	"Updating the API Server URLs": "Updating the API Server URLs",
 	"API Server URLs already updated": "API Server URLs already updated",
 	"Change API server(s) to the new URLs?": "Change API server(s) to the new URLs?",
-	"API Server URLs could not be updated": "API Server URLs could not be updated"
+	"API Server URLs could not be updated": "API Server URLs could not be updated",
+	"You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available": "You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available"
 }
