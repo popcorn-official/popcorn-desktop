@@ -5,15 +5,17 @@ var ed = require('noble-ed25519'); // better use ed25519-supercop but need rebui
 
 class DhtReader {
     constructor(options) {
-        this.options = _.defaults(options || {}, {
-        });
+        this.options = _.defaults(options || {}, {});
     }
 
     update(e) {
         if (!Settings.dht) {
             $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-            setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 4000);
+            setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
             App.vent.trigger('notification:close');
+            if (e) {
+                self.alertMessageError();
+            }
             return;
         }
         const dht = new DHT({verify: ed.verify});
@@ -25,13 +27,16 @@ class DhtReader {
                 if (err || !node || !node.v) {
                     console.error(err || 'DHT hash not found');
                     $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-                    setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 4000);
+                    setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
+                    if (e) {
+                        self.alertMessageError();
+                    }
                     return;
                 }
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
                 $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
-                setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 4000);
+                setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 6000);
                 if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
                     self.alertMessageApply();
                 } else if (data !== newData || e === 'enable') {
@@ -57,7 +62,7 @@ class DhtReader {
                 title: i18n.__('Please wait') + '...',
                 body: i18n.__('Updating the API Server URLs'),
                 type: 'danger',
-                autoclose: 4000
+                autoclose: true
             }));
         }
         if (!data || (Date.now() - last > time)) {
@@ -71,16 +76,13 @@ class DhtReader {
             body: successDesc,
             type: 'success',
         });
-
         if (btnRestart) {
             notificationModel.set('showRestart', true);
             notificationModel.set('body', i18n.__('Please restart your application'));
         } else {
-            notificationModel.attributes.autoclose = 4000;
+            notificationModel.attributes.autoclose = true;
             notificationModel.set('body', i18n.__('API Server URLs already updated'));
         }
-
-        // Open the notification
         App.vent.trigger('notification:show', notificationModel);
     }
 
@@ -102,8 +104,17 @@ class DhtReader {
             showRestart: false,
             buttons: [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]
         });
+        App.vent.trigger('notification:show', notificationModel);
+    }
 
-        // Open the notification
+    alertMessageError() {
+        var notificationModel = new App.Model.Notification({
+            title: i18n.__('Error'),
+            body: i18n.__('API Server URLs could not be updated'),
+            showRestart: false,
+            type: 'error',
+            autoclose: true
+        });
         App.vent.trigger('notification:show', notificationModel);
     }
 }
