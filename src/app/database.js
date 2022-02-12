@@ -419,6 +419,10 @@ var Database = {
             .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
 
+                if (Settings.automaticUpdating === false) {
+                    return;
+                }
+
                 // check update
                 var updater = new App.Updater();
 
