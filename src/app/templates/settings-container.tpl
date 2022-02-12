@@ -618,6 +618,9 @@
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
+            <span id="apiserver_info">
+                <em>* <%= i18n.__("You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available") %></em>
+            </span>
         </div>
     </section>
 
