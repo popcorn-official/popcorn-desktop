@@ -11,10 +11,10 @@ class DhtReader {
     update(e) {
         const self = this;
         if (!Settings.dht) {
-            $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-            setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
             App.vent.trigger('notification:close');
             if (e) {
+                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+                setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
                 self.alertMessage('error');
             }
             return;
@@ -25,10 +25,9 @@ class DhtReader {
             dht.get(hash, function (err, node) {
                 App.vent.trigger('notification:close');
                 if (err || !node || !node.v) {
-                    console.error(err || 'DHT hash not found');
-                    $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-                    setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
                     if (e) {
+                        $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+                        setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
                         self.alertMessage('error');
                     }
                     return;
