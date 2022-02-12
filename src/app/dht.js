@@ -38,7 +38,7 @@ class DhtReader {
                 $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
                 setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 6000);
                 if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
-                    self.alertMessageApply();
+                    self.alertMessageSuccess('apply');
                 } else if (data !== newData || e === 'enable') {
                     self.alertMessageSuccess(true);
                 } else if (e === 'manual') {
@@ -66,27 +66,12 @@ class DhtReader {
     }
 
     alertMessageSuccess(btnRestart, btn, btnText, successDesc) {
-        var notificationModel = new App.Model.Notification({
-            title: i18n.__('Success'),
-            body: successDesc,
-            type: 'success',
-        });
-        if (btnRestart) {
-            notificationModel.set('showRestart', true);
-            notificationModel.set('body', i18n.__('Please restart your application'));
-        } else {
-            notificationModel.attributes.autoclose = true;
-            notificationModel.set('body', i18n.__('API Server URLs already updated'));
-        }
-        App.vent.trigger('notification:show', notificationModel);
-    }
-
-    alertMessageApply() {
         var self = this;
         var changeapis = function () {
-            AdvSettings.set('customMoviesServer', '');
-            AdvSettings.set('customSeriesServer', '');
-            AdvSettings.set('customAnimeServer', '');
+            let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? AdvSettings.get('dhtData').split('server":"')[1].split('","git":"')[0] : '';
+            AdvSettings.set('customMoviesServer', newServer);
+            AdvSettings.set('customSeriesServer', newServer);
+            AdvSettings.set('customAnimeServer', newServer);
             self.alertMessageSuccess(true);
         };
         var dontchangeapis = function () {
@@ -94,10 +79,19 @@ class DhtReader {
         };
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
-            body: i18n.__('Change API Server(s) to the new URLs?'),
+            body: successDesc,
             type: 'success',
-            buttons: [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]
         });
+        if (btnRestart === 'apply') {
+            notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
+            notificationModel.set('buttons', [{ title: '<label class="change-apis" for="changeapis">' + i18n.__('Yes') + '</label>', action: changeapis }, { title: '<label class="dont-change-apis" for="changeapis">' + i18n.__('No') + '</label>', action: dontchangeapis }]);
+        } else if (btnRestart) {
+            notificationModel.set('showRestart', true);
+            notificationModel.set('body', i18n.__('Please restart your application'));
+        } else {
+            notificationModel.attributes.autoclose = true;
+            notificationModel.set('body', i18n.__('API Server URLs already updated'));
+        }
         App.vent.trigger('notification:show', notificationModel);
     }
 
