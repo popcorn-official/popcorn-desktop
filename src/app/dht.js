@@ -15,7 +15,7 @@ class DhtReader {
             setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
             App.vent.trigger('notification:close');
             if (e) {
-                self.alertMessageError();
+                self.alertMessage('error');
             }
             return;
         }
@@ -29,7 +29,7 @@ class DhtReader {
                     $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
                     setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
                     if (e) {
-                        self.alertMessageError();
+                        self.alertMessage('error');
                     }
                     return;
                 }
@@ -38,11 +38,11 @@ class DhtReader {
                 $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
                 setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 6000);
                 if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
-                    self.alertMessageSuccess('apply');
+                    self.alertMessage('change');
                 } else if (data !== newData || e === 'enable') {
-                    self.alertMessageSuccess(true);
+                    self.alertMessage('restart');
                 } else if (e === 'manual') {
-                    self.alertMessageSuccess();
+                    self.alertMessage();
                 }
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
@@ -58,58 +58,49 @@ class DhtReader {
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.alertMessageWait();
+            this.alertMessage('wait');
             this.update('enable');
         } else if (Date.now() - last > time) {
             this.update();
         }
     }
 
-    alertMessageWait() {
-        var notificationModel = new App.Model.Notification({
-            title: i18n.__('Please wait') + '...',
-            body: i18n.__('Updating the API Server URLs'),
-            type: 'danger'
-        });
-        App.vent.trigger('notification:show', notificationModel);
-    }
-
-    alertMessageError() {
-        var notificationModel = new App.Model.Notification({
-            title: i18n.__('Error'),
-            body: i18n.__('API Server URLs could not be updated'),
-            type: 'error',
-            autoclose: true
-        });
-        App.vent.trigger('notification:show', notificationModel);
-    }
-
-    alertMessageSuccess(btnRestart, btn, btnText, successDesc) {
+    alertMessage(alertType) {
         var self = this;
-        var change = function () {
+        var changeServer = function () {
             let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? AdvSettings.get('dhtData').split('server":"')[1].split('","git":"')[0] : '';
             AdvSettings.set('customMoviesServer', newServer);
             AdvSettings.set('customSeriesServer', newServer);
             AdvSettings.set('customAnimeServer', newServer);
-            self.alertMessageSuccess(true);
-        };
-        var dontchange = function () {
-            self.alertMessageSuccess(true);
+            self.alertMessage('restart');
         };
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
-            body: successDesc,
             type: 'success',
         });
-        if (btnRestart === 'apply') {
-            notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
-            notificationModel.set('buttons', [{ title: '<label class="change-apis">' + i18n.__('Yes') + '</label>', action: change }, { title: '<label class="dont-change-apis">' + i18n.__('No') + '</label>', action: dontchange }]);
-        } else if (btnRestart) {
-            notificationModel.set('showRestart', true);
-            notificationModel.set('body', i18n.__('Please restart your application'));
-        } else {
-            notificationModel.attributes.autoclose = true;
-            notificationModel.set('body', i18n.__('API Server URLs already updated'));
+        switch (alertType) {
+            case 'wait':
+                notificationModel.set('title', i18n.__('Please wait') + '...');
+                notificationModel.set('body', i18n.__('Updating the API Server URLs'));
+                notificationModel.set('type', 'danger');
+                notificationModel.set('autoclose', true);
+                break;
+            case 'error':
+                notificationModel.set('title', i18n.__('Error'));
+                notificationModel.set('body', i18n.__('API Server URLs could not be updated'));
+                notificationModel.set('type', 'error');
+                break;
+            case 'change':
+                notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
+                notificationModel.set('buttons', [{ title: '<label class="change-server">' + i18n.__('Yes') + '</label>', action: changeServer }, { title: '<label class="dont-change-server">' + i18n.__('No') + '</label>', action: function () {self.alertMessage('restart');}}]);
+                break;
+            case 'restart':
+                notificationModel.set('body', i18n.__('Please restart your application'));
+                notificationModel.set('showRestart', true);
+                break;
+            default:
+                notificationModel.set('body', i18n.__('API Server URLs already updated'));
+                notificationModel.set('autoclose', true);
         }
         App.vent.trigger('notification:show', notificationModel);
     }
