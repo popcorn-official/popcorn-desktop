@@ -155,6 +155,58 @@
     width 100%
     height 100%
 
+    input[type=checkbox]
+        position absolute
+        overflow hidden
+        clip rect(0 0 0 0)
+        height 1px
+        width 1px
+        margin -1px
+        padding 0
+        border 0
+
+        &+label
+            height 15px
+            display inline-block
+            line-height 15px
+            font-size 13px
+            font-family $MainFont
+            vertical-align middle
+            cursor pointer
+
+            &:hover
+                opacity 1
+
+        &:checked+label
+            opacity 1
+
+            &:after
+                opacity 1
+
+    label
+        &:before
+            content '\f0c8'
+            font-family "Font Awesome 5 Free"
+            font-weight 900
+            font-size 18px
+            padding-right 8px
+            float left
+            position relative
+            color $CheckboxBg
+
+        &:after
+            content '\f00c'
+            font-family "Font Awesome 5 Free"
+            font-weight 900
+            font-size 12px
+            margin-right -14px
+            color $CheckboxCheck
+            position relative
+            float left
+            left -21px
+            opacity 0
+            transition opacity .1s ease-in-out
+
     .icon-disclaimer
         z-index 1000
         top 20%
@@ -205,13 +257,13 @@
                 display block
                 font-size 0.9em
                 text-align left
-                padding 12px 0 0 30px
+                padding 12px 0 0 28px
 
             .automaticUpdatingSpn
                 display block
                 font-size 0.9em
                 text-align left
-                padding 8px 0 6px 30px
+                padding 8px 0 6px 28px
 
             .disclaimer-text
                 font-size 14px
