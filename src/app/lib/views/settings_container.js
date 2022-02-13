@@ -144,11 +144,12 @@
         altcontext_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
             var menu = new nw.Menu(),
                 clipboard = nw.Clipboard.get(),
+                text = $('#' + field).val(),
 
                 cut = new nw.MenuItem({
                     label: cutLabel || 'Cut',
                     click: function () {
-                        var text = $('#' + field).val();
+                        text = $('#' + field).val();
                         clipboard.set(text, 'text');
                         $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
                         $('#' + field).val('');
@@ -158,7 +159,7 @@
                 copy = new nw.MenuItem({
                     label: copyLabel || 'Copy',
                     click: function () {
-                        var text = $('#' + field).val();
+                        text = $('#' + field).val();
                         clipboard.set(text, 'text');
                         $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
                     }
@@ -168,6 +169,15 @@
                     label: pasteLabel || 'Paste',
                     click: function () {
                         document.execCommand('paste');
+                    }
+                });
+
+                $('#' + field).one('blur', function() {
+                    if (text && !$('#' + field).val()) {
+                        $('#' + field).val(text);
+                        if (!AdvSettings.get(field)) {
+                            AdvSettings.set(field, text);
+                        }
                     }
                 });
 
@@ -754,7 +764,7 @@
                 var tmpDlist = $(e.target).val();
                 $(e.target).val('');
                 $(e.target).one('blur', function() {
-                    if (!$(e.target).val()) {
+                    if (tmpDlist && !$(e.target).val()) {
                         $(e.target).val(tmpDlist);
                     }
                 });
