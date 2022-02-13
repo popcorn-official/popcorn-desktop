@@ -102,10 +102,13 @@
 
         rightclick_field: function (e) {
             e.preventDefault();
-            if (e.target !== document.getElementById('customMoviesServer') && e.target !== document.getElementById('customSeriesServer') && e.target !== document.getElementById('customAnimeServer')) {
-                var menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
-                menu.popup(e.originalEvent.x, e.originalEvent.y);
+            var menu;
+            if (/customMoviesServer|customSeriesServer|customAnimeServer/.test(e.target.id)) {
+                menu = new this.altcontext_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
+            } else {
+                menu = new this.context_Menu(i18n.__('Cut'), i18n.__('Copy'), i18n.__('Paste'), e.target.id);
             }
+            menu.popup(e.originalEvent.x, e.originalEvent.y);
         },
 
         context_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
@@ -135,7 +138,43 @@
             menu.append(cut);
             menu.append(copy);
             menu.append(paste);
+            return menu;
+        },
 
+        altcontext_Menu: function (cutLabel, copyLabel, pasteLabel, field) {
+            var menu = new nw.Menu(),
+                clipboard = nw.Clipboard.get(),
+
+                cut = new nw.MenuItem({
+                    label: cutLabel || 'Cut',
+                    click: function () {
+                        var text = $('#' + field).val();
+                        clipboard.set(text, 'text');
+                        $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+                        $('#' + field).val('');
+                    }
+                }),
+
+                copy = new nw.MenuItem({
+                    label: copyLabel || 'Copy',
+                    click: function () {
+                        var text = $('#' + field).val();
+                        clipboard.set(text, 'text');
+                        $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+                    }
+                }),
+
+                paste = new nw.MenuItem({
+                    label: pasteLabel || 'Paste',
+                    click: function () {
+                        var text = $('#' + field).val() + clipboard.get('text');
+                        $('#' + field).val(text);
+                    }
+                });
+
+            menu.append(cut);
+            menu.append(copy);
+            menu.append(paste);
             return menu;
         },
 
@@ -712,20 +751,14 @@
         },
 
         showFullDatalist: function(e) {
-            if (!e.detail || e.detail == 1) {
+            if (e.button === 0 && (!e.detail || e.detail == 1)) {
                 var tmpDlist = $(e.target).val();
-                if (e.button === 0){
-                    $(e.target).val('');
-                    $(e.target).one('blur', function() {
-                        if (!$(e.target).val()) {
-                            $(e.target).val(tmpDlist);
-                        }
-                    });
-                } else if (e.button === 2) {
-                    var clipboard = nw.Clipboard.get();
-                    clipboard.set(tmpDlist, 'text');
-                    $('.notification_alert').text(i18n.__('The API Server URL(s) was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-                }
+                $(e.target).val('');
+                $(e.target).one('blur', function() {
+                    if (!$(e.target).val()) {
+                        $(e.target).val(tmpDlist);
+                    }
+                });
             }
         },
 
