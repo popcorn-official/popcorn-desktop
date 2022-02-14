@@ -10,11 +10,11 @@ class DhtReader {
 
     update(e) {
         const self = this;
+        self.alertIcon();
         if (!Settings.dht) {
             App.vent.trigger('notification:close');
             if (e) {
-                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-                setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
+                self.alertIcon('error');
                 self.alertMessage('error');
             }
             return;
@@ -26,25 +26,30 @@ class DhtReader {
                 App.vent.trigger('notification:close');
                 if (err || !node || !node.v) {
                     if (e) {
-                        $('.update-dht').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-                        setTimeout(function() { $('.update-dht').removeClass('invalid-cross').addClass('fa-redo');}, 6000);
+                        self.alertIcon('error');
                         self.alertMessage('error');
                     }
                     return;
                 }
                 let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
-                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
-                setTimeout(function() { $('.update-dht').removeClass('valid-tick').addClass('fa-redo');}, 6000);
-                if (data !== newData && (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
-                    self.alertMessage('change');
-                } else if (data !== newData || e === 'enable') {
-                    self.alertMessage('restart');
-                } else if (e === 'manual') {
-                    self.alertMessage();
-                }
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
+                if (e) {
+                    self.alertIcon('success');
+                }
+                if (data !== newData) {
+                    self.updateSettings();
+                    if (!Settings.dhtEnable || (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
+                        self.alertMessage('change');
+                    } else {
+                        self.alertMessage('restart');
+                    }
+                } else if (e === 'enable') {
+                    self.alertMessage('restart');
+                } else if (e === 'manual') {
+                    self.alertMessage('alrdupdated');
+                }
             });
         });
     }
@@ -61,6 +66,28 @@ class DhtReader {
             this.update('enable');
         } else if (Date.now() - last > time) {
             this.update();
+        }
+    }
+
+    updateSettings() {
+        setTimeout(function() {
+            if (App.ViewStack.includes('settings-container-contain')) {
+                let scrollPos = $('.settings-container-contain').scrollTop();
+                $('.nav-hor.left li:first').click();
+                App.vent.trigger('settings:show');
+                $('.update-dht').removeClass('fa-spin fa-spinner').addClass('valid-tick');
+                $('.settings-container-contain').scrollTop(scrollPos);
+            }
+        }, 200);
+    }
+
+    alertIcon(e) {
+        if (e) {
+            let tmpclass = e === 'success' ? 'valid-tick' : 'invalid-cross';
+            $('.update-dht').removeClass('fa-spin fa-spinner').addClass(tmpclass);
+            setTimeout(function() { $('.update-dht').removeClass(tmpclass).addClass('fa-redo');}, 6000);
+        } else {
+            $('.update-dht').removeClass('fa-redo').removeClass('valid-tick').removeClass('invalid-cross').addClass('fa-spin fa-spinner');
         }
     }
 
@@ -90,13 +117,17 @@ class DhtReader {
                 break;
             case 'change':
                 notificationModel.set('body', i18n.__('Change API Server(s) to the new URLs?'));
-                notificationModel.set('buttons', [{ title: '<label class="change-server">' + i18n.__('Yes') + '</label>', action: changeServer }, { title: '<label class="dont-change-server">' + i18n.__('No') + '</label>', action: function () {this.alertMessage('restart');}.bind(this)}]);
+                notificationModel.set('buttons', [{ title: '<label class="change-server">' + i18n.__('Yes') + '</label>', action: changeServer }, { title: '<label class="dont-change-server">' + i18n.__('No') + '</label>', action: function () {this.alertMessage('updated');}.bind(this)}]);
                 break;
             case 'restart':
                 notificationModel.set('body', i18n.__('Please restart your application'));
                 notificationModel.set('showRestart', true);
                 break;
-            default:
+            case 'updated':
+                notificationModel.set('body', i18n.__('API Server URLs updated'));
+                notificationModel.set('autoclose', true);
+                break;
+            case 'alrdupdated':
                 notificationModel.set('body', i18n.__('API Server URLs already updated'));
                 notificationModel.set('autoclose', true);
         }
