@@ -684,8 +684,6 @@
                 updateMode = 'manual';
             }
             App.DhtReader.update(updateMode);
-            $('.update-dht').removeClass('fa-redo').addClass('fa-spin fa-spinner');
-            this.alertMessageWait(i18n.__('Updating the API Server URLs'));
         },
 
         connectTrakt: function (e) {

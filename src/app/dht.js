@@ -10,7 +10,10 @@ class DhtReader {
 
     update(e) {
         const self = this;
-        self.alertIcon();
+        if (e) {
+            self.alertIcon();
+            self.alertMessage('wait');
+        }
         if (!Settings.dht) {
             App.vent.trigger('notification:close');
             if (e) {
@@ -62,7 +65,6 @@ class DhtReader {
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.alertMessage('wait');
             this.update('enable');
         } else if (Date.now() - last > time) {
             this.update();
