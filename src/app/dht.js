@@ -10,23 +10,20 @@ class DhtReader {
 
     update(e) {
         const self = this;
-        if (e) {
-            self.alertIcon();
-            self.alertMessage('wait');
-        }
         if (!Settings.dht) {
-            App.vent.trigger('notification:close');
             if (e) {
                 self.alertIcon('error');
                 self.alertMessage('error');
             }
             return;
+        } else if (e) {
+            self.alertIcon();
+            self.alertMessage('wait');
         }
         const dht = new DHT({verify: ed.verify});
         const hash = Buffer(Settings.dht, 'hex');
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
-                App.vent.trigger('notification:close');
                 if (err || !node || !node.v) {
                     if (e) {
                         self.alertIcon('error');
