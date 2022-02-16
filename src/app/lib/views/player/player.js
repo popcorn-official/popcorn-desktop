@@ -67,6 +67,17 @@
                 saturation: 1.0,
             };
 
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if (_.last(App.ViewStack) !== 'app-overlay') {
+                    _this.unbindKeyboardShortcuts();
+                    if (win.isFullscreen) {
+                        $('.player .video-js').hide();
+                        this.wasFullscreen = true;
+                    }
+                }
+            });
+
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
                 if (_.last(App.ViewStack) === 'app-overlay') {
@@ -75,14 +86,6 @@
                         $('.player .video-js').removeAttr('style');
                         this.wasFullscreen = false;
                     }
-                }
-            });
-
-            //If a child was added above this view
-            App.vent.on('viewstack:push', function() {
-                if (win.isFullscreen && _.last(App.ViewStack) !== 'app-overlay') {
-                    $('.player .video-js').hide();
-                    this.wasFullscreen = true;
                 }
             });
         },
