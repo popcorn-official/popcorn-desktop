@@ -1161,7 +1161,7 @@
         },
 
         mouseScroll: function (e) {
-            if ($(e.target).parents('.vjs-subtitles-button').length) {
+            if (App.ViewStack[App.ViewStack.length -1] !== 'app-overlay' || $(e.target).parents('.vjs-subtitles-button').length) {
                 return;
             }
             var mult = (Settings.os === 'mac') ? -1 : 1; // up/down invert
