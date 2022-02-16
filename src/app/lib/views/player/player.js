@@ -71,6 +71,18 @@
             App.vent.on('viewstack:pop', function() {
                 if (_.last(App.ViewStack) === 'app-overlay') {
                     _this.bindKeyboardShortcuts();
+                    if (this.wasFullscreen) {
+                        $('.player .video-js').removeAttr('style');
+                        this.wasFullscreen = false;
+                    }
+                }
+            });
+
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if (win.isFullscreen && _.last(App.ViewStack) !== 'app-overlay') {
+                    $('.player .video-js').hide();
+                    this.wasFullscreen = true;
                 }
             });
         },
@@ -1161,7 +1173,7 @@
         },
 
         mouseScroll: function (e) {
-            if ($(e.target).parents('.vjs-subtitles-button').length) {
+            if (_.last(App.ViewStack) !== 'app-overlay' || $(e.target).parents('.vjs-subtitles-button').length) {
                 return;
             }
             var mult = (Settings.os === 'mac') ? -1 : 1; // up/down invert
