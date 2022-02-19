@@ -14,7 +14,7 @@
         async getLink(provider, name) {
             const file = '/icons/' + name + '.png';
             if (this.files.indexOf(name + '.png') === -1) {
-                const res = await provider.getBin(0, '/icons/' + name + '.png');
+                const res = await provider.getBin(0, 'icons/' + name + '.png');
                 const data = await res.arrayBuffer();
                 fs.writeFileSync(data_path + file, Buffer.from(data));
             }
