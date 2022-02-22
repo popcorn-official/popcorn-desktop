@@ -282,12 +282,12 @@
 
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
-                if ((this.video.duration() - this.video.currentTime()) < (Settings.preloadNextEpisodeTime * 60) && this.video.currentTime() > 30) {
+                if ((!Settings.preloadNextEpisodeTime || (this.video.duration() - this.video.currentTime() < Settings.preloadNextEpisodeTime * 60)) && this.video.currentTime() > 30) {
 
                     if (!this.autoplayisshown) {
                         var playingNext = $('.playing_next');
 
-                        if (!this.precachestarted) {
+                        if (Settings.preloadNextEpisodeTime && !this.precachestarted) {
                             App.vent.trigger('stream:start', this.next_episode_model, 'preload');
                             this.precachestarted = true;
                         }

@@ -610,5 +610,6 @@
 	"Change API server(s) to the new URLs?": "Change API server(s) to the new URLs?",
 	"API Server URLs could not be updated": "API Server URLs could not be updated",
 	"You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available": "You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available",
-	"The API Server URL(s) was copied to the clipboard": "The API Server URL(s) was copied to the clipboard"
+	"The API Server URL(s) was copied to the clipboard": "The API Server URL(s) was copied to the clipboard",
+	"0 = Disable preloading": "0 = Disable preloading"
 }
