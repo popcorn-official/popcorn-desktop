@@ -411,7 +411,7 @@
             <% if (Settings.playNextEpisodeAuto) { %>
             <span class="advanced">
                 <p><%= i18n.__("Remaining runtime before start preloading next episode") %>&nbsp;&nbsp;</p>
-                <input id="preloadNextEpisodeTime" type="text" size="5" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %></em>
+                <input id="preloadNextEpisodeTime" type="text" size="5" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
             </span>
             <% } %>
         </div>
