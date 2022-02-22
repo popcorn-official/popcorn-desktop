@@ -388,8 +388,10 @@
                     break;
                 case 'preloadNextEpisodeTime':
                     let nnvalue = field.val().replace(/[^0-9]/gi, '');
-                    if (!nnvalue || nnvalue <= 0) {
+                    if (!nnvalue || nnvalue < 0) {
                         nnvalue = 1;
+                    } else {
+                        nnvalue = parseInt(nnvalue);
                     }
                     field.val(nnvalue);
                     value = nnvalue;
