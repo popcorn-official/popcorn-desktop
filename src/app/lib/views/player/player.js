@@ -283,13 +283,11 @@
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
                 if ((!Settings.preloadNextEpisodeTime || (this.video.duration() - this.video.currentTime() < Settings.preloadNextEpisodeTime * 60)) && this.video.currentTime() > 30) {
-
                     if (!this.autoplayisshown) {
                         if (Settings.preloadNextEpisodeTime && !this.precachestarted) {
                             App.vent.trigger('stream:start', this.next_episode_model, 'preload');
                             this.precachestarted = true;
                         }
-
                         if ((this.video.duration() - this.video.currentTime()) < 60) {
                             var playingNext = $('.playing_next');
                             win.info('Showing Auto Play message');
@@ -301,19 +299,15 @@
                             }
                         }
                     }
-
                     var count = Math.round(this.video.duration() - this.video.currentTime());
                     $('.playing_next #nextCountdown').text(count);
-
                 } else {
-
                     if (this.autoplayisshown) {
                         win.info('Hiding Auto Play message');
                         $('.playing_next').hide();
                         $('.playing_next #nextCountdown').text('');
                         this.autoplayisshown = false;
                     }
-
                 }
             }
         },
