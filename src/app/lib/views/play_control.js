@@ -31,6 +31,7 @@
     initialize: function() {
       _this = this;
       this.views = {};
+      var providers = this.model.get('providers');
       var subtitleProvider = App.Config.getProviderForType('subtitle');
       subtitleProvider.detail(
         this.model.get('imdb_id'),
@@ -41,6 +42,7 @@
       } else {
         this.model.set('torrents', this.model.get('langs')[this.model.get('defaultAudio')]);
       }
+      this.model.set('showTorrentsMore', providers.torrent.feature('torrents'));
       this.model.set('showTorrents', false);
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));

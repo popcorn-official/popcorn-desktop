@@ -88,6 +88,8 @@ class MovieApi extends Generic {
     return new Promise((resolve, reject) => resolve(old_data));
   }
 
+  feature(name) { return name==='torrents'; }
+
   torrents(imdb_id, lang) {
     const params = {
       locale: this.language,

@@ -13,7 +13,9 @@
             <div id="download-torrent"    class="button play-selector"><%=i18n.__("Download") %></div>
             <% } %>
             <div id="quality-selector" class="quality-selector"></div>
+            <% if (showTorrentsMore) { %>
             <div id="show-all-torrents" class="button show-all-torrents"><%=i18n.__("More") %></div>
+            <% } %>
         </div>
     </div>
     <div class="flex-right dropdowns-container">

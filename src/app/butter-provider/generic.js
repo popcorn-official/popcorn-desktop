@@ -130,6 +130,8 @@ class Provider {
 
   filters() {return Promise.resolve({});}
 
+  feature(name) { return false; }
+
   formatFiltersFromServer(sorters, data)
   {
     let filters = {

@@ -69,7 +69,9 @@
             _this = this;
             this.views = {};
 
+            const providers = this.model.get('providers');
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
+            this.model.set('showTorrentsMore', providers.torrent.feature('torrents'));
 
             //Handle keyboard shortcuts when other views are appended or removed
             // init fields in model

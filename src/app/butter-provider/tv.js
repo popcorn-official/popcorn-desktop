@@ -57,6 +57,8 @@ class TVApi extends Generic {
     return this.contentOnLang(imdb_id, old_data.contextLocale);
   }
 
+  feature(name) { return name==='torrents'; }
+
   torrents(imdb_id, lang) {
     const params = {
       locale: this.language,

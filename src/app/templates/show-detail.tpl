@@ -119,7 +119,9 @@
             <div id="torrent-list"></div>
             <div class="sdo-watch">
                 <div id="quality-selector"></div>
+                <% if (showTorrentsMore) { %>
                 <div id="show-all-torrents" class="button show-all-torrents"><%=i18n.__("More") %></div>
+                <% } %>
                 <div class="sdow-watchnow">
                     <div id="player-chooser"></div>
                 </div>
