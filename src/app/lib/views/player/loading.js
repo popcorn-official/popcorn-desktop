@@ -237,11 +237,13 @@
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
-      if (streamInfo.get('backdrop')) {
+      if (!this.backdropSet && streamInfo.get('backdrop')) {
         $('.loading-backdrop').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+        this.backdropSet = true;
       }
-      if (streamInfo.get('title') !== '') {
+      if (!this.titleSet && streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
+        this.titleSet = true;
       }
       if (streamInfo.get('downloaded')) {
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
