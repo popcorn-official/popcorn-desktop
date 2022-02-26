@@ -122,6 +122,10 @@
                 <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
             </span>
             <span class="advanced">
+                <input class="settings-checkbox" name="expandedSearch" id="expandedSearch" type="checkbox" <%=(Settings.expandedSearch? "checked='checked'":"")%>>
+                <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
+            </span>
+            <span class="advanced">
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
                         <%
