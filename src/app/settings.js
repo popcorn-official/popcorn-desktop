@@ -84,8 +84,6 @@ Settings.trackers = {
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
-    'udp://bt1.archive.org:6969',
-    'udp://bt2.archive.org:6969',
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
     'udp://explodie.org:6969',
