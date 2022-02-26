@@ -43,7 +43,7 @@
     <li>
         <div class="right search">
             <form>
-                <input id="searchbox" type="text" placeholder="<%= i18n.__("Search") %>" autocomplete="off">
+                <input id="searchbox"<% if (Settings.expandedSearch) { %> class="expanded"<% } %> type="text" placeholder="<%= i18n.__("Search") %>" autocomplete="off">
                 <div class="clear fa fa-times"></div>
             </form>
         </div>

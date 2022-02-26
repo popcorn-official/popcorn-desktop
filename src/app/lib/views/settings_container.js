@@ -322,6 +322,7 @@
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
                 case 'showSubmitMeta':
+                case 'expandedSearch':
                 case 'showUndoRBookmark':
                 case 'nativeWindowFrame':
                 case 'translatePosters':
@@ -607,6 +608,7 @@
                 case 'torColSearchMore':
                 case 'httpApiEnabled':
                 case 'showSubmitMeta':
+                case 'expandedSearch':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
