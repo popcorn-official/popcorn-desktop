@@ -762,7 +762,7 @@
         },
 
         showFullDatalist: function(e) {
-            if (e.button === 0 && (!e.detail || e.detail == 1)) {
+            if (e.button === 0 && (!e.detail || e.detail === 1)) {
                 var tmpDlist = $(e.target).val();
                 $(e.target).val('');
                 $(e.target).one('blur', function() {
