@@ -126,7 +126,7 @@
                     <div id="player-chooser"></div>
                 </div>
                 <% if (Settings.activateSeedbox) { %>
-                <div id="download-torrent" class="button play-selector"><%=i18n.__("Download") %></div>
+                <div id="download-torrent" class="button play-selector"><i class="fa fa-download"></i></div>
                 <% } %>
             </div>
         </div>
