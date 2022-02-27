@@ -363,6 +363,7 @@
                 case 'streamPort':
                 case 'subtitle_color':
                 case 'maxActiveTorrents':
+                case 'maxUdpReqLimit':
                     value = field.val();
                     break;
                 case 'downloadLimit':
