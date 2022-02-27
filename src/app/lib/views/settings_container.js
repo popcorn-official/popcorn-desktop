@@ -480,6 +480,7 @@
                     }
                     break;
                 case 'protocolEncryption':
+                case 'maxUdpReqLimit':
                     this.alertMessageSuccess(true);
                     break;
                 case 'downloadLimit':
