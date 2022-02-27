@@ -440,6 +440,7 @@ var Database = {
                 App.WebTorrent.throttleDownload(parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                 App.WebTorrent.throttleUpload(parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1);
                 App.WebTorrent.maxConns = parseInt(Settings.connectionLimit, 10) || 55;
+                App.WebTorrent.dht._rpc.concurrency = parseInt(Settings.maxUdpReqLimit, 10) || 16;
             })
             .then(function () {
                 if (Settings.dhtEnable) {
