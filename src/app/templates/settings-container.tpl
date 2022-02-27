@@ -642,6 +642,10 @@
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
             </span>
             <span>
+                <p><%= i18n.__("DHT UDP Requests Limit") %></p>
+                <input id="maxUdpReqLimit" type="text" size="20" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
+            </span>
+            <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
                 <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
                 <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
