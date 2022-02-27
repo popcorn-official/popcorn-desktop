@@ -51,7 +51,7 @@
                   App.WebTorrent.add(data, {
                       path      : App.settings.tmpLocation,
                       maxConns  : 10,
-                      dht       : true,
+                      dht       : { concurrency: parseInt(Settings.maxUdpReqLimit, 10) || 16 },
                       secure    : Settings.protocolEncryption || false,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
@@ -88,7 +88,7 @@
                   App.WebTorrent.add(data, {
                       path      : App.settings.downloadsLocation,
                       maxConns  : 10,
-                      dht       : true,
+                      dht       : { concurrency: parseInt(Settings.maxUdpReqLimit, 10) || 16 },
                       secure    : Settings.protocolEncryption || false,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced
@@ -165,7 +165,7 @@
                         maxConns     : parseInt(Settings.connectionLimit, 10) || 55,
                         downloadLimit: parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
                         uploadLimit  : parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
-                        dht          : true,
+                        dht          : { concurrency: parseInt(Settings.maxUdpReqLimit, 10) || 16 },
                         secure       : Settings.protocolEncryption || false,
                         tracker      : {
                             announce: Settings.trackers.forced
@@ -283,7 +283,7 @@
                   torrent = App.WebTorrent.add(uri, {
                       path      : path,
                       maxConns  : 10,
-                      dht       : true,
+                      dht       : { concurrency: parseInt(Settings.maxUdpReqLimit, 10) || 16 },
                       secure    : Settings.protocolEncryption || false,
                       announce  : Settings.trackers.forced,
                       tracker   : Settings.trackers.forced

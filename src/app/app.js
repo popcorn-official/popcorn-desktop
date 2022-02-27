@@ -97,7 +97,7 @@ App.WebTorrent = new WebTorrent({
   maxConns     : parseInt(Settings.connectionLimit, 10) || 55,
   downloadLimit: parseInt(parseFloat(Settings.downloadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
   uploadLimit  : parseInt(parseFloat(Settings.uploadLimit, 10) * parseInt(Settings.maxLimitMult, 10)) || -1,
-  dht          : true,
+  dht          : { concurrency: parseInt(Settings.maxUdpReqLimit, 10) || 16 },
   secure       : Settings.protocolEncryption || false,
   tracker      : {
     announce: Settings.trackers.forced

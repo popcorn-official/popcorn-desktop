@@ -182,6 +182,7 @@ Settings.connectionLimit = 55;
 Settings.downloadLimit = '';
 Settings.uploadLimit = '';
 Settings.maxLimitMult = 1024;
+Settings.maxUdpReqLimit = 16;
 Settings.streamPort = 0; // 0 = Random
 Settings.protocolEncryption = false;
 Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
