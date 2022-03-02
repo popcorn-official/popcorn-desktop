@@ -1,20 +1,29 @@
-## 0.4.7 - The reports of my death are greatly exaggerated - 13 February 2022
+## 0.4.7 - Just Keep Swimming - 02 March 2022
 
 New Features:
-- Add Play/Download functions to the Seedbox and various other right pane fixes and additions
-- Add ability of updating the API server urls using DHT
-- Add a link for contributing media information to TMDB
-- Show torrent list for current media
+- Add API Server urls update/auto-update options
+- Add API Server url(s) tooltip on tabs
+- Add play/download functions to the Seedbox and various other right pane fixes, additions and optimizations
+- Add player controls for zoom, contrast, brightness, hue and saturation
+- Adjustable next episode preload time including disable preloading while keeping Play next episode automatically enabled
+- Add concurrent DHT UDP requests limit option
+- Add always expanded search field option
+- Add an undo prompt when removing a bookmark
+- Add links for contributing media information to TMDB
 - Add more languages
 
 Bug Fixes:
 - Fix the Rebuild bookmarks database function
-- Fix the incorrect sorting/filtering of bookmarks when more than 50
+- Fix bookmarks sorting/filtering bug when more than 50 entries
+- Fix DLNA media controls bug when subtitles are enabled
+- Fix DLNA issue with Samsung devices
+- Fix disabling automatic updates
+- Fix some layout issues when native frame option enabled
+- Watchlist fixes
 
 Other:
 - Update torrent trackers
 - Update various modules/dependencies
-- Update WebTorrent to 1.5.8
 - Various other small fixes and optimizations
 
 ## 0.4.6 - The Good Variant - 11 October 2021
