@@ -1,9 +1,6 @@
 (function(App) {
   'use strict';
-  // Torrent Health
-  var torrentHealth = require('webtorrent-health'),
-    healthButton,
-    curSynopsis;
+  var healthButton, curSynopsis;
 
   var _this;
   App.View.MovieDetail = Marionette.View.extend({
@@ -25,6 +22,7 @@
       'click .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
+      'click .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
@@ -215,6 +213,7 @@
       !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
       (!this.model.get('poster') || this.model.get('poster') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('poster', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null;
       (!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+      !this.model.get('tmdb_id') && movie && movie.id ? this.model.set('tmdb_id', movie.id) : null;
       if (movie && movie.credits && movie.credits.cast && movie.credits.crew && (movie.credits.cast[0] || movie.credits.crew[0])) {
         curSynopsis.old = this.model.get('synopsis');
         curSynopsis.crew = movie.credits.crew.filter(function (el) {return el.job === 'Director';}).map(function (el) {return '<span>' + el.job + '&nbsp;-&nbsp;</span><span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p class="sline">&nbsp;</p>';
@@ -249,13 +248,7 @@
       $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
     },
 
-    clickPoster: function(e) {
-      if (e.button === 2) {
-        var clipboard = nw.Clipboard.get();
-        clipboard.set($('.mcover-image')[0].src, 'text');
-        $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
+    clickPoster: (e) => Common.openOrClipboardLink(e, $('.mcover-image')[0].src, i18n.__('image url'), true),
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
@@ -336,18 +329,7 @@
         magnetLink = torrent.url.replace(/\&amp;/g, '&');
       }
       magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-      if (e.button === 2) {
-        //if right click on magnet link
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(magnetLink, 'text'); //copy link to clipboard
-        $('.notification_alert')
-          .text(i18n.__('The magnet link was copied to the clipboard'))
-          .fadeIn('fast')
-          .delay(2500)
-          .fadeOut('fast');
-      } else {
-        nw.Shell.openExternal(magnetLink);
-      }
+      Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
     },
 
     openSource: function(e) {
@@ -360,17 +342,39 @@
       } else {
         return;
       }
-      if (e.button === 2) {
-        //if right click on magnet link
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(sourceLink, 'text'); //copy link to clipboard
-        $('.notification_alert')
-            .text(i18n.__('The source link was copied to the clipboard'))
-            .fadeIn('fast')
-            .delay(2500)
-            .fadeOut('fast');
+      Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+    },
+
+    openTmdb: function(e) {
+      let imdb = this.model.get('imdb_id'),
+      tmdb = this.model.get('tmdb_id'),
+      api_key = Settings.tmdb.api_key;
+
+      if (!tmdb && !this.model.get('getmetarunned')) {
+        let movie = (function () {
+          let tmp = null;
+          $.ajax({
+            url: 'http://api.themoviedb.org/3/find/' + imdb + '?api_key=' + api_key + '&external_source=imdb_id',
+            type: 'get',
+            dataType: 'json',
+            timeout: 5000,
+            async: false,
+            global: false,
+            success: function (data) {
+              tmp = data;
+            }
+          });
+          return tmp;
+        }());
+        movie && movie.movie_results && movie.movie_results[0] && movie.movie_results[0].id ? this.model.set('tmdb_id', movie.movie_results[0].id) : null;
+        tmdb = this.model.get('tmdb_id');
+      }
+
+      if (tmdb) {
+        let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
+        Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
       } else {
-        nw.Shell.openExternal(sourceLink);
+        $('.tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
       }
     }
 

@@ -1,9 +1,6 @@
 (function (App) {
     'use strict';
 
-    var torrentHealth = require('webtorrent-health');
-    var cancelTorrentHealth = function () {};
-    var torrentHealthRestarted = null;
     let healthButton;
 
     var _this, bookmarked;
@@ -28,6 +25,7 @@
             'click .tab-episode': 'clickEpisode',
             'click .shmi-year': 'openRelInfo',
             'click .shmi-imdb': 'openIMDb',
+            'click .shmi-tmdb-link': 'openTmdb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
@@ -164,7 +162,7 @@
 
             this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
-            $('.star-container-tv,.shmi-year,.shmi-imdb,.magnet-icon,.source-icon').tooltip();
+            $('.star-container-tv,.shmi-year,.shmi-imdb,.shmi-tmdb-link,.magnet-icon,.source-icon').tooltip();
             var noimg = 'images/posterholder.png';
             var nobg = 'images/bg-header.jpg';
             var images = this.model.get('images');
@@ -366,23 +364,44 @@
         openMagnet: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-torrent').replace(/\&amp;/g, '&');
             torrentUrl = torrentUrl.split('&tr=')[0] + _.union(decodeURIComponent(torrentUrl).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-            if (e.button === 2) { //if right click on magnet link
-                var clipboard = nw.Clipboard.get();
-                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
-                $('.notification_alert').text(i18n.__('The magnet link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-            } else {
-                nw.Shell.openExternal(torrentUrl);
-            }
+            Common.openOrClipboardLink(e, torrentUrl, i18n.__('magnet link'));
         },
 
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
-            if (e.button === 2) { //if right click on magnet link
-                var clipboard = nw.Clipboard.get();
-                clipboard.set(torrentUrl, 'text'); //copy link to clipboard
-                $('.notification_alert').text(i18n.__('The source link was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+        },
+
+        openTmdb: function(e) {
+            let imdb = this.model.get('imdb_id'),
+            tmdb = this.model.get('tmdb_id'),
+            api_key = Settings.tmdb.api_key;
+
+            if (!tmdb) {
+                let show = (function () {
+                    let tmp = null;
+                    $.ajax({
+                        url: 'http://api.themoviedb.org/3/find/' + imdb + '?api_key=' + api_key + '&external_source=imdb_id',
+                        type: 'get',
+                        dataType: 'json',
+                        timeout: 5000,
+                        async: false,
+                        global: false,
+                        success: function (data) {
+                            tmp = data;
+                        }
+                    });
+                    return tmp;
+                }());
+                show && show.tv_results && show.tv_results[0] && show.tv_results[0].id ? this.model.set('tmdb_id', show.tv_results[0].id) : null;
+                tmdb = this.model.get('tmdb_id');
+            }
+
+            if (tmdb) {
+                let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
+                Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
             } else {
-                nw.Shell.openExternal(torrentUrl);
+                $('.shmi-tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
             }
         },
 
@@ -397,8 +416,8 @@
                 return;
             }
             $('.spinner').show();
-            const provider = this.model.get('providers').torrent;
-            const data = await provider.contentOnLang(this.model.get('imdb_id'), lang);
+            const showProvider = App.Config.getProviderForType('tvshow')[0];
+            const data = await showProvider.contentOnLang(this.model.get('imdb_id'), lang);
             this.model.set('contextLocale', data.contextLocale);
             this.model.set('episodes', data.episodes);
             this.initTorrents(data.episodes);

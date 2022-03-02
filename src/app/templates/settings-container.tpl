@@ -110,9 +110,21 @@
             <% if (Settings.activateSeedbox) { %>
             <span class="advanced">
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
-                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when adding a new download") %></label>
+                <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when a new download is added") %></label>
             </span>
             <% } %>
+            <span class="advanced">
+                <input class="settings-checkbox" name="showUndoRBookmark" id="showUndoRBookmark" type="checkbox" <%=(Settings.showUndoRBookmark? "checked='checked'":"")%>>
+                <label class="settings-label" for="showUndoRBookmark"><%= i18n.__("Show an 'Undo' button when a bookmark is removed") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="showSubmitMeta" id="showSubmitMeta" type="checkbox" <%=(Settings.showSubmitMeta? "checked='checked'":"")%>>
+                <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="expandedSearch" id="expandedSearch" type="checkbox" <%=(Settings.expandedSearch? "checked='checked'":"")%>>
+                <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
+            </span>
             <span class="advanced">
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
@@ -400,6 +412,12 @@
                 <input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
                 <label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
             </span>
+            <% if (Settings.playNextEpisodeAuto) { %>
+            <span class="advanced">
+                <p><%= i18n.__("Remaining runtime before start preloading next episode") %>&nbsp;&nbsp;</p>
+                <input id="preloadNextEpisodeTime" type="text" size="5" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
+            </span>
+            <% } %>
         </div>
     </section>
 
@@ -518,7 +536,7 @@
                 <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
                 <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
             </span>
-<% if (Settings.httpApiEnabled) { %>
+            <% if (Settings.httpApiEnabled) { %>
             <span>
                 <p><%= i18n.__("Local IP Address") %></p>
                 <input type="text" id="settingsIpAddr" value="<%= Settings.ipAddress %>" readonly="readonly" size="20" />
@@ -549,7 +567,7 @@
                 </span>
                 <canvas id="qrcode" width="200" height="200"></canvas>
             </div><!-- /.modal -->
-<% } %>
+            <% } %>
         </div>
     </section>
 
@@ -558,51 +576,54 @@
         <div class="content">
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Movies API Server") %></p>
-                    <input type="text" size="50" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer %>" placeholder="<%= Settings.providers.movie.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Movies API Server(s)") %></p>
+                    <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
                     <datalist id="moviesServers">
-                        <% if (Settings.customServers && Settings.customServers.movie) {
-                            for (var i = 0; i < Settings.customServers.movie.length; ++i) {
+                        <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
+                           Settings.dhtData ? movieServList = movieServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < movieServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.movie[i] %>">
-                        <% }} %>
+                        <option value="<%= movieServList[i] %>">
+                        <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
+                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Series API Server") %></p>
-                    <input type="text" size="50" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer %>" placeholder="<%= Settings.providers.tvshow.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Series API Server(s)") %></p>
+                    <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
                     <datalist id="seriesServers">
-                        <% if (Settings.customServers && Settings.customServers.tvshow) {
-                            for (var i = 0; i < Settings.customServers.tvshow.length; ++i) {
+                        <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
+                           Settings.dhtData ? seriesServList = seriesServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < seriesServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.tvshow[i] %>">
-                        <% }} %>
+                        <option value="<%= seriesServList[i] %>">
+                        <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
+                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
             <span>
                 <div class="opensubtitles-options">
-                    <p><%= i18n.__("Anime API Server") %></p>
-                    <input type="text" size="50" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer %>" placeholder="<%= Settings.providers.anime.uri[0].split('apiURL=').pop().split('/,')[0] %>&nbsp;&nbsp;(default)">
+                    <p><%= i18n.__("Anime API Server(s)") %></p>
+                    <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
                     <datalist id="animeServers">
-                        <% if (Settings.customServers && Settings.customServers.anime) {
-                            for (var i = 0; i < Settings.customServers.anime.length; ++i) {
+                        <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                           Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
+                           Settings.dhtData ? animeServList = animeServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           for (var i = 0; i < animeServList.length; ++i) {
                         %>
-                        <option value="<%= Settings.customServers.anime[i] %>">
-                        <% }} %>
+                        <option value="<%= animeServList[i] %>">
+                        <% } %>
                     </datalist>
-                    <div class="loading-spinner" style="display: none"></div>
-                    <div class="valid-tick" style="display: none"></div>
-                    <div class="invalid-cross" style="display: none"></div>
+                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
+            </span>
+            <span id="apiserver_info">
+                <em>* <%= i18n.__("You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available") %></em>
             </span>
         </div>
     </section>
@@ -610,15 +631,6 @@
     <section id="connection" class="advanced">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
-            <% if (Settings.tvshow) { %>
-            <span>
-                <p><%= i18n.__("TV Show API Endpoint") %></p>
-                    <input id="tvshow" type="text" size="50" name="tvshow" value="<%=Settings.tvshow[0].url%>">
-                    <% if (Settings.tvshow.length <= 1) { %>
-                    &nbsp;&nbsp;<i class="reset-tvshow fa fa-undo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__('Reset to Default Settings') %>"></i>
-                    <% } %>
-            </span>
-            <% } %>
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <p><%= i18n.__("Active Torrents Limit") %></p>
@@ -628,6 +640,10 @@
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
                 <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
+            </span>
+            <span>
+                <p><%= i18n.__("DHT UDP Requests Limit") %></p>
+                <input id="maxUdpReqLimit" type="text" size="20" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
@@ -692,7 +708,7 @@
         <div class="content">
             <span>
                 <p><%= i18n.__("Cache Directory") %></p>
-                <input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="65" />
+                <input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="61" />
                 <i class="open-tmp-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
             </span>
@@ -724,7 +740,7 @@
             <% if (Settings.activateSeedbox && Settings.separateDownloadsDir) { %>
             <span>
                 <p><%= i18n.__("Downloads Directory") %></p>
-                <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="65" />
+                <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="61" />
                 <i class="open-downloads-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Downloads Directory") %>"></i>
                 <input type="file" name="downloadsLocation" id="downloadsLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.downloadsLocation %>" />
             </span>
@@ -737,7 +753,7 @@
         <div class="content">
             <span>
                 <p><%= i18n.__("Database Directory") %></p>
-                <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="65" />
+                <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="61" />
                 <i class="open-database-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
@@ -786,17 +802,21 @@
     <section id="miscellaneous">
         <div class="title"><%= i18n.__("Miscellaneous") %></div>
         <div class="content">
-            <span class="advanced">
-                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
+            <span>
+                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
-                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Activate automatic updating") %></label>
+                <label class="settings-label" for="automaticUpdating"><%= i18n.__("Automatically update the app when a new version is available") %></label>
             </span>
             <span class="advanced">
                 <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
                 <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
+            </span>
+            <span class="advanced">
+                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
         </div>
     </section>

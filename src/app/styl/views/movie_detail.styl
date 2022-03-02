@@ -117,6 +117,25 @@
                     font-smoothing: antialiased
                     cursor: pointer
 
+                .tmdb-link
+                    color: #f8f8f8
+                    font-size: 11px
+                    position: relative
+                    font-family: "Font Awesome 5 Free"
+                    text-stroke: 1px rgba(0,0,0,0.1)
+                    float: left
+                    font-smoothing: antialiased
+                    cursor: pointer
+                    opacity: 0.4
+                    transition: opacity .3s ease-in
+                    
+                    &:hover
+                        opacity: 1
+
+                    &.disabled
+                        cursor: default
+                        opacity: 0.4
+
                 .year, .certification
                     color: #f8f8f8
                     font-size: 12px

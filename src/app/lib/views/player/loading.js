@@ -44,7 +44,7 @@
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
       'click #cancel-button-vpn': 'cancelStreamingVPN',
-      'click .open-button': 'tempf',
+      'click .open-button': 'openItem',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
       'click .play': 'resumeStreaming',
@@ -54,9 +54,7 @@
       'click .maximize-icon': 'minDetails',
       'click #max_play_ctrl': 'maxPlayCtrl',
       'click .show-pcontrols': 'showpcontrols',
-      'mousedown .title': 'copytoclip',
-      'mousedown .text_filename': 'copytoclip',
-      'mousedown .text_streamurl': 'copytoclip',
+      'mousedown .copytoclip': 'copytoclip',
       'mousedown .magnet-icon': 'openMagnet',
       'click .playing-progressbar': 'seekStreaming'
     },
@@ -65,8 +63,8 @@
       var that = this;
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
-      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions').addClass('disabled');
-      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
+      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions, .seedbox .item-play').addClass('disabled');
+      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item, .seedbox .item-play').prop('disabled', true);
       // If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
@@ -239,11 +237,13 @@
         this.checkFreeSpace(streamInfo.get('size'));
         this.firstUpdate = true;
       }
-      if (streamInfo.get('backdrop')) {
+      if (!this.backdropSet && streamInfo.get('backdrop')) {
         $('.loading-backdrop').css('background-image', 'url(' + streamInfo.get('backdrop') + ')');
+        this.backdropSet = true;
       }
-      if (streamInfo.get('title') !== '') {
+      if (!this.titleSet && streamInfo.get('title') !== '') {
         this.ui.title.html(streamInfo.get('title'));
+        this.titleSet = true;
       }
       if (streamInfo.get('downloaded')) {
         this.ui.downloadSpeed.text(streamInfo.get('downloadSpeed'));
@@ -342,8 +342,9 @@
       }
     },
 
-    tempf: function (e) {
-      App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
+    openItem: function (e) {
+      const location = this.model.get('streamInfo').attributes.videoFile.replace(/[^\\/]*$/, '');
+      App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
     },
 
     openMagnet: function (e) {
@@ -351,17 +352,7 @@
       if (torrent.magnetURI) {
         var magnetLink = torrent.magnetURI.replace(/\&amp;/g, '&');
         magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-        if (e.button === 2) {
-          var clipboard = nw.Clipboard.get();
-          clipboard.set(magnetLink, 'text'); //copy link to clipboard
-          $('.notification_alert')
-          .text(i18n.__('Copied to clipboard'))
-          .fadeIn('fast')
-          .delay(2500)
-          .fadeOut('fast');
-        } else {
-          nw.Shell.openExternal(magnetLink);
-        }
+        Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
       }
     },
 
@@ -379,13 +370,7 @@
       }
     },
 
-    copytoclip: function (e) {
-      if (e.button === 2) {
-        var clipboard = nw.Clipboard.get();
-        clipboard.set(e.target.textContent, 'text');
-        $('.notification_alert').text(i18n.__('Copied to clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
-      }
-    },
+    copytoclip: (e) => Common.openOrClipboardLink(e, e.target.textContent, i18n.__($(e.target).data('copy')), true),
 
     pauseStreaming: function() {
       App.vent.trigger('device:pause');
@@ -461,7 +446,7 @@
     onBeforeDestroy: function() {
       $('.filter-bar').show();
       $('#header').removeClass('header-shadow');
-      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions').removeClass('disabled').removeProp('disabled');
+      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions, .seedbox .item-play').removeClass('disabled').removeProp('disabled');
       Mousetrap.bind(['esc', 'backspace'], function(e) {
         App.vent.trigger('show:closeDetail');
         App.vent.trigger('movie:closeDetail');

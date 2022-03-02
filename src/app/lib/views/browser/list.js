@@ -351,6 +351,20 @@
                 self.$('.items:first').focus();
             });
 
+            $('.tooltipped').tooltip({
+                delay: {
+                    'show': 800,
+                    'hide': 100
+                }
+            });
+
+            $('.providerinfo').tooltip({
+                delay: {
+                    'show': 2400,
+                    'hide': 100
+                },
+                html: true
+            });
         },
 
         checkFetchMore: function () {

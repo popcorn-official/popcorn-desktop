@@ -11,15 +11,16 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.4.6",
-  "releaseName": "The Good Variant",
+  "version": "0.4.7",
+  "releaseName": "Just Keep Swimming",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
     "css": "gulp css",
     "dist": "gulp dist",
     "start": "gulp run",
-    "test": "gulp test"
+    "test": "gulp test",
+    "postinstall": "patch-package"
   },
   "chromium-args": "--enable-node-worker",
   "engines": {
@@ -56,7 +57,7 @@
     "bootstrap": "^3.4.1",
     "butter-provider": "0.11.0",
     "butter-sanitize": "^0.1.1",
-    "butter-settings-popcorntime.app": "0.0.6",
+    "butter-settings-popcorntime.app": "0.0.9",
     "chromecast-api": "0.3.4",
     "dayjs": "^1.10.6",
     "dlnacasts2": "0.2.0",
@@ -73,8 +74,11 @@
     "mousetrap": "~1.6.2",
     "mv": "2.x.x",
     "nedb-promises": "^5.0.0",
+    "noble-ed25519": "^1.2.5",
     "node-tvdb": "^4.1.0",
     "opensubtitles-api": "^5.1.2",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
     "q": "2.0.3",
     "querystring": "^0.2.0",
     "readdirp": "2.x.x",
@@ -92,10 +96,10 @@
     "trakt.tv-matcher": "7.x.x",
     "trakt.tv-ondeck": "7.x.x",
     "underscore": "^1.13.0",
-    "urijs": "^1.19.7",
+    "urijs": "^1.19.8",
     "video.js": "4.11.4",
     "videojs-youtube": "1.2.10",
-    "webtorrent": "^1.5.5",
+    "webtorrent": "^1.5.8",
     "webtorrent-health": "1.x.x"
   },
   "devDependencies": {

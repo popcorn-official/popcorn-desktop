@@ -104,26 +104,39 @@ const curVersion = () => {
     }
 };
 
+const waitProcess = function(process) {
+    return new Promise((resolve, reject) => {
+        // display log only on failed build
+        const logs = [];
+        process.stdout.on('data', (buf) => {
+            logs.push(buf.toString());
+        });
+        process.stderr.on('data', (buf) => {
+            logs.push(buf.toString());
+        });
+
+        process.on('close', (exitCode) => {
+            if (!exitCode) {
+                resolve();
+            } else {
+                if (logs.length) {
+                    console.log(logs.join('\n'));
+                }
+                reject();
+            }
+        });
+
+        process.on('error', (error) => {
+            console.log(error);
+            reject();
+        });
+    });
+};
+
 // console.log for thenable promises
 const log = () => {
   console.log.apply(console, arguments);
 };
-
-// handle callbacks
-function promiseCallback(fn) {
-  // use ES6 rest params for much cleaner code
-  let args = Array.prototype.slice.call(arguments, 1);
-  return new Promise((resolve, reject) => {
-    fn.apply(
-      this,
-      args.concat([
-        (res) => {
-          return res ? resolve(res) : reject(res);
-        }
-      ])
-    );
-  });
-}
 
 // del wrapper for `clean` tasks
 const deleteAndLog = (path, what) => () =>
@@ -132,6 +145,16 @@ const deleteAndLog = (path, what) => () =>
       ? console.log('Deleted', what, ':\n', paths.join('\n'))
       : console.log('Nothing to delete');
   });
+
+const renameFile = (dir, src, dest) => {
+    return new Promise((resolve, reject) => {
+        return gulp
+            .src(path.join(dir, src))
+            .pipe(gulpRename(dest))
+            .pipe(gulp.dest(dir))
+            .on('end', () => resolve());
+    }).then(() => del(path.join(dir, src)));
+};
 
 // clean for dist
 gulp.task('cleanForDist', (done) => {
@@ -151,8 +174,8 @@ const nw = new nwBuilder({
   macIcns: './src/app/images/butter.icns',
   version: nwVersion,
   flavor: nwFlavor,
-  manifestUrl: 'http://popcorn-ru.tk/version.json',
-  downloadUrl: 'http://popcorn-ru.tk/nw/',
+  manifestUrl: 'https://popcorn-time.ga/version.json',
+  downloadUrl: 'https://popcorn-time.ga/nw/',
   platforms: parsePlatforms()
 }).on('log', console.log);
 
@@ -380,35 +403,20 @@ gulp.task('mac-pkg', () => {
 
         const child = spawn('bash', ['dist/mac/pkg-maker.sh']);
 
-        // display log only on failed build
-        const debLogs = [];
-        child.stdout.on('data', (buf) => {
-          debLogs.push(buf.toString());
-        });
-        child.stderr.on('data', (buf) => {
-          debLogs.push(buf.toString());
-        });
-
-        child.on('close', (exitCode) => {
-          if (!exitCode) {
-            console.log(
-              '%s pkg packaged in',
-              platform,
-              path.join(process.cwd(), releasesDir)
-            );
-          } else {
-            if (debLogs.length) {
-              console.log(debLogs.join('\n'));
+        waitProcess(child).then(() => {
+            console.log('%s pkg packaged in', platform, path.join(process.cwd(), releasesDir));
+            if (pkJson.version === curVersion()) {
+                resolve();
+                return;
             }
-            console.log('%s failed to package deb', platform);
-          }
-          resolve();
-        });
-
-        child.on('error', (error) => {
-          console.log(error);
-          console.log('%s failed to package pkg', platform);
-          resolve();
+            return renameFile(
+                path.join(process.cwd(), releasesDir),
+                pkJson.name + '-' + pkJson.version + '.pkg',
+                pkJson.name + '-' + curVersion() + '.pkg'
+            ).then(() => resolve());
+        }).catch(() => {
+            console.log('%s failed to package pkg', platform);
+            reject();
         });
       });
     })
@@ -525,33 +533,20 @@ gulp.task('nsis', () => {
           '-DOUTDIR=' + path.join(process.cwd(), releasesDir)
         ]);
 
-        // display log only on failed build
-        const nsisLogs = [];
-        child.stdout.on('data', (buf) => {
-          nsisLogs.push(buf.toString());
-        });
-
-        child.on('close', (exitCode) => {
-          if (!exitCode) {
-            console.log(
-              '%s nsis packaged in',
-              platform,
-              path.join(process.cwd(), releasesDir)
-            );
-          } else {
-            if (nsisLogs.length) {
-              console.log(nsisLogs.join('\n'));
+        waitProcess(child).then(() => {
+            console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
+            if (pkJson.version === curVersion()) {
+                resolve();
+                return;
             }
-            console.log(nsisLogs);
+            return renameFile(
+                path.join(process.cwd(), releasesDir),
+                pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe',
+                pkJson.name + '-' + curVersion() + '-' + platform + '-Setup.exe'
+            ).then(() => resolve());
+        }).catch(() => {
             console.log('%s failed to package nsis', platform);
-          }
-          resolve();
-        });
-
-        child.on('error', (error) => {
-          console.log(error);
-          console.log(platform + ' failed to package nsis');
-          resolve();
+            reject();
         });
       });
     })
@@ -585,35 +580,12 @@ gulp.task('deb', () => {
           releasesDir
         ]);
 
-        // display log only on failed build
-        const debLogs = [];
-        child.stdout.on('data', (buf) => {
-          debLogs.push(buf.toString());
-        });
-        child.stderr.on('data', (buf) => {
-          debLogs.push(buf.toString());
-        });
-
-        child.on('close', (exitCode) => {
-          if (!exitCode) {
-            console.log(
-              '%s deb packaged in',
-              platform,
-              path.join(process.cwd(), releasesDir)
-            );
-          } else {
-            if (debLogs.length) {
-              console.log(debLogs.join('\n'));
-            }
+        waitProcess(child).then(() => {
+            console.log('%s deb packaged in', platform, path.join(process.cwd(), releasesDir));
+            resolve();
+        }).catch(() => {
             console.log('%s failed to package deb', platform);
-          }
-          resolve();
-        });
-
-        child.on('error', (error) => {
-          console.log(error);
-          console.log('%s failed to package deb', platform);
-          resolve();
+            reject();
         });
       });
     })
@@ -690,7 +662,7 @@ gulp.task('prepareUpdater:win', () => {
             path.join(
               process.cwd(),
               releasesDir,
-              pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe'
+              pkJson.name + '-' + curVersion() + '-' + platform + '-Setup.exe'
             )
           )
           .pipe(gulpRename('update.exe'))

@@ -48,6 +48,14 @@
                     'hide': 100
                 }
             });
+
+            $('.providerinfo').tooltip({
+                delay: {
+                    'show': 2400,
+                    'hide': 100
+                },
+                html: true
+            });
         },
 
         setQualityDisplayed: function() {
@@ -199,6 +207,7 @@
                 (!this.model.get('runtime') || this.model.get('runtime') === '0') && movie && movie.runtime ? this.model.set('runtime', movie.runtime) : null;
                 !this.model.get('trailer') && movie && movie.videos && movie.videos.results && movie.videos.results[0] ? this.model.set('trailer', 'http://www.youtube.com/watch?v=' + movie.videos.results[0].key) : null;
                 (!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.backdrop_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.backdrop_path) : ((!this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && movie && movie.poster_path ? this.model.set('backdrop', 'http://image.tmdb.org/t/p/w500' + movie.poster_path) : null);
+                !this.model.get('tmdb_id') && movie && movie.id ? this.model.set('tmdb_id', movie.id) : null;
                 this.model.set('getmetarunned', true);
             }
 
@@ -319,8 +328,18 @@
 
         addBookmarked: function () {
             var imdb = this.model.get('imdb_id');
-            var itemtype = this.model.get('type');
-            var provider = this.model.get('providers').torrent;
+            var itemtype = this.model.get('type').replace('bookmarked', '');
+            var provider;
+
+            if (this.model.get('providers') && this.model.get('providers').torrent.detail) {
+                provider = this.model.get('providers').torrent;
+            } else {
+                if (itemtype === 'show') {
+                    provider = App.Config.getProviderForType('tvshow')[0];
+                } else {
+                    provider = App.Config.getProviderForType('movie')[0];
+                }
+            }
 
             return provider.detail(imdb, this.model.attributes).then(function (data) {
                 data.provider = provider.name;
@@ -364,6 +383,15 @@
 
             var itemtype = this.model.get('type');
             var bookmarked = this.model.get('bookmarked');
+            var delCache = (function (e) {
+                var id = window.setTimeout(function() {}, 0);
+                while (id--) { window.clearTimeout(id); }
+                App.vent.trigger('notification:close');
+                this.toggleFavorite(e);
+                $('.favourites-toggle').text(i18n.__('Remove from bookmarks')).addClass('selected');
+                $('.sha-bookmark').text(i18n.__('Remove from bookmarks')).addClass('selected');
+                $('.notification_alert').stop().text(i18n.__('Bookmark restored')).fadeIn('fast').delay(1500).fadeOut('fast');
+            }.bind(this));
 
             if (bookmarked) {
                 this.removeBookmarked().then(function () {
@@ -388,14 +416,34 @@
                             }
                         });
                     }
+                }.bind(this)).then(function () {
+                    if (Settings.showUndoRBookmark) {
+                        var id = window.setTimeout(function() {}, 0);
+                        while (id--) { window.clearTimeout(id); }
+                        App.vent.trigger('notification:close');
+                        App.vent.trigger('notification:show', new App.Model.Notification({
+                            title: '',
+                            body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was removed from bookmarks'),
+                            showClose: false,
+                            autoclose: true,
+                            type: 'info',
+                            buttons: [{ title: i18n.__('Undo'), action: delCache }]
+                        }));
+                    }
                 }.bind(this));
             } else {
-                this.ui.bookmarkIcon.addClass('selected');
+                if (this.ui.bookmarkIcon[0].isConnected) {
+                    this.ui.bookmarkIcon.addClass('selected');
+                }
 
                 this.addBookmarked().then(function () {
                     this.model.set('bookmarked', true);
-                    this.setCoverStates();
-                    this.setTooltips();
+                    if (App.currentview === 'Favorites') {
+                        App.vent.trigger('favorites:list', []);
+                    } else {
+                        this.setCoverStates();
+                        this.setTooltips();
+                    }
                 }.bind(this)).catch(function (err) {
                     console.error('item.addBookmarked failed:', err);
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');

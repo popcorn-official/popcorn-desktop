@@ -58,10 +58,34 @@
             this.firstPlay = true;
             this.boundedMouseScroll = this.mouseScroll.bind(this);
 
+            this.zoom = 1.0;
+
+            this.filters = {
+                brightness: 1.0,
+                contrast: 1.0,
+                hue: 0,
+                saturation: 1.0,
+            };
+
+            //If a child was added above this view
+            App.vent.on('viewstack:push', function() {
+                if (_.last(App.ViewStack) !== 'app-overlay') {
+                    _this.unbindKeyboardShortcuts();
+                    if (win.isFullscreen) {
+                        $('.player .video-js').hide();
+                        this.wasFullscreen = true;
+                    }
+                }
+            });
+
             //If a child was removed from above this view
             App.vent.on('viewstack:pop', function() {
                 if (_.last(App.ViewStack) === 'app-overlay') {
                     _this.bindKeyboardShortcuts();
+                    if (this.wasFullscreen) {
+                        $('.player .video-js').removeAttr('style');
+                        this.wasFullscreen = false;
+                    }
                 }
             });
         },
@@ -258,37 +282,32 @@
 
         checkAutoPlay: function () {
             if (this.isMovie() === 'episode' && this.next_episode_model) {
-                if ((this.video.duration() - this.video.currentTime()) < 60 && this.video.currentTime() > 30) {
-
+                if ((!Settings.preloadNextEpisodeTime || (this.video.duration() - this.video.currentTime() < Settings.preloadNextEpisodeTime * 60)) && this.video.currentTime() > 30) {
                     if (!this.autoplayisshown) {
-                        var playingNext = $('.playing_next');
-
-                        if (!this.precachestarted) {
+                        if (Settings.preloadNextEpisodeTime && !this.precachestarted) {
                             App.vent.trigger('stream:start', this.next_episode_model, 'preload');
                             this.precachestarted = true;
                         }
-
-                        win.info('Showing Auto Play message');
-                        this.autoplayisshown = true;
-                        playingNext.show();
-                        playingNext.appendTo('div#video_player');
-                        if (!this.player.userActive()) {
-                            this.player.userActive(true);
+                        if ((this.video.duration() - this.video.currentTime()) < 60) {
+                            var playingNext = $('.playing_next');
+                            win.info('Showing Auto Play message');
+                            this.autoplayisshown = true;
+                            playingNext.show();
+                            playingNext.appendTo('div#video_player');
+                            if (!this.player.userActive()) {
+                                this.player.userActive(true);
+                            }
                         }
                     }
-
                     var count = Math.round(this.video.duration() - this.video.currentTime());
                     $('.playing_next #nextCountdown').text(count);
-
                 } else {
-
                     if (this.autoplayisshown) {
                         win.info('Hiding Auto Play message');
                         $('.playing_next').hide();
                         $('.playing_next #nextCountdown').text('');
                         this.autoplayisshown = false;
                     }
-
                 }
             }
         },
@@ -450,8 +469,8 @@
             $('#player_drag').show();
             var that = this;
 
-            $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions').addClass('disabled');
-            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item').prop('disabled', true);
+            $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions, .seedbox .item-play').addClass('disabled');
+            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item, .seedbox .item-play').prop('disabled', true);
 
             // Double Click to toggle Fullscreen
             $('#video_player, .state-info-player').dblclick(function (event) {
@@ -758,6 +777,68 @@
             }
         },
 
+        adjustZoom: function (difference) {
+            var v = $('video')[0];
+            this.zoom += difference;
+            if (this.zoom < 0) {
+                this.zoom = 0;
+            }
+            v.style.transform = this.zoom === 1 ? '' : `scale(${this.zoom})`;
+            this.displayOverlayMsg(i18n.__('Zoom') + ': ' + (this.zoom * 100).toFixed(0) + '%');
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustBrightness: function (difference) {
+            this.filters.brightness += difference;
+            if (this.filters.brightness < 0) {
+                this.filters.brightness = 0;
+            }
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Brightness') + ': ' + (this.filters.brightness * 100).toFixed(0) + '%');
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustContrast: function (difference) {
+            this.filters.contrast += difference;
+            if (this.filters.contrast < 0) {
+                this.filters.contrast = 0;
+            }
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Contrast') + ': ' + (this.filters.contrast * 100).toFixed(0) + '%');
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustHue: function (difference) {
+            this.filters.hue += difference;
+            if (this.filters.hue < -180) {
+                this.filters.hue = -180;
+            } else if (this.filters.hue > 180) {
+                this.filters.hue = 180;
+            }
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Hue') + ': ' + this.filters.hue.toFixed(0));
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        adjustSaturation: function (difference) {
+            this.filters.saturation += difference;
+            if (this.filters.saturation < 0) {
+                this.filters.saturation = 0;
+            }
+            this.applyFilters();
+            this.displayOverlayMsg(i18n.__('Saturation') + ': ' + (this.filters.saturation * 100).toFixed(0) + '%');
+            $('.vjs-overlay').css('opacity', '1');
+        },
+
+        applyFilters: function (difference) {
+            const { brightness, contrast, hue, saturation } = this.filters;
+            var curVideo = $('#video_player_html5_api');
+            // On some devices, the image turns orange if both hue-rotate() and saturate() are used!
+            // So we only add the hue-rotate() filter if requested by the user.
+            const hueAdjustment = hue === 0 ? '' : `hue-rotate(${hue}deg)`;
+            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
+        },
+
         bindKeyboardShortcuts: function () {
             var that = this;
 
@@ -918,6 +999,46 @@
                 that.scaleWindow(2);
             });
 
+            Mousetrap.bind('w', function (e) {
+                that.adjustZoom(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('e', function (e) {
+                that.adjustZoom(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+1', function (e) {
+                that.adjustContrast(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+2', function (e) {
+                that.adjustContrast(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+3', function (e) {
+                that.adjustBrightness(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+4', function (e) {
+                that.adjustBrightness(+0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+5', function (e) {
+                that.adjustHue(-1);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+6', function (e) {
+                that.adjustHue(+1);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+7', function (e) {
+                that.adjustSaturation(-0.05);
+            }, 'keydown');
+
+            Mousetrap.bind('shift+8', function (e) {
+                that.adjustSaturation(+0.05);
+            }, 'keydown');
+
             // multimedia keys
             // Change when mousetrap can be extended
             $('body').bind('keydown', function (e) {
@@ -1003,6 +1124,26 @@
 
             Mousetrap.unbind('2');
 
+            Mousetrap.unbind('w');
+
+            Mousetrap.unbind('e');
+
+            Mousetrap.unbind('shift+1');
+
+            Mousetrap.unbind('shift+2');
+
+            Mousetrap.unbind('shift+3');
+
+            Mousetrap.unbind('shift+4');
+
+            Mousetrap.unbind('shift+5');
+
+            Mousetrap.unbind('shift+6');
+
+            Mousetrap.unbind('shift+7');
+
+            Mousetrap.unbind('shift+8');
+
             // multimedia keys
             // Change when mousetrap can be extended
             $('body').unbind('keydown');
@@ -1028,7 +1169,7 @@
         },
 
         mouseScroll: function (e) {
-            if ($(e.target).parents('.vjs-subtitles-button').length) {
+            if (_.last(App.ViewStack) !== 'app-overlay' || $(e.target).parents('.vjs-subtitles-button').length) {
                 return;
             }
             var mult = (Settings.os === 'mac') ? -1 : 1; // up/down invert
@@ -1147,7 +1288,7 @@
             if (this.inFullscreen && !win.isFullscreen) {
                 $('.btn-os.fullscreen').removeClass('active');
             }
-            $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions').removeClass('disabled').removeProp('disabled');
+            $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions, .seedbox .item-play').removeClass('disabled').removeProp('disabled');
             this.unbindKeyboardShortcuts();
             Mousetrap.bind('ctrl+v', function (e) {
             });

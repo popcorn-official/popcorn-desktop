@@ -28,7 +28,8 @@
 
           .seedbox-types ul, .seedbox-torrents ul
               height: calc(100vh - 167px)
-              direction: rtl
+              /* direction: rtl */
+              text-align: right
               scrollable()
 
               li
@@ -39,19 +40,25 @@
                   cursor: pointer
 
                   .watched
-                      padding 9px 0
+                      padding 10px 0
                       color: $ShowWatchedIcon_false
                       transition color .5s
-
-                      &:hover
-                          color: $ShowWatchedIcon_hover
+                      font-size: 0.9em
+                      font-family: "Font Awesome 5 Free", $MainFont
 
                       &.true
                           color: $ShowWatchedIcon_true
 
                       &.disabled
-                          pointer-events: none
+                          cursor: not-allowed
                           opacity: 0.2
+
+                          &:hover
+                              color: $ShowWatchedIcon_false !important
+
+                  .watched:not(.fa-download):not(.fa-upload)
+                      &:hover
+                          color: $ShowWatchedIcon_true
 
               li:nth-child(odd)
                   background-color $ShowBgColor2
@@ -136,6 +143,10 @@
 
               .seedbox-torrent-list ul li.active i
                   color: rgba($EpisodeSelectorText,.5)
+
+              .seedbox-torrent-list ul li.active i:not(.fa-download):not(.fa-upload)
+                  &:hover
+                      color: $EpisodeSelectorText
 
               .seedbox-torrent-list ul li.error
                   background: $NotificationError
@@ -246,6 +257,10 @@
                           white-space: nowrap
                           text-overflow: ellipsis
 
+                      i
+                          margin-right: 5px
+                          font-family: "Font Awesome 5 Free", $MainFont
+
                   .seedbox-infos-synopsis
                       color: $ShowText1
                       font-size: 13px
@@ -273,27 +288,57 @@
                                   filter brightness(110%)
                                   backdrop-filter brightness(110%)
 
+                                  & > .item-remove
+                                      display inline-block
+
+                              &.unselected
+                                  opacity 0.3
+
+                                  &:hover
+                                      opacity 0.5
+
+                                      & > .item-download
+                                          display inline-block
+
+                                  .item-download
+                                      display none
+
                               a
                                   color $FileSelectorText
                                   text-decoration blink
-                                  width 100%
+                                  width calc(100% - 20px)
                                   display block
                                   transition all 0.3s
                                   overflow hidden
                                   white-space nowrap
                                   text-overflow ellipsis
+                                  margin-left 25px
 
-                              .item-delete,
-                              .item-rename
+                              .item-download,
+                              .item-remove,
+                              .item-play
                                   position relative
                                   color: $TextError
                                   transition all 0.3s
                                   cursor pointer
-                                  left calc(100% + 22px)
+                                  left calc(100% + 7px)
                                   top -17px
 
-                              .item-rename
-                                  left calc(100% - 15px)
+                                  &:hover
+                                      color $CloseButtonHover
+
+                              .item-play
+                                  left 0px
+
+                                  &.disabled
+                                      cursor not-allowed
+                                      opacity 0.3
+
+                                      &:hover
+                                          color: $TextError !important
+
+                              .item-remove
+                                  display none
 
                               .item-icon
                                   position relative

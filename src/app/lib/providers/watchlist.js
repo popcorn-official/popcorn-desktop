@@ -275,6 +275,10 @@
     }
   }
 
+  Watchlist.prototype.filters = function () {
+    return Promise.resolve({});
+  };
+
   App.vent.on('show:watched', onShowWatched);
 
   App.Providers.install(Watchlist);

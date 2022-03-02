@@ -1,6 +1,6 @@
 cask "popcorn-time" do
-  version "0.4.6"
-  sha256 "cacf8ed13b427bceb481ba88ff97ff297f7e9e0487f1411f8d20ff87dd674ddb"
+  version "0.4.7"
+  sha256 "cddc2f156dd3cd4fbc7ccd3b3a02c00d3546886dcad183cd1f5dcd984b609c2c"
 
   server = "popcorn-ru.tk"
   homepage = "http://#{server}"
@@ -28,17 +28,19 @@ cask "popcorn-time" do
 
     db = "#{app_support}/Popcorn-Time/Default/data/settings.db"
 
-    %w[Movies Series].each do |medium|
-      setting = {
-        key:   "custom#{medium}Server",
-        value: "https://#{server}/",
-        _id:   SecureRandom.alphanumeric,
-      }
-      settings = File.read(db).lines
+    if File.exists?(db)
+      %w[Movies Series].each do |medium|
+        setting = {
+          key:   "custom#{medium}Server",
+          value: "https://#{server}/",
+          _id:   SecureRandom.alphanumeric,
+        }
+        settings = File.read(db).lines
 
-      next if settings.grep(/#{setting[:key]}/).any?
+        next if settings.grep(/#{setting[:key]}/).any?
 
-      `echo '#{setting.to_json}' >> '#{db}'`
+        `echo '#{setting.to_json}' >> '#{db}'`
+      end
     end
   end
 

@@ -4,14 +4,14 @@ var Settings = {
   projectUrl: 'https://popcorntime.app',
   projectCi: 'https://ci.popcorntime.app',
   projectBlog: 'https://blog.popcorntime.app/',
-  projectForum: 'https://www.reddit.com/r/PopcornTime',
+  projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
-  projectForum3: 'https://www.reddit.com/r/PopcornTimeApp',
   statusUrl: 'http://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
   sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
   commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
+  dht: '',
   updateKey:
     '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
@@ -84,10 +84,9 @@ Settings.trackers = {
     'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
-    'udp://opentor.org:2710',
     'udp://tracker.moeking.me:6969',
     'udp://tracker.zerobytes.xyz:1337',
-    'udp://tracker.uw0.xyz:6969',
+    'udp://explodie.org:6969',
     'udp://retracker.lanta-net.ru:2710',
     'wss://tracker.openwebtorrent.com'
   ]
@@ -127,6 +126,7 @@ Settings.translateEpisodes = true;
 //Playback
 Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = false;
+Settings.preloadNextEpisodeTime = 1;
 Settings.activateLoCtrl = false;
 Settings.chosenPlayer = 'local';
 
@@ -141,6 +141,9 @@ Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
 Settings.showSeedboxOnDlInit = true;
+Settings.showSubmitMeta = true;
+Settings.showUndoRBookmark = true;
+Settings.expandedSearch = false;
 
 // Quality
 Settings.shows_default_quality = '720p';
@@ -179,6 +182,7 @@ Settings.connectionLimit = 55;
 Settings.downloadLimit = '';
 Settings.uploadLimit = '';
 Settings.maxLimitMult = 1024;
+Settings.maxUdpReqLimit = 16;
 Settings.streamPort = 0; // 0 = Random
 Settings.protocolEncryption = false;
 Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
@@ -190,8 +194,9 @@ Settings.delSeedboxCache = 'ask';
 Settings.continueSeedingOnStart = false;
 Settings.vpnEnabled = false;
 Settings.maxActiveTorrents = 5;
-Settings.automaticUpdating = true;
+Settings.automaticUpdating = '';
 Settings.UpdateSeed = false;
+Settings.dhtEnable = '';
 Settings.events = true;
 Settings.minimizeToTray = false;
 

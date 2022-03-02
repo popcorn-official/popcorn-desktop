@@ -324,4 +324,20 @@ Common.Promises = {
 
 Common.getTorrentUri = torrent => torrent.magnet || torrent.url || torrent;
 
+Common.openOrClipboardLink = function(e, link, text, noOpen = false, noCopy = false) {
+	if (e.button === 2 && !noCopy) {
+		var clipboard = nw.Clipboard.get();
+		clipboard.set(link, 'text');
+		$('.notification_alert')
+			.text(i18n.__('The %s was copied to the clipboard', text))
+			.fadeIn('fast')
+			.delay(2500)
+			.fadeOut('fast')
+		;
+	}
+	if (e.button === 0 && !noOpen) {
+		nw.Shell.openExternal(link);
+	}
+};
+
 Common.qualityCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
