@@ -4,7 +4,7 @@
  * setup *
  ********/
 const nwVersion = '0.44.5',
-  availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
+  availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64', 'osxarm'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
 
@@ -174,8 +174,8 @@ const nw = new nwBuilder({
   macIcns: './src/app/images/butter.icns',
   version: nwVersion,
   flavor: nwFlavor,
-  manifestUrl: 'http://popcorn-ru.tk/version.json',
-  downloadUrl: 'http://popcorn-ru.tk/nw/',
+  manifestUrl: 'https://popcorn-time.ga/version.json',
+  downloadUrl: 'https://popcorn-time.ga/nw/',
   platforms: parsePlatforms()
 }).on('log', console.log);
 

@@ -5145,10 +5145,9 @@ number-is-nan@^1.0.0:
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
   integrity sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
 
-nw-builder@^3.5.7:
+"nw-builder@https://github.com/berard/nw-builder":
   version "3.5.7"
-  resolved "https://registry.yarnpkg.com/nw-builder/-/nw-builder-3.5.7.tgz#191aed1d7d16e55191df2f07db4729d3ca35920d"
-  integrity sha512-7LTQu8oom56xdDeyoUygZytxvyWuh+pw4nY4eFMGUd7/m/eOdAs/6UZjav6CbjnyIg8n4FtwnjCXXLsFI6Ooug==
+  resolved "https://github.com/berard/nw-builder#9b3c52f03c6fde5149f363046d6b6b900c37394e"
   dependencies:
     archiver "^2.1.1"
     boxen "^1.1.0"

@@ -119,7 +119,7 @@
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "nib": "^1.1.2",
-    "nw-builder": "^3.5.7",
+    "nw-builder": "https://github.com/berard/nw-builder",
     "stylus": "^0.54.5",
     "yargs": "^12.x.x"
   }
