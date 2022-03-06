@@ -31,10 +31,14 @@
 ### Windows:
 Download and install:
   * **Latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or the repo's [releases page](https://github.com/popcorn-official/popcorn-desktop/releases)
-  * Or **latest dev build (for testers)**: check the [latest successful build on ci.popcorntime.app](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
+  * Or **latest dev build (for testers)**: check the repo's [actions page](https://github.com/popcorn-official/popcorn-desktop/actions)
 
 
 ### MacOS:
+Download and install:
+  * **Latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or the repo's [releases page](https://github.com/popcorn-official/popcorn-desktop/releases)
+  * Or **latest dev build (for testers)**: check the repo's [actions page](https://github.com/popcorn-official/popcorn-desktop/actions)
+
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://docs.brew.sh/Cask-Cookbook)):_
   ~~~ rb
   brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git
@@ -53,14 +57,14 @@ Update from _zip_ file:
 
 
 ### Linux - Debian/Ubuntu based distros:
+Download and install:
+  * **Latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or the repo's [releases page](https://github.com/popcorn-official/popcorn-desktop/releases)
+  * Or **latest dev build (for testers)**: check the repo's [actions page](https://github.com/popcorn-official/popcorn-desktop/actions)
+
 Via .deb package:
 
   _**Firstly, be aware** in some cases, missings dependencies packages (libatomic1, libgconf-2-4, libcanberra-gtk-module) were reported to be required for the app to works.  
   **If the app don't start for you too**, in this case, **try `sudo apt update && sudo apt install libatomic1 libgconf-2-4 libcanberra-gtk-module`** to be sure your system have the required dependencies._
-
-Download and install:
-  * **Latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or the repo's [releases page](https://github.com/popcorn-official/popcorn-desktop/releases)
-  * Or **latest dev build (for testers)**: check the [latest successful build on ci.popcorntime.app](https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/)
 
 Via archive and command line (tested on ubuntu 18.04 and 20.04):
   1. Download Popcorn Time archive:  
@@ -68,8 +72,6 @@ Via archive and command line (tested on ubuntu 18.04 and 20.04):
       `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.7-linux64.zip`  
   _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
   `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.7/Popcorn-Time-0.4.7-linux64.zip`_
-      * Or for the **latest dev build (for testers)**:  
-      `wget -c https://ci.popcorntime.app/job/Popcorn-Time-Desktop/lastSuccessfulBuild/artifact/build/Popcorn-Time-0.4.7_linux64.zip -O Popcorn-Time-0.4.7-linux64.zip`
   2. Create popcorn-time folder in /opt/:  
   `sudo mkdir /opt/popcorn-time`  
   3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working):  
