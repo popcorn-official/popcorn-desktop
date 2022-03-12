@@ -1,8 +1,8 @@
 cask "popcorn-time" do
   version "0.4.7"
-  sha256 "cddc2f156dd3cd4fbc7ccd3b3a02c00d3546886dcad183cd1f5dcd984b609c2c"
+  sha256 "91cabf4b161e5b729fe0ace68b5c17cccec2a816fb22f7d0127c70ff1bccb62c"
 
-  server = "popcorn-ru.tk"
+  server = "popcorn-time.ga"
   homepage = "http://#{server}"
   zip = "Popcorn-Time-#{version}-Mac.zip"
 
