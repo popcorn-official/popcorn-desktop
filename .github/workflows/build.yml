@@ -124,8 +124,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macOS-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}_osx64.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-Mac.zip
+          asset_path: ./macOS-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-osx64.zip
+          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-osx64.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [macOS-pkg]
@@ -148,8 +148,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macOS-latest/update-${{ steps.get_version.outputs.VERSION }}_osx64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}_osx64.zip
+          asset_path: ./macOS-latest/update-${{ steps.get_version.outputs.VERSION }}-osx64.zip
+          asset_name: update-${{ steps.get_version.outputs.VERSION }}-osx64.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [ubuntu-deb-amd64]
@@ -160,7 +160,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/popcorn-time_${{ steps.get_version.outputs.VERSION }}-amd64.deb
+          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-amd64.deb
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-amd64.deb
           asset_content_type: application/octet-stream
 
@@ -172,7 +172,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}_linux64.zip
+          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux64.zip
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux64.zip
           asset_content_type: application/octet-stream
 
@@ -184,8 +184,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}_linux64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}_linux64.zip
+          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}-linux64.zip
+          asset_name: update-${{ steps.get_version.outputs.VERSION }}-linux64.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [ubuntu-deb-i386]
@@ -196,7 +196,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/popcorn-time_${{ steps.get_version.outputs.VERSION }}-i386.deb
+          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-i386.deb
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-i386.deb
           asset_content_type: application/octet-stream
 
@@ -208,7 +208,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}_linux32.zip
+          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
           asset_content_type: application/octet-stream
 
@@ -220,8 +220,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}_linux32.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}_linux32.zip
+          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}-linux32.zip
+          asset_name: update-${{ steps.get_version.outputs.VERSION }}-linux32.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [windows-zip-x64]
@@ -232,7 +232,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}_win64.zip
+          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64.zip
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64.zip
           asset_content_type: application/octet-stream
 
@@ -244,7 +244,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}_win32.zip
+          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32.zip
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32.zip
           asset_content_type: application/octet-stream
 
@@ -280,8 +280,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}_win64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}_win64.zip
+          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}-win64.zip
+          asset_name: update-${{ steps.get_version.outputs.VERSION }}-win64.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [window-update-ia32]
@@ -292,6 +292,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}_win32.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}_win32.zip
+          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}-win32.zip
+          asset_name: update-${{ steps.get_version.outputs.VERSION }}-win32.zip
           asset_content_type: application/octet-stream
