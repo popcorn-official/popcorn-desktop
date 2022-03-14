@@ -4,7 +4,7 @@ cask "popcorn-time" do
 
   server = "popcorn-time.ga"
   homepage = "http://#{server}"
-  zip = "Popcorn-Time-#{version}-Mac.zip"
+  zip = "Popcorn-Time-#{version}-osx64.zip"
 
   url "#{homepage}/build/#{zip}"
   name token.titlecase
