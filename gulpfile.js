@@ -277,7 +277,7 @@ gulp.task('compresszip', () => {
         return gulp
           .src(sources + '/**')
           .pipe(
-            zip(pkJson.name + '-' + curVersion() + '_' + platform + '.zip')
+            zip(pkJson.name + '-' + curVersion() + '-' + platform + '.zip')
           )
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
@@ -307,7 +307,7 @@ gulp.task('compressUpdater', () => {
         console.log('Packaging updater for: %s', platform);
         return gulp
           .src(path.join('build', updateFile))
-          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
@@ -667,7 +667,7 @@ gulp.task('prepareUpdater:win', () => {
           )
           .pipe(gulpRename('update.exe'))
           .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
-          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
