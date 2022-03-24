@@ -7,7 +7,7 @@ create_desktop_entry() {
 	COMMENT="Watch Movies and TV Shows instantly!"
 
 	CURRENT_DIR=$(pwd)
-	EXECUTABLE=$CURRENT_DIR/Popcorn-Time
+	EXECUTABLE=$CURRENT_DIR/build/Popcorn-Time/linux64/Popcorn-Time
 	ICON_PATH=$CURRENT_DIR/src/app/images/icon.png
 
 	DESTINATION_DIR=/home/$(whoami)/.local/share/applications
