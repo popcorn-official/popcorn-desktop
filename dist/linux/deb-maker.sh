@@ -5,7 +5,7 @@
 nw=$1
 arch=$2
 projectName=$3
-name=${projectName,,} #tolowercase
+name=${projectName}
 version=$4
 builddir=$5
 if [[ $arch == *"32"* ]]; then
@@ -15,7 +15,7 @@ else
 fi
 cwd="$builddir/tmp-deb-$arch"
 read -n 9 revision <<< ` git log -1 --pretty=oneline`
-package_name=${name}_${version}-${real_arch}
+package_name=${name}-${version}-${real_arch}
 
 ### RESET
 rm -rf $cwd
