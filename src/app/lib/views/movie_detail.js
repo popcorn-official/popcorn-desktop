@@ -220,12 +220,12 @@
         curSynopsis.allcast = movie.credits.cast.map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p>&nbsp;</p>';
         curSynopsis.cast = movie.credits.cast.slice(0,10).map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + (movie.credits.cast.length > 10 ? '&nbsp;&nbsp;&nbsp;<span class="showall-cast">more...</span>' : '') + '<p>&nbsp;</p>';
       }
-      //Fallback to english for when source and TMDb call in default language fail to fetch synopsis
+      // Fallback to english when source and TMDb call in default language that is other than english fail to fetch synopsis
       if (!this.model.get('synopsis') && Settings.language !== 'en') {
         movie = (function () {
           var tmp = null;
           $.ajax({
-            url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&append_to_response=videos,credits',
+            url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
             type: 'get',
             dataType: 'json',
             timeout: 5000,
