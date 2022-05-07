@@ -4,7 +4,7 @@
         providerURL.forEach(function(e, index) {
             providerURL[index] = e.replace(/http:\/\/|https:\/\/|\/$/g, '');
         });
-        providerURL = providerURL.join('<br>');
+        providerURL = encodeURI(providerURL.join('<br>')).replace(/%3Cbr%3E/g, '<br>');
     %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="bottom" title="<%= providerURL %>"><%= i18n.__(tab.name) %></li>
     <% }); %>

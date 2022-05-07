@@ -8,9 +8,9 @@
         <div class="title-version">
             <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id="changelog"><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
             <% if(App.git) { %>
-                - <small><i>(<a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= Settings.commitUrl %>/<%= App.git.commit %>"><%= App.git.commit %></a>)</i></small>
+                - <small><i>(<a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= encodeURI(Settings.commitUrl) %>/<%= App.git.commit %>"><%= App.git.commit %></a>)</i></small>
             <% } %>
-            <small>&nbsp;&nbsp;&nbsp;<a href="<%= Settings.issuesUrl %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
+            <small>&nbsp;&nbsp;&nbsp;<a href="<%= encodeURI(Settings.issuesUrl) %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
         </div>
 
         <div class="text-about">
@@ -21,12 +21,12 @@
         </div>
 
         <div class="icons_social">
-            <a href="<%= Settings.projectUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectUrl %>" class="links site_icon"></a>
-            <a href="<%= Settings.sourceUrl %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.sourceUrl %>" class="links github_icon"></a>
-            <a href="<%= Settings.projectCi %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectCi %>" class="links ci_icon"></a>
-            <a href="<%= Settings.projectBlog %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectBlog %>" class="links blog_icon"></a>
-            <a href="<%= Settings.projectForum %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum %>" class="links reddit_icon"></a>
-            <a href="<%= Settings.projectForum2 %>" data-toggle="tooltip" data-placement="top" title="<%= Settings.projectForum2 %>" class="links forum_icon"></a>
+            <a href="<%= encodeURI(Settings.projectUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectUrl) %>" class="links site_icon"></a>
+            <a href="<%= encodeURI(Settings.sourceUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.sourceUrl) %>" class="links github_icon"></a>
+            <a href="<%= encodeURI(Settings.projectCi) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectCi) %>" class="links ci_icon"></a>
+            <a href="<%= encodeURI(Settings.projectBlog) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectBlog) %>" class="links blog_icon"></a>
+            <a href="<%= encodeURI(Settings.projectForum) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum) %>" class="links reddit_icon"></a>
+            <a href="<%= encodeURI(Settings.projectForum2) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum2) %>" class="links forum_icon"></a>
         </div>
 
         <div class="last-line">
