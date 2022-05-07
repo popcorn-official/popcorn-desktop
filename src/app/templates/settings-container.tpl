@@ -415,7 +415,7 @@
             <% if (Settings.playNextEpisodeAuto) { %>
             <span class="advanced">
                 <p><%= i18n.__("Remaining runtime before start preloading next episode") %>&nbsp;&nbsp;</p>
-                <input id="preloadNextEpisodeTime" type="text" size="5" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
+                <input id="preloadNextEpisodeTime" type="number" min="0" max="99999" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
             </span>
             <% } %>
         </div>
@@ -647,8 +647,8 @@
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
-                <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
-                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
+                <input id="downloadLimit" type="number" min="0" max="9999999" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
+                <input id="uploadLimit" type="number" min="0" max="9999999" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
                 <%
                     var limit_mult = {
                         "1024": "KB/s",
