@@ -639,11 +639,11 @@
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
-                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
+                <input id="connectionLimit" type="number" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("DHT UDP Requests Limit") %></p>
-                <input id="maxUdpReqLimit" type="text" size="20" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
+                <input id="maxUdpReqLimit" type="number" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
@@ -674,7 +674,7 @@
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>
-                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+                <input id="streamPort" type="number" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
             <% if (Settings.activateSeedbox && (!Settings.deleteTmpOnClose || Settings.separateDownloadsDir)) { %>
             <span>
