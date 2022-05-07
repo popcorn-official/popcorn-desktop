@@ -120,7 +120,7 @@
                         errorURL = '';
                     }
                     errorURL.forEach(function(e, index) {
-                        errorURL[index] = '<a class="links" href="' + e + '">' + e.replace(/http:\/\/|https:\/\/|\/$/g, '') + '</a>';
+                        errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
                     });
                     errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
                     return ErrorView.extend({
