@@ -577,14 +577,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Movies API Server(s)") %></p>
-                    <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= encodeURI(Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1])) %>">
                     <datalist id="moviesServers">
                         <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
                            Settings.dhtData ? movieServList = movieServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < movieServList.length; ++i) {
                         %>
-                        <option value="<%= movieServList[i] %>">
+                        <option value="<%= encodeURI(movieServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -593,14 +593,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Series API Server(s)") %></p>
-                    <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= encodeURI(Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1])) %>">
                     <datalist id="seriesServers">
                         <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
                            Settings.dhtData ? seriesServList = seriesServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < seriesServList.length; ++i) {
                         %>
-                        <option value="<%= seriesServList[i] %>">
+                        <option value="<%= encodeURI(seriesServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -609,14 +609,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Anime API Server(s)") %></p>
-                    <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= encodeURI(Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1])) %>">
                     <datalist id="animeServers">
                         <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
                            Settings.dhtData ? animeServList = animeServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < animeServList.length; ++i) {
                         %>
-                        <option value="<%= animeServList[i] %>">
+                        <option value="<%= encodeURI(animeServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -694,7 +694,7 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Proxy Server") %></p>
-                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= Settings.proxyServer %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
+                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= encodeURI(Settings.proxyServer) %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
