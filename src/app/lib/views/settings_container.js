@@ -357,7 +357,9 @@
                 case 'httpApiUsername':
                 case 'httpApiPassword':
                     apiDataChanged = true;
-                    value = field.val();
+                    let lvalue = field.val().replace(/"/g, '');
+                    field.val(lvalue);
+                    value = lvalue;
                     break;
                 case 'connectionLimit':
                 case 'streamPort':
