@@ -274,7 +274,9 @@
                     break;
                 case 'httpApiPort':
                     apiDataChanged = true;
-                    value = parseInt(field.val());
+                    let npvalue = parseInt(field.val().replace(/[^0-9]/gi, ''));
+                    field.val(npvalue);
+                    value = npvalue;
                     break;
                 case 'subtitle_size':
                 case 'tv_detail_jump_to':
@@ -363,9 +365,13 @@
                     break;
                 case 'connectionLimit':
                 case 'streamPort':
-                case 'subtitle_color':
                 case 'maxActiveTorrents':
                 case 'maxUdpReqLimit':
+                    let ncvalue = parseInt(field.val().replace(/[^0-9]/gi, ''));
+                    field.val(ncvalue);
+                    value = ncvalue;
+                    break;
+                case 'subtitle_color':
                     value = field.val();
                     break;
                 case 'downloadLimit':
@@ -378,7 +384,7 @@
                     value = numvalue;
                     break;
                 case 'bigPicture':
-                    let nvalue = field.val().replace(/[^0-9]/gi, '');
+                    let nvalue = parseInt(field.val().replace(/[^0-9]/gi, ''));
                     if (nvalue === '') {
                         nvalue = AdvSettings.get('bigPicture');
                     } else if (nvalue < 25) {
