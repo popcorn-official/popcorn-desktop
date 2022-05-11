@@ -23,7 +23,7 @@ Popcorn Time Version:
 Download date:
 <!-- When did you install Popcorn Time? -->
 
-Download url (optional):
+Download url:
 <!-- Since there are pre-release builds and it's difficult to track if download is a release or just random build from jenkins. -->
 
 #### Expected Behaviour
