@@ -42,14 +42,18 @@ Download and install:
 Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://docs.brew.sh/Cask-Cookbook)):_
   ~~~ rb
   brew tap popcorn-official/popcorn-desktop https://github.com/popcorn-official/popcorn-desktop.git
+  #export HOMEBREW_POPCORN_TIME_BUILD=false
   brew install --cask popcorn-time
   ~~~
+
+By default, this will build the app from source using the latest version of [NW.js](https://nwjs.io) on macOS 10.12 (Monterey) or later, else revert to the [latest](https://github.com/popcorn-official/popcorn-desktop/releases/latest) stable build on previous versions of macOS. This behaviour can also be forced by `export`ing a `HOMEBREW_POPCORN_TIME_BUILD=false` [environment variable](https://en.wikipedia.org/wiki/Environment_variable), for example in `~/.bashrc` or `~/.zshrc`.
 
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
   repo = "popcorn-official/popcorn-desktop"
   tap repo, "https://github.com/#{repo}.git"
-  cask "popcorn-time"
+  #ENV["HOMEBREW_POPCORN_TIME_BUILD"] = "false"
+  cask "popcorn-time" #, args: { "no-quarantine": true }
   ~~~
 
 Update from _zip_ file:  
