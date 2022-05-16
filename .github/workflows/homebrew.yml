@@ -1,0 +1,25 @@
+name: Homebrew CI
+
+on: [push]
+
+jobs:
+  homebrew:
+    name: CI
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-11, macOS-12]
+
+    env:
+      HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ACTIONS_STEP_DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG }}
+
+    steps:
+      - name: Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: ${{ github.workflow }}
+        uses: danielbayley/homebrew-pipeline@main

@@ -1,0 +1,10 @@
+inherit_from: /usr/local/Homebrew/Library/.rubocop.yml
+
+Sorbet/FalseSigil:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
