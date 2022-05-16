@@ -62,7 +62,7 @@ cask "popcorn-time" do
           git reset --hard --#{quiet}
           git clean -xd --force --#{quiet}
         EOS
-        system *%W[brew uninstall node --ignore-dependencies --#{quiet}] unless installed.include? "node"
+        system(*%W[brew uninstall node --ignore-dependencies --#{quiet}]) unless installed.include? "node"
         FileUtils.rm yarnrc unless yarnrc_keep
       end
     end
@@ -80,7 +80,6 @@ cask "popcorn-time" do
 
     db = Pathname "#{app_support}/#{@cask.name.first}/Default/data/settings.db"
     db.parent.mkpath
-    db.write "" unless db.exist?
 
     %w[Movies Series].each do |medium|
       setting = {
@@ -88,7 +87,7 @@ cask "popcorn-time" do
         value: @cask.homepage,
         _id:   SecureRandom.alphanumeric,
       }
-      next if db.lines.grep(/#{setting[:key]}/).any?
+      next if db.exist? && db.lines.grep(/#{setting[:key]}/).any?
 
       db.write "#{setting.to_json}\n", mode: "a"
     end
