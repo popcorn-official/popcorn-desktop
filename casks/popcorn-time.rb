@@ -43,12 +43,12 @@ cask "popcorn-time" do
 
         gulpfile = Pathname "gulpfile.js"
         content = gulpfile.read
-                          .sub!(/(nwVersion = .)[0-9]+\.[0-9]+\.[0-9]+/, "\\1#{nwjs}")
+                          .sub!(/(nwVersion\s*=\s*['"])[0-9]+\.[0-9]+\.[0-9]+/, "\\1#{nwjs}")
                           .remove!(/(manifest|download)Url:.+/)
         gulpfile.write content
 
         system <<-EOS
-          brew install node --#{quiet}
+          #{HOMEBREW_BREW_FILE} install node --#{quiet}
 
           npx --yes yarn install --ignore-engines --#{silent}
           npx yarn build --#{silent}
@@ -62,7 +62,7 @@ cask "popcorn-time" do
           git reset --hard --#{quiet}
           git clean -xd --force --#{quiet}
         EOS
-        system %W[brew uninstall node --ignore-dependencies --#{quiet}] unless installed.include? "node"
+        system *%W[brew uninstall node --ignore-dependencies --#{quiet}] unless installed.include? "node"
         FileUtils.rm yarnrc unless yarnrc_keep
       end
     end
@@ -79,6 +79,8 @@ cask "popcorn-time" do
     require "securerandom"
 
     db = Pathname "#{app_support}/#{@cask.name.first}/Default/data/settings.db"
+    db.parent.mkpath
+    db.write "" unless db.exist?
 
     %w[Movies Series].each do |medium|
       setting = {
@@ -86,7 +88,7 @@ cask "popcorn-time" do
         value: @cask.homepage,
         _id:   SecureRandom.alphanumeric,
       }
-      next if db.exist? && db.readlines.grep(/#{setting[:key]}/).any?
+      next if db.lines.grep(/#{setting[:key]}/).any?
 
       db.write "#{setting.to_json}\n", mode: "a"
     end
