@@ -87,7 +87,7 @@ cask "popcorn-time" do
         value: @cask.homepage,
         _id:   SecureRandom.alphanumeric,
       }
-      next if db.exist? && db.lines.grep(/#{setting[:key]}/).any?
+      next if db.exist? && db.readlines.grep(/#{setting[:key]}/).any?
 
       db.write "#{setting.to_json}\n", mode: "a"
     end
