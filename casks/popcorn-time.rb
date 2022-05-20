@@ -37,7 +37,7 @@ cask "popcorn-time" do
 
         installed = Formula.installed.map(&:name)
         yarnrc = Pathname "#{Dir.home}/.yarnrc"
-        yarnrc_keep = yarnrc.exist?
+        keep = yarnrc.exist?
 
         app_build = "build/#{@cask.name.first}/os#{arch}/#{@cask.name.first}.app"
 
@@ -63,7 +63,7 @@ cask "popcorn-time" do
           git clean -xd --force --#{quiet}
         EOS
         system(*%W[brew uninstall node --ignore-dependencies --#{quiet}]) unless installed.include? "node"
-        FileUtils.rm yarnrc unless yarnrc_keep
+        FileUtils.rm_f yarnrc unless keep
       end
     end
   end
