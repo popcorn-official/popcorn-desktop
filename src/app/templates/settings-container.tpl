@@ -269,135 +269,174 @@
     <section id="subtitles">
         <div class="title"><%= i18n.__("Subtitles") %></div>
         <div class="content">
-            <span>
-                <div class="dropdown subtitles-language-default">
-                    <p><%= i18n.__("Default Subtitle") %></p>
-                    <%
-                        var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
-                                            i18n.__("Disabled") + "</option>";
-                        for(var key in App.Localization.langcodes) {
-                            if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
-                                sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
-                            }
-                        }
-                    %>
-                    <select name="subtitle_language"><%=sub_langs%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="dropdown subtitles-font">
-                    <p><%= i18n.__("Font") %></p>
-                    <%
-                        var arr_fonts = [
-                            {name:"AljazeeraMedExtOf", id:"aljazeera"},
-                            {name:"Deja Vu Sans", id:"dejavusans"},
-                            {name:"Droid Sans", id:"droidsans"},
-                            {name:"Comic Sans MS", id:"comic"},
-                            {name:"Georgia", id:"georgia"},
-                            {name:"Geneva", id:"geneva"},
-                            {name:"Helvetica", id:"helvetica"},
-                            {name:"Khalid Art", id:"khalid"},
-                            {name:"Lato", id:"lato"},
-                            {name:"Montserrat", id:"montserrat"},
-                            {name:"OpenDyslexic", id:"opendyslexic"},
-                            {name:"Open Sans", id:"opensans"},
-                            {name:"PT Sans",id:"pts"},
-                            {name:"Tahoma", id:"tahoma"},
-                            {name:"Trebuchet MS", id:"trebuc"},
-                            {name:"Roboto",id:"roboto"},
-                            {name:"Ubuntu", id:"ubuntu"},
-                            {name:"Verdana", id:"verdana"},
-                        ];
-                        var font_folder = path.resolve({
-                            win32:  "/Windows/fonts",
-                            darwin: "/Library/Fonts",
-                            linux:  "/usr/share/fonts"
-                        }[process.platform]);
-                        var files = [];
-                        var recursive = function (dir) {
-                            if (fs.statSync(dir).isDirectory()) {
-                                fs.readdirSync(dir).forEach(function (name) {
-                                    var newdir = path.join(dir, name);
-                                    recursive(newdir);
-                                });
-                            } else {
-                                files.push(dir);
-                            }
-                        };
-                        try {
-                            recursive(font_folder);
-                        } catch (e) {}
-                        var avail_fonts = ["Arial"];
-                        for (var i in arr_fonts) {
-                            for (var key in files) {
-                                var found = files[key].toLowerCase();
-                                var toFind = arr_fonts[i].id;
-                                if (found.indexOf(toFind) != -1) {
-                                    avail_fonts.push(arr_fonts[i].name);
-                                    break;
+            <div class="opensubtitles-options">
+                <% if (Settings.opensubtitlesAuthenticated) { %>
+                    <span>
+                        <div class="dropdown subtitles-language-default">
+                            <p><%= i18n.__("Default Subtitle") %></p>
+                            <%
+                                var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
+                                                    i18n.__("Disabled") + "</option>";
+                                for(var key in App.Localization.langcodes) {
+                                    if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
+                                        sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                                    }
                                 }
-                            }
-                        }
-                        var sub_fonts = "";
-                        for (var key in avail_fonts) {
-                            sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_font"><%=sub_fonts%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="dropdown subtitles-decoration">
-                    <p><%= i18n.__("Decoration") %></p>
-                    <%
-                        var arr_deco = ["None", "Outline", "Opaque Background", "See-through Background"];
-                        var sub_deco = "";
-                        for(var key in arr_deco) {
-                            sub_deco += "<option "+(Settings.subtitle_decoration == arr_deco[key]? "selected='selected'":"")+" value='"+arr_deco[key]+"'>"+i18n.__(arr_deco[key])+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_decoration"><%=sub_deco%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span>
-                <div class="dropdown subtitles-size">
-                    <p><%= i18n.__("Size") %></p>
-                    <%
-                        var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","40px","42px","44px","46px","48px","50px","52px","54px","56px","58px","60px"];
-                        var sub_sizes = "";
-                        for(var key in arr_sizes) {
-                            sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_size"><%=sub_sizes%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="subtitles-custom">
-                    <p><%= i18n.__("Color") %></p>
-                    <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
-                        <datalist id="subs_colors">
-                            <option>#ffffff</option>
-                            <option>#ffff00</option>
-                            <option>#ff0000</option>
-                            <option>#ff00ff</option>
-                            <option>#00ffff</option>
-                            <option>#00ff00</option>
-                        </datalist>
-                </div>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
-                <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
-            </span>
-            <span>
-                <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
-                <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
-            </span>
+                            %>
+                            <select name="subtitle_language"><%=sub_langs%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span class="advanced">
+                        <div class="dropdown subtitles-font">
+                            <p><%= i18n.__("Font") %></p>
+                            <%
+                                var arr_fonts = [
+                                    {name:"AljazeeraMedExtOf", id:"aljazeera"},
+                                    {name:"Deja Vu Sans", id:"dejavusans"},
+                                    {name:"Droid Sans", id:"droidsans"},
+                                    {name:"Comic Sans MS", id:"comic"},
+                                    {name:"Georgia", id:"georgia"},
+                                    {name:"Geneva", id:"geneva"},
+                                    {name:"Helvetica", id:"helvetica"},
+                                    {name:"Khalid Art", id:"khalid"},
+                                    {name:"Lato", id:"lato"},
+                                    {name:"Montserrat", id:"montserrat"},
+                                    {name:"OpenDyslexic", id:"opendyslexic"},
+                                    {name:"Open Sans", id:"opensans"},
+                                    {name:"PT Sans",id:"pts"},
+                                    {name:"Tahoma", id:"tahoma"},
+                                    {name:"Trebuchet MS", id:"trebuc"},
+                                    {name:"Roboto",id:"roboto"},
+                                    {name:"Ubuntu", id:"ubuntu"},
+                                    {name:"Verdana", id:"verdana"},
+                                ];
+                                var font_folder = path.resolve({
+                                    win32:  "/Windows/fonts",
+                                    darwin: "/Library/Fonts",
+                                    linux:  "/usr/share/fonts"
+                                }[process.platform]);
+                                var files = [];
+                                var recursive = function (dir) {
+                                    if (fs.statSync(dir).isDirectory()) {
+                                        fs.readdirSync(dir).forEach(function (name) {
+                                            var newdir = path.join(dir, name);
+                                            recursive(newdir);
+                                        });
+                                    } else {
+                                        files.push(dir);
+                                    }
+                                };
+                                try {
+                                    recursive(font_folder);
+                                } catch (e) {}
+                                var avail_fonts = ["Arial"];
+                                for (var i in arr_fonts) {
+                                    for (var key in files) {
+                                        var found = files[key].toLowerCase();
+                                        var toFind = arr_fonts[i].id;
+                                        if (found.indexOf(toFind) != -1) {
+                                            avail_fonts.push(arr_fonts[i].name);
+                                            break;
+                                        }
+                                    }
+                                }
+                                var sub_fonts = "";
+                                for (var key in avail_fonts) {
+                                    sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_font"><%=sub_fonts%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span class="advanced">
+                        <div class="dropdown subtitles-decoration">
+                            <p><%= i18n.__("Decoration") %></p>
+                            <%
+                                var arr_deco = ["None", "Outline", "Opaque Background", "See-through Background"];
+                                var sub_deco = "";
+                                for(var key in arr_deco) {
+                                    sub_deco += "<option "+(Settings.subtitle_decoration == arr_deco[key]? "selected='selected'":"")+" value='"+arr_deco[key]+"'>"+i18n.__(arr_deco[key])+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_decoration"><%=sub_deco%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="dropdown subtitles-size">
+                            <p><%= i18n.__("Size") %></p>
+                            <%
+                                var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","40px","42px","44px","46px","48px","50px","52px","54px","56px","58px","60px"];
+                                var sub_sizes = "";
+                                for(var key in arr_sizes) {
+                                    sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_size"><%=sub_sizes%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span class="advanced">
+                        <div class="subtitles-custom">
+                            <p><%= i18n.__("Color") %></p>
+                            <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
+                                <datalist id="subs_colors">
+                                    <option>#ffffff</option>
+                                    <option>#ffff00</option>
+                                    <option>#ff0000</option>
+                                    <option>#ff00ff</option>
+                                    <option>#00ffff</option>
+                                    <option>#00ff00</option>
+                                </datalist>
+                        </div>
+                    </span>
+                    <span class="advanced">
+                        <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
+                        <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
+                    </span>
+                    <span>
+                        <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
+                        <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
+                    </span>
+                    <span>
+                        <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
+                        <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
+                    </span>
+                    <span>
+                        <em>* <%= i18n.__("You are currently connected to %s", "OpenSubtitles.org") %>.
+                        <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a></em>
+                    </span>
+                <% } else { %>
+                    <span>
+                        <%= i18n.__("Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s", "OpenSubtitles.org", Settings.projectName) %>
+                    </span>
+                    <span>
+                        <p><%= i18n.__("Username") %></p>
+                        <input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
+                        <div class="loading-spinner" style="display: none"></div>
+                        <div class="valid-tick" style="display: none"></div>
+                        <div class="invalid-cross" style="display: none"></div>
+                    </span>
+                    <span>
+                        <p><%= i18n.__("Password") %></p>
+                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword"><br>
+                    </span>
+                    <div class="btns database">
+                        <div class="btn-settings database" id="authOpensubtitles">
+                            <i class="fa fa-user">&nbsp;&nbsp;</i>
+                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
+                        </div>
+                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create an account") %>
+                        </a>
+                    </div>                    
+                    <span>
+                        <em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
+                    </span>
+                <% } %>
+            </div>
         </div>
     </section>
 
@@ -464,48 +503,6 @@
         </div>
     </section>
     <% } %>
-
-    <section id="opensubtitles">
-        <div class="title">OpenSubtitles</div>
-        <div class="content">
-            <div class="opensubtitles-options">
-                <% if (Settings.opensubtitlesAuthenticated) { %>
-                    <span>
-                        <%= i18n.__("You are currently connected to %s", "OpenSubtitles") %>.
-                        <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-                    </span>
-                <% } else { %>
-                    <span>
-                        <p><%= i18n.__("Username") %></p>
-                        <input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
-                        <div class="loading-spinner" style="display: none"></div>
-                        <div class="valid-tick" style="display: none"></div>
-                        <div class="invalid-cross" style="display: none"></div>
-                    </span>
-                    <span>
-                        <p><%= i18n.__("Password") %></p>
-                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword">
-                    </span>
-                    <div class="btns database">
-                        <div class="btn-settings database" id="authOpensubtitles">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
-                        </div>
-                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create account") %>
-                        </a>
-                    </div>                    
-                    <span>
-                        <em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
-                    </span>
-                <% } %>
-                <span class="advanced">
-                    <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
-                    <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
-                </span>
-            </div>
-        </div>
-    </section>
 
     <section id="features">
         <div class="title"><%= i18n.__("Features") %></div>
