@@ -17,6 +17,7 @@
       'click .playerchoicehelp': 'showPlayerList',
       'click .watched-toggle': 'toggleWatched',
       'click #subs-dropdown': 'hideTooltips',
+      'click .connect-opensubtitles': 'connectOpensubtitles',
       'click #audio-dropdown': 'hideTooltips',
       'click #quality-selector': 'hideTooltips'
     },
@@ -187,6 +188,12 @@
 
     hideTooltips: function () {
       $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle, #quality-selector .qselect').tooltip('hide');
+    },
+
+    connectOpensubtitles: function () {
+        App.vent.trigger('movie:closeDetail');
+        App.vent.trigger('settings:show');
+        $('#opensubtitlesUsername').attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
     },
 
     switchSubtitle: function(lang) {
