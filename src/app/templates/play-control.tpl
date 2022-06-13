@@ -16,7 +16,11 @@
         </div>
     </div>
     <div class="flex-right dropdowns-container">
+        <% if (Settings.opensubtitlesAuthenticated) { %>
         <div id="subs-dropdown"></div>
+        <% } else { %>
+        <div id="subs-dropdown" class="connect-opensubtitles"></div>
+        <% } %>
         <div id="audio-dropdown"></div>
     </div>
 </div>

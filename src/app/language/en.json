@@ -613,5 +613,7 @@
 	"The API Server URL(s) was copied to the clipboard": "The API Server URL(s) was copied to the clipboard",
 	"0 = Disable preloading": "0 = Disable preloading",
 	"Search field always expanded": "Search field always expanded",
-	"DHT UDP Requests Limit": "DHT UDP Requests Limit"
+	"DHT UDP Requests Limit": "DHT UDP Requests Limit",
+	"Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s": "Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s",
+	"Create an account": "Create an account"
 }
