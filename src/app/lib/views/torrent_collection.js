@@ -538,6 +538,7 @@
 
         pasteItem: function () {
             var data = clipboard.get('text');
+            Settings.droppedMagnet = data;
             window.handleTorrent(data, 'text');
         },
 
