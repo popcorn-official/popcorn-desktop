@@ -88,6 +88,7 @@ Settings.trackers = {
     'udp://tracker.zerobytes.xyz:1337',
     'udp://explodie.org:6969',
     'udp://retracker.lanta-net.ru:2710',
+    'udp://opentracker.i2p.rocks:6969',
     'wss://tracker.openwebtorrent.com'
   ]
 };
