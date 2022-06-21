@@ -961,7 +961,8 @@
         showAllTorrents: function() {
             const show = !this.model.get('showTorrents');
             this.model.set('showTorrents', show);
-            this.ui.showTorrents.html(i18n.__(show ? 'Less' : 'More'));
+            this.ui.showTorrents.toggleClass('active');
+            this.ui.showTorrents.html(i18n.__(show ? 'less...' : 'more...'));
             App.vent.trigger('update:torrents', show ? {
                 locale: this.model.get('contextLocale'),
             } : null);
