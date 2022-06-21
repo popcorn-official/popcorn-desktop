@@ -14,7 +14,7 @@
             <% } %>
             <div id="quality-selector" class="quality-selector"></div>
             <% if (showTorrentsMore) { %>
-            <div id="show-all-torrents" class="button show-all-torrents"><%=i18n.__("More") %></div>
+            <div id="show-all-torrents" class="show-all-torrents"><%=i18n.__("more...") %></div>
             <% } %>
         </div>
     </div>
