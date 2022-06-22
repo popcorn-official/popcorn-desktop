@@ -1,8 +1,9 @@
-## 0.4.8 - Who Crossed the Streams? - 22 June 2022
+## 0.4.8 - Who Crossed the Streams? - 05 Jule 2022
 
 New Features:
 - Add multiple torrents feature where is also supported by the API
 - Add external player support for NixOS
+- Add tracker icons to torrent search
 
 Bug Fixes:
 - Fix fallback to English when source and TMDb with default language other than English fail to fetch synopsis
