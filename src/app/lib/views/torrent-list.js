@@ -6,7 +6,6 @@
         ui: {
         },
         events: {
-            'click .ellipsis span': 'addItem',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
