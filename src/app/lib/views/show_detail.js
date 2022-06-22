@@ -196,6 +196,7 @@
             } else {
                 this.ui.bookmarkIcon.removeClass('selected');
             }
+            this.model.set('showTorrents', false);
 
             this.loadAudioDropdown();
             this.getRegion('qualitySelector').empty();
