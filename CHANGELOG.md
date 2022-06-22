@@ -1,3 +1,21 @@
+## 0.4.8 - Who Crossed the Streams? - 22 June 2022
+
+New Features:
+- Add multiple torrents feature where is also supported by the API
+- Add external player support for NixOS
+
+Bug Fixes:
+- Fix fallback to English when source and TMDb with default language other than English fail to fetch synopsis
+- Fix Homebrew Cask installation
+- Fix an XSS to RCE vulnerability (CVE-2022-25229)
+
+Other:
+- OpenSubtitles implementation redesign due to login being now required for use of their API
+- Settings page UI changes/updates
+- Update torrent trackers
+- Update various modules/dependencies
+- Various other small fixes and optimizations
+
 ## 0.4.7 - Just Keep Swimming - 02 March 2022
 
 New Features:
