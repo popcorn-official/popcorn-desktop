@@ -62,6 +62,7 @@ if (genre) {
         </div>
 
         <div class="overview"><%= displaySynopsis %></div>
+        <div id="torrent-list"></div>
     </div>
 
     <div id="play-control"></div>

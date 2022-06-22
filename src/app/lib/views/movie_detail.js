@@ -31,7 +31,8 @@
     },
 
     regions: {
-      PlayControl: '#play-control'
+      PlayControl: '#play-control',
+      TorrentList: '#torrent-list',
     },
 
     initialize: function() {
@@ -65,11 +66,28 @@
 
       App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
+      App.vent.on('update:torrents', _this.onUpdateTorrentsList.bind(_this));
       App.vent.on('change:quality', _this.onChangeQuality.bind(_this));
       // init fields in model
       this.model.set('displayTitle', '');
       this.model.set('displaySynopsis', '');
       this.localizeTexts();
+    },
+
+    onUpdateTorrentsList: function(lang) {
+      console.log('Update Torrents List: ', lang);
+      this.getRegion('TorrentList').empty();
+      if (!lang) {
+        return;
+      }
+      const provider = App.Config.getProviderForType('movie')[0];
+      const torrentList = new App.View.TorrentList({
+        model: new Backbone.Model({
+          provider,
+          promise: provider.torrents(this.model.get('imdb_id'), lang),
+        }),
+      });
+      this.getRegion('TorrentList').show(torrentList);
     },
 
     onChangeQuality: function (quality) {
@@ -271,6 +289,7 @@
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
+      App.vent.off('update:torrents');
       App.vent.off('change:quality');
       this.unbindKeyboardShortcuts();
       Object.values(this.views).forEach(v => v.destroy());

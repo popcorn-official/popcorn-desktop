@@ -250,7 +250,7 @@
 
             .overview
                 position: relative
-                height: 55%
+                max-height: 35%
                 overflow: hidden
                 float: none
                 color: #FFF
@@ -281,6 +281,17 @@
 
                 p.sline
                     line-height: 0.6
+
+            #torrent-list
+                position: relative
+                top: 50px
+                max-height: 55%
+                margin: 0 20px 0 3px
+
+                table
+                    td.provider
+                        width: 37px
+                        padding-left: 10px
 
         .play-control
             display: flex
@@ -454,6 +465,25 @@
                             opacity: 0
                         &:after
                             opacity: 1
+
+            .show-all-torrents
+                position: relative
+                float: left
+                font-family: $MainFont
+                -webkit-font-smoothing: antialiased
+                font-size: 11px
+                color: #fff
+                transition: all .2s ease-in
+                padding: 0 6px
+                margin: 6px 6px 0 -2px
+                border-radius: 10px
+                height: 23px
+                line-height: 23px
+                cursor: pointer
+
+                &:hover, &.active
+                    color: $QualitySelectorText
+                    background: $QualitySelectorBg
 
             .play-selector
                 position: relative
