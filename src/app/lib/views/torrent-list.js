@@ -6,6 +6,7 @@
         ui: {
         },
         events: {
+            'click .ellipsis span': 'addItem',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
@@ -29,6 +30,12 @@
             Promise.all(loadIcons).then((data) => {
                 this.model.set('torrents', torrents);
                 this.render();
+                this.$('.tooltipped').tooltip({
+                    delay: {
+                        'show': 1200,
+                        'hide': 100
+                    }
+                });
             });
         },
 
@@ -53,10 +60,19 @@
                 device: App.Device.Collection.selected,
                 // file_name: e.target.parentNode.firstChild.innerHTML
             });
-            if (download) {
-                $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
-            }
             App.vent.trigger('stream:start', torrentStart, download ? 'downloadOnly' : '' );
+            if (download) {
+                if (Settings.showSeedboxOnDlInit) {
+                    App.previousview = App.currentview;
+                    App.currentview = 'Seedbox';
+                    App.vent.trigger('seedbox:show');
+                    $('.filter-bar').find('.active').removeClass('active');
+                    $('#filterbar-seedbox').addClass('active');
+                    $('#nav-filters').hide();
+                } else {
+                    $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+                }
+            }
         },
     });
 })(window.App);
