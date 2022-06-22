@@ -1,40 +1,71 @@
 #torrent-list, #torrent-show-list
-  overflow: auto
-  color: white
+    overflow: auto
+    color: $ShowText1
+    font-size: 13px
+    overflow-x: hidden
+    overflow-y: overlay
+    -webkit-overflow-scrolling: touch
 
-  table
-    width: 100%
-    table-layout: auto;
-    tr:nth-of-type(odd)
-      td
-        color: lightgray
-    td
-      padding: 3px;
+    &::-webkit-scrollbar
+        width: 5px
 
-      &.ellipsis
-        position: relative;
-      &.ellipsis:before
-        content: '&nbsp;';
-        visibility: hidden;
-      &.ellipsis span
-        position: absolute;
-        left: 0;
-        right: 0;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    &::-webkit-scrollbar-track
+        background-color: $ScrollBarBg
+        border-radius: 2px
+        margin-top: 10px
+        margin-bottom: 10px
 
-      &.provider
-        width: 30px
-        img
-          cursor: pointer;
-          height: 24px;
+    &::-webkit-scrollbar-thumb
+        background-color: $ScrollBarThumb
+        border-radius: 2px
 
-      &.info
-        width:0.1%;
-        white-space: nowrap;
-        text-align: right;
-      &.action
-        width: 30px;
-        i
-          cursor: pointer;
+        &:hover
+            background-color: $ScrollBarThumbHover
+
+    &::-webkit-resizer,
+    &::-webkit-scrollbar-corner,
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-track-piece
+        display: none
+
+    table
+        width: 100%
+        table-layout: auto
+        tr:nth-of-type(odd)
+            td
+                color: lightgray
+        td
+            padding: 3px
+
+            &.ellipsis
+                position: relative
+            &.ellipsis:before
+                content: '&nbsp;'
+                visibility: hidden
+            &.ellipsis span
+                position: absolute
+                left: 0
+                right: 0
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
+                width: fit-content
+                cursor: pointer
+
+            &.provider
+                width: 30px
+                line-height: 26px
+                img
+                    cursor: pointer
+                    height: 20px
+                    vertical-align: text-bottom
+
+            &.info
+                width:0.1%
+                white-space: nowrap
+                text-align: right
+                padding: 3px 10px
+            &.action
+                width: 30px
+                i
+                    cursor: pointer
