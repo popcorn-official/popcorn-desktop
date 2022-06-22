@@ -1,6 +1,6 @@
 #torrent-list, #torrent-show-list
     overflow: auto
-    color: $ShowText1
+    color: $Text1
     font-size: 13px
     overflow-x: hidden
     overflow-y: overlay
@@ -31,11 +31,15 @@
     table
         width: 100%
         table-layout: auto
-        tr:nth-of-type(odd)
-            td
-                color: lightgray
+        tr
+            &:hover > td
+                color: $Text1
+                background: rgba($Text1, 0.1)
+
         td
             padding: 3px
+            color: $Text2
+            cursor: pointer
 
             &.ellipsis
                 position: relative
@@ -50,7 +54,8 @@
                 overflow: hidden
                 text-overflow: ellipsis
                 width: fit-content
-                cursor: pointer
+                margin-top: -9px
+                padding: 9px 3px 9px 0
 
             &.provider
                 width: 30px
