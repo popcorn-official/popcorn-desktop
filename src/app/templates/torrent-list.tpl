@@ -9,7 +9,6 @@
         <% if (Settings.activateSeedbox) { %>
         <td class="action"><i class="fa fa-download item-download"></i></td>
         <% } %>
-        <td class="action"><i class="fa fa-play item-play"></i></td>
     </tr>
     <% }); %>
 </table>
