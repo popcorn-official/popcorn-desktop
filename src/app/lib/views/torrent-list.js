@@ -9,6 +9,7 @@
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
+            'contextmenu .item-row': 'copyMagnet',
         },
         initialize: function() {
             this.model.set('torrents', []);
@@ -46,6 +47,12 @@
         openSource: function(e) {
             const torrent = this.getTorrent(e.target);
             Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+        },
+
+        copyMagnet: function(e) {
+            const torrent = this.getTorrent(e.target);
+            const magnetLink = torrent.url.split('&tr=')[0] + _.union(decodeURIComponent(torrent.url).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
+            Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
         },
 
         addItem: function (e) {
