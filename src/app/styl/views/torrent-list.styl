@@ -77,8 +77,18 @@
                 padding: 3px 10px
             &.action
                 width: 30px
+
+                &:hover
+                    color: $ShowText1
+                    transition: color .5s
+
                 i
                     cursor: pointer
 
 #torrent-show-list
     font-size: 15px
+
+    table
+        td
+            &.info, &.action
+                color: $ShowWatchedIcon_false
