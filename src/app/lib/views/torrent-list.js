@@ -9,7 +9,7 @@
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
-            'contextmenu .item-row': 'copyMagnet',
+            'contextmenu .item-row td:not(.provider)': 'copyMagnet',
         },
         initialize: function() {
             this.model.set('torrents', []);
