@@ -943,9 +943,9 @@
             if (sourceURL) {
                 const showProvider = App.Config.getProviderForType('tvshow')[0];
                 this.icons.getLink(showProvider, provider)
-                    .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png' || '/src/app/images/icon.png')
+                    .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
                     .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
-                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" alt="${provider}">`));
+                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" alt="${provider}" onerror="this.src='/src/app/images/icon.png'">`));
                 $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
                 $('.source-icon').html('');
