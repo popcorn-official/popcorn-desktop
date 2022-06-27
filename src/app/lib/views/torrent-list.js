@@ -25,7 +25,8 @@
             let loadIcons = [];
             for(let torrent of torrents) {
                 loadIcons.push(this.icons.getLink(provider, torrent.provider)
-                    .then((icon) => torrent.icon = icon || '/src/app/images/icon.png'));
+                    .then((icon) => torrent.icon = icon || '/src/app/images/icons/' + torrent.provider + '.png' || '/src/app/images/icon.png')
+                    .catch((error) => { !torrent.icon ? torrent.icon = '/src/app/images/icons/' + torrent.provider + '.png' : null; }));
             }
             Promise.all(loadIcons).then((data) => {
                 this.model.set('torrents', torrents);
