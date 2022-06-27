@@ -105,7 +105,7 @@
         this.icons.getLink(provider, torrent.provider)
             .then((icon) => torrent.icon = icon || '/src/app/images/icons/' + torrent.provider + '.png')
             .catch((error) => { !torrent.icon ? torrent.icon = '/src/app/images/icons/' + torrent.provider + '.png' : null; })
-            .then(() => $('.source-link').html(`<img src="${torrent.icon}" alt="${torrent.provider}" onerror="this.src='/src/app/images/icon.png'">`));
+            .then(() => $('.source-link').html(`<img src="${torrent.icon}" onerror="this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')">`));
         $('.source-link').show().attr('data-original-title', torrent.source.split('//').pop().split('/')[0]);
       } else {
         $('.source-link').html('');
