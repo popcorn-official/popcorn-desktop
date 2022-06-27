@@ -47,6 +47,7 @@
       if (((!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') === '0' || this.model.get('rating') === '0.0' || !this.model.get('runtime') || this.model.get('runtime') === '0' || !this.model.get('trailer') || !this.model.get('poster') || this.model.get('poster') === 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && !this.model.get('getmetarunned')) || (Settings.translateSynopsis && Settings.language !== 'en')) {
         this.getMetaData();
       }
+      this.icons = App.Providers.get('Icons');
 
       //Handle keyboard shortcuts when other views are appended or removed
 
@@ -98,10 +99,15 @@
     },
 
     toggleSourceLink: function(quality) {
-      const sourceURL = this.model.get('torrents')[quality].source;
-      if (sourceURL) {
-        $('.source-link').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
+      const torrent = this.model.get('torrents')[quality];
+      if (torrent.source) {
+        const provider = App.Config.getProviderForType('movie')[0];
+        this.icons.getLink(provider, torrent.provider)
+            .then((icon) => torrent.icon = icon || '/src/app/images/icon.png')
+            .then(() => $('.source-link').html(`<img src="${torrent.icon}" alt="${torrent.provider}">`));
+        $('.source-link').show().attr('data-original-title', torrent.source.split('//').pop().split('/')[0]);
       } else {
+        $('.source-link').html('');
         $('.source-link').hide();
       }
     },
