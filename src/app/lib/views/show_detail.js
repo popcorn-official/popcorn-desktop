@@ -939,10 +939,13 @@
         toggleSourceLink: function () {
             const sourceURL = $('.startStreaming').attr('data-source');
             const provider = $('.startStreaming').attr('data-provider');
+            let providerIcon;
             if (sourceURL) {
                 const showProvider = App.Config.getProviderForType('tvshow')[0];
                 this.icons.getLink(showProvider, provider)
-                    .then((icon) => $('.source-icon').html(`<img src="${icon || '/src/app/images/icon.png'}" alt="${provider}">`));
+                    .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png' || '/src/app/images/icon.png')
+                    .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
+                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" alt="${provider}">`));
                 $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
                 $('.source-icon').html('');
