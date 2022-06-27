@@ -103,7 +103,8 @@
       if (torrent.source) {
         const provider = App.Config.getProviderForType('movie')[0];
         this.icons.getLink(provider, torrent.provider)
-            .then((icon) => torrent.icon = icon || '/src/app/images/icon.png')
+            .then((icon) => torrent.icon = icon || '/src/app/images/icons/' + torrent.provider + '.png' || '/src/app/images/icon.png')
+            .catch((error) => { !torrent.icon ? torrent.icon = '/src/app/images/icons/' + torrent.provider + '.png' : null; })
             .then(() => $('.source-link').html(`<img src="${torrent.icon}" alt="${torrent.provider}">`));
         $('.source-link').show().attr('data-original-title', torrent.source.split('//').pop().split('/')[0]);
       } else {
