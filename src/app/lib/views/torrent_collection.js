@@ -372,7 +372,7 @@
             $('.onlinesearch-info>ul.file-list').append(
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
                     '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png"></div>'+
+                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.parentElement.innerHTML=`&#xf076`"></div>'+
                     '<i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">'+
                         item.size+
                     '</i>'+
