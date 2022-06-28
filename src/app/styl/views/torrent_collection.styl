@@ -348,6 +348,10 @@
                         &.magnet-icon:before
                             content: '\f076'
 
+                        &.magnet-icon
+                            img
+                                height: 16px
+
                         &.magnet-icon:hover
                             cursor pointer
                             opacity 1
@@ -362,6 +366,14 @@
 
                 li.result-item a
                     width calc(100% - 50px)
+
+        .onlinesearch-info
+            ul
+                li.file-item,
+                li.result-item
+                    .item-icon
+                        &.magnet-icon:before
+                            content: ''
 
         .collection-actions
             display none
