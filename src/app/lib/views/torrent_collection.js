@@ -152,6 +152,8 @@
                                     return;
                                 }
                                 var itemModel = {
+                                    provider: 'thepiratebay.org',
+                                    icon: 'tpb',
                                     title: item.name,
                                     magnet: item.magnetLink,
                                     seeds: item.seeders,
@@ -193,6 +195,8 @@
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                     var itemModel = {
+                                        provider: '1337x.to',
+                                        icon: 'T1337x',
                                         title: ldata.title,
                                         magnet: ldata.download.magnet,
                                         seeds: ldata.seeders,
@@ -235,6 +239,8 @@
                             $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.forEach(function (item) {
                                 var itemModel = {
+                                    provider: 'rarbg.to',
+                                    icon: 'rarbg',
                                     title: item.title,
                                     magnet: item.download,
                                     seeds: item.seeders,
@@ -275,6 +281,8 @@
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
                                     var itemModel = {
+                                        provider: 'omgtorrent.to',
+                                        icon: 'omgtorrent',
                                         title: ldata.title,
                                         magnet: ldata.download.magnet,
                                         seeds: ldata.seeders,
@@ -364,7 +372,7 @@
             $('.onlinesearch-info>ul.file-list').append(
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
                     '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div>'+
+                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png"></div>'+
                     '<i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">'+
                         item.size+
                     '</i>'+
