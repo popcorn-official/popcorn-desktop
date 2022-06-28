@@ -58,7 +58,7 @@
                    <% if (file.indexOf('.torrent') !== -1) { %>
                         <div class="item-icon torrent-icon"></div>
                    <% } else { %>
-                        <div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="<%=i18n.__("Magnet link") %>"></div>
+                        <div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>"></div>
                     <% } %>
                         <i class="fa fa-trash item-delete tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Remove this torrent") %>"></i>
                         <i class="fa fa-pencil-alt item-rename tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Rename this torrent") %>"></i>
