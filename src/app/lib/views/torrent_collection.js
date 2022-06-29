@@ -369,27 +369,14 @@
         },
 
         onlineAddItem: function (item) {
-            var ratio = item.peers > 0 ? item.seeds / item.peers : +item.seeds;
             $('.onlinesearch-info>ul.file-list').append(
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
                     '<a>' + item.title + '</a>'+
                     '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.parentElement.innerHTML=`&#xf076`"></div>'+
-                    '<i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">'+
-                        item.size+
-                    '</i>'+
+                    '<div class="online-health">'+item.seeds+'/'+item.peers+'</div>'+
+                    '<div class="online-size">'+item.size+'</div>'+
                 '</li>'
             );
-            if (item.seeds === 0) { // recalc the peers/seeds
-                require('webtorrent-health')(item.magnet, {
-                    timeout: 1000,
-                    blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
-                    //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
-                    ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
-                    $('.result-item[data-index=' + item.index + '] i').attr('data-original-title', i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers);
-                });
-            }
             if ($('.loading .maximize-icon').is(':visible')) {
                 $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
             }
