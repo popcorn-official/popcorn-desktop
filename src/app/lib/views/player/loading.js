@@ -63,8 +63,8 @@
       var that = this;
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
-      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions, .seedbox .item-play').addClass('disabled');
-      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item, .seedbox .item-play').prop('disabled', true);
+      $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row').addClass('disabled');
+      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item, .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
       // If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
@@ -446,7 +446,7 @@
     onBeforeDestroy: function() {
       $('.filter-bar').show();
       $('#header').removeClass('header-shadow');
-      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions, .seedbox .item-play').removeClass('disabled').removeProp('disabled');
+      $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
       Mousetrap.bind(['esc', 'backspace'], function(e) {
         App.vent.trigger('show:closeDetail');
         App.vent.trigger('movie:closeDetail');

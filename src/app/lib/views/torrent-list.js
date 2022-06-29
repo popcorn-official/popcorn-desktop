@@ -37,6 +37,9 @@
                         'hide': 100
                     }
                 });
+                if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                    $('#torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').addClass('disabled').prop('disabled', true);
+                }
             });
         },
 
