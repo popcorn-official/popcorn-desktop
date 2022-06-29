@@ -341,7 +341,7 @@
       this.ui.showTorrents.toggleClass('active');
       this.ui.showTorrents.html(i18n.__(show ? 'less...' : 'more...'));
       App.vent.trigger('update:torrents', show ? this.audio_selected : null);
-   },
+    },
 
     onBeforeDestroy: function() {
       App.vent.off('sub:lang');
