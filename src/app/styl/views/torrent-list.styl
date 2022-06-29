@@ -32,6 +32,8 @@
         width: 100%
         table-layout: auto
         tr
+            cursor: pointer
+
             &:nth-of-type(odd)
                 td
                     background: $ShowBgColor2
@@ -47,7 +49,6 @@
         td
             padding: 3px
             color: $EpisodeListText
-            cursor: pointer
 
             &.ellipsis
                 position: relative
@@ -86,9 +87,6 @@
                 &:hover
                     color: $ShowText1
                     transition: color .5s
-
-                i
-                    cursor: pointer
 
 #torrent-show-list
     font-size: 15px
