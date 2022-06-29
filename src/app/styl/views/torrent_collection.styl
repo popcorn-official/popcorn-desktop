@@ -286,14 +286,16 @@
             ul
                 li.file-item,
                 li.result-item
-                    border-bottom 1px solid rgba(255, 255, 255, 0.06)
-                    background $FileSelectorBg
+                    border-bottom 1px solid $EpisodeSelectorHover
+                    background $ShowBgColor2
                     text-align left
                     cursor pointer
                     color $FileSelectorText
                     height 46px
                     padding-left 40px
                     padding-right 50px
+                    font-family $MainFont
+                    font-size 15px
 
                     &.disabled
                         cursor not-allowed
@@ -311,10 +313,8 @@
                         white-space nowrap
                         text-overflow ellipsis
 
-                        &:hover
-                            color $ButtonBgHover
-                        &:active
-                            color $ButtonBgActive
+                    &:hover
+                        background $EpisodeSelectorHover
 
                     .item-delete,
                     .item-rename
