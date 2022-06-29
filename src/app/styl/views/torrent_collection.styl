@@ -319,14 +319,15 @@
                     .item-delete,
                     .item-rename
                         position relative
-                        color: $TextError
+                        color $Text2
+                        opacity 0.5
                         transition all 0.3s
                         cursor pointer
                         left calc(100% + 22px)
                         top -45px
 
                         &:hover
-                            color $ButtonBgHover
+                            opacity 1
 
                     .item-rename
                         left calc(100% - 25px)
@@ -339,7 +340,7 @@
                         font-size 15px
                         height 15px
                         width 15px
-                        color $FileSelectorText
+                        color $Text2
                         opacity 0.7
                         left -25px
                         top -30px
@@ -379,7 +380,7 @@
         .collection-actions
             display none
             position absolute
-            color $TextError
+            color $Text2
 
             &.disabled
                 opacity 0
@@ -390,24 +391,27 @@
                 bottom 16px
                 transition all 0.3s
                 cursor pointer
+                opacity 0.5
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
             .collection-open
                 position fixed
                 right 25px
                 bottom 15px
                 transition all 0.3s
                 cursor pointer
+                opacity 0.5
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
             .collection-import
                 position fixed
                 right 60px
                 bottom 15px
                 transition all 0.3s
                 cursor pointer
+                opacity 0.5
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
             .collection-import-hidden
                 display none
             /* override bootstrap */
