@@ -177,14 +177,14 @@
                 transition color .3s
 
                 &:hover
-                    color: $ButtonBgHover
+                    color $ButtonBgHover
 
             .togglesengines
                 cursor pointer
                 transition color .3s
 
                 &:hover
-                    color: $ButtonBgHover
+                    color $ButtonBgHover
 
             .dropdown
                 position absolute
@@ -338,7 +338,7 @@
                     .item-icon
                         position relative
                         font-family "Font Awesome 5 Free"
-                        font-weight: 900
+                        font-weight 900
                         font-style normal
                         font-size 15px
                         height 15px
@@ -349,13 +349,13 @@
                         top -30px
 
                         &.torrent-icon:before
-                            content: '\f016'
+                            content '\f016'
                         &.magnet-icon:before
-                            content: '\f076'
+                            content '\f076'
 
                         &.magnet-icon
                             img
-                                height: 16px
+                                height 16px
 
                         &.magnet-icon:hover
                             cursor pointer
@@ -393,8 +393,10 @@
                 li.file-item,
                 li.result-item
                     .item-icon
+                        opacity 1
+
                         &.magnet-icon:before
-                            content: ''
+                            content ''
 
         .collection-actions
             display none
@@ -433,6 +435,6 @@
                     opacity 1
             .collection-import-hidden
                 display none
-            /* override bootstrap */
+
             .tooltip
                 min-width 150px
