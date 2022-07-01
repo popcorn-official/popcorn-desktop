@@ -349,14 +349,15 @@
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
                 })).then(function () {
+                    if ($('.loading .maximize-icon').is(':visible')) {
+                        $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                    }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
                     $('.onlinesearch-info').show();
-
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
                     }
-
                     that.$('.tooltipped').tooltip({
                         html: true,
                         delay: {
@@ -377,9 +378,6 @@
                     '<div class="online-size">'+item.size+'</div>'+
                 '</li>'
             );
-            if ($('.loading .maximize-icon').is(':visible')) {
-                $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
-            }
         },
 
         onlineOpen: function (e) {
