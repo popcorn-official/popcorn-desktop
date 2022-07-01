@@ -105,21 +105,18 @@
 			$('.seedbox-torrent-list > ul.file-list').append(
 				`<li class="${className}" id="${torrent.infoHash}" data-season="" data-episode="">
                 <a href="#" class="episodeData">
-                    <span>&nbsp;</span>
+                    <span>
+                        <i class="fa fa-pause watched pause-torrent tooltipped" id="resume-${torrent.infoHash}" style="display: ${torrent.paused ? 'none' : ''};"></i>
+                        <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}" style="display: ${torrent.paused ? '' : 'none'};"></i>
+                    </span>
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
 
                 <i class="fa fa-download watched" id="download-${torrent.infoHash}">0 Kb/s</i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}">0 Kb/s</i>
-                <i class="fa fa-pause-circle watched pause-torrent tooltipped" id="resume-${torrent.infoHash}"  title="Pause" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? 'none' : ''};"></i>
-                <i class="fa fa-play watched resume-torrent tooltipped" id="play-${torrent.infoHash}"  title="Resume" data-toggle="tooltip" data-placement="left" style="display: ${torrent.paused ? '' : 'none'};"></i>
-                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left"></i>
+                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left" style="margin-left: 14px;"></i>
               </li>`
 			);
-
-			$('.seedbox .episodeData > span').each(function (i, el) { 
-				$(el).text(++i);
-			});
 
 			$('.seedbox-overview').show();
 			this.onRender();
@@ -166,7 +163,7 @@
 		},
 
 		getTorrentFromEvent(e, id = null) {
-			const hash = id || e.currentTarget.parentNode.getAttribute('id');
+			const hash = id || e.parentNode.getAttribute('id');
 			return App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
 		},
 
@@ -198,7 +195,7 @@
 
 		onPauseTorrentClicked(e, id) {
 			try { e.stopPropagation(); } catch(err) {}
-			const torrent = this.getTorrentFromEvent(e, id);
+			const torrent = this.getTorrentFromEvent(e.currentTarget.parentNode.parentNode, id);
 			if (torrent) {
 				this.pauseTorrent(torrent);
 			}
@@ -206,7 +203,7 @@
 
 		onResumeTorrentClicked(e, id) {
 			try { e.stopPropagation(); } catch(err) {}
-			const torrent = this.getTorrentFromEvent(e, id);
+			const torrent = this.getTorrentFromEvent(e.currentTarget.parentNode.parentNode, id);
 			if (torrent) {
 				torrent.resume();
 				$(`#resume-${torrent.infoHash}`).show();
@@ -223,7 +220,7 @@
 
 		onRemoveTorrentClicked(e) {
 			try { e.stopPropagation(); } catch(err) {}
-			const torrent = this.getTorrentFromEvent(e);
+			const torrent = this.getTorrentFromEvent(e.currentTarget);
 			if (torrent) {
 				if (App.settings.delSeedboxCache === 'always') {
 					try {
@@ -279,10 +276,6 @@
 			if (!$('.tab-torrent').hasClass('active')) {
 				$('.tab-torrent').first().addClass('active');
 			}
-
-			$('.seedbox .episodeData > span').each(function (i, el) { 
-				$(el).text(++i);
-			});
 
 			this.updateView($('.tab-torrent.active'), true);
 		},
