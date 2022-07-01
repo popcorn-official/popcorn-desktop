@@ -174,17 +174,21 @@
             .online-search
                 margin-left 5px
                 cursor pointer
-                transition color .3s
+                color $SettingsText1
+                opacity 0.5
+                transition opacity .3s
 
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
 
             .togglesengines
                 cursor pointer
-                transition color .3s
+                color $SettingsText1
+                opacity 0.5
+                transition opacity .3s
 
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
 
             .dropdown
                 position absolute
@@ -347,6 +351,7 @@
                         opacity 0.7
                         left -25px
                         top -30px
+                        transition opacity .3s
 
                         &.torrent-icon:before
                             content '\f016'
