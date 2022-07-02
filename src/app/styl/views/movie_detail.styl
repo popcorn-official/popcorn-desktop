@@ -83,6 +83,11 @@
                 height: 20px
                 position: relative
 
+                .metaitem, .year, .certification, .show-cast, .movie-imdb-link
+                    &:hover ~ .tmdb-link
+                        opacity 0.4
+                        transition-delay .8s
+
                 .metaitem
                     color: #f8f8f8
                     font-size: 12px
@@ -121,6 +126,8 @@
                     cursor: pointer
 
                 .tmdb-link
+                    padding-left: 12px
+                    padding-right 6px
                     color: #f8f8f8
                     font-size: 11px
                     position: relative
@@ -129,15 +136,17 @@
                     float: left
                     font-smoothing: antialiased
                     cursor: pointer
-                    opacity: 0.4
+                    opacity: 0
                     transition: opacity .3s ease-in
+                    transition-delay: 0s
                     
                     &:hover
                         opacity: 1
 
                     &.disabled
-                        cursor: default
-                        opacity: 0.4
+                        &:hover
+                            cursor: default
+                            opacity: 0.4
 
                 .year, .certification
                     color: #f8f8f8
