@@ -343,7 +343,6 @@
                 case 'activateSeedbox':
                 case 'activateWatchlist':
                 case 'activateTempf':
-                case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
                 case 'multipleExtSubtitles':
                 case 'moviesTabEnable':
