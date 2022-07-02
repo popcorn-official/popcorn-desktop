@@ -312,7 +312,6 @@
 				file_name: e.target.parentNode.firstChild.innerHTML
 			});
 			if (thisTorrent.paused) {
-				this.onResumeTorrentClicked($('.tab-torrent.active'), hash);
 				$('#resume-'+hash).show();
 				$('#play-'+hash).hide();
 			}
