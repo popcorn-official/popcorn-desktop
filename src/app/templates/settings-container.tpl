@@ -397,10 +397,6 @@
                         <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
                     </span>
                     <span>
-                        <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
-                        <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
-                    </span>
-                    <span>
                         <em>* <%= i18n.__("You are currently connected to %s", "OpenSubtitles.org") %>.
                         <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a></em>
                     </span>
