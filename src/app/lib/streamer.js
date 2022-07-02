@@ -632,7 +632,11 @@
                     if (err || buffer.length < 1000) {
                         return;
                     }
-                    fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                    try {
+                        fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                    } catch (err) {
+                        fs.writeFileSync(location + '/' + this.torrentModel.get('torrent').name + '_cover.jpg', buffer);
+                    }
                 });
             }
         },
