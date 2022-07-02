@@ -172,7 +172,6 @@ Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
 
 // OpenSubtitles
-Settings.opensubtitlesAutoUpload = false;
 Settings.opensubtitlesAuthenticated = false;
 Settings.opensubtitlesUsername = '';
 Settings.opensubtitlesPassword = '';
