@@ -354,9 +354,11 @@
                             img
                                 height 16px
 
-                        &.magnet-icon:hover
-                            cursor pointer
-                            opacity 1
+                        &.magnet-icon,
+                        &.torrent-icon
+                            &:hover
+                                cursor pointer
+                                opacity 1
 
                     .online-health
                         position relative
