@@ -28,6 +28,8 @@
                     body: i18n.__('Updating the API Server URLs'),
                     type: 'danger'
                 }));
+            } else {
+                App.DhtReader.updateOld();
             }
             App.vent.trigger('disclaimer:close');
         },
