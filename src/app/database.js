@@ -460,9 +460,7 @@ var Database = {
                 App.WebTorrent.dht._rpc.concurrency = parseInt(Settings.maxUdpReqLimit, 10) || 16;
             })
             .then(function () {
-                if (Settings.dhtEnable) {
-                    App.DhtReader.updateOld();
-                }
+                App.DhtReader.updateOld();
             })
             .catch(function (err) {
                 win.error('Error starting up', err);
