@@ -326,7 +326,7 @@ var Database = {
     },
 
     applyDhtSettings: function (dhtInfo) {
-        if (dhtInfo.server) {
+        if (Settings.dhtEnable && dhtInfo.server) {
             App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
         }
         if (dhtInfo.r) {
@@ -406,7 +406,7 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
-                if ((Settings.dhtEnable && typeof Settings.dhtData === 'string')) {
+                if (typeof Settings.dhtData === 'string') {
                     let dhtInfo = JSON.parse(Settings.dhtData);
                     if (typeof dhtInfo === 'object') {
                         Database.applyDhtSettings(dhtInfo);
