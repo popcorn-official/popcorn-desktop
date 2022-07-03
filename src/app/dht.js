@@ -96,7 +96,7 @@ class DhtReader {
 
     alertMessage(alertType) {
         var changeServer = function () {
-            let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? AdvSettings.get('dhtData').split('server":"')[1].split('","git":"')[0] : '';
+            let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? Settings.dhtInfo.server : '';
             AdvSettings.set('customMoviesServer', newServer);
             AdvSettings.set('customSeriesServer', newServer);
             AdvSettings.set('customAnimeServer', newServer);
