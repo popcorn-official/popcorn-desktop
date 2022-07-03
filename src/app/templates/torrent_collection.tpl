@@ -60,8 +60,8 @@
                    <% } else { %>
                         <div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>"></div>
                     <% } %>
-                        <i class="fa fa-trash item-delete tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Remove this torrent") %>"></i>
-                        <i class="fa fa-pencil-alt item-rename tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Rename this torrent") %>"></i>
+                        <i class="fa fa-trash item-delete tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Remove this torrent") %>"></i>
+                        <i class="fa fa-pencil-alt item-rename tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Rename this torrent") %>"></i>
                         </a>
                     </li>
                 <% }); %>
@@ -77,10 +77,10 @@
         </div>
 
         <div class="collection-actions">
-            <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Paste a Magnet link") %>"></div>
-            <div class="collection-import fa fa-level-down-alt tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Import a Torrent file") %>"></div>
+            <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Paste a Magnet link") %>"></div>
+            <div class="collection-import fa fa-level-down-alt tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Import a Torrent file") %>"></div>
             <input class="collection-import-hidden" type="file" accept=".torrent"/>
-            <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Open Collection Directory") %>"></div>
+            <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Open Collection Directory") %>"></div>
         </div>
     </div>
 </div>
