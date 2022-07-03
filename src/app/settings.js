@@ -2,8 +2,8 @@
 var Settings = {
   projectName: 'Popcorn Time',
   projectUrl: 'https://popcorntime.app',
-  projectCi: 'https://ci.popcorntime.app',
-  projectBlog: 'https://blog.popcorntime.app/',
+  projectCi: 'https://github.com/popcorn-official/popcorn-desktop/actions',
+  projectBlog: 'https://github.com/popcorn-official/popcorn-desktop/wiki',
   projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
   statusUrl: 'http://status.popcorntime.app',
