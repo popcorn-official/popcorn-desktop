@@ -153,6 +153,12 @@ fs.readFile('./git.json', 'utf8', function (err, json) {
   if (!err) {
     App.git = JSON.parse(json);
   }
+  Sentry.configureScope((scope) => {
+    scope.addEventProcessor((event) => {
+      event.release = "popcorn-time@" + (App.git.semver || App.settings.version);
+      return event;
+    });
+  });
 });
 
 // Menu for mac
