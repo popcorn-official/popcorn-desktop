@@ -337,6 +337,21 @@ var Database = {
             Settings.issuesUrl = dhtInfo.git + 'issues';
             Settings.sourceUrl = dhtInfo.git;
             Settings.commitUrl = dhtInfo.git + 'commit';
+            Settings.projectCi = dhtInfo.git + 'actions';
+            Settings.projectBlog = dhtInfo.git + 'wiki';
+        }
+        if (dhtInfo.site) {
+            Settings.projectUrl = dhtInfo.site;
+        }
+        if (dhtInfo.keys) {
+            if (dhtInfo.keys.os) Settings.opensubtitles.useragent = dhtInfo.keys.os;
+            if (dhtInfo.keys.fanart) Settings.fanart.api_key = dhtInfo.keys.fanart;
+            if (dhtInfo.keys.tvdb) Settings.tvdb.api_key = dhtInfo.keys.tvdb;
+            if (dhtInfo.keys.tmdb) Settings.tmdb.api_key = dhtInfo.keys.tmdb;
+            if (dhtInfo.keys.trakttv && dhtInfo.keys.trakttv.id && dhtInfo.keys.trakttv.s) {
+                Settings.trakttv.client_id = dhtInfo.keys.trakttv.id;
+                Settings.trakttv.client_secret = dhtInfo.keys.trakttv.s;
+            }
         }
     },
 
