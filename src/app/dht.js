@@ -31,12 +31,17 @@ class DhtReader {
                     }
                     return;
                 }
-                let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
+                let newData = node.v.toString();
+                let info = AdvSettings.get('dhtInfo');
+                let newInfo = typeof newData === 'string' ? JSON.parse(newData) : null;
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
-                if (e && e !== 'urls') {
-                    self.alertIcon('success');
+                if (e !== 'urls'){
+                    if (e) {
+                        self.alertIcon('success');
+                    }
+                    AdvSettings.set('dhtInfo', newInfo);
                 }
                 if (data !== newData && e !== 'urls') {
                     self.updateSettings();
@@ -48,7 +53,11 @@ class DhtReader {
                 } else if (e === 'enable') {
                     self.alertMessage('restart');
                 } else if (e === 'manual') {
-                    self.alertMessage('alrdupdated');
+                    if (info.toString() !== newInfo.toString()) {
+                        self.alertMessage('restart');
+                    } else {
+                        self.alertMessage('alrdupdated');
+                    }
                 }
             });
         });
