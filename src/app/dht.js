@@ -11,12 +11,12 @@ class DhtReader {
     update(e) {
         const self = this;
         if (!Settings.dht) {
-            if (e) {
+            if (e && e !== 'urls') {
                 self.alertIcon('error');
                 self.alertMessage('error');
             }
             return;
-        } else if (e) {
+        } else if (e && e !== 'urls') {
             self.alertIcon();
             self.alertMessage('wait');
         }
@@ -25,7 +25,7 @@ class DhtReader {
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
                 if (err || !node || !node.v) {
-                    if (e) {
+                    if (e && e !== 'urls') {
                         self.alertIcon('error');
                         self.alertMessage('error');
                     }
@@ -35,10 +35,10 @@ class DhtReader {
                 let data = AdvSettings.get('dhtData');
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
-                if (e) {
+                if (e && e !== 'urls') {
                     self.alertIcon('success');
                 }
-                if (data !== newData) {
+                if (data !== newData && e !== 'urls') {
                     self.updateSettings();
                     if (!Settings.dhtEnable || (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
                         self.alertMessage('change');
@@ -62,7 +62,11 @@ class DhtReader {
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.update('enable');
+            if (Settings.dhtEnable) {
+                this.update('enable');
+            } else {
+                this.update('urls');
+            }
         } else if (Date.now() - last > time) {
             this.update();
         }
