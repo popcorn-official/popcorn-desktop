@@ -11,12 +11,13 @@
 
         events: {
             'click .file-item': 'openFileSelector',
-            'contextmenu .file-item > *': 'openMagnet',
+            'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
             'click .result-item': 'onlineOpen',
             'contextmenu .result-item > *': 'openMagnet',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
             'click .magnet-icon': 'openMagnet',
+            'click .torrent-icon': 'openTorrent',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
@@ -448,9 +449,7 @@
             this.$('.tooltip').css('display', 'none');
             e.preventDefault();
             e.stopPropagation();
-
             var magnetLink;
-
             if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
                 // stored
                 var _file = e.currentTarget.parentNode.innerText,
@@ -461,8 +460,19 @@
                 magnetLink = e.currentTarget.parentNode.attributes['data-file'].value;
             }
             magnetLink = magnetLink.split('&tr=')[0] + _.union(decodeURIComponent(magnetLink).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
-
             Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
+        },
+
+        openTorrent: function (e) {
+            this.$('.tooltip').css('display', 'none');
+            e.preventDefault();
+            e.stopPropagation();
+            var torrentFile;
+            if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
+                var _file = e.currentTarget.parentNode.innerText,
+                    torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
+            }
+            Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
         },
 
         deleteItem: function (e) {
