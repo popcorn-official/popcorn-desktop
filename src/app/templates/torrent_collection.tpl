@@ -42,7 +42,7 @@
 
         <div class="notorrents-info">
             <div class="notorrents-frame">
-                <p class="notorrents-message"><%= i18n.__("Search for something or drop a .torrent or a magnet link...")%></p>
+                <p class="notorrents-message"><%= i18n.__("Search for something or drop a .torrent / magnet link...")%></p>
             </div>
         </div>
 
