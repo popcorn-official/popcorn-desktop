@@ -108,7 +108,7 @@ Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
 Settings.watchedCovers = 'fade';
-Settings.showAdvancedSettings = false;
+Settings.showAdvancedSettings = true;
 Settings.torColSearchMore = true;
 Settings.postersMinWidth = 134;
 Settings.postersMaxWidth = 294;
@@ -202,7 +202,7 @@ Settings.minimizeToTray = false;
 
 // Features
 Settings.activateTorrentCollection = true;
-Settings.activateWatchlist = true;
+Settings.activateWatchlist = false;
 Settings.activateTempf = true;
 Settings.activateSeedbox = true;
 Settings.toggleSengines = false;

@@ -20,6 +20,7 @@
         events: {
             'click .keyboard': 'showKeyboard',
             'click .help': 'showHelp',
+            'click .about': 'showAbout',
             'click .close-icon': 'closeSettings',
             'change select,input': 'saveSetting',
             'contextmenu input': 'rightclick_field',
@@ -247,6 +248,10 @@
             App.vent.trigger('keyboard:toggle');
         },
 
+        showAbout: function () {
+            App.vent.trigger('about:show');
+        },
+
         saveSetting: function (e) {
             var value = false,
                 apiDataChanged = false,
@@ -318,7 +323,6 @@
                 case 'continueSeedingOnStart':
                 case 'protocolEncryption':
                 case 'contentLangOnly':
-                case 'vpnEnabled':
                 case 'dhtEnable':
                 case 'coversShowRating':
                 case 'torColSearchMore':
@@ -608,7 +612,6 @@
                         !value ? scrollPosOffset++ : scrollPosOffset--;
                     }
                     /* falls through */
-                case 'vpnEnabled':
                 case 'watchedCovers':
                 case 'defaultFilters':
                 case 'activateTempf':
