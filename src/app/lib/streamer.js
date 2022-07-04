@@ -203,7 +203,14 @@
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
                 const removedPeers = [];
-                this.torrent.pause();
+
+                if (this.torrent.xt) {
+                    // magnet link
+                    this.torrent.pause();
+                } else {
+                    // .torrent file
+                    this.torrent.destroy();
+                }
 
                 for (const id in this.torrent._peers) {
                     // collect peers, need to do this before calling removePeer!
