@@ -401,9 +401,6 @@
             top 5px
             margin-left 330px
 
-            &.disabled
-                opacity 0
-
             .collection-paste,
             .collection-open,
             .collection-import
@@ -414,6 +411,13 @@
 
                 &:hover
                     opacity 1
+
+                &.disabled
+                    opacity 0.15
+                    cursor not-allowed
+
+                    &:hover
+                        opacity 0.15
 
             .collection-open
                 position absolute
