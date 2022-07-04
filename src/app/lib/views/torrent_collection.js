@@ -21,7 +21,6 @@
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
-            'mousedown .notorrents-frame': 'notorrentsClick',
             'click .online-search': 'onlineSearch',
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
@@ -53,7 +52,6 @@
             $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
-                $('.collection-actions').css('display', 'block');
                 $('.torrents-info').css('display', 'block');
             }
             if (Settings.toggleSengines) {
@@ -582,14 +580,6 @@
         openCollection: function () {
             console.debug('Opening: ' + collection);
             App.settings.os === 'windows' ? nw.Shell.openExternal(collection) : nw.Shell.openItem(collection);
-        },
-
-        notorrentsClick: function (e) {
-            if (e.button === 0) {
-                this.importItem();
-            } else if (e.button === 2) {
-                this.pasteItem();
-            }
         },
 
         onBeforeDestroy: function () {
