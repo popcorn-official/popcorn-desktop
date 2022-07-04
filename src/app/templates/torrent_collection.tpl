@@ -38,6 +38,12 @@
                     </span>
                 </div>
             </form>
+            <div class="collection-actions">
+                <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Paste a Magnet link") %>"></div>
+                <div class="collection-import fa fa-file tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Import a Torrent file") %>"></div>
+                <input class="collection-import-hidden" type="file" accept=".torrent"/>
+                <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Open Collection Directory") %>"></div>
+            </div>
         </div>
 
         <div class="notorrents-info">
@@ -73,13 +79,6 @@
             <i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
             </ul>
-        </div>
-
-        <div class="collection-actions">
-            <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Paste a Magnet link") %>"></div>
-            <div class="collection-import fa fa-level-down-alt tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Import a Torrent file") %>"></div>
-            <input class="collection-import-hidden" type="file" accept=".torrent"/>
-            <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Open Collection Directory") %>"></div>
         </div>
     </div>
 </div>
