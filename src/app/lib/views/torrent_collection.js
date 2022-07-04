@@ -111,7 +111,7 @@
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
-            if (category === 'TV Series') {
+            if (category === 'Series') {
                 category = 'TV';
             }
             var current = $('.onlinesearch-info > ul.file-list').html();
