@@ -136,7 +136,7 @@
             }
             this.isTorrentStored(); // trigger button change
 
-            if (App.currentview === 'Torrent Collection') {
+            if (App.currentview === 'Torrent Collection' || App.currentview === 'Torrent-collection') {
                 App.vent.trigger('torrentCollection:show'); // refresh collection
             }
         },
