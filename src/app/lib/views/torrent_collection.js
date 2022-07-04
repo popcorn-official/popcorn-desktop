@@ -60,7 +60,7 @@
                 this.togglesengines();
             }
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-                $('.file-item a, .collection-actions').addClass('disabled').prop('disabled', true);
+                $('.file-item, .file-item a, .collection-actions').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
