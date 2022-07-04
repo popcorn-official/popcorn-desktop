@@ -58,7 +58,7 @@
                 this.togglesengines();
             }
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-                $('.file-item, .file-item a, .collection-actions').addClass('disabled').prop('disabled', true);
+                $('.file-item, .file-item a, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
@@ -349,7 +349,7 @@
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
-                        $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                        $('.result-item, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
@@ -553,12 +553,18 @@
         },
 
         pasteItem: function () {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                return;
+            }
             var data = clipboard.get('text');
             Settings.droppedMagnet = data;
             window.handleTorrent(data, 'text');
         },
 
         importItem: function () {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                return;
+            }
             this.$('.tooltip').css('display', 'none');
 
             var that = this;
