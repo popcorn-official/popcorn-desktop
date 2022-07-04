@@ -25,6 +25,10 @@
 
         onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
+            if (!App.ViewStack.includes('settings-container-contain')) {
+                $('.filter-bar').show();
+                $('#header').removeClass('header-shadow');
+            }
             $('#movie-detail').show();
         },
 
