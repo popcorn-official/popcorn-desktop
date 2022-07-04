@@ -51,8 +51,8 @@
         .onlinesearch
             position relative
             top -10px
-            padding-left 140px
-            width 460px
+            padding-left 110px
+            width 540px
             margin 0 auto
             
             .search_in
@@ -245,7 +245,6 @@
                 color $TextError
                 text-align center
                 transition all .3s
-                cursor pointer
 
                 .notorrents-icon
                     font-size 180px
@@ -398,40 +397,25 @@
                             content ''
 
         .collection-actions
-            display none
             position absolute
             color $SettingsText1
+            top 5px
+            margin-left 330px
 
             &.disabled
                 opacity 0
 
-            .collection-paste
-                position fixed
-                right 85px
-                bottom 16px
-                transition all 0.3s
-                cursor pointer
-                opacity 0.5
-                &:hover
-                    opacity 1
-            .collection-open
-                position fixed
-                right 25px
-                bottom 15px
-                transition all 0.3s
-                cursor pointer
-                opacity 0.5
-                &:hover
-                    opacity 1
+            .collection-paste,
+            .collection-open,
             .collection-import
-                position fixed
-                right 60px
-                bottom 15px
                 transition all 0.3s
                 cursor pointer
-                opacity 0.5
+                opacity 0.3
+                padding 0 5px 8px 5px
+
                 &:hover
                     opacity 1
+
             .collection-import-hidden
                 display none
 
