@@ -270,7 +270,9 @@
 
             Mousetrap.bind('i', function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    $('#filterbar-about').click();
+                    $('.filter-bar').hide();
+                    $('#header').addClass('header-shadow');
+                    App.vent.trigger('about:show');
                 }
             }, 'keydown');
         },
