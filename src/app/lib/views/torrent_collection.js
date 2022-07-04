@@ -10,7 +10,7 @@
         className: 'torrent-collection',
 
         events: {
-            'click .file-item': 'openFileSelector',
+            'click .file-item a': 'openFileSelector',
             'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
             'click .result-item': 'onlineOpen',
             'contextmenu .result-item > *': 'openMagnet',
@@ -60,7 +60,7 @@
                 this.togglesengines();
             }
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-                $('.file-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                $('.file-item a, .collection-actions').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
@@ -431,7 +431,7 @@
         },
 
         openFileSelector: function (e) {
-            var _file = e.currentTarget.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
@@ -483,12 +483,26 @@
             var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
-            fs.unlinkSync(collection + file);
-            console.debug('Torrent Collection: deleted', file);
+            var delItem = function () {
+                App.vent.trigger('notification:close');
+                fs.unlinkSync(collection + file);
+                console.debug('Torrent Collection: deleted', file);
+                this.files = fs.readdirSync(collection);
+                this.render();
+                $('.notification_alert').stop().text(i18n.__('Torrent removed')).fadeIn('fast').delay(1500).fadeOut('fast');
+            }.bind(this);
 
-            // update collection
-            this.files = fs.readdirSync(collection);
-            this.render();
+            var keepItem = function () {
+                App.vent.trigger('notification:close');
+            };
+
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: '',
+                body: '<font size="3">' + i18n.__('Remove') + '</font><br>' + file,
+                showClose: false,
+                type: 'info',
+                buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delItem }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepItem }]
+            }));
         },
 
         renameItem: function (e) {
