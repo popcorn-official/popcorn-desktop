@@ -615,5 +615,7 @@
 	"DHT UDP Requests Limit": "DHT UDP Requests Limit",
 	"Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s": "Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s",
 	"Create an account": "Create an account",
-	"Search for something or drop a .torrent / magnet link...": "Search for something or drop a .torrent / magnet link..."
+	"Search for something or drop a .torrent / magnet link...": "Search for something or drop a .torrent / magnet link...",
+	"Torrent removed": "Torrent removed",
+	"Remove": "Remove"
 }
