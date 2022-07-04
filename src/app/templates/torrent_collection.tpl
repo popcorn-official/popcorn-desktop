@@ -5,7 +5,7 @@
         <div class="onlinesearch">
             <div class="dropdown online-categories">
                     <%
-                        var arr_categories = ["Movies","TV Series","Anime"];
+                        var arr_categories = ["Movies","Series","Anime"];
 
                         var select_category = "";
                         for(var key in arr_categories) {
