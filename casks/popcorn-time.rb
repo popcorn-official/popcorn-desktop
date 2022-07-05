@@ -75,24 +75,6 @@ cask "popcorn-time" do
 
   app_support = "#{Dir.home}/Library/Application Support"
 
-  postflight do
-    require "securerandom"
-
-    db = Pathname "#{app_support}/#{@cask.name.first}/Default/data/settings.db"
-    db.parent.mkpath
-
-    %w[Movies Series].each do |medium|
-      setting = {
-        key:   "custom#{medium}Server",
-        value: @cask.homepage,
-        _id:   SecureRandom.alphanumeric,
-      }
-      next if db.exist? && db.readlines.grep(/#{setting[:key]}/).any?
-
-      db.write "#{setting.to_json}\n", mode: "a"
-    end
-  end
-
   uninstall quit: bundle_id = "com.nw-builder.#{token}"
 
   zap trash: %W[
