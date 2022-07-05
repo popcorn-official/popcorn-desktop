@@ -335,8 +335,6 @@
                 case 'translateEpisodes':
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
-                case 'traktSyncOnStart':
-                case 'traktPlayback':
                 case 'playNextEpisodeAuto':
                 case 'automaticUpdating':
                 case 'UpdateSeed':
@@ -702,7 +700,7 @@
 
         connectTrakt: function (e) {
             if (!Settings.traktStatus) {
-                $('#authTrakt').hide();
+                $('#authTraktSp').hide();
                 $('#authTraktCode').show();
 
                 App.Trakt.authenticate().then(this.render).catch(this.render);
