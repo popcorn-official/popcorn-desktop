@@ -451,56 +451,32 @@
         </div>
     </section>
 
-    <% if (App.Trakt) { %>
-    <section id="trakt-tv">
-        <div class="title">Trakt.tv</div>
-        <div class="content">
-            <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-                <% if (App.Trakt.authenticated) { %>
-                    <span>
-                        <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
-                        <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-                    </span>
-                    <span>
-                        <input class="settings-checkbox" name="traktSyncOnStart" id="traktSyncOnStart" type="checkbox" <%=(Settings.traktSyncOnStart? "checked='checked'":"")%>>
-                        <label class="settings-label" for="traktSyncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
-                    </span>
-                    <span>
-                        <input class="settings-checkbox" name="traktPlayback" id="traktPlayback" type="checkbox" <%=(Settings.traktPlayback? "checked='checked'":"")%>>
-                        <label class="settings-label" for="traktPlayback"><%= i18n.__("Resume Playback") %></label>
-                    </span>
-                    <span>
-                        <div class="btn-settings syncTrakt" id="syncTrakt">
-                            <i class="fa fa-sync">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Sync With Trakt") %>
-                        </div>
-                    </span>
-                <% } else { %>
-                    <span>
-                        <%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", Settings.projectName) %>
-                    </span>
-                    <span>
-                        <div class="btn-settings syncTrakt" id="authTrakt">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "Trakt") %>
-                        </div>
-                        <div id="authTraktCode" style="display:none">
-                            <%= i18n.__("Code:")%>
-                            <input type="text" size="20" readonly/>
-                        </div>
-                    </span>
-                <% } %>
-            </div>
-        </div>
-    </section>
-    <% } %>
-
     <section id="features">
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
             <span>
                 <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
+                <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
+                    <% if (App.Trakt.authenticated) { %>
+                        <span>
+                            <em>* <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.&nbsp;&nbsp;
+                            <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>&nbsp;|
+                            <a id="syncTrakt" class="syncTrakt" href="#"><%= i18n.__("Sync now") %></a></em>
+                        </span>
+                    <% } else { %>
+                        <span id="authTraktSp">
+                            <em>* <a class="syncTrakt" id="authTrakt" href="#"><%= i18n.__("Connect to %s", "Trakt.tv") %></a>
+                            <%= i18n.__("to automatically 'scrobble' episodes you watch in %s", Settings.projectName) %></em>
+                        </span>
+                        </span>
+                            <div id="authTraktCode" style="display:none;">
+                                <%= i18n.__("Code:")%>
+                                <input type="text" size="20" readonly/>
+                            </div>
+                        </span>
+                    <% } %>
+                </div>
             </span>
             <span>
                 <input class="settings-checkbox" name="activateTorrentCollection" id="activateTorrentCollection" type="checkbox" <%=(Settings.activateTorrentCollection? "checked='checked'":"")%>>
