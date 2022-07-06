@@ -620,5 +620,7 @@
 	"Remove": "Remove",
 	"Connect to %s": "Connect to %s",
 	"to automatically 'scrobble' episodes you watch in %s": "to automatically 'scrobble' episodes you watch in %s",
-	"Sync now": "Sync now"
+	"Sync now": "Sync now",
+	"Same as Default Language": "Same as Default Language",
+	"Language": "Language"
 }
