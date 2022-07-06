@@ -149,7 +149,7 @@
                             $('#enableThepiratebaySearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
                                 var itemModel = {
-                                    provider: 'https://thepiratebay.org',
+                                    provider: 'thepiratebay.org',
                                     icon: 'tpb',
                                     title: item.title,
                                     magnet: item.magnet,
