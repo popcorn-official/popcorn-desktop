@@ -17,22 +17,6 @@
         <div class="title"><%= i18n.__("User Interface") %></div>
         <div class="content">
             <span>
-                <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Default Language") %></p>
-                    <%
-                        var langs = "";
-                        for(var key in App.Localization.allTranslations) {
-                            key = App.Localization.allTranslations[key];
-                            if (App.Localization.langcodes[key] !== undefined) {
-                                langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
-                            }
-                        }
-                    %>
-                    <select name="language"><%=langs%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span>
                 <div class="dropdown pct-theme">
                     <p><%= i18n.__("Theme") %></p>
                     <%
@@ -209,13 +193,29 @@
     </section>
 
     <section id="localisation">
-        <div class="title"><%= i18n.__("Localisation") %></div>
+        <div class="title"><%= i18n.__("Language") %></div>
         <div class="content">
+            <span>
+                <div class="dropdown subtitles-language">
+                    <p><%= i18n.__("Default Language") %></p>
+                    <%
+                        var langs = "";
+                        for(var key in App.Localization.allTranslations) {
+                            key = App.Localization.allTranslations[key];
+                            if (App.Localization.langcodes[key] !== undefined) {
+                                langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                            }
+                        }
+                    %>
+                    <select name="language"><%=langs%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
             <span>
                 <div class="dropdown subtitles-language">
                     <p><%= i18n.__("Preferred Content Language") %></p>
                     <%
-                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
+                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as Default Language")+"</option>";
                         for(var key in App.Localization.allTranslations) {
                             key = App.Localization.allTranslations[key];
                             if (App.Localization.langcodes[key] !== undefined) {
