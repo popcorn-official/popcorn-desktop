@@ -33,8 +33,8 @@
                         <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("RARBG") %></label>
                     </span>
                     <span>
-                        <input class="sengine-checkbox" name="enableOmgtorrentSearch" id="enableOmgtorrentSearch" type="checkbox" <%=(Settings.enableOmgtorrentSearch? "checked='checked'":"")%>>
-                        <label id="enableOmgtorrentSearchL" for="enableOmgtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("OMGTorrent") %></label>
+                        <input class="sengine-checkbox" name="enableTgxtorrentSearch" id="enableTgxtorrentSearch" type="checkbox" <%=(Settings.enableTgxtorrentSearch? "checked='checked'":"")%>>
+                        <label id="enableTgxtorrentSearchL" for="enableTgxtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("TorrentGalaxy") %></label>
                     </span>
                 </div>
             </form>

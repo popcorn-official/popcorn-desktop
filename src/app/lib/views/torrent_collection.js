@@ -29,7 +29,7 @@
             'change #enableThepiratebaySearch': 'toggleThepiratebay',
             'change #enable1337xSearch': 'toggle1337x',
             'change #enableRarbgSearch': 'toggleRarbg',
-            'change #enableOmgtorrentSearch': 'toggleOmgtorrent'
+            'change #enableTgxtorrentSearch': 'toggleTgxtorrent'
         },
 
         initialize: function () {
@@ -97,8 +97,8 @@
             AdvSettings.set('enableRarbgSearch', !Settings.enableRarbgSearch);
         },
 
-        toggleOmgtorrent: function () {
-            AdvSettings.set('enableOmgtorrentSearch', !Settings.enableOmgtorrentSearch);
+        toggleTgxtorrent: function () {
+            AdvSettings.set('enableTgxtorrentSearch', !Settings.enableTgxtorrentSearch);
         },
 
         onlineSearch: function (e, retry) {
@@ -123,7 +123,7 @@
 
             $('.togglesengines').css('visibility', 'hidden');
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
-            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableOmgtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
+            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
             $('.onlinesearch-info').hide();
             $('.onlinesearch-info>ul.file-list').html('');
 
@@ -139,35 +139,31 @@
                             resolve(results);
                         }, 6000);
                         var tpb = torrentCollection.tpb;
-                        tpb.search(input.toLocaleLowerCase(), {
-                            category: 'video',
-                            page : 0,
-                            orderBy: 'seeds',
-                            sortBy: 'desc'
+                        tpb.search({
+                            query: input,
+                            category: category,
+                            sort: 'seeders',
+                            verified: false
                         }).then(function (data) {
-                            console.debug('ThePirateBay search: %s results', data.length);
-                            $('#enableThepiratebaySearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
-                            data.forEach(function (item) {
-                                if (!item.category) {
-                                    return;
-                                }
+                            console.debug('ThePirateBay search: %s results', data.torrents.length);
+                            $('#enableThepiratebaySearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
+                            data.torrents.forEach(function (item) {
                                 var itemModel = {
-                                    provider: 'thepiratebay.org',
+                                    provider: 'https://thepiratebay.org',
                                     icon: 'tpb',
-                                    title: item.name,
-                                    magnet: item.magnetLink,
-                                    seeds: item.seeders,
-                                    peers: item.leechers,
+                                    title: item.title,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
                                     size: item.size,
                                     index: index
                                 };
-                                if (item.name.match(/trailer/i) !== null && item.name.match(/trailer/i) === null) {
+                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
                                     return;
                                 }
                                 results.push(itemModel);
                                 index++;
                             });
-                            resolve(results);
                         }).catch(function (err) {
                             console.error('ThePirateBay search:', err);
                             resolve(results);
@@ -262,45 +258,41 @@
                 }
             };
 
-            var omgtorrent = function () {
-                if (Settings.enableOmgtorrentSearch) {
+            var torrentgalaxy = function () {
+                if (Settings.enableTgxtorrentSearch) {
                     return new Promise(function (resolve) {
                         var results = [];
                         setTimeout(function () {
                             resolve(results);
                         }, 6000);
-                        var omg = torrentCollection.omg;
-                        omg.search({
-                            query: input.toLocaleLowerCase(),
-                            type: category.toLocaleLowerCase() === 'movies' ? 'films' : 'series',
-                            order: 'seeders',
-                            orderBy: 'desc'
+                        var tgx = torrentCollection.tgx;
+                        tgx.search({
+                            query: input,
+                            category: category,
+                            sort: 'seeders',
+                            verified: false
                         }).then(function (data) {
-                            console.debug('OMGTorrent search: %s results', data.torrents.length);
-                            $('#enableOmgtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
+                            console.debug('TorrentGalaxy search: %s results', data.torrents.length);
+                            $('#enableTgxtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
-                                omg.info(item.href).then(function (ldata) {
-                                    var itemModel = {
-                                        provider: 'omgtorrent.to',
-                                        icon: 'omgtorrent',
-                                        title: ldata.title,
-                                        magnet: ldata.download.magnet,
-                                        seeds: ldata.seeders,
-                                        peers: ldata.leechers,
-                                        size: ldata.size,
-                                        index: index
-                                    };
-                                    if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                        return;
-                                    }
-                                    results.push(itemModel);
-                                    index++;
-                                }).catch(function (err) {
-                                    throw 'nope';
-                                });
+                                var itemModel = {
+                                    provider: 'torrentgalaxy.to',
+                                    icon: 'TorrentGalaxy',
+                                    title: item.title,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
+                                    size: item.size,
+                                    index: index
+                                };
+                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                    return;
+                                }
+                                results.push(itemModel);
+                                index++;
                             });
                         }).catch(function (err) {
-                            console.error('OMGTorrent search:', err);
+                            console.error('TorrentGalaxy search:', err);
                             resolve(results);
                         });
                     });
@@ -335,7 +327,7 @@
                 piratebay(),
                 leetx(),
                 rarbg(),
-                omgtorrent(),
+                torrentgalaxy(),
             ]).then(function (results) {
                 var items = sortBySeeds(removeDupes(results));
                 console.log('Search Providers: %d results', items.length);
