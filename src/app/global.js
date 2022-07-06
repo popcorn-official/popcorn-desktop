@@ -36,6 +36,7 @@ var _ = require('underscore'),
   Trakt = require('trakt.tv'),
   // Torrent engines
   WebTorrent = require('webtorrent'),
+  torrentCollection = require('torrentcollection5'),
   // VPN
   VPNht = require('@vpnht/sdk'),
   // NodeJS
@@ -45,8 +46,7 @@ var _ = require('underscore'),
   // supported external players list
   extPlayerlst = '',
   // setting default filters status
-  curSetDefaultFilters = false,
-  torrentCollection = require('torrentcollection5');
+  curSetDefaultFilters = false;
 
 dayjs.extend(require('dayjs/plugin/relativeTime'));
 dayjs.extend(require('dayjs/plugin/localizedFormat'));
