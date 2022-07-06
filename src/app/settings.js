@@ -206,10 +206,10 @@ Settings.activateWatchlist = false;
 Settings.activateTempf = true;
 Settings.activateSeedbox = true;
 Settings.toggleSengines = false;
-Settings.enableThepiratebaySearch = false;
+Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
-Settings.enableOmgtorrentSearch = false;
+Settings.enableTgxtorrentSearch = true;
 
 // Ratio
 Settings.totalDownloaded = 0;
