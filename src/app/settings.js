@@ -109,7 +109,6 @@ Settings.translateSynopsis = true;
 Settings.coversShowRating = true;
 Settings.watchedCovers = 'fade';
 Settings.showAdvancedSettings = true;
-Settings.torColSearchMore = true;
 Settings.postersMinWidth = 134;
 Settings.postersMaxWidth = 294;
 Settings.postersMinFontSize = 0.8;
