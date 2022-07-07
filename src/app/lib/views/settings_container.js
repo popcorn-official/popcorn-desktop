@@ -325,7 +325,6 @@
                 case 'contentLangOnly':
                 case 'dhtEnable':
                 case 'coversShowRating':
-                case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
                 case 'showUndoRBookmark':
@@ -614,7 +613,6 @@
                 case 'defaultFilters':
                 case 'activateTempf':
                 case 'multipleExtSubtitles':
-                case 'torColSearchMore':
                 case 'httpApiEnabled':
                 case 'expandedSearch':
                 case 'playNextEpisodeAuto':
