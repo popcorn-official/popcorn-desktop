@@ -19,7 +19,7 @@ class YTSApi extends Generic {
           let torrents = movie.torrents.reduceRight(function (torrents, torrent) {
             torrents[torrent.quality] = {
               url: torrent.url,
-              magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
+              magnet: `magnet:?xt=urn:btih:${torrent.hash}&dn=${movie.slug},
               source: movie.url,
               provider: 'Yts',
               size: torrent.size_bytes,
