@@ -37,15 +37,9 @@
                 case 'movies':
                 case 'shows':
                 case 'anime':
-                    if (Settings.torColSearchMore) {
-                        this.ui.onlineSearch.css('visibility', 'visible');
-                        this.ui.retryButton.css('visibility', 'visible');
-                        this.ui.changeApi.css('visibility', 'visible');
-                    } else {
-                        this.ui.onlineSearch.css('display', 'none');
-                        this.ui.retryButton.css('visibility', 'visible');
-                        this.ui.changeApi.css('visibility', 'visible');
-                    }
+                    this.ui.onlineSearch.css('visibility', 'visible');
+                    this.ui.retryButton.css('visibility', 'visible');
+                    this.ui.changeApi.css('visibility', 'visible');
                     this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 case 'Watchlist':
@@ -61,12 +55,10 @@
                 case 'movies':
                 case 'shows':
                 case 'anime':
-                    if (Settings.torColSearchMore) {
-                        this.ui.onlineSearch.css('visibility', 'visible');
-                        this.ui.retryButton.css('display', 'none');
-                        this.ui.changeApi.css('display', 'none');
-                        this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
-                    }
+                    this.ui.onlineSearch.css('visibility', 'visible');
+                    this.ui.retryButton.css('display', 'none');
+                    this.ui.changeApi.css('display', 'none');
+                    this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 default:
                 }
@@ -400,10 +392,6 @@
 
                     $('#loading-more-animi').hide();
                     $('.status-loadmore').show();
-                }
-                if (Settings.torColSearchMore && this.collection.hasMore && this.collection.filter.keywords && this.collection.state !== 'error' && this.collection.length !== 0 && this.collection.length < maxResults) {
-                    $('.items').append('<div id="search-more-item" class="search-more"><span class="status-searchmore"><span class="fa-stack" id="searchtor"><i class="fa fa-list fa-stack-2x" id="searchtor_globe"></i><i class="fa fa-search fa-stack-2x" id="searchtor_mag"></i></span><br>' + i18n.__('Search on %s', 'Torrent Collection') + '</span><span id="overlay"></span></div>');
-                    $('.status-searchmore').show();
                 }
                 break;
 
