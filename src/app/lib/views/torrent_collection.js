@@ -181,33 +181,29 @@
                         }, 6000);
                         var leet = torrentCollection.leet;
                         leet.search({
-                            query: input.toLocaleLowerCase(),
+                            query: input,
                             category: category,
-                            orderBy: 'seeders',
-                            sortBy: 'desc'
+                            sort: 'seeders',
+                            verified: false
                         }).then(function (data) {
                             console.debug('1337x search: %s results', data.torrents.length);
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
-                                leet.info('https://1337x.to' + item.href).then(function (ldata) {
-                                    var itemModel = {
-                                        provider: '1337x.to',
-                                        icon: 'T1337x',
-                                        title: ldata.title,
-                                        magnet: ldata.download.magnet,
-                                        seeds: ldata.seeders,
-                                        peers: ldata.leechers,
-                                        size: ldata.size,
-                                        index: index
-                                    };
-                                    if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                        return;
-                                    }
-                                    results.push(itemModel);
-                                    index++;
-                                }).catch(function (err) {
-                                    throw 'nope';
-                                });
+                                var itemModel = {
+                                    provider: '1337x.to',
+                                    icon: 'T1337x',
+                                    title: item.Name,
+                                    magnet: item.Magnet,
+                                    seeds: item.Seeders,
+                                    peers: item.Leechers,
+                                    size: item.Size,
+                                    index: index
+                                };
+                                if (item.Name.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
+                                    return;
+                                }
+                                results.push(itemModel);
+                                index++;
                             });
                         }).catch(function (err) {
                             console.error('1337x search:', err);
