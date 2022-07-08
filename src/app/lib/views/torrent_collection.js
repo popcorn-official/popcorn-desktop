@@ -35,7 +35,6 @@
         initialize: function () {
             if (!fs.existsSync(collection)) {
                 fs.mkdirSync(collection);
-                console.debug('TorrentCollection: data directory created');
             }
             this.files = fs.readdirSync(collection);
         },
@@ -134,21 +133,20 @@
             var piratebay = function () {
                 if (Settings.enableThepiratebaySearch) {
                     return new Promise(function (resolve) {
-                        var results = [];
+                        const results = [];
                         setTimeout(function () {
                             resolve(results);
                         }, 6000);
-                        var tpb = torrentCollection.tpb;
+                        const tpb = torrentCollection.tpb;
                         tpb.search({
                             query: input,
                             category: category,
                             sort: 'seeders',
                             verified: false
                         }).then(function (data) {
-                            console.debug('ThePirateBay search: %s results', data.torrents.length);
                             $('#enableThepiratebaySearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
-                                var itemModel = {
+                                const itemModel = {
                                     provider: 'thepiratebay.org',
                                     icon: 'tpb',
                                     title: item.title,
@@ -158,9 +156,6 @@
                                     size: item.size,
                                     index: index
                                 };
-                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                    return;
-                                }
                                 results.push(itemModel);
                                 index++;
                             });
@@ -175,21 +170,20 @@
             var leetx = function () {
                 if (Settings.enable1337xSearch) {
                     return new Promise(function (resolve) {
-                        var results = [];
+                        const results = [];
                         setTimeout(function () {
                             resolve(results);
                         }, 6000);
-                        var leet = torrentCollection.leet;
+                        const leet = torrentCollection.leet;
                         leet.search({
                             query: input,
                             category: category,
                             sort: 'seeders',
                             verified: false
                         }).then(function (data) {
-                            console.debug('1337x search: %s results', data.torrents.length);
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
-                                var itemModel = {
+                                const itemModel = {
                                     provider: '1337x.to',
                                     icon: 'T1337x',
                                     title: item.Name,
@@ -199,9 +193,6 @@
                                     size: item.Size,
                                     index: index
                                 };
-                                if (item.Name.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                    return;
-                                }
                                 results.push(itemModel);
                                 index++;
                             });
@@ -216,21 +207,20 @@
             var rarbg = function () {
                 if (Settings.enableRarbgSearch) {
                     return new Promise(function (resolve) {
-                        var results = [];
+                        const results = [];
                         setTimeout(function () {
                             resolve(results);
                         }, 6000);
-                        var rbg = torrentCollection.rbg;
+                        const rbg = torrentCollection.rbg;
                         rbg.search({
                             query: input.toLocaleLowerCase(),
                             category: category.toLocaleLowerCase(),
                             sort: 'seeders',
                             verified: false
                         }).then(function (data) {
-                            console.debug('RARBG search: %s results', data.length);
                             $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.forEach(function (item) {
-                                var itemModel = {
+                                const itemModel = {
                                     provider: 'rarbg.to',
                                     icon: 'rarbg',
                                     title: item.title,
@@ -240,9 +230,6 @@
                                     size: Common.fileSize(parseInt(item.size)),
                                     index: index
                                 };
-                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                    return;
-                                }
                                 results.push(itemModel);
                                 index++;
                             });
@@ -257,33 +244,29 @@
             var torrentgalaxy = function () {
                 if (Settings.enableTgxtorrentSearch) {
                     return new Promise(function (resolve) {
-                        var results = [];
+                        const results = [];
                         setTimeout(function () {
                             resolve(results);
                         }, 6000);
-                        var tgx = torrentCollection.tgx;
+                        const tgx = torrentCollection.tgx;
                         tgx.search({
                             query: input,
                             category: category,
                             sort: 'seeders',
                             verified: false
                         }).then(function (data) {
-                            console.debug('TorrentGalaxy search: %s results', data.torrents.length);
                             $('#enableTgxtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
-                                var itemModel = {
+                                const itemModel = {
                                     provider: 'torrentgalaxy.to',
                                     icon: 'TorrentGalaxy',
                                     title: item.title,
                                     magnet: item.magnet,
-                                    seeds: item.seed,
-                                    peers: item.leech,
+                                    seeds: item.seed.split(/\D+/g)[0],
+                                    peers: item.leech.split(/\D+/g)[0],
                                     size: item.size,
                                     index: index
                                 };
-                                if (item.title.match(/trailer/i) !== null && input.match(/trailer/i) === null) {
-                                    return;
-                                }
                                 results.push(itemModel);
                                 index++;
                             });
@@ -295,25 +278,21 @@
                 }
             };
 
-            var removeDupes = function (arr) {
-                var found = [];
-                var unique = [];
-                for (var a in arr) {
-                    var provider = arr[a];
-                    for (var p in provider) {
-                        var obj = provider[p];
-                        var link = obj.magnet.split('&dn');
+            var removeDupesAndSort = function (arr) {
+                const found = [];
+                const unique = [];
+                for (const a in arr) {
+                    const provider = arr[a];
+                    for (const p in provider) {
+                        const obj = provider[p];
+                        const link = obj.magnet.split('&dn');
                         if (found.indexOf(link[0]) === -1) {
                             found.push(link);
                             unique.push(obj);
                         }
                     }
                 }
-                return unique;
-            };
-
-            var sortBySeeds = function (items) {
-                return items.sort(function (a, b) {
+                return unique.sort(function (a, b) {
                     return b.seeds - a.seeds;
                 });
             };
@@ -325,7 +304,7 @@
                 rarbg(),
                 torrentgalaxy(),
             ]).then(function (results) {
-                var items = sortBySeeds(removeDupes(results));
+                var items = removeDupesAndSort(results);
                 console.log('Search Providers: %d results', items.length);
                 $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
@@ -472,7 +451,6 @@
             var delItem = function () {
                 App.vent.trigger('notification:close');
                 fs.unlinkSync(collection + file);
-                console.debug('Torrent Collection: deleted', file);
                 this.files = fs.readdirSync(collection);
                 this.render();
                 $('.notification_alert').stop().text(i18n.__('Torrent removed')).fadeIn('fast').delay(1500).fadeOut('fast');
@@ -521,7 +499,6 @@
 
             if (!fs.existsSync(collection + newName) && newName) {
                 fs.renameSync(collection + file, collection + newName);
-                console.debug('Torrent Collection: renamed', file, 'to', newName);
             } else {
                 $('.notification_alert').show().text(i18n.__('This name is already taken')).delay(2500).fadeOut(400);
             }
@@ -572,7 +549,6 @@
         },
 
         openCollection: function () {
-            console.debug('Opening: ' + collection);
             App.settings.os === 'windows' ? nw.Shell.openExternal(collection) : nw.Shell.openItem(collection);
         },
 
