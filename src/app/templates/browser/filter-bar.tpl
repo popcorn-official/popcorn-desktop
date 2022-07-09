@@ -49,7 +49,7 @@
         </div>
     </li>
     <!-- Watchlist -->
-    <% if (Settings.activateWatchlist) { %>
+    <% if (Settings.activateWatchlist && App.Trakt.authenticated) { %>
     <li style="display:block">
     <% } else { %>
     <li style="display:none">
