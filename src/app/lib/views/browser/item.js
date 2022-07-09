@@ -419,19 +419,17 @@
                         });
                     }
                 }.bind(this)).then(function () {
-                    if (Settings.showUndoRBookmark) {
                         var id = window.setTimeout(function() {}, 0);
                         while (id--) { window.clearTimeout(id); }
                         App.vent.trigger('notification:close');
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: '',
                             body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was removed from bookmarks'),
-                            showClose: false,
+                            showClose: true,
                             autoclose: true,
                             type: 'info',
                             buttons: [{ title: i18n.__('Undo'), action: delCache }]
                         }));
-                    }
                 }.bind(this));
             } else {
                 if (this.ui.bookmarkIcon[0].isConnected) {
