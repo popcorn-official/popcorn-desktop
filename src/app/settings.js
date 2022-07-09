@@ -145,9 +145,8 @@ Settings.showSeedboxOnDlInit = true;
 Settings.expandedSearch = false;
 
 // Quality
-Settings.shows_default_quality = '720p';
+Settings.shows_default_quality = '1080p';
 Settings.movies_default_quality = '1080p';
-Settings.moviesShowQuality = false;
 
 // Subtitles
 Settings.subtitle_language = 'none';

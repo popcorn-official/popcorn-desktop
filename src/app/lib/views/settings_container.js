@@ -322,7 +322,6 @@
                     value = $('option:selected', field).val();
                     i18n.setLocale(value);
                     break;
-                case 'moviesShowQuality':
                 case 'deleteTmpOnClose':
                 case 'separateDownloadsDir':
                 case 'continueSeedingOnStart':
@@ -474,13 +473,6 @@
                         $('.rating').show();
                     } else {
                         $('.rating').hide();
-                    }
-                    break;
-                case 'moviesShowQuality':
-                    if (value) {
-                        $('.quality').show();
-                    } else {
-                        $('.quality').hide();
                     }
                     break;
                 case 'showAdvancedSettings':
