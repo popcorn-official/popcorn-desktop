@@ -332,7 +332,6 @@
                 case 'coversShowRating':
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
-                case 'showUndoRBookmark':
                 case 'nativeWindowFrame':
                 case 'translatePosters':
                 case 'translateSynopsis':
