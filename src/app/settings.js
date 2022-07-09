@@ -142,7 +142,6 @@ Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
 Settings.showSeedboxOnDlInit = true;
-Settings.showUndoRBookmark = true;
 Settings.expandedSearch = false;
 
 // Quality
