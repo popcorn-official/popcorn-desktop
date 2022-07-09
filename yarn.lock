@@ -7360,20 +7360,20 @@ torrentapi-wrapper3@0.0.4:
   dependencies:
     got "11.x.x"
 
-torrentcollection5@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.2.tgz#71e76734e0050a172a2875a3810f84c7d1b651e1"
-  integrity sha512-GLZU8q4mYepHXSEr6m7p3t7pxFCicH1nmjNIKVy9+FJctbVLv+kHB/LbiX1+QMY/2I1W0sSjb2f8cVdY/XHEtw==
+torrentcollection5@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.3.tgz#7d42067cb2b79f7ed8195fd2f69caa9d9f3ebab4"
+  integrity sha512-8YEa2tw9m6c9s0SsM87K0wOokD6Ym+FAE6YHdA7S3J3NZYl7iEsewcmbZaaC0JRDNuhcTJgQF+lvurAQhRTp6Q==
   dependencies:
     thehiddenbay "1.0.1"
     torrentapi-wrapper3 "0.0.4"
-    torrentgalaxy "1.0.1"
+    torrentgalaxy "1.0.2"
     xtorrent-pt "1.0.1"
 
-torrentgalaxy@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/torrentgalaxy/-/torrentgalaxy-1.0.1.tgz#63cf11785e4492c49a87f0b407aa2e289eaea3d4"
-  integrity sha512-vbOVbNZ55jOyA9/JJ95+puiWkFLhauehSywuYODmMM+GUdqdGyiZBnZdcZzxKOPqPaScFzP6BjpbFtKNwrfVHw==
+torrentgalaxy@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/torrentgalaxy/-/torrentgalaxy-1.0.2.tgz#a5c3c085f21a72efb5dd5e380bfce17137f580e3"
+  integrity sha512-DxBVn/YTfCaDyf6jM5matu8R2NvY8jKBYBlXN/ySNntk00rwPYW6qTs2mPi1/M06jw0AYb5qvqa5IbThDtbH2g==
   dependencies:
     axios "^0.21"
     cheerio "^1.0.0-rc.3"
