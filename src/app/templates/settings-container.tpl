@@ -756,10 +756,6 @@
                 <label class="settings-label" for="automaticUpdating"><%= i18n.__("Automatically update the app when a new version is available") %></label>
             </span>
             <span>
-                <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
-                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
-            </span>
-            <span>
                 <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
                 <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>

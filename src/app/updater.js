@@ -74,17 +74,6 @@
                 self.updateData = updateData;
                 return true;
             }
-            if (App.settings.UpdateSeed) {
-              client.add(updateData.updateUrl, { path: os.tmpdir() }, function (torrent) {
-                torrent.on('error', function (err) {
-                    win.log('ERROR' + err.message);
-                });
-                torrent.on('done', function () {
-                    win.log('Seeding the Current Update!');
-                });
-              });
-
-            }
             win.log('Not updating because we are running the latest version');
             return false;
         });

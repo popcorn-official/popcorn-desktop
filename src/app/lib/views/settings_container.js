@@ -339,7 +339,6 @@
                 case 'alwaysOnTop':
                 case 'playNextEpisodeAuto':
                 case 'automaticUpdating':
-                case 'UpdateSeed':
                 case 'events':
                 case 'alwaysFullscreen':
                 case 'minimizeToTray':
