@@ -252,7 +252,7 @@
 					setTimeout(function(){
 						App.vent.trigger('notification:show', new App.Model.Notification({
 							title: '',
-							body: '<div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + (toDel.length > 1 ? '&nbsp;&nbsp;(' + toDel.length + ')':'') + '</div>',
+							body: '<font size="3"><div style="padding: 5px 0">' + i18n.__('Delete related cache ?') + (toDel.length > 1 ? '&nbsp;&nbsp;(' + toDel.length + ')':'') + '</font></div>',
 							showClose: false,
 							type: 'info',
 							buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delCache }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepCache }]
