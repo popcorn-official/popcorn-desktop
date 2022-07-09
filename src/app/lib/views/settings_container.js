@@ -199,6 +199,9 @@
             $('#header').removeClass('header-shadow');
             $('#movie-detail').show();
             clearInterval(waitComplete);
+            if ($('#authTraktCode').is(':visible') && !App.Trakt.authenticated) {
+                Settings.activateWatchlist = false;
+            }
         },
 
         closeSettings: function () {
