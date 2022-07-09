@@ -449,7 +449,7 @@
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
             <span>
-                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
+                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist && App.Trakt.authenticated? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
                 <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
                     <% if (App.Trakt.authenticated) { %>
@@ -467,6 +467,7 @@
                             <div id="authTraktCode" style="display:none;">
                                 <%= i18n.__("Code:")%>
                                 <input type="text" size="20" readonly/>
+                                <i class="fa fa-times closeTraktCode"></i>
                             </div>
                         </span>
                     <% } %>

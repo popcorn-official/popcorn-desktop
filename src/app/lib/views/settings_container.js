@@ -39,7 +39,9 @@
             'click .import-db': 'openModal',
             'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
+            'click #features input#activateWatchlist': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
+            'click .closeTraktCode': 'disconnectTrakt',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'change #tmpLocation': 'updateCacheDirectory',
@@ -576,10 +578,12 @@
                     }
                     break;
                 case 'activateWatchlist':
-                    $('.nav-hor.left li:first').click();
-                    App.vent.trigger('settings:show');
-                    if (AdvSettings.get('startScreen') === 'Watchlist') {
-                        $('select[name=start_screen]').change();
+                    if (App.Trakt.authenticated) {
+                        $('.nav-hor.left li:first').click();
+                        App.vent.trigger('settings:show');
+                        if (AdvSettings.get('startScreen') === 'Watchlist') {
+                            $('select[name=start_screen]').change();
+                        }
                     }
                     break;
                 case 'activateSeedbox':
@@ -707,8 +711,19 @@
 
         disconnectTrakt: function (e) {
             App.Trakt.disconnect();
+            Settings.activateWatchlist = false;
             this.ui.success_alert.show().delay(3000).fadeOut(400);
             this.render();
+            let scrollPos = that.$el.scrollTop();
+            let scrollPosOffset = 0;
+            $('.nav-hor.left li:first').click();
+            App.vent.trigger('settings:show');
+            if (that.$el.scrollTop() !== scrollPos) {
+                if (scrollPosOffset) {
+                    scrollPos = scrollPos + scrollPosOffset * 40;
+                }
+                that.$el.scrollTop(scrollPos);
+            }
         },
 
         connectOpensubtitles: function (e) {

@@ -50,7 +50,7 @@
             }.bind(this)).then(function(auth) {
                 this.client.import_token(auth); // inject response
                 AdvSettings.set('traktStatus', auth);
-                this.onReady(true); // force the 1st sync
+                this.onReady(true, true); // force the 1st sync
                 return true;
             }.bind(this)).catch(function(err) {
                 AdvSettings.set('traktStatus', false);
@@ -233,7 +233,7 @@
             return this.client.movies.summary({id: id, extended: 'full'});
         },
 
-        onReady: function(forced) {
+        onReady: function(forced, first) {
             this.authenticated = true;
             console.info('Trakt: authenticated');
 
@@ -241,7 +241,18 @@
             var onStart = Settings.traktSyncOnStart;
 
             if (forced) {
-                // sync forced (usually first call or settings button)
+                if (first) {
+                    let scrollPos = $('.settings-container-contain').scrollTop();
+                    let scrollPosOffset = 0;
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if ($('#activateWatchlist').scrollTop() !== scrollPos) {
+                        if (scrollPosOffset) {
+                            scrollPos = scrollPos + scrollPosOffset * 40;
+                        }
+                        $('.settings-container-contain').scrollTop(scrollPos);
+                    }
+                }
                 return this.syncAll(true);
             }
 
