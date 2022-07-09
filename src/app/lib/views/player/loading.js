@@ -84,17 +84,6 @@
           that.unbindKeyboardShortcuts();
         }
       });
-      if (Settings.vpnEnabled) {
-        if (!VPNht.isInstalled()) {
-          that.showVPNLoader();
-        } else {
-          VPNht.isConnected().then(isConnected => {
-            if (!isConnected) {
-              that.showVPNLoader();
-            }
-          });
-        }
-      }
       win.info('Loading torrent');
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
     },
