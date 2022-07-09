@@ -203,7 +203,7 @@
             </span>
             <span>
                 <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Preferred Content Language") %></p>
+                    <p><%= i18n.__("Default Content Language") %></p>
                     <%
                         var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as Default Language")+"</option>";
                         for(var key in App.Localization.allTranslations) {
@@ -216,10 +216,8 @@
                     <select name="contentLanguage"><%=langs%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
-            </span>
-            <span>
                 <input class="settings-checkbox" name="contentLangOnly" id="contentLangOnly" type="checkbox" <%=(Settings.contentLangOnly? "checked='checked'":"")%>>
-                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in the preferred language") %> </label>
+                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in this language") %> </label>
             </span>
             <span>
                 <div class="dropdown translateTitle">
