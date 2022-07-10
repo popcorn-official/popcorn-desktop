@@ -266,6 +266,7 @@
                       line-height: 18px
                       text-align: justify
                       margin-top: 10px
+                      margin-left: -18px
                       padding: 4px 15px 5px 0
                       height: calc(100vh - 334px)
                       scrollable()
@@ -275,24 +276,29 @@
 
                           li.file-item,
                           li.result-item
-                              border-bottom 1px solid rgba(255, 255, 255, 0.06)
+                              border-bottom 1px solid rgba(255, 255, 255, 0)
                               background $FileSelectorBg
                               text-align left
                               cursor pointer
                               color $FileSelectorText
                               height 46px
-                              padding-left 20px
+                              padding-left 34px
                               padding-top 14px
                               padding-right 50px
+                              margin-right -2px
 
                               &:hover
                                   backdrop-filter brightness(120%)
+                                  border-bottom 1px solid rgba(255, 255, 255, 0)
 
                               &.unselected
                                   opacity 0.3
+                                  background none
+                                  border-bottom 1px solid rgba(255, 255, 255, 0.1)
 
                                   &:hover
-                                      opacity 0.5
+                                      opacity 0.6
+                                      border-bottom 1px solid rgba(255, 255, 255, 0.04)
 
                                   .filesize
                                       color rgba($FileSelectorText, 0.6)
@@ -312,12 +318,12 @@
                                   float right
                                   position relative
                                   top -18px
-                                  color rgba($FileSelectorText, 0.3)
+                                  color rgba($FileSelectorText, 0.4)
 
                               .item-download,
                               .item-remove
                                   position relative
-                                  color rgba($FileSelectorText, 0.3)
+                                  color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
                                   left calc(100% + 7px)
@@ -327,9 +333,9 @@
                                       color $CloseButtonHover
 
                               .item-play
-                                  left 0px
+                                  left -8px
                                   position relative
-                                  color rgba($FileSelectorText, 0.3)
+                                  color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
                                   top -17px
@@ -342,7 +348,7 @@
                                       opacity 0.3
 
                                       &:hover
-                                          color rgba($FileSelectorText, 0.3) !important
+                                          color rgba($FileSelectorText, 0.4) !important
 
                               .item-remove
                                   display inline-block
