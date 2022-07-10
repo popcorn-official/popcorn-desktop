@@ -416,7 +416,7 @@
                     </li>`);
                 }
                 if (totalfiles < 2) {
-                    $('.file-item a').css('max-width', 'calc(100% - 20px)');
+                    $('.file-item a').css('width', 'calc(100% - 22px)');
                     $('.file-item .filesize').css('display', 'none');
                 }
                 if (active) {
