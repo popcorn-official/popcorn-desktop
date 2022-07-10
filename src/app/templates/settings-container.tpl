@@ -425,13 +425,10 @@
             <span>
                 <input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
                 <label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
+                <% if (Settings.playNextEpisodeAuto) { %>
+                &nbsp;&nbsp;&nbsp;<input id="preloadNextEpisodeTime" type="number" min="0" max="99999" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s) remaining before preloading next episode") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
+                <% } %>
             </span>
-            <% if (Settings.playNextEpisodeAuto) { %>
-            <span>
-                <p><%= i18n.__("Remaining runtime before start preloading next episode") %>&nbsp;&nbsp;</p>
-                <input id="preloadNextEpisodeTime" type="number" min="0" max="99999" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
-            </span>
-            <% } %>
         </div>
     </section>
 
