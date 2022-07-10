@@ -78,7 +78,7 @@
                     App.vent.trigger('seedbox:show');
                     $('.filter-bar').find('.active').removeClass('active');
                     $('#filterbar-seedbox').addClass('active');
-                    $('#nav-filters').hide();
+                    $('#nav-filters, .right .search').hide();
                 } else {
                     $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
                 }
