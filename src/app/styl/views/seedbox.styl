@@ -272,6 +272,8 @@
                       scrollable()
 
                       ul
+                          font-family $MainFont
+
                           li.file-item,
                           li.result-item
                               border-bottom 1px solid rgba(255, 255, 255, 0.06)
@@ -285,11 +287,7 @@
                               padding-right 50px
 
                               &:hover
-                                  filter brightness(110%)
-                                  backdrop-filter brightness(110%)
-
-                                  & > .item-remove
-                                      display inline-block
+                                  backdrop-filter brightness(120%)
 
                               &.unselected
                                   opacity 0.3
@@ -297,16 +295,13 @@
                                   &:hover
                                       opacity 0.5
 
-                                      & > .item-download
-                                          display inline-block
-
-                                  .item-download
-                                      display none
+                                  .filesize
+                                      color rgba($FileSelectorText, 0.6)
 
                               a
                                   color $FileSelectorText
                                   text-decoration blink
-                                  width calc(100% - 20px)
+                                  width calc(100% - 180px)
                                   display block
                                   transition all 0.3s
                                   overflow hidden
@@ -314,9 +309,26 @@
                                   text-overflow ellipsis
                                   margin-left 25px
 
+                              .filesize
+                                  float right
+                                  position relative
+                                  top -18px
+                                  color rgba($FileSelectorText, 0.3)
+
                               .item-download,
-                              .item-remove,
+                              .item-remove
+                                  position relative
+                                  color: $TextError
+                                  transition all 0.3s
+                                  cursor pointer
+                                  left calc(100% + 7px)
+                                  top -18px
+
+                                  &:hover
+                                      color $CloseButtonHover
+
                               .item-play
+                                  left 0px
                                   position relative
                                   color: $TextError
                                   transition all 0.3s
@@ -327,9 +339,6 @@
                                   &:hover
                                       color $CloseButtonHover
 
-                              .item-play
-                                  left 0px
-
                                   &.disabled
                                       cursor not-allowed
                                       opacity 0.3
@@ -338,7 +347,7 @@
                                           color: $TextError !important
 
                               .item-remove
-                                  display none
+                                  display inline-block
 
                               .item-icon
                                   position relative
