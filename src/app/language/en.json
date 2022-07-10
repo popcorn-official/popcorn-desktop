@@ -582,7 +582,7 @@
 	"was removed from bookmarks": "was removed from bookmarks",
 	"Bookmark restored": "Bookmark restored",
 	"Undo": "Undo",
-	"Remaining runtime before start preloading next episode": "Remaining runtime before start preloading next episode",
+	"minute(s) remaining before preloading next episode": "minute(s) remaining before preloading next episode",
 	"Zoom": "Zoom",
 	"Contrast": "Contrast",
 	"Brightness": "Brightness",
