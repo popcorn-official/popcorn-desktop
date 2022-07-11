@@ -71,9 +71,9 @@ class Provider {
     if (args.apiURL) { this.setApiUrls(args.apiURL); }
   };
 
-  async _get(index, uri) {
+  async _get(index, uri, altMoreApi) {
 
-    const req = this.buildRequest(this.apiURL[index], uri);
+    const req = this.buildRequest(altMoreApi ? altMoreApi[index] : this.apiURL[index], uri);
     let err = null;
     console.info(`Request to ${this.constructor.name}: '${req.url}'`);
     try {
