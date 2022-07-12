@@ -109,8 +109,15 @@ class YTSApi extends Generic {
     return new Promise((resolve, reject) => resolve(old_data));
   }
 
-  torrents(imdb_id, lang) {
-    return new Promise((resolve, reject) => resolve([]));
+  feature(name) { return name==='torrents'; }
+
+  torrents(imdb_id, lang, altMoreApi) {
+    const params = {
+      locale: this.language,
+      contentLocale: lang,
+    };
+    const uri = `movie/${imdb_id}/torrents?` + new URLSearchParams(params);
+    return this._get(0, uri, altMoreApi);
   }
 
   filters() {
@@ -184,6 +191,7 @@ YTSApi.prototype.config = {
   uniqueId: 'imdb_id',
   tabName: 'Movies',
   type: 'movie',
+  noShowAll: true,
   metadata: 'trakttv:movie-metadata'
 };
 
