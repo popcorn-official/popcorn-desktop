@@ -111,13 +111,30 @@ class YTSApi extends Generic {
 
   feature(name) { return name==='torrents'; }
 
-  torrents(imdb_id, lang, altShowAll) {
+  torrents(imdb_id, lang) {
     const params = {
-      locale: this.language,
-      contentLocale: lang,
+      imdb_id: imdb_id
     };
-    const uri = `movie/${imdb_id}/torrents?` + new URLSearchParams(params);
-    return this._get(0, uri, altShowAll);
+    const uri = `api/v2/movie_details.json?` + new URLSearchParams(params);
+    return this._get(0, uri).then((data) => {
+      let result = [];
+      let movie = data.data.movie;
+      for (let torrent of data.data.movie.torrents) {
+        result.push({
+          url: torrent.url,
+          magnet: `magnet:?xt=urn:btih:${torrent.hash}&dn=` + movie.slug.capitalizeEach().replace(/-+/gi, '.') + `.${torrent.quality}.` + torrent.type.capitalizeEach() + `-YTS`,
+          source: movie.url,
+          provider: 'Yts',
+          title: movie.title,
+          quality: torrent.quality,
+          size: torrent.size_bytes,
+          filesize: torrent.size,
+          seed: torrent.seeds,
+          peer: torrent.peers
+        });
+      }
+      return result;
+    })
   }
 
   filters() {
@@ -191,7 +208,6 @@ YTSApi.prototype.config = {
   uniqueId: 'imdb_id',
   tabName: 'Movies',
   type: 'movie',
-  noShowAll: true,
   metadata: 'trakttv:movie-metadata'
 };
 
