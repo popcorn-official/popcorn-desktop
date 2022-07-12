@@ -84,7 +84,7 @@
       const provider = App.Config.getProviderForType('movie')[0];
       let altMoreApi;
       if (provider.name.includes('YTS')) {
-        altMoreApi = _.shuffle((Settings.customServers.movie + ',' + Settings.dhtInfo.server).split(',').filter(a => !a.includes('yts')));
+        altMoreApi = _.shuffle(_.uniq((Settings.customServers.movie + ',' + Settings.dhtInfo.server).split(',').filter(a => !a.includes('yts'))));
       }
       const torrentList = new App.View.TorrentList({
         model: new Backbone.Model({
