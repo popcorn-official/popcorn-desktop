@@ -8,6 +8,8 @@
                     if (file.display !== false) { %>
                 <li class="file-item" data-index="<%=file.index%>" data-file="<%=file.path%>">
                     <a><%=file.name %></a>
+                    <i class="fa fa-download item-download"></i>
+                    <span><%=Common.fileSize(file.length) %></span>
                 </li>
             <% }}); %>
         </ul>
