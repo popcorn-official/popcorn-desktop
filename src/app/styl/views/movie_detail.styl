@@ -508,7 +508,7 @@
                 -webkit-font-smoothing: antialiased
                 font-size: 11px
                 color: #fff
-                transition: all .2s ease-in
+                transition: all .2s ease-in, margin 0s
                 padding: 0 6px
                 margin: 6px 6px 0 -2px
                 border-radius: 10px
@@ -519,6 +519,14 @@
                 &:hover, &.active
                     color: $QualitySelectorText
                     background: $QualitySelectorBg
+
+                &.fa-spinner
+                    font-family: "Font Awesome 5 Free"
+                    transition: none
+                    margin-left: 6px
+
+                    &:hover, &.active
+                        background: none
 
             .play-selector
                 position: relative

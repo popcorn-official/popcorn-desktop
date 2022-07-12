@@ -338,8 +338,11 @@
     showAllTorrents: function() {
       const show = !this.model.get('showTorrents');
       this.model.set('showTorrents', show);
-      this.ui.showTorrents.toggleClass('active');
-      this.ui.showTorrents.html(i18n.__(show ? 'less...' : 'more...'));
+      if (show) {
+        this.ui.showTorrents.addClass('active fas fa-spinner fa-spin').html('');
+      } else {
+        this.ui.showTorrents.removeClass('active fas fa-spinner fa-spin').html(i18n.__('more...'));
+      }
       App.vent.trigger('update:torrents', show ? this.audio_selected : null);
     },
 
