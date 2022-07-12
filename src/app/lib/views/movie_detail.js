@@ -82,10 +82,11 @@
         return;
       }
       const provider = App.Config.getProviderForType('movie')[0];
+      const altShowAll = provider.config.noShowAll ? _.shuffle((Settings.dhtInfo.server ? Settings.dhtInfo.server.split(',') : Settings.customServers.movie).filter(a => !a.includes(provider.apiURL))) : null;
       const torrentList = new App.View.TorrentList({
         model: new Backbone.Model({
           provider,
-          promise: provider.torrents(this.model.get('imdb_id'), lang),
+          promise: provider.torrents(this.model.get('imdb_id'), lang, altShowAll),
         }),
       });
       this.getRegion('TorrentList').show(torrentList);
