@@ -152,6 +152,7 @@ Settings.chosenPlayer = 'local';
 Settings.shows_default_quality = '1080p';
 Settings.movies_default_quality = '1080p';
 Settings.playerVolume = '1';
+Settings.audioPassthrough = false;
 
 // Features
 Settings.activateWatchlist = false;
