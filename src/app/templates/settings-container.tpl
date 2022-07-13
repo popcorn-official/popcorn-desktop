@@ -429,6 +429,10 @@
                 &nbsp;&nbsp;&nbsp;<input id="preloadNextEpisodeTime" type="number" min="0" max="99999" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s) remaining before preloading next episode") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
                 <% } %>
             </span>
+            <span>
+                <input class="settings-checkbox" name="audioPassthrough" id="audioPassthrough" type="checkbox" <%=(Settings.audioPassthrough? "checked='checked'":"")%>>
+                <label class="settings-label" for="audioPassthrough"><%= i18n.__("Audio Passthrough") %></label>
+            </span>
         </div>
     </section>
 
