@@ -431,7 +431,7 @@
             </span>
             <span>
                 <input class="settings-checkbox" name="audioPassthrough" id="audioPassthrough" type="checkbox" <%=(Settings.audioPassthrough? "checked='checked'":"")%>>
-                <label class="settings-label" for="audioPassthrough"><%= i18n.__("Enable Audio Passthrough") %></label>
+                <label class="settings-label" for="audioPassthrough"><%= i18n.__("Allow Audio Passthrough") %></label>
             </span>
         </div>
     </section>
