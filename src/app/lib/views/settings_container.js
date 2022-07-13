@@ -332,6 +332,7 @@
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
                 case 'nativeWindowFrame':
+                case 'audioPassthrough':
                 case 'translatePosters':
                 case 'translateSynopsis':
                 case 'translateEpisodes':
@@ -620,6 +621,16 @@
                     let packageJson = jsonFileEditor(`package.json`);
                     packageJson.get('window').frame = value;
                     packageJson.save();
+                    this.alertMessageSuccess(true);
+                    break;
+                case 'audioPassthrough':
+                    let packageJson2 = jsonFileEditor(`package.json`);
+                    if (Settings.audioPassthrough) {
+                        packageJson2.set('chromium-args', '--enable-node-worker --disable-audio-output-resampler');
+                    } else {
+                        packageJson2.set('chromium-args', '--enable-node-worker');
+                    }
+                    packageJson2.save();
                     this.alertMessageSuccess(true);
                     break;
                 case 'customMoviesServer':
