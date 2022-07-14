@@ -10,7 +10,7 @@
 
     .button
         position: absolute
-        right: 17%
+        right: 16.2%
         cursor: pointer
         height: 35px
         margin-top: 15px
@@ -53,12 +53,13 @@
                 background-color $ButtonBgDisabled
 
     .title
-        font-size 24px
-        padding 0 0 20px
-        margin-top 100px
+        font-size 36px
+        opacity 0.07
+        padding 0 0 50px
+        margin-top 7%
         color $Text1
-        font-family $AlternateFont
-        text-align center
+        font-family $MainFontBold
+        margin-left 14.2%
 
     .fakeskan
         display none
@@ -70,7 +71,7 @@
         background rgba(0,0,0,.2)
         margin-top -28px
         color $Text1
-        font-family $AlternateFont
+        font-family $MainFont
         font-size 13px
         line-height 16px
 
@@ -83,34 +84,47 @@
             padding-right 8px
 
     .content
-        margin 0 auto
+        margin 0 auto 40px auto
         width 66%
-        height 60%
-        color $Text1
-        font-family $AlternateFont
-        font-size 17px
+        height 55%
+        color $TextError
+        font-family $MainFont
+        font-size 15px
         text-align center
-        box-shadow inset -3px 0px 10px $FileSelectorShadow
         scrollable()
 
         ul
             li.file-item
-                border-bottom 1px solid rgba(255, 255, 255, 0.06)
-                background $FileSelectorBg
+                border-bottom 1px solid $EpisodeSelectorHover
+                background $ShowBgColor2
                 text-align left
-                margin 2px
                 cursor pointer
-                color $FileSelectorText
+                color $SettingsText1
 
                 a
-                    color $FileSelectorText
+                    color $SettingsText1
                     text-decoration blink
                     width 100%
                     display block
-                    padding 10px 0 10px 40px
-                    transition all 0.3s
+                    padding 14px 0 14px 24px
+                    transition opacity .1s ease-in
 
                     &:hover
-                        color $ButtonBgHover
-                    &:active
-                        color $ButtonBgActive
+                        background $EpisodeSelectorHover
+
+                i
+                    float right
+                    margin -29px 30px 0 0
+                    opacity 0.4
+                    transition all .5s
+                    font-size 14px
+
+                    &:hover
+                        opacity 1
+
+                span
+                    float right
+                    margin -28px 30px 0 0
+                    opacity 0.4
+                    pointer-events none
+                    font-size 14px

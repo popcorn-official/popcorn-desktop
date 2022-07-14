@@ -19,8 +19,9 @@ class YTSApi extends Generic {
           let torrents = movie.torrents.reduceRight(function (torrents, torrent) {
             torrents[torrent.quality] = {
               url: torrent.url,
-              magnet: `magnet:?xt=urn:btih:${torrent.hash}`,
+              magnet: `magnet:?xt=urn:btih:${torrent.hash}&dn=` + movie.slug.capitalizeEach().replace(/-+/gi, '.') + `.${torrent.quality}.` + torrent.type.capitalizeEach() + `-YTS`,
               source: movie.url,
+              provider: 'Yts',
               size: torrent.size_bytes,
               filesize: torrent.size,
               seed: torrent.seeds,
@@ -108,6 +109,17 @@ class YTSApi extends Generic {
     return new Promise((resolve, reject) => resolve(old_data));
   }
 
+  feature(name) { return name==='torrents'; }
+
+  torrents(imdb_id, lang, altShowAll) {
+    const params = {
+      locale: this.language,
+      contentLocale: lang,
+    };
+    const uri = `movie/${imdb_id}/torrents?` + new URLSearchParams(params);
+    return this._get(0, uri, altShowAll);
+  }
+
   filters() {
     const data = {
       genres: [
@@ -179,6 +191,7 @@ YTSApi.prototype.config = {
   uniqueId: 'imdb_id',
   tabName: 'Movies',
   type: 'movie',
+  noShowAll: true,
   metadata: 'trakttv:movie-metadata'
 };
 

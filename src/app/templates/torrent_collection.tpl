@@ -5,7 +5,7 @@
         <div class="onlinesearch">
             <div class="dropdown online-categories">
                     <%
-                        var arr_categories = ["Movies","TV Series","Anime"];
+                        var arr_categories = ["Movies","Series","Anime"];
 
                         var select_category = "";
                         for(var key in arr_categories) {
@@ -16,7 +16,7 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
+                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
                 <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toogle="tooltip"></i>
                 <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
@@ -33,17 +33,22 @@
                         <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("RARBG") %></label>
                     </span>
                     <span>
-                        <input class="sengine-checkbox" name="enableOmgtorrentSearch" id="enableOmgtorrentSearch" type="checkbox" <%=(Settings.enableOmgtorrentSearch? "checked='checked'":"")%>>
-                        <label id="enableOmgtorrentSearchL" for="enableOmgtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("OMGTorrent") %></label>
+                        <input class="sengine-checkbox" name="enableTgxtorrentSearch" id="enableTgxtorrentSearch" type="checkbox" <%=(Settings.enableTgxtorrentSearch? "checked='checked'":"")%>>
+                        <label id="enableTgxtorrentSearchL" for="enableTgxtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("TorrentGalaxy") %></label>
                     </span>
                 </div>
             </form>
+            <div class="collection-actions">
+                <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Paste a Magnet link") %>"></div>
+                <div class="collection-import fa fa-file tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Import a Torrent file") %>"></div>
+                <input class="collection-import-hidden" type="file" accept=".torrent"/>
+                <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Open Collection Directory") %>"></div>
+            </div>
         </div>
 
         <div class="notorrents-info">
             <div class="notorrents-frame">
-                <i class="fas fa-paste notorrents-icon"></i>
-                <p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
+                <p class="notorrents-message"><%= i18n.__("Search for something or drop a .torrent / magnet link...")%></p>
             </div>
         </div>
 
@@ -58,10 +63,10 @@
                    <% if (file.indexOf('.torrent') !== -1) { %>
                         <div class="item-icon torrent-icon"></div>
                    <% } else { %>
-                        <div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="<%=i18n.__("Magnet link") %>"></div>
+                        <div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="<%=i18n.__("Magnet link") %>"></div>
                     <% } %>
-                        <i class="fa fa-trash item-delete tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Remove this torrent") %>"></i>
-                        <i class="fa fa-pencil-alt item-rename tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Rename this torrent") %>"></i>
+                        <i class="fa fa-trash item-delete tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Remove this torrent") %>"></i>
+                        <i class="fa fa-pencil-alt item-rename tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Rename this torrent") %>"></i>
                         </a>
                     </li>
                 <% }); %>
@@ -74,13 +79,6 @@
             <i class="fa fa-arrow-circle-left online-back"></i>
             <ul class="file-list">
             </ul>
-        </div>
-
-        <div class="collection-actions">
-            <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Paste a Magnet link") %>"></div>
-            <div class="collection-import fa fa-level-down-alt tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Import a Torrent file") %>"></div>
-            <input class="collection-import-hidden" type="file" accept=".torrent"/>
-            <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Open Collection Directory") %>"></div>
         </div>
     </div>
 </div>

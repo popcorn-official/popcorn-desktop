@@ -1,0 +1,99 @@
+#torrent-list, #torrent-show-list
+    overflow: auto
+    color: $Text1
+    font-size: 13px
+    overflow-x: hidden
+    overflow-y: overlay
+    -webkit-overflow-scrolling: touch
+
+    &::-webkit-scrollbar
+        width: 5px
+
+    &::-webkit-scrollbar-track
+        background-color: $ScrollBarBg
+        border-radius: 2px
+        margin-top: 10px
+        margin-bottom: 10px
+
+    &::-webkit-scrollbar-thumb
+        background-color: $ScrollBarThumb
+        border-radius: 2px
+
+        &:hover
+            background-color: $ScrollBarThumbHover
+
+    &::-webkit-resizer,
+    &::-webkit-scrollbar-corner,
+    &::-webkit-scrollbar-button,
+    &::-webkit-scrollbar-track-piece
+        display: none
+
+    table
+        width: 100%
+        table-layout: auto
+        tr
+            cursor: pointer
+
+            &:nth-of-type(odd)
+                td
+                    background: $ShowBgColor2
+
+            &:hover > td
+                background: $EpisodeSelectorHover
+
+            &.disabled
+                cursor: not-allowed
+                opacity: 0.7
+                filter: grayscale(30%)
+
+        td
+            padding: 3px
+            color: $EpisodeListText
+
+            &.ellipsis
+                position: relative
+            &.ellipsis:before
+                content: '&nbsp;'
+                visibility: hidden
+            &.ellipsis span
+                position: absolute
+                left: 0
+                right: 0
+                white-space: nowrap
+                overflow: hidden
+                text-overflow: ellipsis
+                max-width: fit-content
+                margin-top: -9px
+                padding: 9px 3px 9px 0
+
+            &.provider
+                width: 35px
+                line-height: 30px
+                padding-left: 8px
+                img
+                    cursor: pointer
+                    height: 16px
+                    vertical-align: top
+                    margin-top: 7px
+
+            &.info
+                width:0.1%
+                white-space: nowrap
+                text-align: right
+                padding: 3px 10px
+            &.action
+                width: 40px
+                cursor: pointer
+
+                &:hover
+                    color: $ShowText1
+                    transition: color .5s
+
+#torrent-show-list
+    font-size: 15px
+    margin-top: 6px
+
+    table
+        td
+            &.info, &.action
+                color: $ShowWatchedIcon_false

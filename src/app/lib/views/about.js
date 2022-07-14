@@ -15,9 +15,6 @@
         },
 
         onAttach: function () {
-            $('.filter-bar').hide();
-            $('#header').addClass('header-shadow');
-
             Mousetrap.bind(['esc', 'backspace'], function (e) {
                 App.vent.trigger('about:close');
             });
@@ -28,8 +25,10 @@
 
         onBeforeDestroy: function () {
             Mousetrap.unbind(['esc', 'backspace']);
-            $('.filter-bar').show();
-            $('#header').removeClass('header-shadow');
+            if (!App.ViewStack.includes('settings-container-contain')) {
+                $('.filter-bar').show();
+                $('#header').removeClass('header-shadow');
+            }
             $('#movie-detail').show();
         },
 

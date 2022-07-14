@@ -232,6 +232,8 @@
     addPath('/usr/bin');
     addPath('/usr/local/bin');
     addPath('/snap/bin');
+    addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
+    addPath('/run/current-system/sw/bin'); // NixOS
     // darwin
     addPath('/Applications');
     addPath(process.env.HOME + '/Applications');

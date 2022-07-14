@@ -7,9 +7,8 @@
         <div class="content">
             <span>
                 <i class="far fa-keyboard keyboard tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Keyboard Shortcuts") %>"></i>
+                <i class="fa fa-info-circle about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("About") %>"></i>
                 <i class="fa fa-question-circle help tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Help Section") %>"></i>
-                <input id="show-advanced-settings" class="settings-checkbox" name="showAdvancedSettings" type="checkbox" <%=(Settings.showAdvancedSettings? "checked":"")%>>
-                <label class="settings-label" for="show-advanced-settings"><%= i18n.__("Show advanced settings") %></label>
             </span>
         </div>
     </section>
@@ -17,22 +16,6 @@
     <section id="user-interface">
         <div class="title"><%= i18n.__("User Interface") %></div>
         <div class="content">
-            <span>
-                <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Default Language") %></p>
-                    <%
-                        var langs = "";
-                        for(var key in App.Localization.allTranslations) {
-                            key = App.Localization.allTranslations[key];
-                            if (App.Localization.langcodes[key] !== undefined) {
-                                langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
-                            }
-                        }
-                    %>
-                    <select name="language"><%=langs%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
             <span>
                 <div class="dropdown pct-theme">
                     <p><%= i18n.__("Theme") %></p>
@@ -59,7 +42,7 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-            <span class="advanced">
+            <span>
                 <div class="dropdown start-screen">
                     <p><%= i18n.__("Start Screen") %></p>
                         <%
@@ -93,39 +76,21 @@
                 <input class="settings-checkbox" name="animeTabEnable" id="animeTabEnable" type="checkbox" <%=(Settings.animeTabEnable? "checked='checked'":"")%>>
                 <label class="settings-label" for="animeTabEnable"><%= i18n.__("Anime") %></label>
             </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
-            </span>
-            <% if (Settings.activateTorrentCollection) { %>
-            <span class="advanced">
-                <input class="settings-checkbox" name="torColSearchMore" id="torColSearchMore" type="checkbox" <%=(Settings.torColSearchMore? "checked='checked'":"")%>>
-                <label class="settings-label" for="torColSearchMore"><%= i18n.__("Show 'Search on Torrent Collection' in search") %></label>
-            </span>
-            <% } %>
             <% if (Settings.activateSeedbox) { %>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
                 <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when a new download is added") %></label>
             </span>
             <% } %>
-            <span class="advanced">
-                <input class="settings-checkbox" name="showUndoRBookmark" id="showUndoRBookmark" type="checkbox" <%=(Settings.showUndoRBookmark? "checked='checked'":"")%>>
-                <label class="settings-label" for="showUndoRBookmark"><%= i18n.__("Show an 'Undo' button when a bookmark is removed") %></label>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="showSubmitMeta" id="showSubmitMeta" type="checkbox" <%=(Settings.showSubmitMeta? "checked='checked'":"")%>>
-                <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
-            </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="expandedSearch" id="expandedSearch" type="checkbox" <%=(Settings.expandedSearch? "checked='checked'":"")%>>
                 <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
             </span>
-            <span class="advanced">
+            <span>
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
                         <%
@@ -145,7 +110,7 @@
                     <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
                 </div>
             </span>
-            <span class="advanced">
+            <span>
                 <div class="dropdown watchedCovers">
                     <p><%= i18n.__("Watched Items") %></p>
                         <%
@@ -163,7 +128,7 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-            <span class="advanced">
+            <span>
                 <div class="dropdown tv_detail_jump_to">
                     <p><%= i18n.__("Series detail opens to") %></p>
                         <%
@@ -180,7 +145,7 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-            <span class="advanced">
+            <span>
                 <div class="dropdown poster_size">
                    <p><%= i18n.__("Poster Size") %></p>
                         <%
@@ -194,19 +159,19 @@
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
-            <span class="advanced">
+            <span>
                 <p><%= i18n.__("UI Scaling") %></p>
                 <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
             </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
                 <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Native window frame") %></label>
             </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="alwaysOnTop" id="alwaysOnTop" type="checkbox" <%=(Settings.alwaysOnTop? "checked='checked'":"")%>>
                 <label class="settings-label" for="alwaysOnTop"><%= i18n.__("Always On Top") %></label>
             </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
                 <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
             </span>
@@ -214,13 +179,29 @@
     </section>
 
     <section id="localisation">
-        <div class="title"><%= i18n.__("Localisation") %></div>
+        <div class="title"><%= i18n.__("Language") %></div>
         <div class="content">
             <span>
                 <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Preferred Content Language") %></p>
+                    <p><%= i18n.__("Default Language") %></p>
                     <%
-                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as interface")+"</option>";
+                        var langs = "";
+                        for(var key in App.Localization.allTranslations) {
+                            key = App.Localization.allTranslations[key];
+                            if (App.Localization.langcodes[key] !== undefined) {
+                                langs += "<option "+(Settings.language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                            }
+                        }
+                    %>
+                    <select name="language"><%=langs%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
+                <div class="dropdown subtitles-language">
+                    <p><%= i18n.__("Default Content Language") %></p>
+                    <%
+                        var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as Default Language")+"</option>";
                         for(var key in App.Localization.allTranslations) {
                             key = App.Localization.allTranslations[key];
                             if (App.Localization.langcodes[key] !== undefined) {
@@ -231,10 +212,8 @@
                     <select name="contentLanguage"><%=langs%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
-            </span>
-            <span>
                 <input class="settings-checkbox" name="contentLangOnly" id="contentLangOnly" type="checkbox" <%=(Settings.contentLangOnly? "checked='checked'":"")%>>
-                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in the preferred language") %> </label>
+                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in this language") %> </label>
             </span>
             <span>
                 <div class="dropdown translateTitle">
@@ -269,135 +248,170 @@
     <section id="subtitles">
         <div class="title"><%= i18n.__("Subtitles") %></div>
         <div class="content">
-            <span>
-                <div class="dropdown subtitles-language-default">
-                    <p><%= i18n.__("Default Subtitle") %></p>
-                    <%
-                        var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
-                                            i18n.__("Disabled") + "</option>";
-                        for(var key in App.Localization.langcodes) {
-                            if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
-                                sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
-                            }
-                        }
-                    %>
-                    <select name="subtitle_language"><%=sub_langs%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="dropdown subtitles-font">
-                    <p><%= i18n.__("Font") %></p>
-                    <%
-                        var arr_fonts = [
-                            {name:"AljazeeraMedExtOf", id:"aljazeera"},
-                            {name:"Deja Vu Sans", id:"dejavusans"},
-                            {name:"Droid Sans", id:"droidsans"},
-                            {name:"Comic Sans MS", id:"comic"},
-                            {name:"Georgia", id:"georgia"},
-                            {name:"Geneva", id:"geneva"},
-                            {name:"Helvetica", id:"helvetica"},
-                            {name:"Khalid Art", id:"khalid"},
-                            {name:"Lato", id:"lato"},
-                            {name:"Montserrat", id:"montserrat"},
-                            {name:"OpenDyslexic", id:"opendyslexic"},
-                            {name:"Open Sans", id:"opensans"},
-                            {name:"PT Sans",id:"pts"},
-                            {name:"Tahoma", id:"tahoma"},
-                            {name:"Trebuchet MS", id:"trebuc"},
-                            {name:"Roboto",id:"roboto"},
-                            {name:"Ubuntu", id:"ubuntu"},
-                            {name:"Verdana", id:"verdana"},
-                        ];
-                        var font_folder = path.resolve({
-                            win32:  "/Windows/fonts",
-                            darwin: "/Library/Fonts",
-                            linux:  "/usr/share/fonts"
-                        }[process.platform]);
-                        var files = [];
-                        var recursive = function (dir) {
-                            if (fs.statSync(dir).isDirectory()) {
-                                fs.readdirSync(dir).forEach(function (name) {
-                                    var newdir = path.join(dir, name);
-                                    recursive(newdir);
-                                });
-                            } else {
-                                files.push(dir);
-                            }
-                        };
-                        try {
-                            recursive(font_folder);
-                        } catch (e) {}
-                        var avail_fonts = ["Arial"];
-                        for (var i in arr_fonts) {
-                            for (var key in files) {
-                                var found = files[key].toLowerCase();
-                                var toFind = arr_fonts[i].id;
-                                if (found.indexOf(toFind) != -1) {
-                                    avail_fonts.push(arr_fonts[i].name);
-                                    break;
+            <div class="opensubtitles-options">
+                <% if (Settings.opensubtitlesAuthenticated) { %>
+                    <span>
+                        <div class="dropdown subtitles-language-default">
+                            <p><%= i18n.__("Default Subtitle") %></p>
+                            <%
+                                var sub_langs = "<option "+(Settings.subtitle_language == "none"? "selected='selected'":"")+" value='none'>" +
+                                                    i18n.__("Disabled") + "</option>";
+                                for(var key in App.Localization.langcodes) {
+                                    if (App.Localization.langcodes[key].subtitle !== undefined && App.Localization.langcodes[key].subtitle == true) {
+                                        sub_langs += "<option "+(Settings.subtitle_language == key? "selected='selected'":"")+" value='"+key+"'>"+ App.Localization.langcodes[key].nativeName+"</option>";
+                                    }
                                 }
-                            }
-                        }
-                        var sub_fonts = "";
-                        for (var key in avail_fonts) {
-                            sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_font"><%=sub_fonts%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="dropdown subtitles-decoration">
-                    <p><%= i18n.__("Decoration") %></p>
-                    <%
-                        var arr_deco = ["None", "Outline", "Opaque Background", "See-through Background"];
-                        var sub_deco = "";
-                        for(var key in arr_deco) {
-                            sub_deco += "<option "+(Settings.subtitle_decoration == arr_deco[key]? "selected='selected'":"")+" value='"+arr_deco[key]+"'>"+i18n.__(arr_deco[key])+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_decoration"><%=sub_deco%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span>
-                <div class="dropdown subtitles-size">
-                    <p><%= i18n.__("Size") %></p>
-                    <%
-                        var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","40px","42px","44px","46px","48px","50px","52px","54px","56px","58px","60px"];
-                        var sub_sizes = "";
-                        for(var key in arr_sizes) {
-                            sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
-                        }
-                    %>
-                    <select name="subtitle_size"><%=sub_sizes%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span class="advanced">
-                <div class="subtitles-custom">
-                    <p><%= i18n.__("Color") %></p>
-                    <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
-                        <datalist id="subs_colors">
-                            <option>#ffffff</option>
-                            <option>#ffff00</option>
-                            <option>#ff0000</option>
-                            <option>#ff00ff</option>
-                            <option>#00ffff</option>
-                            <option>#00ff00</option>
-                        </datalist>
-                </div>
-            </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
-                <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
-            </span>
-            <span>
-                <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
-                <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
-            </span>
+                            %>
+                            <select name="subtitle_language"><%=sub_langs%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="dropdown subtitles-font">
+                            <p><%= i18n.__("Font") %></p>
+                            <%
+                                var arr_fonts = [
+                                    {name:"AljazeeraMedExtOf", id:"aljazeera"},
+                                    {name:"Deja Vu Sans", id:"dejavusans"},
+                                    {name:"Droid Sans", id:"droidsans"},
+                                    {name:"Comic Sans MS", id:"comic"},
+                                    {name:"Georgia", id:"georgia"},
+                                    {name:"Geneva", id:"geneva"},
+                                    {name:"Helvetica", id:"helvetica"},
+                                    {name:"Khalid Art", id:"khalid"},
+                                    {name:"Lato", id:"lato"},
+                                    {name:"Montserrat", id:"montserrat"},
+                                    {name:"OpenDyslexic", id:"opendyslexic"},
+                                    {name:"Open Sans", id:"opensans"},
+                                    {name:"PT Sans",id:"pts"},
+                                    {name:"Tahoma", id:"tahoma"},
+                                    {name:"Trebuchet MS", id:"trebuc"},
+                                    {name:"Roboto",id:"roboto"},
+                                    {name:"Ubuntu", id:"ubuntu"},
+                                    {name:"Verdana", id:"verdana"},
+                                ];
+                                var font_folder = path.resolve({
+                                    win32:  "/Windows/fonts",
+                                    darwin: "/Library/Fonts",
+                                    linux:  "/usr/share/fonts"
+                                }[process.platform]);
+                                var files = [];
+                                var recursive = function (dir) {
+                                    if (fs.statSync(dir).isDirectory()) {
+                                        fs.readdirSync(dir).forEach(function (name) {
+                                            var newdir = path.join(dir, name);
+                                            recursive(newdir);
+                                        });
+                                    } else {
+                                        files.push(dir);
+                                    }
+                                };
+                                try {
+                                    recursive(font_folder);
+                                } catch (e) {}
+                                var avail_fonts = ["Arial"];
+                                for (var i in arr_fonts) {
+                                    for (var key in files) {
+                                        var found = files[key].toLowerCase();
+                                        var toFind = arr_fonts[i].id;
+                                        if (found.indexOf(toFind) != -1) {
+                                            avail_fonts.push(arr_fonts[i].name);
+                                            break;
+                                        }
+                                    }
+                                }
+                                var sub_fonts = "";
+                                for (var key in avail_fonts) {
+                                    sub_fonts += "<option "+(Settings.subtitle_font == avail_fonts[key]+",Arial"? "selected='selected'":"")+" value='"+avail_fonts[key]+",Arial'>"+avail_fonts[key]+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_font"><%=sub_fonts%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="dropdown subtitles-decoration">
+                            <p><%= i18n.__("Decoration") %></p>
+                            <%
+                                var arr_deco = ["None", "Outline", "Opaque Background", "See-through Background"];
+                                var sub_deco = "";
+                                for(var key in arr_deco) {
+                                    sub_deco += "<option "+(Settings.subtitle_decoration == arr_deco[key]? "selected='selected'":"")+" value='"+arr_deco[key]+"'>"+i18n.__(arr_deco[key])+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_decoration"><%=sub_deco%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="dropdown subtitles-size">
+                            <p><%= i18n.__("Size") %></p>
+                            <%
+                                var arr_sizes = ["20px","22px","24px","26px","28px","30px","32px","34px","36px","38px","40px","42px","44px","46px","48px","50px","52px","54px","56px","58px","60px"];
+                                var sub_sizes = "";
+                                for(var key in arr_sizes) {
+                                    sub_sizes += "<option "+(Settings.subtitle_size == arr_sizes[key]? "selected='selected'":"")+" value='"+arr_sizes[key]+"'>"+arr_sizes[key]+"</option>";
+                                }
+                            %>
+                            <select name="subtitle_size"><%=sub_sizes%></select>
+                            <div class="dropdown-arrow"></div>
+                        </div>
+                    </span>
+                    <span>
+                        <div class="subtitles-custom">
+                            <p><%= i18n.__("Color") %></p>
+                            <input class="colorsub" id="subtitles_color" type="color" size="7" name="subtitle_color" value="<%=Settings.subtitle_color%>" list="subs_colors">
+                                <datalist id="subs_colors">
+                                    <option>#ffffff</option>
+                                    <option>#ffff00</option>
+                                    <option>#ff0000</option>
+                                    <option>#ff00ff</option>
+                                    <option>#00ffff</option>
+                                    <option>#00ff00</option>
+                                </datalist>
+                        </div>
+                    </span>
+                    <span>
+                        <input class="settings-checkbox" name="subtitles_bold" id="subsbold" type="checkbox" <%=(Settings.subtitles_bold? "checked='checked'":"")%>>
+                        <label class="settings-label" for="subsbold"><%= i18n.__("Bold") %></label>
+                    </span>
+                    <span>
+                        <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
+                        <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
+                    </span>
+                    <span>
+                        <em>* <%= i18n.__("You are currently connected to %s", "OpenSubtitles.org") %>.
+                        <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a></em>
+                    </span>
+                <% } else { %>
+                    <span>
+                        <%= i18n.__("Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s", "OpenSubtitles.org", Settings.projectName) %>
+                    </span>
+                    <span>
+                        <p><%= i18n.__("Username") %></p>
+                        <input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
+                        <div class="loading-spinner" style="display: none"></div>
+                        <div class="valid-tick" style="display: none"></div>
+                        <div class="invalid-cross" style="display: none"></div>
+                    </span>
+                    <span>
+                        <p><%= i18n.__("Password") %></p>
+                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword"><br>
+                    </span>
+                    <div class="btns database">
+                        <div class="btn-settings database" id="authOpensubtitles">
+                            <i class="fa fa-user">&nbsp;&nbsp;</i>
+                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
+                        </div>
+                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
+                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create an account") %>
+                        </a>
+                    </div>                    
+                    <span>
+                        <em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
+                    </span>
+                <% } %>
+            </div>
         </div>
     </section>
 
@@ -411,99 +425,14 @@
             <span>
                 <input class="settings-checkbox" name="playNextEpisodeAuto" id="playNextEpisodeAuto" type="checkbox" <%=(Settings.playNextEpisodeAuto? "checked='checked'":"")%>>
                 <label class="settings-label" for="playNextEpisodeAuto"><%= i18n.__("Play next episode automatically") %></label>
-            </span>
-            <% if (Settings.playNextEpisodeAuto) { %>
-            <span class="advanced">
-                <p><%= i18n.__("Remaining runtime before start preloading next episode") %>&nbsp;&nbsp;</p>
-                <input id="preloadNextEpisodeTime" type="text" size="5" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s)") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
-            </span>
-            <% } %>
-        </div>
-    </section>
-
-    <% if (App.Trakt) { %>
-    <section id="trakt-tv">
-        <div class="title">Trakt.tv</div>
-        <div class="content">
-            <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
-                <% if (App.Trakt.authenticated) { %>
-                    <span>
-                        <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.
-                        <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-                    </span>
-                    <span>
-                        <input class="settings-checkbox" name="traktSyncOnStart" id="traktSyncOnStart" type="checkbox" <%=(Settings.traktSyncOnStart? "checked='checked'":"")%>>
-                        <label class="settings-label" for="traktSyncOnStart"><%= i18n.__("Automatically Sync on Start") %></label>
-                    </span>
-                    <span>
-                        <input class="settings-checkbox" name="traktPlayback" id="traktPlayback" type="checkbox" <%=(Settings.traktPlayback? "checked='checked'":"")%>>
-                        <label class="settings-label" for="traktPlayback"><%= i18n.__("Resume Playback") %></label>
-                    </span>
-                    <span class="advanced">
-                        <div class="btn-settings syncTrakt" id="syncTrakt">
-                            <i class="fa fa-sync">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Sync With Trakt") %>
-                        </div>
-                    </span>
-                <% } else { %>
-                    <span>
-                        <%= i18n.__("Connect to %s to automatically 'scrobble' episodes you watch in %s", "Trakt.tv", Settings.projectName) %>
-                    </span>
-                    <span>
-                        <div class="btn-settings syncTrakt" id="authTrakt">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "Trakt") %>
-                        </div>
-                        <div id="authTraktCode" style="display:none">
-                            <%= i18n.__("Code:")%>
-                            <input type="text" size="20" readonly/>
-                        </div>
-                    </span>
+                <% if (Settings.playNextEpisodeAuto) { %>
+                &nbsp;&nbsp;&nbsp;<input id="preloadNextEpisodeTime" type="number" min="0" max="99999" name="preloadNextEpisodeTime" value="<%=Settings.preloadNextEpisodeTime%>" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("minute(s) remaining before preloading next episode") %>,&nbsp;&nbsp;&nbsp;<%= i18n.__("0 = Disable preloading") %></em>
                 <% } %>
-            </div>
-        </div>
-    </section>
-    <% } %>
-
-    <section id="opensubtitles">
-        <div class="title">OpenSubtitles</div>
-        <div class="content">
-            <div class="opensubtitles-options">
-                <% if (Settings.opensubtitlesAuthenticated) { %>
-                    <span>
-                        <%= i18n.__("You are currently connected to %s", "OpenSubtitles") %>.
-                        <a id="unauthOpensubtitles" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>
-                    </span>
-                <% } else { %>
-                    <span>
-                        <p><%= i18n.__("Username") %></p>
-                        <input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
-                        <div class="loading-spinner" style="display: none"></div>
-                        <div class="valid-tick" style="display: none"></div>
-                        <div class="invalid-cross" style="display: none"></div>
-                    </span>
-                    <span>
-                        <p><%= i18n.__("Password") %></p>
-                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword">
-                    </span>
-                    <div class="btns database">
-                        <div class="btn-settings database" id="authOpensubtitles">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
-                        </div>
-                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create account") %>
-                        </a>
-                    </div>                    
-                    <span>
-                        <em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
-                    </span>
-                <% } %>
-                <span class="advanced">
-                    <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
-                    <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
-                </span>
-            </div>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="audioPassthrough" id="audioPassthrough" type="checkbox" <%=(Settings.audioPassthrough? "checked='checked'":"")%>>
+                <label class="settings-label" for="audioPassthrough"><%= i18n.__("Allow Audio Passthrough") %></label>
+            </span>
         </div>
     </section>
 
@@ -511,8 +440,29 @@
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
             <span>
-                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
+                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist && App.Trakt.authenticated? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
+                <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
+                    <% if (App.Trakt.authenticated) { %>
+                        <span>
+                            <em>* <%= i18n.__("You are currently connected to %s", "Trakt.tv") %>.&nbsp;&nbsp;
+                            <a id="unauthTrakt" class="unauthtext" href="#"><%= i18n.__("Disconnect account") %></a>&nbsp;|
+                            <a id="syncTrakt" class="syncTrakt" href="#"><%= i18n.__("Sync now") %></a></em>
+                        </span>
+                    <% } else { %>
+                        <span id="authTraktSp">
+                            <em>* <a class="syncTrakt" id="authTrakt" href="#"><%= i18n.__("Connect to %s", "Trakt.tv") %></a>
+                            <%= i18n.__("to automatically 'scrobble' episodes you watch in %s", Settings.projectName) %></em>
+                        </span>
+                        </span>
+                            <div id="authTraktCode" style="display:none;">
+                                <%= i18n.__("Code:")%>
+                                <input type="text" size="20" readonly/>
+                                <i class="fa fa-times closeTraktCode"></i>
+                            </div>
+                        </span>
+                    <% } %>
+                </div>
             </span>
             <span>
                 <input class="settings-checkbox" name="activateTorrentCollection" id="activateTorrentCollection" type="checkbox" <%=(Settings.activateTorrentCollection? "checked='checked'":"")%>>
@@ -529,7 +479,7 @@
         </div>
     </section>
 
-    <section id="remote-control" class="advanced">
+    <section id="remote-control">
         <div class="title"><%= i18n.__("Remote Control") %></div>
         <div class="content">
             <span>
@@ -553,7 +503,7 @@
                 <p><%= i18n.__("HTTP API Password") %></p>
                 <input id="httpApiPassword" type="text" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
             </span>
-            <div class="btns advanced database">
+            <div class="btns database">
                 <div class="btn-settings database qr-code">
                     <i class="fa fa-qrcode">&nbsp;&nbsp;</i>
                     <%= i18n.__("Generate Pairing QR code") %>
@@ -577,14 +527,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Movies API Server(s)") %></p>
-                    <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.movie.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= encodeURI(Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.movie.uri[0].split('=')[1])) %>">
                     <datalist id="moviesServers">
                         <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
-                           Settings.dhtData ? movieServList = movieServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? movieServList = movieServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < movieServList.length; ++i) {
                         %>
-                        <option value="<%= movieServList[i] %>">
+                        <option value="<%= encodeURI(movieServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -593,14 +543,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Series API Server(s)") %></p>
-                    <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.tvshow.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= encodeURI(Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.tvshow.uri[0].split('=')[1])) %>">
                     <datalist id="seriesServers">
                         <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
-                           Settings.dhtData ? seriesServList = seriesServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? seriesServList = seriesServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < seriesServList.length; ++i) {
                         %>
-                        <option value="<%= seriesServList[i] %>">
+                        <option value="<%= encodeURI(seriesServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -609,14 +559,14 @@
             <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Anime API Server(s)") %></p>
-                    <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtData ? Settings.dhtData.split('server":"')[1].split('","git":"')[0] : Settings.providers.anime.uri[0].split('=')[1]) %>">
+                    <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= encodeURI(Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.anime.uri[0].split('=')[1])) %>">
                     <datalist id="animeServers">
                         <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
                            Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
-                           Settings.dhtData ? animeServList = animeServList.concat([Settings.dhtData.split('server":"')[1].split('","git":"')[0].replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? animeServList = animeServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
                            for (var i = 0; i < animeServList.length; ++i) {
                         %>
-                        <option value="<%= animeServList[i] %>">
+                        <option value="<%= encodeURI(animeServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
                     <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
@@ -628,7 +578,7 @@
         </div>
     </section>
 
-    <section id="connection" class="advanced">
+    <section id="connection">
         <div class="title"><%= i18n.__("Connection") %></div>
         <div class="content">
             <% if (Settings.activateSeedbox) { %>
@@ -639,16 +589,16 @@
             <% } %>
             <span>
                 <p><%= i18n.__("Connection Limit") %></p>
-                <input id="connectionLimit" type="text" size="20" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
+                <input id="connectionLimit" type="number" name="connectionLimit" value="<%=Settings.connectionLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("DHT UDP Requests Limit") %></p>
-                <input id="maxUdpReqLimit" type="text" size="20" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
+                <input id="maxUdpReqLimit" type="number" name="maxUdpReqLimit" value="<%=Settings.maxUdpReqLimit%>" autocomplete="off"/>
             </span>
             <span>
                 <p><%= i18n.__("Max. Down / Up Speed") %></p>
-                <input id="downloadLimit" type="text" size="7" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
-                <input id="uploadLimit" type="text" size="7" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
+                <input id="downloadLimit" type="number" min="0" max="9999999" name="downloadLimit" placeholder="Unlimited" value="<%=Settings.downloadLimit%>" autocomplete="off"/>
+                <input id="uploadLimit" type="number" min="0" max="9999999" name="uploadLimit" placeholder="Unlimited" value="<%=Settings.uploadLimit%>" autocomplete="off"/>&nbsp;&nbsp;
                 <%
                     var limit_mult = {
                         "1024": "KB/s",
@@ -674,7 +624,7 @@
             </span>
             <span>
                 <p><%= i18n.__("Port to stream on") %></p>
-                <input id="streamPort" type="text" size="20" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
+                <input id="streamPort" type="number" name="streamPort" value="<%=Settings.streamPort%>"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("0 = Random") %></em>
             </span>
             <% if (Settings.activateSeedbox && (!Settings.deleteTmpOnClose || Settings.separateDownloadsDir)) { %>
             <span>
@@ -688,13 +638,9 @@
                 <em><i class="fas fa-exclamation-circle">&nbsp;&nbsp;</i><%= i18n.__("Allows connecting to peers that use PE/MSE. Will in most cases increase the number of connectable peers but might also result in increased CPU usage") %></em>
             </span>
             <span>
-                <input class="settings-checkbox" name="vpnEnabled" id="vpnEnabled" type="checkbox" <%=(Settings.vpnEnabled? "checked='checked'":"")%>>
-                <label class="settings-label" for="vpnEnabled"><%= i18n.__("Enable VPN") %></label>
-            </span>
-            <span>
                 <div class="opensubtitles-options">
                     <p><%= i18n.__("Proxy Server") %></p>
-                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= Settings.proxyServer %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
+                    <input type="text" size="50" id="proxyServer" name="proxyServer" value="<%= encodeURI(Settings.proxyServer) %>" placeholder="host:port (127.0.0.1:9050 or 127.0.0.1:4447)">
                     <div class="loading-spinner" style="display: none"></div>
                     <div class="valid-tick" style="display: none"></div>
                     <div class="invalid-cross" style="display: none"></div>
@@ -703,7 +649,7 @@
         </div>
     </section>
 
-    <section id="cache" class="advanced">
+    <section id="cache">
         <div class="title"><%= i18n.__("Cache") %></div>
         <div class="content">
             <span>
@@ -748,7 +694,7 @@
         </div>
     </section>
 
-    <section id="database" class="advanced">
+    <section id="database">
         <div class="title"><%= i18n.__("Database") %></div>
         <div class="content">
             <span>
@@ -757,7 +703,7 @@
                 <i class="open-database-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
-            <div class="btns advanced database import-database">
+            <div class="btns database import-database">
                 <!-- Button trigger modal -->
                 <div class="btn-settings database import-db">
                     <label class="import-database" title="<%= i18n.__("Select data types to import") %>"><%= i18n.__("Import Database") %>&nbsp;</label>
@@ -810,11 +756,7 @@
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
                 <label class="settings-label" for="automaticUpdating"><%= i18n.__("Automatically update the app when a new version is available") %></label>
             </span>
-            <span class="advanced">
-                <input class="settings-checkbox" name="UpdateSeed" id="UpdateSeed" type="checkbox" <%=(Settings.UpdateSeed? "checked='checked'":"")%>>
-                <label class="settings-label" for="UpdateSeed"><%= i18n.__("Activate Update seeding") %></label>
-            </span>
-            <span class="advanced">
+            <span>
                 <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
                 <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>

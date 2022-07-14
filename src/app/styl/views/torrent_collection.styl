@@ -15,7 +15,7 @@
         height calc(100% - 140px)
         color $TextError
         font-weight 100
-        font-family $AlternateFont
+        font-family $Font, $AlternateFont
         font-size 17px
 
         #savedtorrentslabel
@@ -50,9 +50,8 @@
 
         .onlinesearch
             position relative
-            top -10px
-            padding-left 140px
-            width 460px
+            padding-left 210px
+            width 630px
             margin 0 auto
             
             .search_in
@@ -70,7 +69,7 @@
                     font-size 12px
                     float left
                     height 12px
-                    padding 0px 8px 10px 8px
+                    padding 0px 7px 10px 7px
                     vertical-align top
                     opacity 0.85
                     margin-top 1px
@@ -174,17 +173,21 @@
             .online-search
                 margin-left 5px
                 cursor pointer
-                transition color .3s
+                color $SettingsText1
+                opacity 0.5
+                transition opacity .3s
 
                 &:hover
-                    color: $ButtonBgHover
+                    opacity 1
 
             .togglesengines
                 cursor pointer
-                transition color .3s
+                color $SettingsText1
+                opacity 0.5
+                transition opacity .3s
 
                 &:hover
-                    color: $ButtonBgHover
+                    opacity 1
 
             .dropdown
                 position absolute
@@ -222,7 +225,7 @@
                     height 0
                     border-left 4px solid transparent
                     border-right 4px solid transparent
-                    border-top 5px solid $Text2
+                    border-top 5px solid $SettingsText1
                     top 4px
                     margin-left -13px
                     position relative
@@ -231,34 +234,25 @@
 
         .notorrents-info
             display block
-            height 90%
-            margin-top 10%
+            top 246px
+            position absolute
+            text-align center
+            width 85%
 
             .notorrents-frame
-                border 6px dashed $TextError
                 margin 0 auto
-                width 250px
-                height 250px
-                border-radius 25px
                 color $TextError
                 text-align center
                 transition all .3s
-                cursor pointer
-
-                &:hover
-                    color $ButtonBgHover
-                    border-color $ButtonBgHover
-                &:active
-                    color $ButtonBgActive
-                    border-color $ButtonBgActive
 
                 .notorrents-icon
-                    font-size 120px
-                    padding-top 40px
+                    font-size 180px
+                    padding-top 50px
+                    padding-bottom 25px
 
                 .notorrents-message
-                    font-family $MainFontBold
-                    font-size 20px
+                    font-family $MainFont
+                    font-size 24px
 
         .torrents-info,
         .onlinesearch-info
@@ -266,7 +260,7 @@
             margin 60px auto
             height calc(100% - 90px)
             color $Text1
-            font-family $AlternateFont
+            font-family $Font, $AlternateFont
             font-size 17px
             text-align center
             scrollable()
@@ -284,23 +278,29 @@
                     color $Text1
 
             ul
+                &.file-list
+                    overflow hidden
+
                 li.file-item,
                 li.result-item
-                    border-bottom 1px solid rgba(255, 255, 255, 0.06)
-                    background $FileSelectorBg
+                    border-bottom 1px solid $EpisodeSelectorHover
+                    background $ShowBgColor2
                     text-align left
                     cursor pointer
-                    color $FileSelectorText
+                    color $SettingsText1
                     height 46px
                     padding-left 40px
                     padding-right 50px
+                    font-family $MainFont
+                    font-size 15px
 
                     &.disabled
                         cursor not-allowed
                         opacity 0.7
+                        filter grayscale(30%)
 
                     a
-                        color $FileSelectorText
+                        color $SettingsText1
                         text-decoration blink
                         width 100%
                         padding 14px 0
@@ -310,22 +310,21 @@
                         white-space nowrap
                         text-overflow ellipsis
 
-                        &:hover
-                            color $ButtonBgHover
-                        &:active
-                            color $ButtonBgActive
+                    &:hover
+                        background $EpisodeSelectorHover
 
                     .item-delete,
                     .item-rename
                         position relative
-                        color: $TextError
+                        color $SettingsText1
+                        opacity 0.5
                         transition all 0.3s
                         cursor pointer
                         left calc(100% + 22px)
                         top -45px
 
                         &:hover
-                            color $ButtonBgHover
+                            opacity 1
 
                     .item-rename
                         left calc(100% - 25px)
@@ -333,70 +332,100 @@
                     .item-icon
                         position relative
                         font-family "Font Awesome 5 Free"
-                        font-weight: 900
+                        font-weight 900
                         font-style normal
                         font-size 15px
                         height 15px
                         width 15px
-                        color $FileSelectorText
+                        color $SettingsText1
                         opacity 0.7
                         left -25px
                         top -30px
+                        transition opacity .3s
 
                         &.torrent-icon:before
-                            content: '\f016'
+                            content '\f15b'
                         &.magnet-icon:before
-                            content: '\f076'
+                            content '\f076'
 
-                        &.magnet-icon:hover
-                            cursor pointer
-                            opacity 1
+                        &.magnet-icon
+                            img
+                                height 16px
+
+                        &.magnet-icon,
+                        &.torrent-icon
+                            &:hover
+                                cursor pointer
+                                opacity 1
+
+                    .online-health
+                        position relative
+                        color $SettingsText1
+                        opacity 0.5
+                        font-style normal
+                        font-size .9em
+                        left calc(100% - 180px)
+                        top -45px
+                        min-width 100px
+                        text-align right
+                        display inline-block
 
                     .online-size
                         position relative
-                        color: $TextError
+                        color $SettingsText1
+                        opacity 0.5
                         font-style normal
                         font-size .9em
-                        left calc(100% - 35px)
+                        left calc(100% - 155px)
                         top -45px
+                        min-width 70px
+                        text-align right
+                        display inline-block
 
                 li.result-item a
                     width calc(100% - 50px)
 
+        .onlinesearch-info
+            ul
+                li.file-item,
+                li.result-item
+                    .item-icon
+                        opacity 1
+
+                        &.magnet-icon:before
+                            content ''
+
         .collection-actions
-            display none
             position absolute
-            color $TextError
+            color $SettingsText1
+            top 5px
+            margin-left 330px
 
-            &.disabled
-                opacity 0
-
-            .collection-paste
-                position fixed
-                right 85px
-                bottom 16px
-                transition all 0.3s
-                cursor pointer
-                &:hover
-                    color $ButtonBgHover
-            .collection-open
-                position fixed
-                right 25px
-                bottom 15px
-                transition all 0.3s
-                cursor pointer
-                &:hover
-                    color $ButtonBgHover
+            .collection-paste,
+            .collection-open,
             .collection-import
-                position fixed
-                right 60px
-                bottom 15px
                 transition all 0.3s
                 cursor pointer
+                opacity 0.3
+                padding 0 5px 8px 5px
+
                 &:hover
-                    color $ButtonBgHover
+                    opacity 1
+
+                &.disabled
+                    opacity 0.15
+                    cursor not-allowed
+
+                    &:hover
+                        opacity 0.15
+
+            .collection-open
+                position absolute
+                margin-left 5px
+                margin-top 1px
+
             .collection-import-hidden
                 display none
-            /* override bootstrap */
+
             .tooltip
                 min-width 150px

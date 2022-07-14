@@ -31,7 +31,8 @@
     },
 
     regions: {
-      PlayControl: '#play-control'
+      PlayControl: '#play-control',
+      TorrentList: '#torrent-list',
     },
 
     initialize: function() {
@@ -46,6 +47,7 @@
       if (((!this.model.get('synopsis') || !this.model.get('rating') || this.model.get('rating') === '0' || this.model.get('rating') === '0.0' || !this.model.get('runtime') || this.model.get('runtime') === '0' || !this.model.get('trailer') || !this.model.get('poster') || this.model.get('poster') === 'images/posterholder.png' || !this.model.get('backdrop') || this.model.get('backdrop') === 'images/posterholder.png') && !this.model.get('getmetarunned')) || (Settings.translateSynopsis && Settings.language !== 'en')) {
         this.getMetaData();
       }
+      this.icons = App.Providers.get('Icons');
 
       //Handle keyboard shortcuts when other views are appended or removed
 
@@ -65,11 +67,29 @@
 
       App.vent.on('shortcuts:movies', _this.initKeyboardShortcuts);
 
+      App.vent.on('update:torrents', _this.onUpdateTorrentsList.bind(_this));
       App.vent.on('change:quality', _this.onChangeQuality.bind(_this));
       // init fields in model
       this.model.set('displayTitle', '');
       this.model.set('displaySynopsis', '');
       this.localizeTexts();
+    },
+
+    onUpdateTorrentsList: function(lang) {
+      console.log('Update Torrents List: ', lang);
+      this.getRegion('TorrentList').empty();
+      if (!lang) {
+        return;
+      }
+      const provider = App.Config.getProviderForType('movie')[0];
+      const altShowAll = provider.config.noShowAll ? _.shuffle((Settings.dhtInfo.server ? Settings.dhtInfo.server.split(',') : Settings.customServers.movie).filter(a => !a.includes(provider.apiURL))) : null;
+      const torrentList = new App.View.TorrentList({
+        model: new Backbone.Model({
+          provider,
+          promise: provider.torrents(this.model.get('imdb_id'), lang, altShowAll),
+        }),
+      });
+      this.getRegion('TorrentList').show(torrentList);
     },
 
     onChangeQuality: function (quality) {
@@ -80,10 +100,16 @@
     },
 
     toggleSourceLink: function(quality) {
-      const sourceURL = this.model.get('torrents')[quality].source;
-      if (sourceURL) {
-        $('.source-link').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
+      const torrent = this.model.get('torrents')[quality];
+      if (torrent.source) {
+        const provider = App.Config.getProviderForType('movie')[0];
+        this.icons.getLink(provider, torrent.provider)
+            .then((icon) => torrent.icon = icon || '/src/app/images/icons/' + torrent.provider + '.png')
+            .catch((error) => { !torrent.icon ? torrent.icon = '/src/app/images/icons/' + torrent.provider + '.png' : null; })
+            .then(() => $('.source-link').html(`<img src="${torrent.icon}" onerror="this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')">`));
+        $('.source-link').show().attr('data-original-title', torrent.source.split('//').pop().split('/')[0]);
       } else {
+        $('.source-link').html('');
         $('.source-link').hide();
       }
     },
@@ -220,6 +246,25 @@
         curSynopsis.allcast = movie.credits.cast.map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + '<p>&nbsp;</p>';
         curSynopsis.cast = movie.credits.cast.slice(0,10).map(function (el) {return '<span' + (el.profile_path ? ` data-toggle="tooltip" title="<img src='https://image.tmdb.org/t/p/w154${el.profile_path}' class='toolcimg'/>" ` : ' ') + `class="cname" onclick="nw.Shell.openExternal('https://yts.mx/browse-movies/${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')" oncontextmenu="nw.Shell.openExternal('https://www.imdb.com/find?s=nm&q=${el.name.replace(/\'/g, ' ').replace(/\ /g, '+')}')">${el.name.replace(/\ /g, '&nbsp;')}</span><span>&nbsp;-&nbsp;${el.character.replace(/\ /g, '&nbsp;')}</span>`;}).join('&nbsp;&nbsp; ') + (movie.credits.cast.length > 10 ? '&nbsp;&nbsp;&nbsp;<span class="showall-cast">more...</span>' : '') + '<p>&nbsp;</p>';
       }
+      // Fallback to english when source and TMDb call in default language that is other than english fail to fetch synopsis
+      if (!this.model.get('synopsis') && Settings.language !== 'en') {
+        movie = (function () {
+          var tmp = null;
+          $.ajax({
+            url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key,
+            type: 'get',
+            dataType: 'json',
+            timeout: 5000,
+            async: false,
+            global: false,
+            success: function (data) {
+              tmp = data;
+            }
+          });
+          return tmp;
+        }());
+        movie && movie.overview ? this.model.set('synopsis', movie.overview) : null;
+      }
     },
 
     showCast: function () {
@@ -252,6 +297,7 @@
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
+      App.vent.off('update:torrents');
       App.vent.off('change:quality');
       this.unbindKeyboardShortcuts();
       Object.values(this.views).forEach(v => v.destroy());

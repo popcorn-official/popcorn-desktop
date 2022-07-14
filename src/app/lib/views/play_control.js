@@ -5,6 +5,7 @@
   App.View.PlayControl = Marionette.View.extend({
     template: '#play-control-tpl',
     ui: {
+      showTorrents: '.show-all-torrents',
       bookmarkIcon: '.favourites-toggle',
       watchedIcon: '.watched-toggle'
     },
@@ -12,11 +13,13 @@
       'click #watch-now': 'startStreaming',
       'click #watch-trailer': 'playTrailer',
       'click #download-torrent': 'downloadTorrent',
+      'click #show-all-torrents': 'showAllTorrents',
       'click .favourites-toggle': 'toggleFavourite',
       'click .playerchoicemenu li a': 'selectPlayer',
       'click .playerchoicehelp': 'showPlayerList',
       'click .watched-toggle': 'toggleWatched',
       'click #subs-dropdown': 'hideTooltips',
+      'click .connect-opensubtitles': 'connectOpensubtitles',
       'click #audio-dropdown': 'hideTooltips',
       'click #quality-selector': 'hideTooltips'
     },
@@ -29,6 +32,7 @@
     initialize: function() {
       _this = this;
       this.views = {};
+      var providers = this.model.get('providers');
       var subtitleProvider = App.Config.getProviderForType('subtitle');
       subtitleProvider.detail(
         this.model.get('imdb_id'),
@@ -39,6 +43,8 @@
       } else {
         this.model.set('torrents', this.model.get('langs')[this.model.get('defaultAudio')]);
       }
+      this.model.set('showTorrentsMore', providers.torrent.feature('torrents'));
+      this.model.set('showTorrents', false);
 
       App.vent.on('sub:lang', this.switchSubtitle.bind(this));
       App.vent.on('audio:lang', this.switchAudio.bind(this));
@@ -64,6 +70,8 @@
       this.setUiStates();
       this.model.on('change:langs', this.loadAudioDropdown.bind(this));
       this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
+      this.model.set('showTorrents', false);
+      this.ui.showTorrents.show();
 
       if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
         $('.button:not(#download-torrent)').addClass('disabled');
@@ -189,6 +197,12 @@
       $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle, #quality-selector .qselect').tooltip('hide');
     },
 
+    connectOpensubtitles: function () {
+        App.vent.trigger('movie:closeDetail');
+        App.vent.trigger('settings:show');
+        $('#opensubtitlesUsername').attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
+    },
+
     switchSubtitle: function(lang) {
       var subtitles = this.model.get('subtitle') || this.views.sub.values;
       if (subtitles === undefined || subtitles[lang] === undefined) {
@@ -202,11 +216,16 @@
       if (audios === undefined || audios[lang] === undefined) {
         lang = 'none';
       }
+      this.old_audio_selected = this.audio_selected;
       this.audio_selected = lang;
 
       if (this.getRegion('qualitySelector').currentView) {
         this.model.set('torrents', audios[lang]);
         this.getRegion('qualitySelector').currentView.updateTorrents(audios[lang]);
+      }
+
+      if (this.model.get('showTorrents') && this.old_audio_selected !== this.audio_selected) {
+        App.vent.trigger('update:torrents', this.audio_selected);
       }
     },
 
@@ -218,7 +237,7 @@
         App.vent.trigger('seedbox:show');
         $('.filter-bar').find('.active').removeClass('active');
         $('#filterbar-seedbox').addClass('active');
-        $('#nav-filters').hide();
+        $('#nav-filters, .right .search').hide();
       } else {
         $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
       }
@@ -314,6 +333,17 @@
         body: i18n.__('Popcorn Time currently supports') + '<div class="splayerlist">' + extPlayerlst + '.</div><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
         type: 'success'
       }));
+    },
+
+    showAllTorrents: function() {
+      const show = !this.model.get('showTorrents');
+      this.model.set('showTorrents', show);
+      if (show) {
+        this.ui.showTorrents.addClass('active fas fa-spinner fa-spin').html('');
+      } else {
+        this.ui.showTorrents.removeClass('active fas fa-spinner fa-spin').html(i18n.__('more...'));
+      }
+      App.vent.trigger('update:torrents', show ? this.audio_selected : null);
     },
 
     onBeforeDestroy: function() {

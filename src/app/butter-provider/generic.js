@@ -71,9 +71,9 @@ class Provider {
     if (args.apiURL) { this.setApiUrls(args.apiURL); }
   };
 
-  async _get(index, uri) {
+  async _get(index, uri, altShowAll) {
 
-    const req = this.buildRequest(this.apiURL[index], uri);
+    const req = this.buildRequest(altShowAll ? altShowAll[index] : this.apiURL[index], uri);
     let err = null;
     console.info(`Request to ${this.constructor.name}: '${req.url}'`);
     try {
@@ -130,6 +130,8 @@ class Provider {
 
   filters() {return Promise.resolve({});}
 
+  feature(name) { return false; }
+
   formatFiltersFromServer(sorters, data)
   {
     let filters = {
@@ -149,6 +151,30 @@ class Provider {
     }
 
     return filters;
+  }
+
+  async getBin(index, uri) {
+
+    const req = this.buildRequest(this.apiURL[index], uri);
+    let err = null;
+    console.info(`Request to ${this.constructor.name}: '${req.url}'`);
+    try {
+      const response = await fetch(req.url, req.options);
+      if (response.ok) {
+        if (index > 0) {
+          this.apiURL = this.apiURL.slice(index).concat(this.apiURL.slice(0, index));
+        }
+        return response;
+      }
+    } catch (error) {
+      err = error;
+    }
+    console.warn(`${this.constructor.name} endpoint 'this.apiURL[${index}]' failed.`);
+
+    if (index + 1 >= this.apiURL.length) {
+      throw err || new Error('Status Code is above 400');
+    }
+    return this.getBin(index+1, uri);
   }
 }
 

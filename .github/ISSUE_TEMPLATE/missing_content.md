@@ -7,6 +7,6 @@ assignees: ''
 
 ---
 
-The app don't manage the content. Results comes from third parties APIs.
+The app doesn't manage the content, it uses third-party sources.
 
-This is useless to open an issue here for those kind of issues.
+Its not of much use opening an issue here for those kind of issues.

@@ -84,20 +84,30 @@
                     color: #fff
                     -webkit-font-smoothing: antialiased
 
+                    &:not(.shmi-tmdb-link)
+                        &:hover ~ div.shmi-tmdb-link
+                            opacity: 0.4
+                            transition-delay: .8s
+
                 div.shmi-year
                     cursor: pointer
 
                 div.shmi-tmdb-link
+                    padding-left: 12px
+                    padding-right: 6px
                     cursor: pointer
-                    opacity: 0.4
+                    opacity: 0
                     transition: opacity .3s ease-in
+                    transition-delay: .2s
 
                     &:hover
                         opacity: 1
+                        transition-delay: 0s
 
                     &.disabled
-                        cursor: default
-                        opacity: 0.4
+                        &:hover
+                            cursor: default
+                            opacity: 0.4
 
                 div.shmi-imdb
                     cursor: pointer
@@ -335,12 +345,17 @@
         z-index: 1
         background: $ShowBgColor1
         height: calc(100vh - 282px)
-        display: flex
-        flex-direction: row
+        display: grid
         padding-left: 20px /* left-pad */
+        gap: 10px;
+        grid-template-columns: fit-content(165px) 2fr minmax(480px, 1fr);
+        grid-template-rows: 2fr auto;
+        grid-template-areas: "seasons  episodes overview" "torrents torrents overview";
 
         .sd-seasons ul, .sd-episodes ul
-            height: calc(100vh - 340px)
+            position: absolute;
+            top:45px;
+            bottom:0;
             cursor: pointer
             direction: rtl
             white-space: nowrap
@@ -406,6 +421,8 @@
                     text-overflow: ellipsis
 
         .sd-seasons, .sd-episodes
+            position: relative;
+            height: 100%;
             .sds-title, .sde-title
                 font-size: 24px
                 overflow: hidden
@@ -417,9 +434,6 @@
 
         .sd-seasons
             min-width: 165px
-            max-width: 165px
-            flex-shrink: 1
-            flex-grow: 1
             padding: 10px
 
             .sds-list ul a
@@ -428,8 +442,11 @@
                 white-space: nowrap
 
         .sd-episodes
-            flex-grow: 2
+            grid-area: episodes;
             padding: 10px
+
+            .sde-list ul
+                width: calc(100% - 10px)
 
             .sde-list ul li a
                 color: $EpisodeListText
@@ -442,13 +459,14 @@
 
         .sd-overview
             background: $ShowBgColor2
-            flex-grow: 1
-            flex-shrink: 0
-            width: 35vw
-            min-width: 375px
+            grid-area: overview;
             padding: 10px 30px 10px 18px /* right pad */
+            display: grid
+            grid-template-rows: auto 2fr
 
             .sdo-infos
+                height: fit-content
+
                 .sdoi-title
                     overflow: hidden
                     white-space: nowrap
@@ -491,13 +509,17 @@
                             transition: all .5s
 
                     .source-icon
+                        display: inline-block
                         font-size: 13px
                         color: #DDD
-                        margin-right: 2px
+                        margin-right: 0px
+                        top: 3px
 
                         &:hover
                             color: #FFF
                             transition: all .5s
+                        img
+                            height: 16px
 
                 .sdoi-aired
                     font-size: 12px
@@ -517,12 +539,20 @@
                     text-align: justify
                     margin-top: 10px
                     padding: 2px 15px 5px 0
-                    height: calc(100vh - 425px)
+                    height: fit-content
                     scrollable()
+
+            #torrent-list
+                height: auto
+                margin: 10px -10px 10px -5px
 
             .sdo-watch
                 height: 60px
                 padding: 5px 0px 15px 0px
+                margin-bottom: -5px
+
+                &.disabled
+                    margin-bottom: 50px
 
                 .play-selector
                     position: relative
@@ -532,13 +562,39 @@
                     &.disabled
                         position: absolute
                         right: 5px
-                        margin-top: -65px
+                        margin-top: -5px
                         cursor: pointer
                         opacity: 1
                         filter: none
 
+                .show-all-torrents
+                    float: left
+                    font-family: $MainFont
+                    -webkit-font-smoothing: antialiased
+                    font-size: 11px
+                    color: $ShowText1
+                    transition: all .2s ease-in, margin 0s
+                    padding: 0 6px
+                    margin: 12px 6px 0 0
+                    border-radius: 10px
+                    height: 19px
+                    line-height: 19px
+                    cursor: pointer
+
+                    &:hover, &.active
+                        color: $QualitySelectorText
+                        background: $QualitySelectorBg
+
+                    &.fa-spinner
+                        font-family: "Font Awesome 5 Free"
+                        transition: none
+                        margin-left: 6px
+
+                        &:hover, &.active
+                            background: none
+
                 .sdow-quality
-                    margin-top: 20px
+                    margin-top: 12px
                     float: left
 
                     div
@@ -570,10 +626,9 @@
 
                     &.disabled
                         visibility: hidden
-
-        /* ugly rule to bypass restrictions */
-        .sd-seasons[style*="display: none"] + .sd-episodes ul a div
-            max-width: calc(60vw - 100px)
+        .sd-torrents
+            grid-area: torrents;
+            max-height: 300px;
 
         > .spinner
             position: fixed;

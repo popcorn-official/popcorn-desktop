@@ -10,7 +10,7 @@
 
         events: {
             'click .close-icon': 'closeSelector',
-            'click .file-item': 'startStreaming',
+            'click .file-item *': 'startStreaming',
             'click .store-torrent': 'storeTorrent',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .playerchoicehelp': 'showPlayerList'
@@ -51,7 +51,7 @@
 
         startStreaming: function (e) {
             var torrent = that.model.get('torrent');
-            var file = $(e.currentTarget).attr('data-file');
+            var file = $(e.currentTarget).parent().attr('data-file');
 
             var torrentStart = new Backbone.Model({
                 torrent: torrent.magnetURI,
@@ -59,8 +59,20 @@
                 file_name: file,
                 device: App.Device.Collection.selected
             });
-            App.vent.trigger('stream:start', torrentStart);
+            App.vent.trigger('stream:start', torrentStart, !$(e.currentTarget).hasClass('item-download') ? '' : 'downloadOnly' );
             App.vent.trigger('system:closeFileSelector');
+            if ($(e.currentTarget).hasClass('item-download')) {
+                if (Settings.showSeedboxOnDlInit) {
+                    App.vent.trigger('torrentCollection:close');
+                    App.currentview = 'Seedbox';
+                    App.vent.trigger('seedbox:show');
+                    $('.filter-bar').find('.active').removeClass('active');
+                    $('#filterbar-seedbox').addClass('active');
+                    $('#nav-filters, .right .search').hide();
+                } else {
+                    $('.notification_alert').stop().text(i18n.__('Download added')).fadeIn('fast').delay(1500).fadeOut('fast');
+                }
+            }
         },
 
         isTorrentStored: function () {
@@ -136,7 +148,7 @@
             }
             this.isTorrentStored(); // trigger button change
 
-            if (App.currentview === 'Torrent Collection') {
+            if (App.currentview === 'Torrent Collection' || App.currentview === 'Torrent-collection') {
                 App.vent.trigger('torrentCollection:show'); // refresh collection
             }
         },

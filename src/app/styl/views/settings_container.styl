@@ -140,7 +140,7 @@
                 label
                     margin-top -7px
 
-                .keyboard,.help
+                .keyboard,.help,.about
                     font-size: 21px
                     margin-right: 25px
                     color: $Text3
@@ -165,6 +165,9 @@
             .translateTitle > select
                 width 158px
 
+            label#contentLangOnly
+                margin-left 16px
+
         #subtitles
             .subtitles-language-default > select,
             .subtitles-font > select,
@@ -181,21 +184,19 @@
                 .colorsub
                     cursor pointer
 
-        #trakt-tv
+        #features
             .trakt-options
                 color $SettingsText1
+                display inline-flex
+                margin-left 20px
 
                 a
                     display inline-block
 
-                .unauthtext
-                    margin-left 5px
+                .unauthtext,
+                .syncTrakt
                     color $ButtonBgActive
                     &:hover{ color: $ButtonBgHover; }
-
-                .syncTrakt
-                    margin-bottom: 15px
-                    margin-top: -10px
 
         #tvshowtime
             .tvshowtime-options
@@ -228,7 +229,7 @@
                     margin-left 20px
                     margin-top -2px
 
-        #opensubtitles
+        #subtitles
             .opensubtitles-options
                 color $SettingsText1
 
@@ -400,6 +401,14 @@
             cursor: pointer
             &:hover
                 color: $ButtonBgActive
+
+        .closeTraktCode
+            font-size: 13px
+            margin: 0 2px 0 8px
+            transition: all 0.5s
+            cursor: pointer
+            &:hover
+                color: #ee3030
 
         .reset-current-filter.disabled
             color: inherit

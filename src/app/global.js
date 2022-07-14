@@ -36,7 +36,7 @@ var _ = require('underscore'),
   Trakt = require('trakt.tv'),
   // Torrent engines
   WebTorrent = require('webtorrent'),
-  torrentCollection = require('torrentcollection4'),
+  torrentCollection = require('torrentcollection5'),
   // VPN
   VPNht = require('@vpnht/sdk'),
   // NodeJS

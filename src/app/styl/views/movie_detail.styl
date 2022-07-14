@@ -65,6 +65,9 @@
         .meta-container
             height: calc(100% - 70px)
             flex: 2
+            overflow: hidden
+            padding-top: 10px
+            margin-top: -10px
 
             .title
                 color: #FFF
@@ -79,6 +82,11 @@
                 top: 15px
                 height: 20px
                 position: relative
+
+                .metaitem, .year, .certification, .show-cast, .movie-imdb-link
+                    &:hover ~ .tmdb-link
+                        opacity 0.4
+                        transition-delay .8s
 
                 .metaitem
                     color: #f8f8f8
@@ -118,6 +126,8 @@
                     cursor: pointer
 
                 .tmdb-link
+                    padding-left: 12px
+                    padding-right 6px
                     color: #f8f8f8
                     font-size: 11px
                     position: relative
@@ -126,15 +136,18 @@
                     float: left
                     font-smoothing: antialiased
                     cursor: pointer
-                    opacity: 0.4
+                    opacity: 0
                     transition: opacity .3s ease-in
+                    transition-delay: .2s
                     
                     &:hover
                         opacity: 1
+                        transition-delay: 0s
 
                     &.disabled
-                        cursor: default
-                        opacity: 0.4
+                        &:hover
+                            cursor: default
+                            opacity: 0.4
 
                 .year, .certification
                     color: #f8f8f8
@@ -241,16 +254,19 @@
                     position: relative
                     font-size: 13px
                     float: right
-                    margin-right: 12px
+                    margin-right: 10px
                     color: #DDD
                     cursor: pointer
+                    top: -2px
                     &:hover
                         color: #FFF
                         transition: all .5s
+                    img
+                        height: 16px
 
             .overview
                 position: relative
-                height: 55%
+                max-height: 35%
                 overflow: hidden
                 float: none
                 color: #FFF
@@ -281,6 +297,36 @@
 
                 p.sline
                     line-height: 0.6
+
+            #torrent-list
+                position: relative
+                top: 50px
+                max-height: 55%
+                margin: 0 20px 0 3px
+
+                table
+                    tr
+                        &:hover
+                            background: rgba(255,255,255,0.1)
+
+                        td
+                            color: #c3c5c7
+                            background: none
+
+                            &:nth-child(5)
+                                padding-right: 20px
+
+                    td.provider
+                        width: 36px
+                        padding-left: 10px
+
+                    td.action
+                        width: 36px
+                        padding-left: 1px
+
+                        &:hover
+                            color: #fff
+                            transition: all .5s
 
         .play-control
             display: flex
@@ -454,6 +500,33 @@
                             opacity: 0
                         &:after
                             opacity: 1
+
+            .show-all-torrents
+                position: relative
+                float: left
+                font-family: $MainFont
+                -webkit-font-smoothing: antialiased
+                font-size: 11px
+                color: #fff
+                transition: all .2s ease-in, margin 0s
+                padding: 0 6px
+                margin: 6px 6px 0 -2px
+                border-radius: 10px
+                height: 23px
+                line-height: 23px
+                cursor: pointer
+
+                &:hover, &.active
+                    color: $QualitySelectorText
+                    background: $QualitySelectorBg
+
+                &.fa-spinner
+                    font-family: "Font Awesome 5 Free"
+                    transition: none
+                    margin-left: 6px
+
+                    &:hover, &.active
+                        background: none
 
             .play-selector
                 position: relative

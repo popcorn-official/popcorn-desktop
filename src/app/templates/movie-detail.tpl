@@ -26,7 +26,7 @@ if (genre) {
         <div class="title"><%= displayTitle %></div>
 
         <div class="metadatas">
-            <div class="metaitem"></div><div class="year" data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Show Release Info') %>"><%= year %></div>
+            <div class="metaitem"></div><div class="year" data-toggle="tooltip" data-container="body" data-placement="top" title="<%=i18n.__('Show Release Info') %>"><%= year %></div>
             <div class="metaitem"><%= runtime %> min</div>
             <div class="metaitem"><%= genre.join(" / ") %></div>
             <% if((typeof(certification) !== 'undefined') && (certification !== null) && (certification !== '') && (certification !== 'NR')) { %>
@@ -52,16 +52,15 @@ if (genre) {
                 </div>
                 <div class="number-container hidden"><%= rating %> <em>/10</em></div>
             </div>
-            <% if (Settings.showSubmitMeta) { %>
-            <div class="metaitem"></div><div data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Submit metadata & translations') %>" class="fa fa-pencil-alt tmdb-link"></div>
-            <% } %>
+            <div data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Submit metadata & translations') %>" class="fa fa-pencil-alt tmdb-link"></div>
             <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health false') %>" class="fa fa-circle health-icon <%= health %>"></div>
             <div data-toogle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-link"></div>
-            <div data-toogle="tooltip" data-placement="left" title="" class="fas fa-link source-link"></div>
+            <div data-toogle="tooltip" data-placement="left" title="" class="source-link"></div>
 
         </div>
 
         <div class="overview"><%= displaySynopsis %></div>
+        <div id="torrent-list"></div>
     </div>
 
     <div id="play-control"></div>

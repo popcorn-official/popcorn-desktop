@@ -26,7 +26,6 @@
       'click .ratings .dropdown-menu a': 'changeRating',
       'click #filterbar-settings': 'settings',
       'click #filterbar-tempf': 'tempf',
-      'click #filterbar-about': 'about',
       'click #filterbar-vpn': 'vpn',
       'click .movieTabShow': 'movieTabShow',
       'click .tvshowTabShow': 'tvshowTabShow',
@@ -373,10 +372,6 @@
 
     tempf: function (e) {
       App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
-    },
-
-    about: function(e) {
-      App.vent.trigger('about:show');
     },
 
     vpn: function(e) {

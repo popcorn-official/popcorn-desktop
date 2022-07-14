@@ -11,12 +11,12 @@ class DhtReader {
     update(e) {
         const self = this;
         if (!Settings.dht) {
-            if (e) {
+            if (e && e !== 'urls') {
                 self.alertIcon('error');
                 self.alertMessage('error');
             }
             return;
-        } else if (e) {
+        } else if (e && e !== 'urls') {
             self.alertIcon();
             self.alertMessage('wait');
         }
@@ -25,20 +25,25 @@ class DhtReader {
         dht.once('ready', function () {
             dht.get(hash, function (err, node) {
                 if (err || !node || !node.v) {
-                    if (e) {
+                    if (e && e !== 'urls') {
                         self.alertIcon('error');
                         self.alertMessage('error');
                     }
                     return;
                 }
-                let newData = node.v.toString();
                 let data = AdvSettings.get('dhtData');
+                let newData = node.v.toString();
+                let info = AdvSettings.get('dhtInfo');
+                let newInfo = typeof newData === 'string' ? JSON.parse(newData) : null;
                 AdvSettings.set('dhtData', newData);
                 AdvSettings.set('dhtDataUpdated', Date.now());
-                if (e) {
-                    self.alertIcon('success');
+                if (e !== 'urls'){
+                    if (e) {
+                        self.alertIcon('success');
+                    }
+                    AdvSettings.set('dhtInfo', newInfo);
                 }
-                if (data !== newData) {
+                if (data !== newData && e !== 'urls') {
                     self.updateSettings();
                     if (!Settings.dhtEnable || (Settings.customMoviesServer || Settings.customSeriesServer || Settings.customAnimeServer)) {
                         self.alertMessage('change');
@@ -48,7 +53,11 @@ class DhtReader {
                 } else if (e === 'enable') {
                     self.alertMessage('restart');
                 } else if (e === 'manual') {
-                    self.alertMessage('alrdupdated');
+                    if (info.toString() !== newInfo.toString()) {
+                        self.alertMessage('restart');
+                    } else {
+                        self.alertMessage('alrdupdated');
+                    }
                 }
             });
         });
@@ -62,7 +71,11 @@ class DhtReader {
         let last = AdvSettings.get('dhtDataUpdated');
         const time = 1000 * 60 * 60 * 24 * 7;
         if (!data) {
-            this.update('enable');
+            if (Settings.dhtEnable) {
+                this.update('enable');
+            } else {
+                this.update('urls');
+            }
         } else if (Date.now() - last > time) {
             this.update();
         }
@@ -92,7 +105,7 @@ class DhtReader {
 
     alertMessage(alertType) {
         var changeServer = function () {
-            let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? AdvSettings.get('dhtData').split('server":"')[1].split('","git":"')[0] : '';
+            let newServer = AdvSettings.get('dhtData') && !AdvSettings.get('dhtEnable') ? Settings.dhtInfo.server : '';
             AdvSettings.set('customMoviesServer', newServer);
             AdvSettings.set('customSeriesServer', newServer);
             AdvSettings.set('customAnimeServer', newServer);

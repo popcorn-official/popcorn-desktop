@@ -13,10 +13,17 @@
             <div id="download-torrent"    class="button play-selector"><%=i18n.__("Download") %></div>
             <% } %>
             <div id="quality-selector" class="quality-selector"></div>
+            <% if (showTorrentsMore) { %>
+            <div id="show-all-torrents" class="show-all-torrents"><%=i18n.__("more...") %></div>
+            <% } %>
         </div>
     </div>
     <div class="flex-right dropdowns-container">
+        <% if (Settings.opensubtitlesAuthenticated) { %>
         <div id="subs-dropdown"></div>
+        <% } else { %>
+        <div id="subs-dropdown" class="connect-opensubtitles"></div>
+        <% } %>
         <div id="audio-dropdown"></div>
     </div>
 </div>

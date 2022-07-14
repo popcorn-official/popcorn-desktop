@@ -16,7 +16,6 @@ const gulp = require('gulp'),
   del = require('del'),
   gulpRename = require('gulp-rename'),
   nwBuilder = require('nw-builder'),
-  currentPlatform = require('nw-builder/lib/detectCurrentPlatform.js'),
   yargs = require('yargs'),
   nib = require('nib'),
   git = require('git-describe'),
@@ -27,12 +26,14 @@ const gulp = require('gulp'),
   spawn = require('child_process').spawn,
   pkJson = require('./package.json');
 
+const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs');
+
 /***********
  *  custom  *
  ***********/
 // returns an array of platforms that should be built
 const parsePlatforms = () => {
-  const requestedPlatforms = (yargs.argv.platforms || currentPlatform()).split(
+  const requestedPlatforms = (yargs.argv.platforms || detectCurrentPlatform(process)).split(
       ','
     ),
     validPlatforms = [];
@@ -277,7 +278,7 @@ gulp.task('compresszip', () => {
         return gulp
           .src(sources + '/**')
           .pipe(
-            zip(pkJson.name + '-' + curVersion() + '_' + platform + '.zip')
+            zip(pkJson.name + '-' + curVersion() + '-' + platform + '.zip')
           )
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
@@ -307,7 +308,7 @@ gulp.task('compressUpdater', () => {
         console.log('Packaging updater for: %s', platform);
         return gulp
           .src(path.join('build', updateFile))
-          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
@@ -393,7 +394,7 @@ gulp.task('clean:css', deleteAndLog(['src/app/themes'], 'css files'));
 gulp.task('mac-pkg', () => {
   return Promise.all(
     nw.options.platforms.map((platform) => {
-      if (currentPlatform().indexOf('osx') === -1) {
+      if (detectCurrentPlatform(process).indexOf('osx') === -1) {
         console.log('Packaging deb is only possible on osx');
         return null;
       }
@@ -563,7 +564,7 @@ gulp.task('deb', () => {
         console.log('No `deb` task for:', platform);
         return null;
       }
-      if (currentPlatform().indexOf('linux') === -1) {
+      if (detectCurrentPlatform(process).indexOf('linux') === -1) {
         console.log('Packaging deb is only possible on linux');
         return null;
       }
@@ -667,7 +668,7 @@ gulp.task('prepareUpdater:win', () => {
           )
           .pipe(gulpRename('update.exe'))
           .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
-          .pipe(zip('update-' + curVersion() + '_' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(

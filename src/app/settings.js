@@ -2,16 +2,17 @@
 var Settings = {
   projectName: 'Popcorn Time',
   projectUrl: 'https://popcorntime.app',
-  projectCi: 'https://ci.popcorntime.app',
-  projectBlog: 'https://blog.popcorntime.app/',
+  projectCi: 'https://github.com/popcorn-official/popcorn-desktop/actions',
+  projectBlog: 'https://github.com/popcorn-official/popcorn-desktop/wiki',
   projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
-  statusUrl: 'http://status.popcorntime.app',
+  statusUrl: 'https://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
   sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
   commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
   dht: '',
+  dhtInfo: '',
   updateKey:
     '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
@@ -88,26 +89,24 @@ Settings.trackers = {
     'udp://tracker.zerobytes.xyz:1337',
     'udp://explodie.org:6969',
     'udp://retracker.lanta-net.ru:2710',
+    'udp://opentracker.i2p.rocks:6969',
     'wss://tracker.openwebtorrent.com'
   ]
 };
 
-// API Servers
-Settings.customMoviesServer = '';
-Settings.customSeriesServer = '';
-Settings.customAnimeServer = '';
-Settings.proxyServer = '';
-
-// User interface
-Settings.language = '';
-Settings.contentLanguage = '';
-Settings.contentLangOnly = false;
-Settings.nativeWindowFrame = nw.App.manifest.window.frame;
-Settings.translateSynopsis = true;
+// User Interface
+Settings.theme = 'Official_-_Dark_theme';
+Settings.startScreen = 'Movies';
+Settings.lastTab = '';
+Settings.moviesTabEnable = true;
+Settings.seriesTabEnable = true;
+Settings.animeTabEnable = true;
 Settings.coversShowRating = true;
+Settings.showSeedboxOnDlInit = true;
+Settings.expandedSearch = false;
+Settings.defaultFilters = 'default';
 Settings.watchedCovers = 'fade';
-Settings.showAdvancedSettings = false;
-Settings.torColSearchMore = true;
+Settings.tv_detail_jump_to = 'next';
 Settings.postersMinWidth = 134;
 Settings.postersMaxWidth = 294;
 Settings.postersMinFontSize = 0.8;
@@ -116,104 +115,107 @@ Settings.postersSizeRatio = 196 / 134;
 Settings.postersWidth = Settings.postersMinWidth;
 Settings.postersJump = [134, 154, 174, 194, 214, 234, 254, 274, 294];
 Settings.bigPicture = 100;
+Settings.nativeWindowFrame = nw.App.manifest.window.frame;
+Settings.alwaysOnTop = false;
+Settings.minimizeToTray = false;
+Settings.ratingStars = true;
+Settings.showAdvancedSettings = true;
 
-//Localisation
+// Language
+Settings.language = '';
+Settings.contentLanguage = '';
+Settings.contentLangOnly = false;
 Settings.translateTitle = 'translated-origin';
-Settings.translatePosters = true;
-Settings.translateSynopsis = true;
 Settings.translateEpisodes = true;
+Settings.translateSynopsis = true;
+Settings.translatePosters = true;
 
-//Playback
+// Subtitles
+Settings.subtitle_language = 'none';
+Settings.subtitle_font = 'Arial';
+Settings.subtitle_decoration = 'Outline';
+Settings.subtitle_size = '38px';
+Settings.subtitle_color = '#ffffff';
+Settings.subtitles_bold = false;
+Settings.multipleExtSubtitles = false;
+Settings.opensubtitlesAuthenticated = false;
+Settings.opensubtitlesUsername = '';
+Settings.opensubtitlesPassword = '';
+Settings.playerSubPosition = '0px';
+
+// Playback
 Settings.alwaysFullscreen = false;
 Settings.playNextEpisodeAuto = false;
 Settings.preloadNextEpisodeTime = 1;
 Settings.activateLoCtrl = false;
 Settings.chosenPlayer = 'local';
-
-// Advanced UI
-Settings.alwaysOnTop = false;
-Settings.theme = 'Official_-_Dark_theme';
-Settings.ratingStars = true; //trigger on click in details
-Settings.startScreen = 'Movies';
-Settings.lastTab = '';
-Settings.defaultFilters = 'default';
-Settings.moviesTabEnable = true;
-Settings.seriesTabEnable = true;
-Settings.animeTabEnable = true;
-Settings.showSeedboxOnDlInit = true;
-Settings.showSubmitMeta = true;
-Settings.showUndoRBookmark = true;
-Settings.expandedSearch = false;
-
-// Quality
-Settings.shows_default_quality = '720p';
+Settings.shows_default_quality = '1080p';
 Settings.movies_default_quality = '1080p';
-Settings.moviesShowQuality = false;
+Settings.playerVolume = '1';
+Settings.audioPassthrough = false;
 
-// Subtitles
-Settings.subtitle_language = 'none';
-Settings.subtitle_size = '38px';
-Settings.subtitle_color = '#ffffff';
-Settings.subtitle_decoration = 'Outline';
-Settings.subtitle_font = 'Arial';
-Settings.multipleExtSubtitles = false;
-
-// More options
-Settings.httpApiEnabled = false;
-Settings.httpApiPort = 8008;
-Settings.httpApiUsername = 'popcorn';
-Settings.httpApiPassword = 'popcorn';
-
-// Trakt.tv
+// Features
+Settings.activateWatchlist = false;
 Settings.traktStatus = false;
 Settings.traktLastSync = false;
 Settings.traktLastActivities = false;
 Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
-
-// OpenSubtitles
-Settings.opensubtitlesAutoUpload = true;
-Settings.opensubtitlesAuthenticated = false;
-Settings.opensubtitlesUsername = '';
-Settings.opensubtitlesPassword = '';
-
-// Advanced options
-Settings.connectionLimit = 55;
-Settings.downloadLimit = '';
-Settings.uploadLimit = '';
-Settings.maxLimitMult = 1024;
-Settings.maxUdpReqLimit = 16;
-Settings.streamPort = 0; // 0 = Random
-Settings.protocolEncryption = false;
-Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
-Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
-Settings.databaseLocation = path.join(data_path, 'data');
-Settings.deleteTmpOnClose = true;
-Settings.separateDownloadsDir = false;
-Settings.delSeedboxCache = 'ask';
-Settings.continueSeedingOnStart = false;
-Settings.vpnEnabled = false;
-Settings.maxActiveTorrents = 5;
-Settings.automaticUpdating = '';
-Settings.UpdateSeed = false;
-Settings.dhtEnable = '';
-Settings.events = true;
-Settings.minimizeToTray = false;
-
-// Features
 Settings.activateTorrentCollection = true;
-Settings.activateWatchlist = true;
-Settings.activateTempf = true;
-Settings.activateSeedbox = true;
 Settings.toggleSengines = false;
 Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
-Settings.enableOmgtorrentSearch = true;
+Settings.enableTgxtorrentSearch = true;
+Settings.activateSeedbox = true;
+Settings.activateTempf = true;
 
-// Ratio
+// Remote Control
+Settings.httpApiEnabled = false;
+Settings.httpApiPort = 8008;
+Settings.httpApiUsername = 'popcorn';
+Settings.httpApiPassword = 'popcorn';
+
+// API Server(s)
+Settings.customMoviesServer = '';
+Settings.customSeriesServer = '';
+Settings.customAnimeServer = '';
+
+// Connection
+Settings.maxActiveTorrents = 5;
+Settings.connectionLimit = 55;
+Settings.maxUdpReqLimit = 16;
+Settings.downloadLimit = '';
+Settings.uploadLimit = '';
+Settings.maxLimitMult = 1024;
 Settings.totalDownloaded = 0;
 Settings.totalUploaded = 0;
+Settings.streamPort = 0; // 0 = Random
+Settings.continueSeedingOnStart = false;
+Settings.protocolEncryption = false;
+Settings.proxyServer = '';
+
+// Cache
+Settings.tmpLocation = path.join(os.tmpdir(), Settings.projectName);
+Settings.deleteTmpOnClose = true;
+Settings.delSeedboxCache = 'ask';
+Settings.separateDownloadsDir = false;
+Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
+
+// Database
+Settings.databaseLocation = path.join(data_path, 'data');
+
+// Miscellaneous
+Settings.automaticUpdating = '';
+Settings.dhtEnable = '';
+Settings.events = true;
+
+// App Settings
+Settings.version = false;
+Settings.dbversion = '0.1.0';
+Settings.font = 'tahoma';
+Settings.defaultWidth = Math.round(window.screen.availWidth * 0.8);
+Settings.defaultHeight = Math.round(window.screen.availHeight * 0.8);
 
 Settings.updateEndpoint = {
   url: 'https://butterproject.org/',
@@ -229,18 +231,6 @@ Settings.updateEndpoint = {
     }
   ]
 };
-
-// App Settings
-Settings.version = false;
-Settings.dbversion = '0.1.0';
-Settings.font = 'tahoma';
-Settings.defaultWidth = Math.round(window.screen.availWidth * 0.8);
-Settings.defaultHeight = Math.round(window.screen.availHeight * 0.8);
-
-// Miscellaneous
-Settings.playerSubPosition = '0px';
-Settings.playerVolume = '1';
-Settings.tv_detail_jump_to = 'next';
 
 var ScreenResolution = {
   get SD() {

@@ -194,37 +194,6 @@
             }
         },
 
-        uploadSubtitles: function () {
-            // verify custom subtitles not modified
-            if (Settings.opensubtitlesAutoUpload && this.customSubtitles && !this.customSubtitles.modified) {
-                var real_elapsedTime = (Date.now() - this.customSubtitles.added_at) / 1000;
-                var player_elapsedTime = this.video.currentTime() - this.customSubtitles.timestamp;
-                var perc_elapsedTime = player_elapsedTime / this.video.duration();
-
-                // verify was played long enough
-                if (real_elapsedTime >= player_elapsedTime && perc_elapsedTime >= 0.6) {
-                    var upload = {
-                        subpath: this.customSubtitles.subPath,
-                        path: this.model.get('videoFile'),
-                        imdbid: this.model.get('imdb_id')
-                    };
-
-                    win.debug('OpenSubtitles - Uploading subtitles', upload);
-
-                    var subtitleProvider = App.Config.getProviderForType('subtitle');
-                    subtitleProvider.upload(upload).then(function (data) {
-                        if (data.alreadyindb) {
-                            win.debug('OpenSubtitles - Already in DB', data);
-                            return;
-                        }
-                        win.debug('OpenSubtitles - Subtitles successfully uploaded', data);
-                    }).catch(function (err) {
-                        win.warn('OpenSubtitles: could not upload subtitles', err);
-                    });
-                }
-            }
-        },
-
         closePlayer: function () {
             win.info('Player closed');
             $('head > title').text('Popcorn-Time');
@@ -235,7 +204,6 @@
                 clearInterval(this._ShowUIonHover);
             }
 
-            this.uploadSubtitles();
             this.sendToTrakt('stop');
 
             var type = this.isMovie();
@@ -469,8 +437,8 @@
             $('#player_drag').show();
             var that = this;
 
-            $('.button:not(#download-torrent), .show-details .sdow-watchnow, .show-details #download-torrent, .file-item, .result-item, .collection-actions, .seedbox .item-play').addClass('disabled');
-            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .result-item, .seedbox .item-play').prop('disabled', true);
+            $('.button:not(#download-torrent), .show-details .sdo-watch, .sdow-watchnow, .show-details #download-torrent, .file-item, .file-item a, .result-item, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row').addClass('disabled');
+            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
 
             // Double Click to toggle Fullscreen
             $('#video_player, .state-info-player').dblclick(function (event) {
@@ -1169,7 +1137,7 @@
         },
 
         mouseScroll: function (e) {
-            if (_.last(App.ViewStack) !== 'app-overlay' || $(e.target).parents('.vjs-subtitles-button').length) {
+            if ((_.last(App.ViewStack) !== 'app-overlay' && _.last(App.ViewStack) !== 'player') || $(e.target).parents('.vjs-subtitles-button').length) {
                 return;
             }
             var mult = (Settings.os === 'mac') ? -1 : 1; // up/down invert
@@ -1288,7 +1256,7 @@
             if (this.inFullscreen && !win.isFullscreen) {
                 $('.btn-os.fullscreen').removeClass('active');
             }
-            $('.button, #watch-now, .show-details .sdow-watchnow, .playerchoice, .file-item, .result-item, .trash-torrent, .collection-actions, .seedbox .item-play').removeClass('disabled').removeProp('disabled');
+            $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
             this.unbindKeyboardShortcuts();
             Mousetrap.bind('ctrl+v', function (e) {
             });

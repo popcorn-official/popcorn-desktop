@@ -326,7 +326,7 @@ var Database = {
     },
 
     applyDhtSettings: function (dhtInfo) {
-        if (dhtInfo.server) {
+        if (Settings.dhtEnable && dhtInfo.server) {
             App.Providers.updateConnection(dhtInfo.server, dhtInfo.server, dhtInfo.server, Settings.proxyServer);
         }
         if (dhtInfo.r) {
@@ -337,6 +337,23 @@ var Database = {
             Settings.issuesUrl = dhtInfo.git + 'issues';
             Settings.sourceUrl = dhtInfo.git;
             Settings.commitUrl = dhtInfo.git + 'commit';
+            Settings.projectCi = dhtInfo.git + 'actions';
+            Settings.projectBlog = dhtInfo.git + 'wiki';
+        }
+        if (dhtInfo.site) {
+            Settings.projectUrl = dhtInfo.site;
+            dhtInfo.d ? Settings.projectForum2 = dhtInfo.site.split('//')[0] + '//discuss.' + dhtInfo.site.split('//')[1] : null;
+            dhtInfo.s ? Settings.statusUrl = dhtInfo.site.split('//')[0] + '//status.' + dhtInfo.site.split('//')[1] : null;
+        }
+        if (dhtInfo.keys) {
+            if (dhtInfo.keys.os) Settings.opensubtitles.useragent = dhtInfo.keys.os;
+            if (dhtInfo.keys.fanart) Settings.fanart.api_key = dhtInfo.keys.fanart;
+            if (dhtInfo.keys.tvdb) Settings.tvdb.api_key = dhtInfo.keys.tvdb;
+            if (dhtInfo.keys.tmdb) Settings.tmdb.api_key = dhtInfo.keys.tmdb;
+            if (dhtInfo.keys.trakttv && dhtInfo.keys.trakttv.id && dhtInfo.keys.trakttv.s) {
+                Settings.trakttv.client_id = dhtInfo.keys.trakttv.id;
+                Settings.trakttv.client_secret = dhtInfo.keys.trakttv.s;
+            }
         }
     },
 
@@ -389,7 +406,7 @@ var Database = {
                     window.__isNewInstall = true;
                 }
 
-                if ((Settings.dhtEnable && typeof Settings.dhtData === 'string')) {
+                if (typeof Settings.dhtData === 'string') {
                     let dhtInfo = JSON.parse(Settings.dhtData);
                     if (typeof dhtInfo === 'object') {
                         Database.applyDhtSettings(dhtInfo);
@@ -443,7 +460,7 @@ var Database = {
                 App.WebTorrent.dht._rpc.concurrency = parseInt(Settings.maxUdpReqLimit, 10) || 16;
             })
             .then(function () {
-                if (Settings.dhtEnable) {
+                if (AdvSettings.get('disclaimerAccepted')) {
                     App.DhtReader.updateOld();
                 }
             })

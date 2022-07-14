@@ -37,7 +37,7 @@
 
             <h2><%= i18n.__("I found a bug, how do I report it?") %></h2>
             <p>
-                <%= i18n.__('You can create an account on our <a class="links" href="%s">GitHub</a> repository, and click on "Issues".', Settings.issuesUrl) %>
+                <%= i18n.__('You can create an account on our <a class="links" href="%s">GitHub</a> repository, and click on "Issues".', encodeURI(Settings.issuesUrl)) %>
                     <li><%= i18n.__("Use the %s issue filter to search and check if the issue has already been reported or is already fixed.", 'GitHub') %></li>
                     <li><%= i18n.__("Include a screenshot if relevant - Is your issue about a design feature or a bug?") %></li>
                 <br>

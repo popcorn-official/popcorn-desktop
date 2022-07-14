@@ -342,6 +342,15 @@
           }
         }
 
+        // set native frame & audio passthrough on first run after updating from settings
+        if ((Settings.nativeWindowFrame && !nw.App.manifest.window.frame) || (Settings.audioPassthrough && !nw.App.manifest['chromium-args'].includes('resampler'))) {
+          let packageJson = jsonFileEditor(`package.json`);
+          Settings.nativeWindowFrame ? packageJson.get('window').frame = true : null;
+          Settings.audioPassthrough ? packageJson.set('chromium-args', '--enable-node-worker --disable-audio-output-resampler') : null;
+          packageJson.save();
+          that.restartButter();
+        }
+
         // Focus the window when the app opens
         win.focus();
       });

@@ -203,7 +203,14 @@
                 AdvSettings.set('totalUploaded', Settings.totalUploaded + this.torrent.uploaded);
 
                 const removedPeers = [];
-                this.torrent.pause();
+
+                if (this.torrent.xt) {
+                    // magnet link
+                    this.torrent.pause();
+                } else {
+                    // .torrent file
+                    this.torrent.destroy();
+                }
 
                 for (const id in this.torrent._peers) {
                     // collect peers, need to do this before calling removePeer!
@@ -632,7 +639,11 @@
                     if (err || buffer.length < 1000) {
                         return;
                     }
-                    fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                    try {
+                        fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
+                    } catch (err) {
+                        fs.writeFileSync(location + '/' + this.torrentModel.get('torrent').name + '_cover.jpg', buffer);
+                    }
                 });
             }
         },

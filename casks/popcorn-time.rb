@@ -1,57 +1,88 @@
 cask "popcorn-time" do
   version "0.4.7"
-  sha256 "cddc2f156dd3cd4fbc7ccd3b3a02c00d3546886dcad183cd1f5dcd984b609c2c"
 
-  server = "popcorn-ru.tk"
-  homepage = "http://#{server}"
-  zip = "Popcorn-Time-#{version}-Mac.zip"
+  nwjs = "0.64.0"
+  arch = "x64"
 
-  url "#{homepage}/build/#{zip}"
-  name token.titlecase
+  name token.gsub(/\b\w/, &:capitalize)
   desc "BitTorrent client that includes an integrated media player"
-  homepage homepage
+  homepage "https://#{token}.ga/"
 
-  livecheck do
-    url "#{homepage}/build"
-    strategy :page_match
-    regex Regexp.new zip.sub version, "([0-9]+(?:\\.[0-9]+)+)"
+  repo = "popcorn-official/popcorn-desktop"
+  zip = "#{name.first}-#{version}-Mac.zip"
+
+  livecheck { url "https://github.com/#{repo}" }
+
+  if (%w[-v --verbose -d --debug] & ARGV).any?
+    v = "-v"
+    quiet = silent = "verbose"
+  else
+    quiet = "quiet"
+    silent = "silent"
   end
 
-  auto_updates true
+  if MacOS.version < :monterey || ENV["HOMEBREW_POPCORN_TIME_BUILD"] == "false"
+    sha256 "91cabf4b161e5b729fe0ace68b5c17cccec2a816fb22f7d0127c70ff1bccb62c"
 
-  app "Popcorn-Time.app"
+    url "#{homepage}/build/#{zip}"
+  else
+    sha256 "95dc272fbb3977f5c10449ab80d0568c43df80a47a16cf9a9fa4d959a56aab17"
 
-  app_support = "#{Dir.home}/Library/Application Support"
+    github = "github.com/iteufel/nwjs-ffmpeg-prebuilt"
+    url "https://#{github}/releases/download/#{nwjs}/#{nwjs}-osx-#{arch}.zip", verified: github
 
-  postflight do
-    require "securerandom"
+    preflight do
+      Tap.fetch(repo).path.cd do
+        ENV["PATH"] += ":#{HOMEBREW_PREFIX}/bin"
 
-    db = "#{app_support}/Popcorn-Time/Default/data/settings.db"
+        installed = Formula.installed.map(&:name)
+        yarnrc = Pathname "#{Dir.home}/.yarnrc"
+        keep = yarnrc.exist?
 
-    if File.exists?(db)
-      %w[Movies Series].each do |medium|
-        setting = {
-          key:   "custom#{medium}Server",
-          value: "https://#{server}/",
-          _id:   SecureRandom.alphanumeric,
-        }
-        settings = File.read(db).lines
+        app_build = "build/#{@cask.name.first}/os#{arch}/#{@cask.name.first}.app"
 
-        next if settings.grep(/#{setting[:key]}/).any?
+        gulpfile = Pathname "gulpfile.js"
+        content = gulpfile.read
+                          .sub!(/(nwVersion\s*=\s*['"])[0-9]+\.[0-9]+\.[0-9]+/, "\\1#{nwjs}")
+                          .remove!(/(manifest|download)Url:.+/)
+        gulpfile.write content
 
-        `echo '#{setting.to_json}' >> '#{db}'`
+        system <<-EOS
+          #{HOMEBREW_BREW_FILE} install node --#{quiet}
+
+          npx --yes yarn install --ignore-engines --#{silent}
+          npx yarn build --#{silent}
+
+          rsync --recursive --relative node_modules #{app_build}/Contents/Resources/app.nw --#{quiet}
+
+          /bin/mv #{v} #{staged_path}/libffmpeg.dylib \
+          #{app_build}/Contents/Frameworks/nwjs*.framework/Versions/Current
+          /bin/mv #{v} #{app_build} #{staged_path}
+
+          git reset --hard --#{quiet}
+          git clean -xd --force --#{quiet}
+        EOS
+        system(*%W[brew uninstall node --ignore-dependencies --#{quiet}]) unless installed.include? "node"
+        FileUtils.rm_f yarnrc unless keep
       end
     end
   end
 
-  uninstall quit: bundle_id = "com.nw-builder.popcorn-time"
+  auto_updates true
+  depends_on arch: :x86_64
 
-  zap trash: [
-    "#{app_support}/Popcorn-Time",
-    "~/Library/Preferences/#{bundle_id}.plist",
-    "#{app_support}/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/#{bundle_id}.sfl*",
-    "#{app_support}/configstore/popcorn-time.json",
-    "~/Library/Saved Application State/#{bundle_id}.savedState",
-    "~/Library/Caches/Popcorn-Time",
+  app "#{name.first}.app"
+
+  app_support = "#{Dir.home}/Library/Application Support"
+
+  uninstall quit: bundle_id = "com.nw-builder.#{token}"
+
+  zap trash: %W[
+    #{app_support}/#{name.first}
+    ~/Library/Preferences/#{bundle_id}.plist
+    #{app_support}/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/#{bundle_id}.sfl*
+    #{app_support}/configstore/#{token}.json
+    ~/Library/Saved Application State/#{bundle_id}.savedState
+    ~/Library/Caches/#{name.first}
   ]
 end
