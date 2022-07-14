@@ -1,3 +1,27 @@
+## 0.4.8 - Who Crossed the Streams ? - 15 July 2022
+
+New Features:
+- Add multiple torrent support
+- Add provider icons throughout the app
+- Add option for Audio Passthrough
+- Add external player support for NixOS
+
+Bug Fixes:
+- Fix Homebrew Cask installation
+- Fix an XSS to RCE vulnerability (CVE-2022-25229)
+- Fix fallback when source and TMDb with language other than English fail to fetch synopsis
+- Fix scroll wheel volume adjust
+- Fix .torrent file support
+
+Other:
+- Automatic subtitles / OpenSubtitles support redesign due to login now being required for use of their API
+- Watchlist / Trakt implementation redesign
+- Many more Settings, Torrent Collection, Seedbox and File selector UI changes/updates
+- Update Torrent Collection providers
+- Update torrent trackers
+- Update various modules/dependencies
+- Various other small fixes and optimizations
+
 ## 0.4.7 - Just Keep Swimming - 02 March 2022
 
 New Features:
