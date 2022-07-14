@@ -461,8 +461,12 @@
             background: $ShowBgColor2
             grid-area: overview;
             padding: 10px 30px 10px 18px /* right pad */
+            display: grid
+            grid-template-rows: 2fr auto
 
             .sdo-infos
+                height: fit-content
+
                 .sdoi-title
                     overflow: hidden
                     white-space: nowrap
@@ -535,19 +539,20 @@
                     text-align: justify
                     margin-top: 10px
                     padding: 2px 15px 5px 0
-                    height: calc(100vh - 625px)
+                    height: fit-content
                     scrollable()
 
             #torrent-list
-                height: 200px
-                margin-left: -5px
-
-                &.disabled
-                    height: 145px
+                height: auto
+                margin: 10px -10px 10px -5px
 
             .sdo-watch
                 height: 60px
                 padding: 5px 0px 15px 0px
+                margin-bottom: -5px
+
+                &.disabled
+                    margin-bottom: 50px
 
                 .play-selector
                     position: relative
