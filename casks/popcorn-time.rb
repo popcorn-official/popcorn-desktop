@@ -1,5 +1,5 @@
 cask "popcorn-time" do
-  version "0.4.7"
+  version "0.4.8"
 
   nwjs = "0.64.0"
   arch = "x64"
@@ -9,7 +9,7 @@ cask "popcorn-time" do
   homepage "https://#{token}.ga/"
 
   repo = "popcorn-official/popcorn-desktop"
-  zip = "#{name.first}-#{version}-Mac.zip"
+  zip = "#{name.first}-#{version}-osx64.zip"
 
   livecheck { url "https://github.com/#{repo}" }
 
@@ -22,7 +22,7 @@ cask "popcorn-time" do
   end
 
   if MacOS.version < :monterey || ENV["HOMEBREW_POPCORN_TIME_BUILD"] == "false"
-    sha256 "91cabf4b161e5b729fe0ace68b5c17cccec2a816fb22f7d0127c70ff1bccb62c"
+    sha256 "15930323f3c58f090e2d47f8d34a65457bb53ae03e948184702f045f6fad0cb3"
 
     url "#{homepage}/build/#{zip}"
   else
