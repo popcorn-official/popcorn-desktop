@@ -64,27 +64,14 @@
             e.stopPropagation();
             const torrent = this.getTorrent(e.target);
             const download = !$(e.target).hasClass('item-play');
-            let imdb_id;
-            let subtitle;
-            let season;
-            let episode;
-            if (App.currentview === 'movies') {
-              imdb_id = App.MovieDetailView.model.get('imdb_id');
-              subtitle = $("#subs-dropdown .selected-lang")[0].classList[$("#subs-dropdown .selected-lang")[0].classList.length - 1];
-            } else if (App.currentview === 'shows') {
-              imdb_id = $('.list .items .item.selected')[0].dataset.imdbId;
-              season = $('.tab-episode.active')[0].attributes['data-season'].value;
-              episode = $('.tab-episode.active')[0].attributes['data-episode'].value;
-            }
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
                 title: this.model.get('select') && !download ? null : torrent.title,
-                defaultSubtitle: subtitle || Settings.subtitle_language,
-                imdb_id: imdb_id,
-                season: season,
-                episode: episode,
-                device: App.Device.Collection.selected,
-                // file_name: e.target.parentNode.firstChild.innerHTML
+                defaultSubtitle: $("#subs-dropdown .selected-lang")[0] ? $("#subs-dropdown .selected-lang")[0].classList[$("#subs-dropdown .selected-lang")[0].classList.length - 1] : Settings.subtitle_language,
+                imdb_id: $('.list .items .item.selected')[0] ? $('.list .items .item.selected')[0].dataset.imdbId : null,
+                season: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-season'].value : null,
+                episode: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-episode'].value : null,
+                device: App.Device.Collection.selected
             });
             App.vent.trigger('stream:start', torrentStart, download ? 'downloadOnly' : '' );
             if (download) {
