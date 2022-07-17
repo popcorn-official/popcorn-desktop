@@ -262,9 +262,15 @@
 
             Mousetrap.bind('i', function () {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    $('.filter-bar').hide();
-                    $('#header').addClass('header-shadow');
-                    App.vent.trigger('about:show');
+                    if (!App.ViewStack.includes('about')) {
+                        $('.filter-bar').hide();
+                        App.vent.trigger('about:show');
+                    } else {
+                        if (!App.ViewStack.includes('settings-container-contain')) {
+                            $('.filter-bar').show();
+                        }
+                        App.vent.trigger('about:close');
+                    }
                 }
             }, 'keydown');
         },
