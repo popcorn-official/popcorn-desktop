@@ -131,7 +131,9 @@
         $('.loading').css({'height': '0', 'width': '0'});
         this.ui.minimizeIcon.hide();
         this.ui.maximizeIcon.show();
-        $('.filter-bar').show();
+        if (!App.ViewStack.includes('settings-container-contain')) {
+          $('.filter-bar').show();
+        }
         Mousetrap.bind(['esc', 'backspace'], function(e) {
           App.vent.trigger('show:closeDetail');
           App.vent.trigger('movie:closeDetail');
