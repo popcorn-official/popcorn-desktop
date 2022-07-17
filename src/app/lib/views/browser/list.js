@@ -261,16 +261,10 @@
             }, 'keydown');
 
             Mousetrap.bind('i', function () {
-                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    if (!App.ViewStack.includes('about')) {
-                        $('.filter-bar').hide();
-                        App.vent.trigger('about:show');
-                    } else {
-                        if (!App.ViewStack.includes('settings-container-contain')) {
-                            $('.filter-bar').show();
-                        }
-                        App.vent.trigger('about:close');
-                    }
+                if (!App.ViewStack.includes('about')) {
+                    App.vent.trigger('about:show');
+                } else {
+                    App.vent.trigger('about:close');
                 }
             }, 'keydown');
         },
