@@ -630,7 +630,7 @@
           key: 'postersWidth'
         })
         .then(function(doc) {
-          if (!doc || (doc.value === 134 && start)) {
+          if (!doc || (parseInt(doc.value) === 134 && start)) {
             return;
           }
           var postersWidth = doc.value;
