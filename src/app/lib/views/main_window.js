@@ -360,7 +360,7 @@
         policy.ignore();
       });
 
-      App.vent.trigger('updatePostersSizeStylesheet');
+      this.updatePostersSizeStylesheet(true);
       App.vent.trigger('main:ready');
     },
 
@@ -623,14 +623,16 @@
       $(window).trigger('resize');
     },
 
-    updatePostersSizeStylesheet: function() {
+    updatePostersSizeStylesheet: function(start) {
       var that = this;
-
       App.db
         .getSetting({
           key: 'postersWidth'
         })
         .then(function(doc) {
+          if (!doc || (doc.value === 134 && start)) {
+            return;
+          }
           var postersWidth = doc.value;
           var postersHeight = Math.round(
             postersWidth * Settings.postersSizeRatio
@@ -654,7 +656,7 @@
 
             '.list .items .item .cover,',
             '.load-more {',
-            'background-size: cover;',
+            'background-size: ', postersWidth, 'px ', postersHeight, 'px;',
             'width: ',
             postersWidth,
             'px;',
