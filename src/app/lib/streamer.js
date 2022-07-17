@@ -610,6 +610,8 @@
                 } else {
                     state = 'ready'; // file can be played
                 }
+                this.streamInfo.updateInfos();
+                this.torrentModel.off('change');
             } else if (torrentModel.downloaded) {
                 if (torrentModel.downloadSpeed) {
                     state = 'downloading'; // is actively downloading
