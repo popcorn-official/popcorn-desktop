@@ -710,12 +710,7 @@ gulp.task(
     'deb',
     'mac-pkg',
     'nsis',
-    'prepareUpdater',
-    'prepareUpdater:win',
-    'compressUpdater',
     'cleanForDist',
-    'clean:updater',
-    'clean:updater:win',
     function(done) {
       // default task code here
       done();
