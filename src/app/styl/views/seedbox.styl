@@ -276,35 +276,25 @@
 
                           li.file-item,
                           li.result-item
-                              border-bottom 1px solid rgba(255, 255, 255, 0)
                               background $FileSelectorBg
                               text-align left
                               cursor pointer
                               color $FileSelectorText
-                              height 46px
+                              height 44px
                               padding-left 34px
-                              padding-top 14px
+                              padding-top 13px
                               padding-right 50px
                               margin-right -2px
 
                               &:hover
                                   backdrop-filter contrast(80%)
-                                  border-bottom 1px solid rgba(255, 255, 255, 0)
 
                               &.unselected
                                   opacity 0.3
                                   background none
-                                  border-bottom 1px solid rgba(255, 255, 255, 0.1)
 
                                   &:hover
                                       opacity 0.6
-                                      border-bottom 1px solid rgba(255, 255, 255, 0.04)
-
-                                      &:last-child
-                                          border-bottom 1px solid rgba(255, 255, 255, 0)
-
-                                  &:last-child
-                                      border-bottom 1px solid rgba(255, 255, 255, 0)
 
                                   .filesize
                                       color rgba($FileSelectorText, 0.6)
@@ -344,7 +334,7 @@
                                   color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
-                                  top -17px
+                                  top -18px
 
                                   &:hover
                                       color $CloseButtonHover
