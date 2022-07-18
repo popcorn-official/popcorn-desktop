@@ -140,18 +140,6 @@ jobs:
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}.pkg
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset [macOS-update]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macOS-latest/update-${{ steps.get_version.outputs.VERSION }}-osx64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}-osx64.zip
-          asset_content_type: application/octet-stream
-
       - name: Upload Release Asset [ubuntu-deb-amd64]
         if: startsWith(github.ref, 'refs/tags/v')
         continue-on-error: true
@@ -176,18 +164,6 @@ jobs:
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux64.zip
           asset_content_type: application/octet-stream
 
-      - name: Upload Release Asset [ubuntu-update-x64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}-linux64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}-linux64.zip
-          asset_content_type: application/octet-stream
-
       - name: Upload Release Asset [ubuntu-deb-i386]
         if: startsWith(github.ref, 'refs/tags/v')
         continue-on-error: true
@@ -210,18 +186,6 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [ubuntu-update-x32]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/update-${{ steps.get_version.outputs.VERSION }}-linux32.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}-linux32.zip
           asset_content_type: application/octet-stream
 
       - name: Upload Release Asset [windows-zip-x64]
@@ -270,28 +234,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32-Setup.exe
           asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32-Setup.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [window-update-x64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}-win64.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}-win64.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [window-update-ia32]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/update-${{ steps.get_version.outputs.VERSION }}-win32.zip
-          asset_name: update-${{ steps.get_version.outputs.VERSION }}-win32.zip
           asset_content_type: application/octet-stream
