@@ -56,9 +56,6 @@ Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usa
   cask "popcorn-time" #, args: { "no-quarantine": true }
   ~~~
 
-Update from _zip_ file:  
-  * Unpack the contents of the zip file. This should leave you with a file named `update.tar`. Unpacking the .tar file should get you a folder named `Content`. Navigate to your `Application` folder, right click on Popcorn Time and press `Show Package Content` then replace the `Content` folder there with the `Content` folder from the `update.zip`
-
 
 ### Linux - Debian/Ubuntu based distros:
 Download and install:
