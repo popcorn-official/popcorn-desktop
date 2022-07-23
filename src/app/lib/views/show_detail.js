@@ -945,7 +945,7 @@
                 this.icons.getLink(showProvider, provider)
                     .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
                     .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
-                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')">`));
+                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')" onload="this.onerror=null; this.onload=null;">`));
                 $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
                 $('.source-icon').html('');
