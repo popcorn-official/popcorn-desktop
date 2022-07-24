@@ -167,11 +167,11 @@
       var images = this.model.get('images');
       var p =
         this.model.get('image') ||
-        images.poster ||
+        (images ? images.poster : null) ||
         this.model.get('poster') ||
         noimg;
       var b =
-        images.fanart ||
+        (images ? images.fanart : null) ||
         this.model.get('backdrop') ||
         this.model.get('poster') ||
         nobg;
