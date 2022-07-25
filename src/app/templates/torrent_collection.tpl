@@ -57,7 +57,7 @@
             <i id="savedtorrentslabeltext"><%=i18n.__("Saved Torrents") %></i>
             <ul class="file-list">
                 <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
-                    <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>">
+                    <li class="file-item" data-index="<%=file.index%>" data-file="<%=index%>" data-source="<%=index%>">
                         <a><%=file%></a>
 
                    <% if (file.indexOf('.torrent') !== -1) { %>
