@@ -12,12 +12,12 @@
         events: {
             'click .file-item a': 'openFileSelector',
             'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
-            'click .result-item': 'onlineOpen',
+            'click .result-item > *:not(.item-icon)': 'onlineOpen',
             'contextmenu .result-item > *:not(.item-icon)': 'openMagnet',
             'mousedown .result-item .item-icon img': 'openSource',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
-            'click .magnet-icon': 'openMagnet',
+            'click .file-item .magnet-icon': 'openMagnet',
             'click .torrent-icon': 'openTorrent',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
@@ -321,7 +321,7 @@
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
-                        $('.result-item, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
+                        $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
@@ -352,7 +352,7 @@
         },
 
         onlineOpen: function (e) {
-            var file = e.currentTarget.dataset.file;
+            var file = e.currentTarget.parentNode.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
