@@ -32,6 +32,7 @@
             'change #enableRarbgSearch': 'toggleRarbg',
             'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
             'change #enableNyaaSearch': 'toggleNyaa',
+            'change .online-categories select': 'setCategory',
         },
 
         initialize: function () {
@@ -104,6 +105,11 @@
 
         toggleNyaa: function () {
             AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
+        },
+
+        setCategory: function () {
+            var category = $('.online-categories > select').val();
+            AdvSettings.set('OnlineSearchCategory', category);
         },
 
         onlineSearch: function (e, retry) {
