@@ -16,7 +16,7 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
+                <input id="online-input" autocomplete="off" size="43" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
                 <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toogle="tooltip"></i>
                 <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
@@ -35,6 +35,10 @@
                     <span>
                         <input class="sengine-checkbox" name="enableTgxtorrentSearch" id="enableTgxtorrentSearch" type="checkbox" <%=(Settings.enableTgxtorrentSearch? "checked='checked'":"")%>>
                         <label id="enableTgxtorrentSearchL" for="enableTgxtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("TorrentGalaxy") %></label>
+                    </span>
+                    <span>
+                        <input class="sengine-checkbox" name="enableNyaaSearch" id="enableNyaaSearch" type="checkbox" <%=(Settings.enableNyaaSearch? "checked='checked'":"")%>>
+                        <label id="enableNyaaSearchL" for="enableNyaaSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("Nyaa") %></label>
                     </span>
                 </div>
             </form>
