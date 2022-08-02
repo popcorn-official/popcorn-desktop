@@ -167,6 +167,7 @@ Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
 Settings.enableTgxtorrentSearch = true;
+Settings.enableNyaaSearch = true;
 Settings.activateSeedbox = true;
 Settings.activateTempf = true;
 

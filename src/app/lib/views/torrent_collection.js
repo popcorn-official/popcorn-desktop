@@ -30,7 +30,8 @@
             'change #enableThepiratebaySearch': 'toggleThepiratebay',
             'change #enable1337xSearch': 'toggle1337x',
             'change #enableRarbgSearch': 'toggleRarbg',
-            'change #enableTgxtorrentSearch': 'toggleTgxtorrent'
+            'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
+            'change #enableNyaaSearch': 'toggleNyaa',
         },
 
         initialize: function () {
@@ -101,6 +102,10 @@
             AdvSettings.set('enableTgxtorrentSearch', !Settings.enableTgxtorrentSearch);
         },
 
+        toggleNyaa: function () {
+            AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
+        },
+
         onlineSearch: function (e, retry) {
             if (e) {
                 e.preventDefault();
@@ -123,7 +128,7 @@
 
             $('.togglesengines').css('visibility', 'hidden');
             $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
-            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
+            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL').attr('title', '0 results').tooltip('fixTitle');
             $('.onlinesearch-info').hide();
             $('.onlinesearch-info>ul.file-list').html('');
 
@@ -283,6 +288,45 @@
                 }
             };
 
+            var nyaaSI = function () {
+                if (Settings.enableNyaaSearch) {
+                    return new Promise(function (resolve) {
+                        const results = [];
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 6000);
+                        const nyaa = torrentCollection.nyaa;
+                        nyaa.search({
+                            query: input,
+                            category: category,
+                            sort: 'seeders',
+                            verified: false
+                        }).then(function (data) {
+                            $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
+                            data.torrents.forEach(function (item) {
+                                const itemModel = {
+                                    provider: 'Nyaa.si',
+                                    icon: 'nyaa',
+                                    title: item.Name,
+                                    url: item.Url,
+                                    magnet: item.Magnet,
+                                    seeds: item.Seeders,
+                                    peers: item.Leechers,
+                                    size: item.Size,
+                                    index: index
+                                };
+                                results.push(itemModel);
+                                index++;
+                            });
+                        }).catch(function (err) {
+                            console.error('Nyaa search:', err);
+                            resolve(results);
+                        });
+                    });
+                }
+            };
+
+
             var removeDupesAndSort = function (arr) {
                 const found = [];
                 const unique = [];
@@ -308,6 +352,7 @@
                 leetx(),
                 rarbg(),
                 torrentgalaxy(),
+                nyaaSI(),
             ]).then(function (results) {
                 var items = removeDupesAndSort(results);
                 console.log('Search Providers: %d results', items.length);
