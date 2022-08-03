@@ -16,29 +16,29 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="40" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
+                <input id="online-input" autocomplete="off" size="46" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
                 <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toogle="tooltip"></i>
                 <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
                     <span>
                         <input class="sengine-checkbox" name="enableThepiratebaySearch" id="enableThepiratebaySearch" type="checkbox" <%=(Settings.enableThepiratebaySearch? "checked='checked'":"")%>>
-                        <label id="enableThepiratebaySearchL" for="enableThepiratebaySearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("ThePirateBay") %></label>
+                        <label id="enableThepiratebaySearchL" for="enableThepiratebaySearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("thepiratebay.org") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enable1337xSearch" id="enable1337xSearch" type="checkbox" <%=(Settings.enable1337xSearch? "checked='checked'":"")%>>
-                        <label id="enable1337xSearchL" for="enable1337xSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("1337x") %></label>
+                        <label id="enable1337xSearchL" for="enable1337xSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("1337x.to") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enableRarbgSearch" id="enableRarbgSearch" type="checkbox" <%=(Settings.enableRarbgSearch? "checked='checked'":"")%>>
-                        <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("RARBG") %></label>
+                        <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("rarbg.to") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enableTgxtorrentSearch" id="enableTgxtorrentSearch" type="checkbox" <%=(Settings.enableTgxtorrentSearch? "checked='checked'":"")%>>
-                        <label id="enableTgxtorrentSearchL" for="enableTgxtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("TorrentGalaxy") %></label>
+                        <label id="enableTgxtorrentSearchL" for="enableTgxtorrentSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("torrentgalaxy.to") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enableNyaaSearch" id="enableNyaaSearch" type="checkbox" <%=(Settings.enableNyaaSearch? "checked='checked'":"")%>>
-                        <label id="enableNyaaSearchL" for="enableNyaaSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("Nyaa") %></label>
+                        <label id="enableNyaaSearchL" for="enableNyaaSearch" class="tooltipped" data-placement="bottom" data-toogle="tooltip"><%= i18n.__("nyaa.si") %></label>
                     </span>
                 </div>
             </form>
