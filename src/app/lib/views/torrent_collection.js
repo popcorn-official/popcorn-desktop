@@ -32,11 +32,7 @@
             'change #enableRarbgSearch': 'toggleRarbg',
             'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
             'change #enableNyaaSearch': 'toggleNyaa',
-            'contextmenu #enableThepiratebaySearchL': 'toggleThepiratebay',
-            'contextmenu #enable1337xSearchL': 'toggle1337x',
-            'contextmenu #enableRarbgSearchL': 'toggleRarbg',
-            'contextmenu #enableTgxtorrentSearchL': 'toggleTgxtorrent',
-            'contextmenu #enableNyaaSearchL': 'toggleNyaa',
+            'contextmenu #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL': 'openProvider',
             'change .online-categories select': 'setCategory',
         },
 
@@ -92,49 +88,29 @@
             }
         },
 
-        toggleThepiratebay: function (e) {
-            if (e.button === 2) {
-                e.button = 0;
-                Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-            } else {
-                AdvSettings.set('enableThepiratebaySearch', !Settings.enableThepiratebaySearch);
-            }
+        toggleThepiratebay: function () {
+            AdvSettings.set('enableThepiratebaySearch', !Settings.enableThepiratebaySearch);
         },
 
-        toggle1337x: function (e) {
-            if (e.button === 2) {
-                e.button = 0;
-                Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-            } else {
-                AdvSettings.set('enable1337xSearch', !Settings.enable1337xSearch);
-            }
+        toggle1337x: function () {
+            AdvSettings.set('enable1337xSearch', !Settings.enable1337xSearch);
         },
 
-        toggleRarbg: function (e) {
-            if (e.button === 2) {
-                e.button = 0;
-                Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-            } else {
-                AdvSettings.set('enableRarbgSearch', !Settings.enableRarbgSearch);
-            }
+        toggleRarbg: function () {
+            AdvSettings.set('enableRarbgSearch', !Settings.enableRarbgSearch);
         },
 
-        toggleTgxtorrent: function (e) {
-            if (e.button === 2) {
-                e.button = 0;
-                Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-            } else {
-                AdvSettings.set('enableTgxtorrentSearch', !Settings.enableTgxtorrentSearch);
-            }
+        toggleTgxtorrent: function () {
+            AdvSettings.set('enableTgxtorrentSearch', !Settings.enableTgxtorrentSearch);
         },
 
-        toggleNyaa: function (e) {
-            if (e.button === 2) {
-                e.button = 0;
-                Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-            } else {
-                AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
-            }
+        toggleNyaa: function () {
+            AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
+        },
+
+        openProvider: function (e) {
+            e.button = 0;
+            Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
         },
 
         setCategory: function () {
