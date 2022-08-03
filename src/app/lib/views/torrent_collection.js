@@ -311,7 +311,7 @@
                             $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
                                 const itemModel = {
-                                    provider: 'Nyaa.si',
+                                    provider: 'nyaa.si',
                                     icon: 'nyaa',
                                     title: item.Name,
                                     url: item.Url,
