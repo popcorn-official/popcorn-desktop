@@ -207,7 +207,8 @@
     connectOpensubtitles: function () {
       App.vent.trigger('movie:closeDetail');
       App.vent.trigger('settings:show');
-      $('#opensubtitlesUsername').attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
+      $('.settings-container-contain').scrollTop($('.settings-container-contain')[0].scrollHeight);
+      $('#opensubtitlesUsername').attr('style', 'border: 2px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
     },
 
     switchSubtitle: function(lang) {
