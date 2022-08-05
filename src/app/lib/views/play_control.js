@@ -18,7 +18,7 @@
       'click .playerchoicemenu li a': 'selectPlayer',
       'click .playerchoicehelp': 'showPlayerList',
       'click .watched-toggle': 'toggleWatched',
-      'click #subs-dropdown': 'hideTooltips',
+      'mousedown #subs-dropdown': 'hideTooltipsSubs',
       'click .connect-opensubtitles': 'connectOpensubtitles',
       'click #audio-dropdown': 'hideTooltips',
       'click #quality-selector': 'hideTooltips'
@@ -197,10 +197,17 @@
       $('#subs-dropdown .flag.toggle, #audio-dropdown .flag.toggle, #quality-selector .qselect').tooltip('hide');
     },
 
+    hideTooltipsSubs: function (e) {
+      this.hideTooltips();
+      if (e.button === 2) {
+        nw.Shell.openExternal('https://www.opensubtitles.org/search/' + this.model.get('imdb_id').replace('tt', 'imdbid-'));
+      }
+    },
+
     connectOpensubtitles: function () {
-        App.vent.trigger('movie:closeDetail');
-        App.vent.trigger('settings:show');
-        $('#opensubtitlesUsername').attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
+      App.vent.trigger('movie:closeDetail');
+      App.vent.trigger('settings:show');
+      $('#opensubtitlesUsername').attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
     },
 
     switchSubtitle: function(lang) {
