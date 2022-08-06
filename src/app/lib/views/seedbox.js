@@ -34,7 +34,7 @@
             'click .trash-torrent': 'onRemoveTorrentClicked',
             'click .tab-torrent': 'clickTorrent',
             'dblclick .file-item': 'openItem',
-            'mousedown .seedbox-infos-title, .file-item a': 'copytoclip',
+            'mousedown .seedbox-infos-title, .file-item a, .episodeData div': 'copytoclip',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'click .item-remove': 'removeItem'
@@ -269,7 +269,7 @@
             this.updateView($(e.currentTarget), true /*wasJustSelected*/);
         },
 
-        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className ? i18n.__('title') : i18n.__('filename')), true),
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className || $(e.target)[0].id ? i18n.__('title') : i18n.__('filename')), true),
 
         openItem: function (e) {
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
