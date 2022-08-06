@@ -623,5 +623,9 @@
 	"Sync now": "Sync now",
 	"Same as Default Language": "Same as Default Language",
 	"Language": "Language",
-	"Allow Audio Passthrough": "Allow Audio Passthrough"
+	"Allow Audio Passthrough": "Allow Audio Passthrough",
+	"release info link": "release info link",
+	"parental guide link": "parental guide link",
+	"IMDb page link": "IMDb page link",
+	"submit metadata & translations link": "submit metadata & translations link"
 }
