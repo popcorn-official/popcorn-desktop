@@ -27,7 +27,8 @@
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
       'click .health-icon': 'resetTorrentHealth',
-      'mousedown .mcover-image': 'clickPoster'
+      'mousedown .mcover-image': 'clickPoster',
+      'mousedown .title': 'copytoclip'
     },
 
     regions: {
@@ -134,6 +135,7 @@
         html: true
       });
     },
+
     localizeTexts: function() {
         const locale = this.model.get('locale');
         let title = this.model.get('title');
@@ -151,6 +153,7 @@
         this.model.set('displayTitle', title);
         this.model.set('displaySynopsis', synopsis);
     },
+
     loadComponents: function() {
       // play control
       var playctrl = this.getRegion('PlayControl');
@@ -294,6 +297,8 @@
     },
 
     clickPoster: (e) => Common.openOrClipboardLink(e, $('.mcover-image')[0].src, i18n.__('image url'), true),
+
+    copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, i18n.__($(e.target)[0].className), true),
 
     onBeforeDestroy: function() {
       $('[data-toggle="tooltip"]').tooltip('hide');
