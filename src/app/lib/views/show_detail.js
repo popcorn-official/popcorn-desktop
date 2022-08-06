@@ -35,7 +35,7 @@
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
             'mousedown .shp-img': 'clickPoster',
-            'mousedown .shm-title, .sdoi-title': 'copytoclip',
+            'mousedown .shm-title, .sdoi-title, .episodeData div': 'copytoclip',
             'click .playerchoicehelp': 'showPlayerList'
         },
 
@@ -924,7 +924,7 @@
             }
         },
 
-        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, i18n.__($(e.target)[0].className.replace('shm-', '').replace('sdoi-', 'episode ')), true),
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className ? i18n.__($(e.target)[0].className.replace('shm-', '').replace('sdoi-', 'episode ')) : i18n.__('episode title')), true),
 
         retrieveTorrentHealth: function(cb) {
             const torrentURL = $('.startStreaming').attr('data-torrent');
