@@ -5,7 +5,7 @@
   <div class="maximize-icon">
       <span class="buffer_percent"></span>
       <span class="fa fa-play" id="max_play_ctrl"></span>
-      <span class="title"></span>
+      <span class="title copytoclip" data-copy="title"></span>
       <span id="maxdllb">@ </span>
       <span class="download_speed value" id="maxdl"></span>
       <span class="fa fa-angle-up tooltipped" id="maxic" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Restore") %>"></span>
