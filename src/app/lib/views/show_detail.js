@@ -35,6 +35,7 @@
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
             'mousedown .shp-img': 'clickPoster',
+            'mousedown .shm-title': 'copytoclip',
             'click .playerchoicehelp': 'showPlayerList'
         },
 
@@ -920,6 +921,8 @@
                 $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
             }
         },
+
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, i18n.__($(e.target)[0].className.replace('shm-', '')), true),
 
         retrieveTorrentHealth: function(cb) {
             const torrentURL = $('.startStreaming').attr('data-torrent');
