@@ -29,7 +29,7 @@
 <div class="maximize-icon">
     <span class="downloadedPercent_player"></span>
     <span class="fas fa-pause" id="max_play_ctrl"></span>
-    <span class="title"><%= title %></span>
+    <span class="title copytoclip" data-copy="title"><%= title %></span>
     <span id="maxdllb">@ </span>
     <span class="download_speed_player" id="maxdl"></span>
     <span class="fa fa-angle-up tooltipped" id="maxic" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Restore") %>"></span>
