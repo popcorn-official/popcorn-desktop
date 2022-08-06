@@ -25,9 +25,9 @@
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
-            'click .shmi-year': 'openRelInfo',
-            'click .shmi-imdb': 'openIMDb',
-            'click .shmi-tmdb-link': 'openTmdb',
+            'mousedown .shmi-year': 'openRelInfo',
+            'mousedown .shmi-imdb': 'openIMDb',
+            'mousedown .shmi-tmdb-link': 'openTmdb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
@@ -393,12 +393,12 @@
                 });
         },
 
-        openRelInfo: function () {
-            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
+        openRelInfo: function (e) {
+            Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo', i18n.__('release info link'));
         },
 
-        openIMDb: function () {
-            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
+        openIMDb: function (e) {
+            Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id'), i18n.__('IMDb page link'));
         },
 
         openMagnet: function (e) {
@@ -441,7 +441,7 @@
 
             if (tmdb) {
                 let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
-                Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
+                Common.openOrClipboardLink(e, tmdbLink, i18n.__('submit metadata & translations link'));
             } else {
                 $('.shmi-tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
             }
