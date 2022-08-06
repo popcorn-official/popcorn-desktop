@@ -5,16 +5,19 @@
         template: '#torrent-list-tpl',
         ui: {
         },
+
         events: {
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
             'contextmenu .item-row td:not(.provider)': 'copyMagnet',
         },
+
         initialize: function() {
             this.model.set('torrents', []);
             this.icons = App.Providers.get('Icons');
         },
+
         onAttach: function () {
             this.model.set('torrents', []);
             this.model.get('promise').then((data) => this.updateTorrents(data));
@@ -51,7 +54,9 @@
 
         openSource: function(e) {
             const torrent = this.getTorrent(e.target);
-            Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+            if (torrent.source) {
+                Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+            }
         },
 
         copyMagnet: function(e) {

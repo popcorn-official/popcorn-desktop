@@ -516,7 +516,9 @@
                 // search result
                 sourceLink = e.currentTarget.parentNode.parentNode.attributes['data-source'].value;
             }
-            Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+            if (sourceLink) {
+                Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+            }
         },
 
         deleteItem: function (e) {
