@@ -409,7 +409,9 @@
 
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
-            Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+            if (torrentUrl) {
+                Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+            }
         },
 
         openTmdb: function(e) {
