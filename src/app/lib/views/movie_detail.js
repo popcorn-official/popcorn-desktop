@@ -17,12 +17,12 @@
 
     events: {
       'click .close-icon': 'closeDetails',
-      'click .year': 'openRelInfo',
-      'click .certification': 'openCert',
-      'click .movie-imdb-link': 'openIMDb',
+      'mousedown .year': 'openRelInfo',
+      'mousedown .certification': 'openCert',
+      'mousedown .movie-imdb-link': 'openIMDb',
       'mousedown .magnet-link': 'openMagnet',
       'mousedown .source-link': 'openSource',
-      'click .tmdb-link': 'openTmdb',
+      'mousedown .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
       'click .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
@@ -356,16 +356,16 @@
       healthButton.render();
     },
 
-    openRelInfo: function () {
-      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
+    openRelInfo: function (e) {
+      Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo', i18n.__('release info link'));
     },
 
-    openCert: function () {
-      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/parentalguide');
+    openCert: function (e) {
+      Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id') + '/parentalguide', i18n.__('parental guide link'));
     },
 
-    openIMDb: function () {
-      nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
+    openIMDb: function (e) {
+      Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id'), i18n.__('IMDb page link'));
     },
 
     openMagnet: function(e) {
@@ -425,7 +425,7 @@
 
       if (tmdb) {
         let tmdbLink = 'https://www.themoviedb.org/movie/' + tmdb + '/edit?language=' + Settings.language;
-        Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
+        Common.openOrClipboardLink(e, tmdbLink, i18n.__('submit metadata & translations link'));
       } else {
         $('.tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
       }
