@@ -393,7 +393,9 @@
       } else {
         return;
       }
-      Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+      if (sourceLink) {
+        Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+      }
     },
 
     openTmdb: function(e) {
