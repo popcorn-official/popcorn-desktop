@@ -8,7 +8,13 @@
     %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="bottom" title="<%= providerURL %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
-    <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
+    <% if (Settings.favoritesTabEnable) { %>
+    <li id="filterbar-favorites" class="source" style="display:block">
+    <% } else { %>
+    <li id="filterbar-favorites" class="source" style="display:none">
+    <% } %>
+        <%= i18n.__("Favorites") %>
+    </li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% filters = [

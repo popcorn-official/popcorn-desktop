@@ -166,7 +166,9 @@
                     filterBarElem[i] = 'shows';
                 }
             }
-            filterBarElem.push('Favorites');
+            if (Settings.favoritesTabEnable) {
+                filterBarElem.push('Favorites');
+            }
 
             _this.initKeyboardShortcuts();
 
