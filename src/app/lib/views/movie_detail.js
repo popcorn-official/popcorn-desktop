@@ -24,7 +24,7 @@
       'mousedown .source-link': 'openSource',
       'mousedown .tmdb-link': 'openTmdb',
       'click .rating-container': 'switchRating',
-      'click .show-cast': 'showCast',
+      'mousedown .show-cast': 'showCast',
       'click .showall-cast': 'showallCast',
       'click .health-icon': 'resetTorrentHealth',
       'mousedown .mcover-image': 'clickPoster',
@@ -270,24 +270,28 @@
       }
     },
 
-    showCast: function () {
-      if (curSynopsis.vstatus == null) {
-        this.getMetaData();
-      }
-      if (curSynopsis.vstatus === false) {
-        if (curSynopsis.cast !== '') {
-          $('.overview').html(curSynopsis.crew + curSynopsis.cast + curSynopsis.old);
-          $('.show-cast').attr('title', i18n.__('Hide cast')).tooltip('hide').tooltip('fixTitle');
-          $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
-          curSynopsis.vstatus = true;
-        } else {
-          $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', i18n.__('Cast not available')).tooltip('hide').tooltip('fixTitle');
-          curSynopsis.vstatus = 'not available';
+    showCast: function (e) {
+      if (e && e.button === 2) {
+        Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id') + '/fullcredits', i18n.__('full cast & crew link'));
+      } else {
+        if (curSynopsis.vstatus == null) {
+          this.getMetaData();
         }
-      } else if (curSynopsis.vstatus === true) {
-        $('.overview').html(curSynopsis.old);
-        $('.show-cast').attr('title', i18n.__('Show cast')).tooltip('hide').tooltip('fixTitle');
-        curSynopsis.vstatus = false;
+        if (curSynopsis.vstatus === false) {
+          if (curSynopsis.cast !== '') {
+            $('.overview').html(curSynopsis.crew + curSynopsis.cast + curSynopsis.old);
+            $('.show-cast').attr('title', i18n.__('Hide cast')).tooltip('hide').tooltip('fixTitle');
+            $('.overview *').tooltip({html: true, sanitize: false, container: 'body', placement: 'bottom', delay: {show: 200, hide: 0}, template: '<div class="tooltip" style="opacity:1"><div class="tooltip-inner" style="background-color:rgba(0,0,0,0);width:118px"></div></div>'});
+            curSynopsis.vstatus = true;
+          } else {
+            $('.show-cast').css({cursor: 'default', opacity: 0.4}).attr('title', i18n.__('Cast not available')).tooltip('hide').tooltip('fixTitle');
+            curSynopsis.vstatus = 'not available';
+          }
+        } else if (curSynopsis.vstatus === true) {
+          $('.overview').html(curSynopsis.old);
+          $('.show-cast').attr('title', i18n.__('Show cast')).tooltip('hide').tooltip('fixTitle');
+          curSynopsis.vstatus = false;
+        }
       }
     },
 
