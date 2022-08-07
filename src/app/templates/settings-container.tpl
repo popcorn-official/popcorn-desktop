@@ -51,7 +51,7 @@
                             Settings.seriesTabEnable ? arr_screens.push("TV Series") : null;
                             Settings.animeTabEnable ? arr_screens.push("Anime") : null;
                             Settings.favoritesTabEnable ? arr_screens.push("Favorites") : null;
-                            Settings.activateWatchlist ? arr_screens.push("Watchlist") : null;
+                            Settings.activateWatchlist && App.Trakt.authenticated ? arr_screens.push("Watchlist") : null;
                             Settings.activateTorrentCollection ? arr_screens.push("Torrent-collection") : null;
                             Settings.activateSeedbox ? arr_screens.push("Seedbox") : null;
                             arr_screens.push("Last Open");
