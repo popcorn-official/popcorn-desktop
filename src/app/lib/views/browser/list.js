@@ -121,8 +121,8 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
-                        show_online_search: this.collection.filter.keywords ? true : false,
-                        error: i18n.__('No ' + App.currentview + ' found...')
+                        show_online_search: true,
+                        error: i18n.__('No ' + App.currentview.toLowerCase() + ' found...'),
                     });
                 }
                 break;
@@ -135,7 +135,7 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
-                        error: i18n.__('No ' + App.currentview + ' found...')
+                        error: i18n.__('No ' + App.currentview.toLowerCase() + ' found...')
                     });
                 }
                 break;
@@ -147,7 +147,7 @@
                     });
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
-                        error: i18n.__('No ' + App.currentview + ' found...')
+                        error: i18n.__('No ' + App.currentview.toLowerCase() + ' found...')
                     });
                 }
                 break;
