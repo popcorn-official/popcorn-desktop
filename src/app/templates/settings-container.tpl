@@ -50,7 +50,7 @@
                             Settings.moviesTabEnable ? arr_screens.push("Movies") : null;
                             Settings.seriesTabEnable ? arr_screens.push("TV Series") : null;
                             Settings.animeTabEnable ? arr_screens.push("Anime") : null;
-                            arr_screens.push("Favorites");
+                            Settings.favoritesTabEnable ? arr_screens.push("Favorites") : null;
                             Settings.activateWatchlist ? arr_screens.push("Watchlist") : null;
                             Settings.activateTorrentCollection ? arr_screens.push("Torrent-collection") : null;
                             Settings.activateSeedbox ? arr_screens.push("Seedbox") : null;
@@ -75,6 +75,9 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input class="settings-checkbox" name="animeTabEnable" id="animeTabEnable" type="checkbox" <%=(Settings.animeTabEnable? "checked='checked'":"")%>>
                 <label class="settings-label" for="animeTabEnable"><%= i18n.__("Anime") %></label>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="settings-checkbox" name="favoritesTabEnable" id="favoritesTabEnable" type="checkbox" <%=(Settings.favoritesTabEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="favoritesTabEnable"><%= i18n.__("Favorites") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
