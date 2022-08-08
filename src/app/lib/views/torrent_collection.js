@@ -139,7 +139,7 @@
             }
 
             $('.togglesengines').css('visibility', 'hidden');
-            $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+            $('i.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
             $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL').attr('title', '0 results').tooltip('fixTitle');
             $('.onlinesearch-info').hide();
             $('.onlinesearch-info>ul.file-list').html('');
@@ -368,7 +368,7 @@
             ]).then(function (results) {
                 var items = removeDupesAndSort(results);
                 console.log('Search Providers: %d results', items.length);
-                $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
+                $('i.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
                 hidetooltps = setTimeout(function() {
                     $('.tooltip').tooltip('hide');
@@ -380,7 +380,7 @@
                     if ($('.loading .maximize-icon').is(':visible')) {
                         $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
-                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                    $('i.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
                     $('.onlinesearch-info').show();
                     if (items.length === 0) {
