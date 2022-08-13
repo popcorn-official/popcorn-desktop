@@ -163,7 +163,6 @@
                 }
             }
             if (removedPeers.length > 0) {
-                // store removed peers, so we can re-add them when resuming
                 torrent.pctRemovedPeers = removedPeers;
             }
             torrent._xsRequests.forEach(req => {
