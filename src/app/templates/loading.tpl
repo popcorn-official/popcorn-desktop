@@ -13,7 +13,7 @@
 
     <div class="state-flex">
         <div class="state">
-            <div class="title tooltipped copytoclip" data-copy="title" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></div>
+            <div class="title tooltipped copytoclip" data-copy="title" data-toggle="tooltip" data-placement="bottom"></div>
             <div class="external-play"><%= i18n.__("Streaming to") %> <span class="player-name"></span></div>
 
             <!-- loading bar -->
@@ -78,10 +78,9 @@
                     <span class="loading-info-text" id="ractpr"><%= i18n.__("Active Peers") %>:&nbsp;</span>
                     <span class="value_peers value">0</span><span id="rbreak3"><br></span>
                     <span class="loading-info-text"><%= i18n.__("Filename") %>:&nbsp;</span>
-                    <span class="open-button tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"><i class="fa fa-folder-open"></i></span>
-                    <span class="text_filename value tooltipped copytoclip" data-copy="file name" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
+                    <span class="text_filename value tooltipped copytoclip" data-copy="filename" data-toggle="tooltip" data-placement="bottom"></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
-                    <span class="text_streamurl value tooltipped copytoclip" data-copy="stream url" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Right click to copy") %>"></span><br>
+                    <span class="text_streamurl value tooltipped copytoclip" data-copy="stream url" data-toggle="tooltip" data-placement="bottom"></span><br>
                     <div class="fa fa-angle-down show-pcontrols tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
                     <div class="player-controls">
                         <i class="fa fa-backward backward"></i>
