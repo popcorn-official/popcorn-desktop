@@ -144,13 +144,13 @@
                     this.torrent.pause();
 
                     for (const id in this.torrent._peers) {
-                        // collect peers, need to do this before calling removePeer!
-                        removedPeers.push(this.torrent._peers[id].addr);
-                        this.torrent.removePeer(id);
+                        if (this.torrent._peers[id] && this.torrent._peers[id].addr) {
+                            removedPeers.push(this.torrent._peers[id].addr);
+                            this.torrent.removePeer(id);
+                        }
                     }
 
-                    if(removedPeers.length > 0) {
-                        // store removed peers, so we can re-add them when resuming
+                    if (removedPeers.length > 0) {
                         this.torrent.pctRemovedPeers = removedPeers;
                     }
 
@@ -213,13 +213,13 @@
                 }
 
                 for (const id in this.torrent._peers) {
-                    // collect peers, need to do this before calling removePeer!
-                    removedPeers.push(this.torrent._peers[id].addr);
-                    this.torrent.removePeer(id);
+                    if (this.torrent._peers[id] && this.torrent._peers[id].addr) {
+                        removedPeers.push(this.torrent._peers[id].addr);
+                        this.torrent.removePeer(id);
+                    }
                 }
 
-                if(removedPeers.length > 0) {
-                    // store removed peers, so we can re-add them when resuming
+                if (removedPeers.length > 0) {
                     this.torrent.pctRemovedPeers = removedPeers;
                 }
 
@@ -275,11 +275,13 @@
                     if (t.infoHash === infoHash) {
                         torrent = t;
                         torrent.resume();
-                        if(torrent.pctRemovedPeers) {
+                        if (torrent.pctRemovedPeers) {
                             const peers = torrent.pctRemovedPeers;
                             torrent.pctRemovedPeers = undefined;
                             for (let peer of peers) {
-                                torrent.addPeer(peer);
+                                if (peer) {
+                                    torrent.addPeer(peer);
+                                }
                             }
                         }
                         resolve(torrent);
