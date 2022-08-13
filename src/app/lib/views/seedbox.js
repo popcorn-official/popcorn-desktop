@@ -193,7 +193,9 @@
                     const peers = torrent.pctRemovedPeers;
                     torrent.pctRemovedPeers = undefined;
                     for (let peer of peers) {
-                        torrent.addPeer(peer);
+                        if (peer) {
+                            torrent.addPeer(peer);
+                        }
                     }
                 }
             }
