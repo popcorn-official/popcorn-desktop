@@ -157,13 +157,12 @@
             // completely pause this torrent, stop download data (pause only stops new connections)
             const removedPeers = [];
             for (const id in torrent._peers) {
-                if (torrent._peers.hasOwnProperty(id)) {
-                    // collect peers, need to do this before calling removePeer!
+                if (torrent._peers[id] && torrent._peers[id].addr) {
                     removedPeers.push(torrent._peers[id].addr);
                     torrent.removePeer(id);
                 }
             }
-            if(removedPeers.length > 0) {
+            if (removedPeers.length > 0) {
                 // store removed peers, so we can re-add them when resuming
                 torrent.pctRemovedPeers = removedPeers;
             }
