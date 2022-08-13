@@ -44,7 +44,7 @@
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
       'click #cancel-button-vpn': 'cancelStreamingVPN',
-      'click .open-button': 'openItem',
+      'dblclick .text_filename': 'openItem',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
       'click .play': 'resumeStreaming',
@@ -158,7 +158,7 @@
       $('#header').addClass('header-shadow');
       App.LoadingView = this;
       this.initKeyboardShortcuts();
-      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
+      $('.minimize-icon,#maxic,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
         html: true,
         delay: {
           'show': 800,
