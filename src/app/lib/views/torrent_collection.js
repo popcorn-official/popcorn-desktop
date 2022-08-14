@@ -3,6 +3,7 @@
 
     var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/'),
+        curitems,
         hidetooltps;
 
     var TorrentCollection = Marionette.View.extend({
@@ -32,7 +33,7 @@
             'change #enableRarbgSearch': 'toggleRarbg',
             'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
             'change #enableNyaaSearch': 'toggleNyaa',
-            'contextmenu #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL': 'openProvider',
+            'contextmenu .online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL': 'onlineFilter',
             'change .online-categories select': 'setCategory',
         },
 
@@ -67,6 +68,7 @@
             clearTimeout(hidetooltps);
 
             this.$('.tooltipped').tooltip({
+                html: true,
                 delay: {
                     'show': 800,
                     'hide': 100
@@ -108,11 +110,6 @@
             AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
         },
 
-        openProvider: function (e) {
-            e.button = 0;
-            Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
-        },
-
         setCategory: function () {
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
@@ -123,6 +120,7 @@
                 e.preventDefault();
             }
             var that = this;
+            that.curitems = '';
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
@@ -338,7 +336,6 @@
                 }
             };
 
-
             var removeDupesAndSort = function (arr) {
                 const found = [];
                 const unique = [];
@@ -367,6 +364,7 @@
                 nyaaSI(),
             ]).then(function (results) {
                 var items = removeDupesAndSort(results);
+                that.curitems = items;
                 console.log('Search Providers: %d results', items.length);
                 that.$('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
@@ -397,15 +395,46 @@
             });
         },
 
-        onlineAddItem: function (item) {
-            $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '" data-source="' + item.url + '">'+
-                    '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.onerror=null; this.parentElement.innerHTML=`&#xf076`" onload="this.onerror=null; this.onload=null;"></div>'+
-                    '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
-                    '<div class="online-size">'+item.size+'</div>'+
-                '</li>'
-            );
+        onlineAddItem: function (item, provider) {
+            if (!provider || item.provider === provider) {
+                $('.onlinesearch-info>ul.file-list').append(
+                    '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '" data-source="' + item.url + '">'+
+                        '<a>' + item.title + '</a>'+
+                        '<div class="item-icon magnet-icon tooltipped" data-toggle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.onerror=null; this.parentElement.innerHTML=`&#xf076`" onload="this.onerror=null; this.onload=null;"></div>'+
+                        '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
+                        '<div class="online-size">'+item.size+'</div>'+
+                    '</li>'
+                );
+            }
+        },
+
+        onlineFilter: function (e) {
+            var that = this;
+            if (!that.curitems) {
+                return;
+            }
+            var provider = e.target.textContent;
+            $('.onlinesearch-info>ul.file-list').html('')
+            return Promise.all(that.curitems.map(function (item) {
+                that.onlineAddItem(item, provider);
+            })).then(function () {
+                if ($('.loading .maximize-icon').is(':visible')) {
+                    $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
+                }
+                that.$('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
+                $('.togglesengines').css('visibility', 'visible');
+                $('.onlinesearch-info').show();
+                if ($('.onlinesearch-info>ul.file-list').html() === '') {
+                    $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
+                }
+                that.$('.tooltipped').tooltip({
+                    html: true,
+                    delay: {
+                        'show': 50,
+                        'hide': 50
+                    }
+                });
+            });
         },
 
         onlineOpen: function (e) {
@@ -415,6 +444,7 @@
         },
 
         onlineClose: function () {
+            this.curitems = '';
             $('.onlinesearch-info>ul.file-list').html('');
             $('.onlinesearch-info').hide();
             this.render();
