@@ -629,5 +629,8 @@
 	"IMDb page link": "IMDb page link",
 	"submit metadata & translations link": "submit metadata & translations link",
 	"episode title": "episode title",
-	"full cast & crew link": "full cast & crew link"
+	"full cast & crew link": "full cast & crew link",
+	"Click providers to enable / disable": "Click providers to enable / disable",
+	"Right-click to filter results by": "Right-click to filter results by",
+	"to filter by <i>All</i>": "to filter by <i>All</i>"
 }
