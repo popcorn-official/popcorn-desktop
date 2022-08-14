@@ -590,8 +590,8 @@
     "Saturation": "Verzadiging",
     "Decrease Zoom by": "Decrease Zoom by",
     "Increase Zoom by": "Increase Zoom by",
-    "Decrease Contrast by": "Decrease Contrast by",
-    "Increase Contrast by": "Increase Contrast by",
+    "Decrease Contrast by": "Verlaag contrast met",
+    "Increase Contrast by": "Verhoog contrast met",
     "Decrease Brightness by": "Verlaag helderheid met",
     "Increase Brightness by": "Verhoog helderheid met",
     "Rotate Hue counter-clockwise by": "Rotate Hue counter-clockwise by",
@@ -623,5 +623,11 @@
     "Sync now": "Nu synchroniseren",
     "Same as Default Language": "Zelfde als standaard taal",
     "Language": "Taal",
-    "Allow Audio Passthrough": "Allow Audio Passthrough"
+    "Allow Audio Passthrough": "Allow Audio Passthrough",
+    "release info link": "release info link",
+    "parental guide link": "parental guide link",
+    "IMDb page link": "IMDb pagina link",
+    "submit metadata & translations link": "submit metadata & translations link",
+    "episode title": "episode title",
+    "full cast & crew link": "full cast & crew link"
 }

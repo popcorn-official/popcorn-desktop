@@ -314,7 +314,7 @@
     "Please wait...": "Vänta...",
     "Connect": "Anslut",
     "Create Account": "Skapa konto",
-    "Celebrate various events": "Fira diverse händelse",
+    "Celebrate various events": "Fira diverse händelser/helgdagar",
     "Disconnect": "Koppla från",
     "Downloaded": "Hämtat",
     "Loading stuck ? Click here !": "Inläsning fastnat ? Klicka här !",
@@ -570,7 +570,7 @@
     "added": "tillagd",
     "The source link was copied to the clipboard": "Källlänken kopierades till urklippet",
     "Max. Down / Up Speed": "Max. ner- / upphastighet",
-    "Show Release Info": "Visa utgivningsinfo",
+    "Show Release Info": "Visa utgivningsinformation",
     "Parental Guide": "Föräldraguide",
     "Rebuild bookmarks database": "Ombyggnad av databas för bokmärken",
     "Rebuilding bookmarks...": "Ombyggnad av bokmärken...",
@@ -623,5 +623,11 @@
     "Sync now": "Synkronisera nu",
     "Same as Default Language": "Samma som standardspråk",
     "Language": "Språk",
-    "Allow Audio Passthrough": "Tillåt ljudgenomgång"
+    "Allow Audio Passthrough": "Tillåt ljudgenomgång",
+    "release info link": "utgivningsinformationslänk",
+    "parental guide link": "parental guide link",
+    "IMDb page link": "IMDB-sidlänk",
+    "submit metadata & translations link": "skicka länk för metadata och översättningar",
+    "episode title": "episode title",
+    "full cast & crew link": "full cast & crew link"
 }
