@@ -57,7 +57,7 @@
             .search_in
                 background-color $InputBoxBg
                 margin 0px 0px 15px -88px
-                padding 9px 0px 9px 2px
+                padding 9px 0px 9px 6px
                 display none
                 position absolute
                 height 30px
@@ -71,8 +71,7 @@
                     height 12px
                     padding 0px 6px 10px 6px
                     vertical-align top
-                    opacity 0.85
-                    margin-top 1px
+                    opacity 0.9
                     transition opacity .1s ease-in
 
                     &:hover
@@ -98,15 +97,20 @@
                         vertical-align middle
                         cursor pointer
                         color $SettingsText1
-                        opacity 0.5
+                        opacity 0.25
+                        filter grayscale(1)
+                        transition opacity .1s ease-in
 
                         &:hover
                             opacity 1
+                            filter none
 
                     &.sengine-checkbox:checked+label
                         opacity 1
+                        filter none
                         &:after
                             opacity 1
+                            filter none
 
                 label
                     &:before
@@ -114,11 +118,12 @@
                         font-family "Font Awesome 5 Free"
                         font-weight 900
                         font-size 12px
-                        padding-right 5px
+                        width 0px
                         margin-left -1px
                         float left
                         position relative
                         color $CheckboxBg
+                        visibility hidden
                     &:after
                         content '\f00c'
                         font-family "Font Awesome 5 Free"
@@ -131,6 +136,12 @@
                         left -15px
                         opacity 0
                         transition opacity .1s ease-in-out
+                        visibility hidden
+
+                    img
+                        height 14px
+                        vertical-align middle
+                        margin -2px 4px 0 -4px
 
             .engine-selector
                 position absolute
