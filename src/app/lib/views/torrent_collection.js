@@ -4,6 +4,7 @@
     var clipboard = nw.Clipboard.get(),
         collection = path.join(data_path + '/TorrentCollection/'),
         curitems,
+        curprovider,
         hidetooltps;
 
     var TorrentCollection = Marionette.View.extend({
@@ -410,11 +411,13 @@
 
         onlineFilter: function (e) {
             var that = this;
-            if (!that.curitems) {
+            var provider = e.target.classList.contains('providerIcon') ? e.target.parentNode.textContent : e.target.textContent;
+            if (!that.curitems || that.curprovider === provider) {
                 return;
             }
-            var provider = e.target.textContent;
-            $('.onlinesearch-info>ul.file-list').html('')
+            that.curprovider = provider;
+            $('.onlinesearch-info>ul.file-list').html('');
+            $('.onlinesearch-info').scrollTop(0);
             return Promise.all(that.curitems.map(function (item) {
                 that.onlineAddItem(item, provider);
             })).then(function () {
@@ -445,6 +448,7 @@
 
         onlineClose: function () {
             this.curitems = '';
+            this.curprovider = '';
             $('.onlinesearch-info>ul.file-list').html('');
             $('.onlinesearch-info').hide();
             this.render();
