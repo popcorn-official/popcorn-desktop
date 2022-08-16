@@ -16,7 +16,7 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="46" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
+                <input id="online-input" autocomplete="off" size="48" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
                 <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toggle="tooltip"></i>
                 <i class="fa fa-caret-down togglesengines tooltipped" data-placement="bottom" data-toggle="tooltip" title="<%= i18n.__('Click providers to enable / disable') + '<br>' + i18n.__('Right-click to filter results by') + '<br>(&#x1F50D; ' + i18n.__('to filter by <i>All</i>') + ')' %>"></i>
                 <div class="search_in">
