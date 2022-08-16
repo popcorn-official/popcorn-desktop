@@ -46,7 +46,6 @@
                 <div class="collection-paste fa fa-paste tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Paste a Magnet link") %>"></div>
                 <div class="collection-import fa fa-file tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Import a Torrent file") %>"></div>
                 <input class="collection-import-hidden" type="file" accept=".torrent"/>
-                <div class="collection-open fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Open Collection Directory") %>"></div>
             </div>
         </div>
 
@@ -57,7 +56,7 @@
         </div>
 
         <div class="torrents-info">
-            <i class="fa fa-database" id="savedtorrentslabel"></i>
+            <i class="collection-open fa fa-folder tooltipped" id="savedtorrentslabel" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Open Collection Directory") %>"></i>
             <i id="savedtorrentslabeltext"><%=i18n.__("Saved Torrents") %></i>
             <ul class="file-list">
                 <% _.each(fs.readdirSync(data_path + '/TorrentCollection/'), function(file, index) { %>
