@@ -116,6 +116,7 @@
     "gulp-tar": "^2.1.0",
     "gulp-zip": "^4.2.0",
     "guppy-pre-commit": "^0.4.0",
+    "i18n-unused": "^0.8.0",
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "nib": "^1.1.2",
