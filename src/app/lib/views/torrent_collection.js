@@ -528,12 +528,11 @@
             this.$('.tooltip').css('display', 'none');
             e.preventDefault();
             e.stopPropagation();
-            var torrentFile;
             if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
-                var _file = e.currentTarget.parentNode.innerText,
-                    torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
+                let _file = e.currentTarget.parentNode.innerText;
+                let torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
+                Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
             }
-            Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
         },
 
         openSource: function(e) {
