@@ -632,5 +632,9 @@
 	"full cast & crew link": "full cast & crew link",
 	"Click providers to enable / disable": "Click providers to enable / disable",
 	"Right-click to filter results by": "Right-click to filter results by",
-	"to filter by <i>All</i>": "to filter by <i>All</i>"
+	"to filter by <i>All</i>": "to filter by <i>All</i>",
+	"more...": "more...",
+	"Seeds": "Seeds",
+	"Peers": "Peers",
+	"less...": "less..."
 }
