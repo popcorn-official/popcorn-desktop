@@ -346,10 +346,10 @@ var Database = {
             dhtInfo.s ? Settings.statusUrl = dhtInfo.site.split('//')[0] + '//status.' + dhtInfo.site.split('//')[1] : null;
         }
         if (dhtInfo.keys) {
-            if (dhtInfo.keys.os) Settings.opensubtitles.useragent = dhtInfo.keys.os;
-            if (dhtInfo.keys.fanart) Settings.fanart.api_key = dhtInfo.keys.fanart;
-            if (dhtInfo.keys.tvdb) Settings.tvdb.api_key = dhtInfo.keys.tvdb;
-            if (dhtInfo.keys.tmdb) Settings.tmdb.api_key = dhtInfo.keys.tmdb;
+            if (dhtInfo.keys.os) { Settings.opensubtitles.useragent = dhtInfo.keys.os; }
+            if (dhtInfo.keys.fanart) { Settings.fanart.api_key = dhtInfo.keys.fanart; }
+            if (dhtInfo.keys.tvdb) { Settings.tvdb.api_key = dhtInfo.keys.tvdb; }
+            if (dhtInfo.keys.tmdb) { Settings.tmdb.api_key = dhtInfo.keys.tmdb; }
             if (dhtInfo.keys.trakttv && dhtInfo.keys.trakttv.id && dhtInfo.keys.trakttv.s) {
                 Settings.trakttv.client_id = dhtInfo.keys.trakttv.id;
                 Settings.trakttv.client_secret = dhtInfo.keys.trakttv.s;
