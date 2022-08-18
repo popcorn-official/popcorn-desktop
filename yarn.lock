@@ -1560,6 +1560,11 @@ commander@^2.19.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
+commander@^8.0.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
 compact2string@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/compact2string/-/compact2string-1.4.1.tgz#8d34929055f8300a13cfc030ad1832e2e53c2e25"
@@ -2270,6 +2275,11 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+esm@^3.2.25:
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 etag@~1.8.1:
   version "1.8.1"
@@ -3437,6 +3447,15 @@ http2-wrapper@^1.0.0-beta.5.2:
   dependencies:
     quick-lru "^5.1.1"
     resolve-alpn "^1.0.0"
+
+i18n-unused@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/i18n-unused/-/i18n-unused-0.8.0.tgz#93e5166734495b06ebd91874eedbadefa341db1f"
+  integrity sha512-xqlf9idp2A5Xz+UWECmhUyS24OG748oBRLVDA7fwHHahCawwcBMoN0LmtSUAlT/5q00t2e4OlBuEKM8q8imJNQ==
+  dependencies:
+    commander "^8.0.0"
+    esm "^3.2.25"
+    ts-import "^2.0.39"
 
 i18n@0.x.x:
   version "0.13.3"
@@ -5345,6 +5364,11 @@ opensubtitles-api@^5.1.2:
   dependencies:
     urijs "^1.19.1"
     xmlrpc "^1.3.2"
+
+options-defaults@^2.0.39:
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/options-defaults/-/options-defaults-2.0.40.tgz#18a1521519e68e561e2267a3dcb409f2fba81510"
+  integrity sha512-a0oW0AMaP/Uqk1gU7s3unE83wzs/MACy3wsCnNREn4wqp4KCcxRdulRjf0d2FeIxENbGJ4EBGtHTQ6J30XB6Cw==
 
 ordered-read-streams@^0.3.0:
   version "0.3.0"
@@ -7442,6 +7466,13 @@ trim-newlines@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-1.0.0.tgz#5887966bb582a4503a41eb524f7d35011815a613"
   integrity sha1-WIeWa7WCpFA6QetST301ARgVphM=
+
+ts-import@^2.0.39:
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/ts-import/-/ts-import-2.0.40.tgz#1d9bb6e62a8349a4e6337992680b1969e555cdd4"
+  integrity sha512-yTP9fSDaBL1LvcN7/taRHbcQoazk7cLrDOEPyIDUVKLNYTMhaDkvZhfUwp41iXe+GlAFL6l87ZoGABWZRdIfjg==
+  dependencies:
+    options-defaults "^2.0.39"
 
 tslib@^2.2.0:
   version "2.3.1"
