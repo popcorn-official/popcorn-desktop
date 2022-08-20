@@ -424,9 +424,6 @@
                 if ($('.loading .maximize-icon').is(':visible')) {
                     $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                 }
-                that.$('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                $('.togglesengines').css('visibility', 'visible');
-                $('.onlinesearch-info').show();
                 if ($('.onlinesearch-info>ul.file-list').html() === '') {
                     $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
                 }
