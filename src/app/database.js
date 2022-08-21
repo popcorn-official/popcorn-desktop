@@ -40,7 +40,7 @@ db.movies.ensureIndex({
     unique: true
 });
 db.movies.removeIndex('imdb_id');
-db.movies.removeIndex('tmdb_id');
+db.movies.removeIndex('tvdb_id');
 db.bookmarks.ensureIndex({
     fieldName: 'imdb_id',
     unique: true
