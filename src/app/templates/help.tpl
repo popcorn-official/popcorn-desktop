@@ -29,7 +29,7 @@
             </p>
 
             <h2><%= i18n.__("How does %s work?", Settings.projectName) %></h2>
-            <p><%= i18n.__("%s streams video content through torrents. Our movies are provided by %s and our TV Series by %s, while getting all metadata from %s. We don't host any content ourselves.", Settings.projectName, 'VODO (http://vodo.net)', 'Trakt (http://trakt.tv)') %><br>
+            <p><%= i18n.__("%s streams video content through torrents. Our content and metadata are provided by various third-party providers. We don't host any content ourselves.", Settings.projectName) %><br>
             <%= i18n.__("Torrent streaming? Well, torrents use Bittorrent protocol, which basically means that you download small parts of the content from another user's computer, while sending the parts you already downloaded to another user. Then, you watch those parts, while the next ones are being downloaded in the background. This exchange allows the content to stay healthy.") %><br>
                 <%= i18n.__("Once the movie is fully downloaded, you continue to send parts to the other users. And everything is deleted from your computer when you close %s. As simple as that.", Settings.projectName) %><br><br>
                 <%= i18n.__("The application itself is built with Node-Webkit, HTML, CSS and Javascript. It works like the Google Chrome browser, except that you host the biggest part of the code on your computer. Yes, %s works on the same technology as a regular website, like... let's say Wikipedia, or Youtube!", Settings.projectName ) %>

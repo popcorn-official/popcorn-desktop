@@ -24,9 +24,9 @@
             <% if (Settings.projectUrl) { %><a href="<%= encodeURI(Settings.projectUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectUrl.split('://')[1].replace(/\/+$/, '')) %>" class="links site_icon"></a><% } %>
             <% if (Settings.sourceUrl) { %><a href="<%= encodeURI(Settings.sourceUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.sourceUrl.split('://')[1].replace(/\/+$/, '')) %>" class="links github_icon"></a><% } %>
             <% if (Settings.projectCi) { %><a href="<%= encodeURI(Settings.projectCi) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectCi.split('://')[1].replace(/\/+$/, '')) %>" class="links ci_icon"></a><% } %>
-            <% if (Settings.projectBlog) { %><a href="<%= encodeURI(Settings.projectBlog) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectBlog.split('://')[1].replace(/\/+$/, '')) %>" class="links blog_icon"></a><% } %>
             <% if (Settings.projectForum) { %><a href="<%= encodeURI(Settings.projectForum) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum.split('://')[1].replace(/\/+$/, '')) %>" class="links reddit_icon"></a><% } %>
             <% if (Settings.projectForum2) { %><a href="<%= encodeURI(Settings.projectForum2) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum2.split('://')[1].replace(/\/+$/, '')) %>" class="links forum_icon"></a><% } %>
+            <% if (Settings.projectBlog) { %><a href="<%= encodeURI(Settings.projectBlog) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectBlog.split('://')[1].replace(/\/+$/, '')) %>" class="links blog_icon"></a><% } %>
         </div>
 
         <div class="last-line">
