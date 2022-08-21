@@ -139,7 +139,7 @@ You can also join our [community](README.md#community) to keep up-to-date and me
 <a name="community"></a>
 ## Community
 Keep track of Popcorn Time development and community activity.
-  * Read and subscribe to [The Official Popcorn Time Blog](https://blog.popcorntime.app/).
+  * Read and contribute to the official [Popcorn Time Wiki](https://github.com/popcorn-official/popcorn-desktop/wiki).
   * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTimeApp](https://www.reddit.com/r/PopcornTimeApp).
 
 
