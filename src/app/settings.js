@@ -208,8 +208,9 @@ Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 
 // Miscellaneous
-Settings.automaticUpdating = '';
 Settings.dhtEnable = '';
+Settings.updateNotification = true;
+Settings.automaticUpdating = '';
 Settings.events = true;
 
 // App Settings

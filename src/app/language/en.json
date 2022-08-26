@@ -543,5 +543,8 @@
 	"more...": "more...",
 	"Seeds": "Seeds",
 	"Peers": "Peers",
-	"less...": "less..."
+	"less...": "less...",
+	"Show a notification when a new version is available": "Show a notification when a new version is available",
+	"New version available !": "New version available !",
+	"Exit %s and download now ?": "Exit %s and download now ?"
 }

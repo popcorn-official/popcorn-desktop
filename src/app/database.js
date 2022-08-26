@@ -435,21 +435,17 @@ var Database = {
             })
             .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
-
                 if (Settings.automaticUpdating === false) {
                     return;
                 }
-
                 // check update
                 var updater = new App.Updater();
-
                 updater.update()
                     .catch(function (err) {
                         win.error('updater.update()', err);
                     });
-
             })
-            .then(function() {
+            .then(function () {
                 if (Settings.protocolEncryption) {
                     // enable secure after load options
                     require('webtorrent/lib/peer.js').enableSecure();
@@ -462,6 +458,9 @@ var Database = {
             .then(function () {
                 if (AdvSettings.get('disclaimerAccepted')) {
                     App.DhtReader.updateOld();
+                    if (Settings.updateNotification) {
+                        App.Updater.onlyNotification();
+                    }
                 }
             })
             .catch(function (err) {
