@@ -660,6 +660,11 @@
                         this.alertMessageSuccess(true);
                     }
                     break;
+                case 'updateNotification':
+                    if (Settings.updateNotification) {
+                        App.Updater.onlyNotification();
+                    }
+                    break;
                 default:
             }
             if (that.$el.scrollTop() !== scrollPos) {
