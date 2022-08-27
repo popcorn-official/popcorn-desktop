@@ -335,11 +335,31 @@
         }));
     };
 
-    Updater.onlyNotification = async function () {
+    Updater.onlyNotification = async function (e) {
+        if (e) {
+            $('.update-app').removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
+        }
         const currentVer = parseInt(nw.global.manifest.version.replace(/[^0-9]+/g, '')),
-            response = await fetch(Settings.sourceUrl.replace('github.com', 'api.github.com/repos') + 'releases/latest'),
-            data = await response.json(),
+            response = await fetch(Settings.sourceUrl.replace('github.com', 'api.github.com/repos') + 'releases/latest').catch((error) => {}),
+            data = response ? await response.json().catch((error) => {}) : null,
             latestVer = data && data.tag_name ? parseInt(data.tag_name.replace(/[^0-9]+/g, '')) : null;
+        if (!latestVer) {
+            if (e) {
+                App.vent.trigger('notification:show', new App.Model.Notification({
+                    title: i18n.__('Error'),
+                    body: i18n.__('Failed to check for new version'),
+                    autoclose: true,
+                    type: 'error'
+                }));
+                $('.update-app').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+                setTimeout(function() { $('.update-app').removeClass('invalid-cross').addClass('fa-rotate');}, 6000);
+            }
+            return;
+        }
+        if (e) {
+            $('.update-app').removeClass('fa-spin fa-spinner').addClass('valid-tick');
+            setTimeout(function() { $('.update-app').removeClass('valid-tick').addClass('fa-rotate');}, 6000);
+        }
         if (latestVer > currentVer) {
             let downloadUpdate = function () {
                 App.vent.trigger('notification:close');
@@ -355,6 +375,13 @@
                 showClose: false,
                 type: 'success',
                 buttons: [{ title: '<label class="export-database" for="exportdatabase">&nbsp;' + i18n.__('Yes') + '&nbsp;</label>', action: downloadUpdate }, { title: '<label class="export-database" for="exportdatabase">&nbsp;' + i18n.__('No') + '&nbsp;</label>', action: dontUpdate }]
+            }));
+        } else if (e) {
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: i18n.__('Success'),
+                body: i18n.__('Already using the latest version'),
+                autoclose: true,
+                type: 'success'
             }));
         }
     };

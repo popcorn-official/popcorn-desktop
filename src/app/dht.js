@@ -99,7 +99,7 @@ class DhtReader {
             $('.update-dht').removeClass('fa-spin fa-spinner').addClass(tmpclass);
             setTimeout(function() { $('.update-dht').removeClass(tmpclass).addClass('fa-rotate');}, 6000);
         } else {
-            $('.update-dht').removeClass('fa-rotate').removeClass('valid-tick').removeClass('invalid-cross').addClass('fa-spin fa-spinner');
+            $('.update-dht').removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
         }
     }
 

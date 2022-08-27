@@ -546,5 +546,7 @@
 	"less...": "less...",
 	"Show a notification when a new version is available": "Show a notification when a new version is available",
 	"New version available !": "New version available !",
-	"Exit %s and download now ?": "Exit %s and download now ?"
+	"Exit %s and download now ?": "Exit %s and download now ?",
+	"Failed to check for new version": "Failed to check for new version",
+	"Already using the latest version": "Already using the latest version"
 }

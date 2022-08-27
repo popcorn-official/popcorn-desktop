@@ -51,6 +51,7 @@
             'click .set-current-filter': 'saveFilter',
             'click .reset-current-filter': 'resetFilter',
             'click .update-dht': 'updateDht',
+            'click .update-app': 'updateApp',
             'mousedown #customMoviesServer': 'showFullDatalist',
             'mousedown #customSeriesServer': 'showFullDatalist',
             'mousedown #customAnimeServer': 'showFullDatalist'
@@ -662,7 +663,7 @@
                     break;
                 case 'updateNotification':
                     if (Settings.updateNotification) {
-                        App.Updater.onlyNotification();
+                        this.updateApp('enable');
                     }
                     break;
                 default:
@@ -710,13 +711,13 @@
         },
 
         updateDht: function(e) {
-            let updateMode = '';
-            if (e === 'enable') {
-                updateMode = e;
-            } else if (e) {
-                updateMode = 'manual';
-            }
+            let updateMode = e === 'enable' ? e : (e ? 'manual' : '');
             App.DhtReader.update(updateMode);
+        },
+
+        updateApp: function(e) {
+            let updateMode = e === 'enable' ? e : (e ? 'manual' : '');
+            App.Updater.onlyNotification(updateMode);
         },
 
         connectTrakt: function (e) {
