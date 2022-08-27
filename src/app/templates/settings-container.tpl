@@ -110,7 +110,7 @@
                     <select name="defaultFilters"><%=select_default_filter%></select>
                     <div class="dropdown-arrow"></div>&nbsp;
                     <% if (Settings.defaultFilters === 'custom') { %>&nbsp;<i class="set-current-filter fa fa-pen tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Set Filters") %>"></i><% } %>
-                    <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
+                    <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-rotate-right tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
                 </div>
             </span>
             <span>
@@ -582,7 +582,7 @@
             <span>
                 <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
                 <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
-                <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
+                <i class="update-dht fa fa-rotate tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
             </span>
         </div>
     </section>
@@ -769,10 +769,10 @@
     </section>
 
     <div class="btns">
-        <div class="btn-settings rebuild-bookmarks"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
+        <div class="btn-settings rebuild-bookmarks"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
         <div class="btn-settings flush-bookmarks"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush bookmarks database") %></div>
         <div class="btn-settings flush-databases"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush all databases") %></div>
-        <div class="btn-settings default-settings"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
+        <div class="btn-settings default-settings"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
     </div>
 
 </div>
