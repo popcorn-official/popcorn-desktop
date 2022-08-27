@@ -119,6 +119,7 @@ Settings.bigPicture = 100;
 Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.alwaysOnTop = false;
 Settings.minimizeToTray = false;
+Settings.events = true;
 Settings.ratingStars = true;
 Settings.showAdvancedSettings = true;
 
@@ -182,6 +183,7 @@ Settings.httpApiPassword = 'popcorn';
 Settings.customMoviesServer = '';
 Settings.customSeriesServer = '';
 Settings.customAnimeServer = '';
+Settings.dhtEnable = '';
 
 // Connection
 Settings.maxActiveTorrents = 5;
@@ -207,11 +209,9 @@ Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
 // Database
 Settings.databaseLocation = path.join(data_path, 'data');
 
-// Miscellaneous
-Settings.dhtEnable = '';
+// Updates
 Settings.updateNotification = true;
 Settings.automaticUpdating = '';
-Settings.events = true;
 
 // App Settings
 Settings.version = false;
