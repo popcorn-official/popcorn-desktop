@@ -709,15 +709,13 @@
             <span>
                 <p><%= i18n.__("Database Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Database Directory") %>" id="fakedatabaseLocation" value="<%= Settings.databaseLocation %>" readonly="readonly" size="61" />
+                <label><i class="fa fa-down-long database import-db tooltipped" title="<%= i18n.__("Import Database") %>"></i></label>
+                <label for="exportdatabase"><i class="fa fa-up-long database export-database tooltipped" title="<%= i18n.__("Export Database") %>"></i></label>
+                <input type="file" id="exportdatabase" style="display:none" nwdirectory>
                 <i class="open-database-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
             <div class="btns database import-database">
-                <!-- Button trigger modal -->
-                <div class="btn-settings database import-db">
-                    <label class="import-database" title="<%= i18n.__("Select data types to import") %>"><%= i18n.__("Import Database") %>&nbsp;</label>
-                    <i class="fa fa-level-down-alt">&nbsp;</i>
-                </div><!-- / btn -->
                 <div id="importdb-overlay" class="modal-overlay"></div>
                 <div id="importdb-modal" class="modal-content">
                     <span class="modal-close fa-stack fa-1x" id="importdb-close">
@@ -741,14 +739,9 @@
                     </span>
                     <div class="btn-settings btn-block database">
                         <label class="import-database" for="importdatabase"  title="<%= i18n.__("Open File to Import") %>"><%= i18n.__("Import Database") %>&nbsp;</label>
-                        <i class="fa fa-level-down-alt">&nbsp;</i>
+                        <i class="fa fa-down-long">&nbsp;</i>
                         <input type="file" id="importdatabase" accept=".zip" style="display:none">
                     </div>
-                </div><!-- /.modal -->
-                <div class="btn-settings database export-database">
-                    <label class="export-database" for="exportdatabase" title="<%= i18n.__("Browse Directory to save to") %>" ><%= i18n.__("Export Database") %>&nbsp;</label>
-                    <i class="fa fa-level-up-alt">&nbsp;</i>
-                    <input type="file" id="exportdatabase" style="display:none" nwdirectory>
                 </div>
             </div>
         </div>
