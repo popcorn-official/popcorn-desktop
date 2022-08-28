@@ -482,6 +482,9 @@
             <span>
                 <input class="settings-checkbox" name="httpApiEnabled" id="httpApiEnabled" type="checkbox" <%=(Settings.httpApiEnabled ? "checked='checked'":"")%>>
                 <label class="settings-label" for="httpApiEnabled"><%= i18n.__("Enable remote control") %></label>
+                <% if (Settings.httpApiEnabled) { %>
+                <i class="fa fa-qrcode qr-code tooltipped" title="<%= i18n.__('Generate Pairing QR code') %>"></i>
+                <% } %>
             </span>
             <% if (Settings.httpApiEnabled) { %>
             <span>
@@ -500,12 +503,6 @@
                 <p><%= i18n.__("HTTP API Password") %></p>
                 <input id="httpApiPassword" type="text" name="httpApiPassword" value="<%=Settings.httpApiPassword%>">
             </span>
-            <div class="btns database">
-                <div class="btn-settings database qr-code">
-                    <i class="fa fa-qrcode">&nbsp;&nbsp;</i>
-                    <%= i18n.__("Generate Pairing QR code") %>
-                </div>
-            </div>
             <div id="qrcode-overlay" class="modal-overlay"></div>
             <div id="qrcode-modal" class="modal-content">
                 <span class="modal-close fa-stack fa-1x" id="qrcode-close">
@@ -513,7 +510,7 @@
                     <i class="fa fa-times fa-stack-1x" style="margin-top: -2px;"></i>
                 </span>
                 <canvas id="qrcode" width="200" height="200"></canvas>
-            </div><!-- /.modal -->
+            </div>
             <% } %>
         </div>
     </section>
