@@ -549,5 +549,7 @@
 	"Exit %s and download now ?": "Exit %s and download now ?",
 	"Failed to check for new version": "Failed to check for new version",
 	"Already using the latest version": "Already using the latest version",
-	"Stored in local database as encrypted MD5 hash": "Stored in local database as encrypted MD5 hash"
+	"Stored in local database as encrypted MD5 hash": "Stored in local database as encrypted MD5 hash",
+	"link": "link",
+	"version number": "version number"
 }
