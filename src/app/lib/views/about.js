@@ -11,7 +11,8 @@
 
         events: {
             'click .close-icon': 'closeAbout',
-            'click #changelog': 'showChangelog'
+            'click #changelog': 'showChangelog',
+            'click .update-app': 'updateApp'
         },
 
         onAttach: function () {
@@ -34,6 +35,11 @@
             } else {
                 App.vent.trigger('about:close');
             }
+        },
+
+        updateApp: function(e) {
+            let updateMode = e === 'enable' ? e : (e ? 'about' : '');
+            App.Updater.onlyNotification(updateMode);
         },
 
         showChangelog: function () {

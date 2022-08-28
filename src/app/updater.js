@@ -336,8 +336,9 @@
     };
 
     Updater.onlyNotification = async function (e) {
+        const initBtn = e === 'about' ? $('.update-app i') : $('.update-app');
         if (e) {
-            $('.update-app').removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
+            initBtn.removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
         }
         const currentVer = parseInt(nw.global.manifest.version.replace(/[^0-9]+/g, '')),
             response = await fetch(Settings.sourceUrl.replace('github.com', 'api.github.com/repos') + 'releases/latest').catch((error) => {}),
@@ -351,14 +352,14 @@
                     autoclose: true,
                     type: 'error'
                 }));
-                $('.update-app').removeClass('fa-spin fa-spinner').addClass('invalid-cross');
-                setTimeout(function() { $('.update-app').removeClass('invalid-cross').addClass('fa-rotate');}, 6000);
+                initBtn.removeClass('fa-spin fa-spinner').addClass('invalid-cross');
+                setTimeout(function() { initBtn.removeClass('invalid-cross').addClass('fa-rotate');}, 6000);
             }
             return;
         }
         if (e) {
-            $('.update-app').removeClass('fa-spin fa-spinner').addClass('valid-tick');
-            setTimeout(function() { $('.update-app').removeClass('valid-tick').addClass('fa-rotate');}, 6000);
+            initBtn.removeClass('fa-spin fa-spinner').addClass('valid-tick');
+            setTimeout(function() { initBtn.removeClass('valid-tick').addClass('fa-rotate');}, 6000);
         }
         if (latestVer > currentVer) {
             let downloadUpdate = function () {
