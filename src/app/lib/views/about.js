@@ -12,7 +12,8 @@
         events: {
             'click .close-icon': 'closeAbout',
             'click #changelog': 'showChangelog',
-            'click .update-app': 'updateApp'
+            'mousedown .update-app': 'updateApp',
+            'contextmenu .links': 'copytoclip'
         },
 
         onAttach: function () {
@@ -37,9 +38,15 @@
             }
         },
 
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].href, i18n.__('link'), true),
+
         updateApp: function(e) {
-            let updateMode = e === 'enable' ? e : (e ? 'about' : '');
-            App.Updater.onlyNotification(updateMode);
+            if (e.button === 2) {
+                Common.openOrClipboardLink(e, Settings.projectUrl, i18n.__('link'), true); 
+            } else {
+                let updateMode = e === 'enable' ? e : (e ? 'about' : '');
+                App.Updater.onlyNotification(updateMode);
+            }
         },
 
         showChangelog: function () {
