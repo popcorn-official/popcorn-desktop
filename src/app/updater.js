@@ -340,7 +340,7 @@
         if (e) {
             initBtn.removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
         }
-        const currentVer = parseInt(nw.global.manifest.version.replace(/[^0-9]+/g, '')),
+        const currentVer = parseInt(App.settings.version.replace(/[^0-9]+/g, '')),
             response = await fetch(Settings.sourceUrl.replace('github.com', 'api.github.com/repos') + 'releases/latest').catch((error) => {}),
             data = response ? await response.json().catch((error) => {}) : null,
             latestVer = data && data.tag_name ? parseInt(data.tag_name.replace(/[^0-9]+/g, '')) : null;
