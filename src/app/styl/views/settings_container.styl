@@ -293,6 +293,21 @@
                     &:hover
                         color $ButtonBgHover
 
+        #remote-control
+            .content
+                .qr-code
+                    font-size 15px
+                    margin-left 158px
+                    vertical-align middle
+                    cursor pointer
+                    transition all .5s
+
+                    &:hover
+                        color $ButtonBgActive
+
+                #settingsIpAddr, #httpApiPort, #httpApiUsername, #httpApiPassword
+                    width 166px
+
         #apiserver,
         #miscellaneous
             input
