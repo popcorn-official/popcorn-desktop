@@ -392,9 +392,6 @@
                     </span>
                 <% } else { %>
                     <span>
-                        <%= i18n.__("Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s", "OpenSubtitles.org", Settings.projectName) %>
-                    </span>
-                    <span>
                         <p><%= i18n.__("Username") %></p>
                         <input type="text" size="50" id="opensubtitlesUsername" name="opensubtitlesUsername">
                         <div class="loading-spinner" style="display: none"></div>
@@ -403,19 +400,12 @@
                     </span>
                     <span>
                         <p><%= i18n.__("Password") %></p>
-                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword"><br>
+                        <input type="password" size="50" id="opensubtitlesPassword" name="opensubtitlesPassword" placeholder="* <%= i18n.__('Stored in local database as encrypted MD5 hash') %>"><br>
                     </span>
-                    <div class="btns database">
-                        <div class="btn-settings database" id="authOpensubtitles">
-                            <i class="fa fa-user">&nbsp;&nbsp;</i>
-                            <%= i18n.__("Connect To %s", "OpenSubtitles") %>
-                        </div>
-                        <a class="btn-settings database links" href="https://www.opensubtitles.org/newuser" role="button">
-                            <i class="fa fa-user-plus">&nbsp;&nbsp;</i><%= i18n.__("Create an account") %>
-                        </a>
-                    </div>                    
                     <span>
-                        <em><%= i18n.__("* %s stores an encrypted hash of your password in your local database", Settings.projectName) %></em>
+                        <em>* <a class="syncOpensubtitles" id="authOpensubtitles" href="#"><%= i18n.__("Connect to %s", "OpenSubtitles.org") %></a>
+                        <%= i18n.__("to automatically fetch subtitles for movies and episodes you watch in %s", Settings.projectName) %>&nbsp;&nbsp;
+                        (<a class="createOpensubtitles" href="#"><%= i18n.__("Create an account") %></a>)</em>
                     </span>
                 <% } %>
             </div>
