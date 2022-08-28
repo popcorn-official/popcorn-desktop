@@ -520,7 +520,7 @@
 	"0 = Disable preloading": "0 = Disable preloading",
 	"Search field always expanded": "Search field always expanded",
 	"DHT UDP Requests Limit": "DHT UDP Requests Limit",
-	"Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s": "Connect to %s to automatically fetch subtitles for movies and episodes you watch in %s",
+	"to automatically fetch subtitles for movies and episodes you watch in %s": "to automatically fetch subtitles for movies and episodes you watch in %s",
 	"Create an account": "Create an account",
 	"Search for something or drop a .torrent / magnet link...": "Search for something or drop a .torrent / magnet link...",
 	"Torrent removed": "Torrent removed",
@@ -548,5 +548,6 @@
 	"New version available !": "New version available !",
 	"Exit %s and download now ?": "Exit %s and download now ?",
 	"Failed to check for new version": "Failed to check for new version",
-	"Already using the latest version": "Already using the latest version"
+	"Already using the latest version": "Already using the latest version",
+	"Stored in local database as encrypted MD5 hash": "Stored in local database as encrypted MD5 hash"
 }

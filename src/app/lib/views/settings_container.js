@@ -42,6 +42,7 @@
             'click #features input#activateWatchlist': 'connectTrakt',
             'click #unauthTrakt': 'disconnectTrakt',
             'click .closeTraktCode': 'disconnectTrakt',
+            'mousedown .createOpensubtitles': 'createOpensubtitles',
             'click #authOpensubtitles': 'connectOpensubtitles',
             'click #unauthOpensubtitles': 'disconnectOpensubtitles',
             'change #tmpLocation': 'updateCacheDirectory',
@@ -744,6 +745,10 @@
                 }
                 that.$el.scrollTop(scrollPos);
             }
+        },
+
+        createOpensubtitles: function (e) {
+            Common.openOrClipboardLink(e, 'https://www.opensubtitles.org/newuser', 'link');
         },
 
         connectOpensubtitles: function (e) {
