@@ -8,8 +8,9 @@
         <div class="title-version">
             <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id="changelog"><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
             <% if(App.git) { %>
-                - <small><i>(<a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= encodeURI(Settings.commitUrl) %>/<%= App.git.commit %>"><%= App.git.commit %></a>)</i></small>
+                - <small><i><a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= encodeURI(Settings.commitUrl) %>/<%= App.git.commit %>"><%= App.git.commit %></a></i></small>
             <% } %>
+            <small>&nbsp;&nbsp;&nbsp;<a class="update-app" href="#"><i class="fa fa-rotate"></i> <%= i18n.__("Check for updates") %></a></small>
             <small>&nbsp;&nbsp;&nbsp;<a href="<%= encodeURI(Settings.issuesUrl) %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
         </div>
 
