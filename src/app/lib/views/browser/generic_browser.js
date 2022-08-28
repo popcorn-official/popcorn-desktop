@@ -130,7 +130,7 @@
             default:
             }
             App.vent.trigger('settings:show');
-            curView ? $(curView).attr('style', 'border: 1px solid !important; animation: fadeBd .5s forwards; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); }) : null;
+            curView ? $(curView).attr('style', 'border: 2px solid !important; animation: fadeBd .5s forwards, fa-bounce 1s; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); }) : null;
         },
 
         onlineSearchHov: function () {
