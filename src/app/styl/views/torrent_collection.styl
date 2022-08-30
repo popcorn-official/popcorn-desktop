@@ -6,6 +6,18 @@
     -webkit-user-select none
     opacity 1
 
+    > .spinner
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5) center center no-repeat;
+        pointer-events: all;
+        z-index: 1;
+
+        .loading-container
+            margin: 50vh auto 0px
+            opacity: .8;
+
     .margintop
         height 100px
 
@@ -58,6 +70,7 @@
             padding-left 210px
             width 736px
             margin 0 auto
+            z-index 2
             
             .search_in
                 background-color $InputBoxBg
