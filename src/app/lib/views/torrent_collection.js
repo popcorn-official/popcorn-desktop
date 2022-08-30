@@ -145,8 +145,7 @@
             }
 
             this.ui.spinner.show();
-            $('.togglesengines').css('visibility', 'hidden');
-            that.$('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+            that.$('.online-search').addClass('active');
             that.$('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL').attr('title', '0 results').tooltip('fixTitle');
 
             clearTimeout(hidetooltps);
@@ -388,8 +387,7 @@
                     if ($('.loading .maximize-icon').is(':visible')) {
                         $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
-                    that.$('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.togglesengines').css('visibility', 'visible');
+                    that.$('.online-search').removeClass('active');
                     $('.onlinesearch-info').show();
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
