@@ -213,10 +213,14 @@
                 cursor pointer
                 color $SettingsText1
                 opacity 0.5
-                transition opacity .3s
+                transition opacity .3s, color .3s
 
                 &:hover
                     opacity 1
+
+                &.active
+                    opacity 1
+                    color $FilterBarIconHover
 
             .dropdown
                 position absolute
