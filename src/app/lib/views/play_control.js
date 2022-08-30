@@ -208,7 +208,7 @@
       App.vent.trigger('movie:closeDetail');
       App.vent.trigger('settings:show');
       $('.settings-container-contain').scrollTop($('.settings-container-contain')[0].scrollHeight);
-      $('#opensubtitlesUsername').attr('style', 'border: 2px solid !important; animation: fadeBd .5s forwards, fa-bounce 1s; margin-left: 9px').focus().focusout(function() { this.removeAttribute('style'); });
+      $('#opensubtitlesUsername').attr('style', 'border: 2px solid !important; animation: fadeBd .5s forwards, fa-beat 0.8s; margin-left: 9px; --fa-beat-scale: 1.2').focus().focusout(function() { this.removeAttribute('style'); });
     },
 
     switchSubtitle: function(lang) {
