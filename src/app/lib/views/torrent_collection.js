@@ -377,7 +377,7 @@
                     $('.tooltip').tooltip('hide');
                 }, 2000);
 
-                $('.onlinesearch-info').hide();
+                $('.onlinesearch-info').scrollTop(0).hide();
                 $('.onlinesearch-info>ul.file-list').html('');
                 $('.notorrents-info,.torrents-info').hide();
                 that.ui.spinner.hide();
