@@ -283,15 +283,17 @@
             background: rgba(0, 0, 0, .6)
             display inline-block
 
-            &:hover > .show-pcontrols, .magnet-icon
-                opacity 0.4
-                transition-delay 0s
+            &:hover
+                > .show-pcontrols,
+                > .magnet-icon
+                    opacity 0.4
+                    transition-delay 0s
 
-                &:hover
-                    opacity 1
+                    &:hover
+                        opacity 1
 
-                &:active
-                    opacity 1
+                    &:active
+                        opacity 1
 
             .magnet-icon
                 float right
