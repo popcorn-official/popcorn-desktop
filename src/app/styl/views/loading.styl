@@ -283,8 +283,9 @@
             background: rgba(0, 0, 0, .6)
             display inline-block
 
-            &:hover > .magnet-icon
+            &:hover > .show-pcontrols, .magnet-icon
                 opacity 0.4
+                transition-delay 0s
 
                 &:hover
                     opacity 1
@@ -295,9 +296,13 @@
             .magnet-icon
                 float right
                 cursor pointer
-                transition opacity .2s
+                transition opacity .3s
+                transition-delay .3s
                 opacity 0
                 margin-right 2px
+
+                &:hover
+                    opacity 1
 
             span
                 position relative
@@ -328,8 +333,9 @@
             .show-pcontrols
                 float right
                 cursor pointer
-                transition opacity .2s
-                opacity 0.4
+                transition opacity .3s
+                transition-delay .3s
+                opacity 0
                 margin 3px 0 -4px 0
 
                 &:hover

@@ -205,7 +205,7 @@
           this.ui.playingbar.css('width', '0%');
           this.ui.cancel_button.css('visibility', 'visible');
           if (Settings.activateLoCtrl === true) {
-            $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').attr('data-original-title', i18n.__('Hide playback controls'));
+            $('.show-pcontrols').removeClass('fa-caret-down').addClass('fa-caret-up').attr('data-original-title', i18n.__('Hide playback controls'));
             this.ui.cancel_button.css('display', 'none');
             this.ui.controls.css('display', 'block');
             this.ui.playingbarBox.css('display', 'block');
@@ -320,13 +320,13 @@
     showpcontrols: function (e) {
       if (Settings.activateLoCtrl === false) {
         AdvSettings.set('activateLoCtrl', true);
-        $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
+        $('.show-pcontrols').removeClass('fa-caret-down').addClass('fa-caret-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
         this.ui.cancel_button.css('display', 'none');
         this.ui.controls.css('display', 'block');
         this.ui.playingbarBox.css('display', 'block');
       } else if (Settings.activateLoCtrl === true) {
         AdvSettings.set('activateLoCtrl', false);
-        $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
+        $('.show-pcontrols').removeClass('fa-caret-up').addClass('fa-caret-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
         this.ui.cancel_button.css('display', 'block');
         this.ui.controls.css('display', 'none');
         this.ui.playingbarBox.css('display', 'none');
