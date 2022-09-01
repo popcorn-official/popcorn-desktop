@@ -81,7 +81,7 @@
                     <span class="text_filename value tooltipped copytoclip" data-copy="filename" data-toggle="tooltip" data-placement="bottom"></span><br>
                     <span class="loading-info-text"><%= i18n.__("Stream Url") %>:&nbsp;</span>
                     <span class="text_streamurl value tooltipped copytoclip" data-copy="stream url" data-toggle="tooltip" data-placement="bottom"></span><br>
-                    <div class="fa fa-angle-down show-pcontrols tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
+                    <div class="fa fa-caret-down show-pcontrols tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Show playback controls") %>"></div>
                     <div class="player-controls">
                         <i class="fa fa-backward backward"></i>
                         <i class="fa fa-pause pause"></i>
