@@ -387,7 +387,6 @@
                     if ($('.loading .maximize-icon').is(':visible')) {
                         $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
-                    that.$('.online-search').removeClass('active');
                     $('.onlinesearch-info').show();
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
@@ -453,6 +452,7 @@
         onlineClose: function () {
             this.curitems = '';
             this.curprovider = '';
+            $('.online-search').removeClass('active');
             $('.onlinesearch-info>ul.file-list').html('');
             $('.onlinesearch-info').hide();
             this.render();
