@@ -80,7 +80,7 @@
     <% } else { %>
     <li style="display:none">
     <% } %>
-        <i id="filterbar-tempf" class="fa fa-folder-open about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
+        <i id="filterbar-tempf" class="fa fa-box-archive about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
     </li>
 
     <!-- Settings -->
