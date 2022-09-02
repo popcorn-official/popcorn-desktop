@@ -285,6 +285,7 @@
             const oldScroll = $('.seedbox-infos-synopsis').scrollTop();
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
             const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+            const isPaused = thisTorrent.paused;
             var torrentStart = new Backbone.Model({
                 torrent: thisTorrent.magnetURI,
                 title: thisTorrent.name,
@@ -292,7 +293,7 @@
                 device: App.Device.Collection.selected,
                 file_name: e.target.parentNode.childNodes[1].innerHTML
             });
-            if (thisTorrent.paused) {
+            if (thisTorrent.paused && target.hasClass('item-play')) {
                 $('#resume-'+hash).show();
                 $('#play-'+hash).hide();
             }
@@ -305,6 +306,8 @@
                 if (target.hasClass('item-play')) {
                     $('#trash-'+hash).addClass('disabled').prop('disabled', true);
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+                } else if (isPaused) {
+                    this.pauseTorrent(thisTorrent);
                 }
             }, 100);
             App.vent.trigger('stream:start', torrentStart, target.hasClass('item-play') ? '' : 'downloadOnly' );
