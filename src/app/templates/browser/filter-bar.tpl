@@ -62,7 +62,7 @@
     <% } else { %>
     <li id="torrent_col" style="display:none">
     <% } %>
-        <i id="filterbar-torrent-collection" class="fa fa-list-ul torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
+        <i id="filterbar-torrent-collection" class="fa fa-bars-staggered torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
     </li>
 
     <!-- Seedbox -->
