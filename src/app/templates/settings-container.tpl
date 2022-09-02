@@ -651,7 +651,7 @@
             <span>
                 <p><%= i18n.__("Cache Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Cache Directory") %>" id="faketmpLocation" value="<%= Settings.tmpLocation %>" readonly="readonly" size="61" />
-                <i class="open-tmp-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
+                <i class="open-tmp-folder fa fa-box-archive tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Cache Directory") %>"></i>
                 <input type="file" name="tmpLocation" id="tmpLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.tmpLocation %>" />
             </span>
             <span>
@@ -683,7 +683,7 @@
             <span>
                 <p><%= i18n.__("Downloads Directory") %></p>
                 <input type="text" placeholder="<%= i18n.__("Downloads Directory") %>" id="fakedownloadsLocation" value="<%= Settings.downloadsLocation %>" readonly="readonly" size="61" />
-                <i class="open-downloads-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Downloads Directory") %>"></i>
+                <i class="open-downloads-folder fa fa-box-archive tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Downloads Directory") %>"></i>
                 <input type="file" name="downloadsLocation" id="downloadsLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.downloadsLocation %>" />
             </span>
             <% } %>
@@ -699,7 +699,7 @@
                 <label><i class="fa fa-down-long database import-db tooltipped" title="<%= i18n.__("Import Database") %>"></i></label>
                 <label for="exportdatabase"><i class="fa fa-up-long database export-database tooltipped" title="<%= i18n.__("Export Database") %>"></i></label>
                 <input type="file" id="exportdatabase" style="display:none" nwdirectory>
-                <i class="open-database-folder fa fa-folder-open tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
+                <i class="open-database-folder fa fa-database tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Open Database Directory") %>"></i>
                 <input type="file" name="fakedatabaseLocation" id="fakedatabaseLocation" nwdirectory style="display: none;" nwworkingdir="<%= Settings.databaseLocation %>" />
             </span>
             <div class="btns database import-database">
