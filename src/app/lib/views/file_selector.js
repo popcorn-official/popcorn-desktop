@@ -76,7 +76,7 @@
         },
 
         isTorrentStored: function () {
-            var target = data_path + '/TorrentCollection/';
+            var target = App.settings['databaseLocation'] + '/TorrentCollection/';
 
             // bypass errors
             if (!Settings.droppedTorrent && !Settings.droppedMagnet) {
@@ -111,7 +111,7 @@
 
         storeTorrent: function () {
             var source = App.settings.tmpLocation + '/',
-                target = data_path + '/TorrentCollection/',
+                target = App.settings['databaseLocation'] + '/TorrentCollection/',
                 file,
                 _file;
 
