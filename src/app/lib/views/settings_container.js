@@ -35,7 +35,7 @@
             'click .open-database-folder': 'openDatabaseFolder',
             'click .export-database': 'exportDatabase',
             'click #importdatabase': 'importDatabase',
-            'change #import-watched, #import-bookmarks, #import-settings': 'checkImportSettings',
+            'change #import-watched, #import-bookmarks, #import-torcol, #import-settings': 'checkImportSettings',
             'click .import-db': 'openModal',
             'click .modal-overlay, .modal-close': 'closeModal',
             'click #authTrakt': 'connectTrakt',
@@ -427,6 +427,7 @@
                 case 'opensubtitlesPassword':
                 case 'import-watched':
                 case 'import-bookmarks':
+                case 'import-torcol':
                 case 'import-settings':
                     return;
                 default:
@@ -971,9 +972,7 @@
             fileinput.on('change', function () {
                 var path = fileinput.val();
                 try {
-                    databaseFiles.forEach(function (entry) {
-                        zip.addLocalFile(App.settings['databaseLocation'] + '/' + entry);
-                    });
+                    zip.addLocalFolder(App.settings['databaseLocation']);
                     fs.writeFile(path + '/database.zip', zip.toBuffer(), function (err) {
                         that.alertMessageWait(i18n.__('Exporting Database...'));
                         win.info('Database exported to:', path);
@@ -1004,16 +1003,18 @@
                         for (const el of importTypes) {
                             switch (el.id) {
                                 case 'import-bookmarks':
-                                    zip.extractEntryTo('bookmarks.db', targetFolder, /*maintainEntryPath*/ false, /*overwrite*/ true);
-                                    // movies.db and shows.db are required for favourites tab view
-                                    zip.extractEntryTo('movies.db', targetFolder, false, true);
-                                    zip.extractEntryTo('shows.db', targetFolder, false, true);
+                                    zip.getEntry('bookmarks.db') ? zip.extractEntryTo('bookmarks.db', targetFolder, false, true) : null;
+                                    zip.getEntry('movies.db') ? zip.extractEntryTo('movies.db', targetFolder, false, true) : null;
+                                    zip.getEntry('shows.db') ? zip.extractEntryTo('shows.db', targetFolder, false, true) : null;
                                 break;
                                 case 'import-settings':
-                                    zip.extractEntryTo('settings.db', targetFolder, false, true);
+                                    zip.getEntry('settings.db') ? zip.extractEntryTo('settings.db', targetFolder, false, true) : null;
                                 break;
                                 case 'import-watched':
-                                    zip.extractEntryTo('watched.db', targetFolder, false, true);
+                                    zip.getEntry('watched.db') ? zip.extractEntryTo('watched.db', targetFolder, false, true) : null;
+                                break;
+                                case 'import-torcol':
+                                    zip.getEntry('TorrentCollection/') ? zip.extractEntryTo('TorrentCollection/', targetFolder + 'TorrentCollection/', false, true) : null;
                                 break;
                             }
                         }
