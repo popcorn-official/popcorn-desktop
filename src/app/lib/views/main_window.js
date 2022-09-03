@@ -353,12 +353,12 @@
 
         return fs.promises.readdir(data_path + '/TorrentCollection/').then(files => {
             if (files.length) {
-                const fs_ext = require('fs-extra');
-                fs_ext.copySync(data_path + '/TorrentCollection', App.settings['databaseLocation'] + '/TorrentCollection/');
-                fs.rmdirSync(data_path + '/TorrentCollection/', { recursive: true });
+                const fse = require('fs-extra');
+                fse.move(data_path + '/TorrentCollection', App.settings['databaseLocation'] + '/TorrentCollection', { overwrite: true }).then(() => {
+                    fse.ensureDir(data_path + '/TorrentCollection');
+                }).catch(err => {});
             }
-            return files.length;
-        }).then(files => { files ? fs.mkdirSync(data_path + '/TorrentCollection') : null;}).catch(err => {});
+        }).catch(err => {});
 
         // Focus the window when the app opens
         win.focus();
