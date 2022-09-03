@@ -721,6 +721,10 @@
                         <label class="settings-label" for="import-bookmarks"><%= i18n.__("Bookmarked items") %></label>
                     </span>
                     <span>
+                        <input class="settings-checkbox" name="import-torcol" id="import-torcol" type="checkbox" checked='checked'>
+                        <label class="settings-label" for="import-torcol"><%= i18n.__("Saved Torrents") %></label>
+                    </span>
+                    <span>
                         <input class="settings-checkbox" name="import-settings" id="import-settings" type="checkbox" checked='checked'>
                         <label class="settings-label" for="import-settings"><%= i18n.__("Settings") %></label>
                     </span>
