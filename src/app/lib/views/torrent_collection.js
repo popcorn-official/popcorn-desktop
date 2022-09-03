@@ -2,7 +2,7 @@
     'use strict';
 
     var clipboard = nw.Clipboard.get(),
-        collection = path.join(data_path + '/TorrentCollection/'),
+        collection = path.join(App.settings['databaseLocation'] + '/TorrentCollection/'),
         curitems,
         curprovider,
         hidetooltps;
