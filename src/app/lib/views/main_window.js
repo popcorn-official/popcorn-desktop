@@ -351,7 +351,7 @@
           that.restartButter();
         }
 
-        return fs.promises.readdir(data_path + '/TorrentCollection/').then(files => {
+        fs.promises.readdir(data_path + '/TorrentCollection/').then(files => {
             if (files.length) {
                 const fse = require('fs-extra');
                 fse.move(data_path + '/TorrentCollection', App.settings['databaseLocation'] + '/TorrentCollection', { overwrite: true }).then(() => {
