@@ -1,3 +1,28 @@
+## 0.4.9 - Ogres are not like cakes - 04 September 2022
+
+New Features:
+- Add right-click to copy support to the majority of UI elements
+- Add update notification option
+- Add disable Favorites tab option
+- Add ability to filter Torrent Collection results by right-clicking providers
+- Make the Torrent Collection directory a part of the database also adding the ability to import/export it
+
+Bug Fixes:
+- Fix cover resize
+- Fix some overlapping UI elements
+- Fix Show all available subtitles for the default language option
+- Fix issue with peers not being resolved when resuming stream/download
+- Fix stream/download resuming when modifying file selection bug
+- Fix undefined download/upload speed issue
+
+Other:
+- Clean up obsolete/unnecessary code
+- Many more Settings, Torrent Collection, Seedbox and File selector UI changes/updates
+- Update Torrent Collection providers
+- Update various icons
+- Update various modules/dependencies
+- Various other small fixes and optimizations
+
 ## 0.4.8 - Who Crossed the Streams ? - 15 July 2022
 
 New Features:
