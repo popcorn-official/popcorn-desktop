@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.4.8",
-  "releaseName": "Who Crossed the Streams?",
+  "version": "0.4.9",
+  "releaseName": "Ogres are not like cakes",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
