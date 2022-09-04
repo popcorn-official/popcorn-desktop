@@ -70,15 +70,15 @@ Via .deb package:
 Via archive and command line (tested on ubuntu 18.04 and 20.04):
   1. Download Popcorn Time archive:  
       * For the **latest release**:  
-      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.8-linux64.zip`  
+      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.9-linux64.zip`  
   _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
-  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.8/Popcorn-Time-0.4.8-linux64.zip`_
+  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.9/Popcorn-Time-0.4.9-linux64.zip`_
   2. Create popcorn-time folder in /opt/:  
   `sudo mkdir /opt/popcorn-time`  
   3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working):  
   `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`  
   4. Extract the zip in /opt/popcorn-time:  
-  `sudo unzip Popcorn-Time-0.4.8-linux64.zip -d /opt/popcorn-time`  
+  `sudo unzip Popcorn-Time-0.4.9-linux64.zip -d /opt/popcorn-time`  
   5. Create symlink of Popcorn-Time in /usr/bin:  
   `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`  
   6. Create .desktop file (so the launcher):  
