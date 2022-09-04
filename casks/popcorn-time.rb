@@ -22,7 +22,7 @@ cask "popcorn-time" do
   end
 
   if MacOS.version < :monterey || ENV["HOMEBREW_POPCORN_TIME_BUILD"] == "false"
-    sha256 "7fd9fb25734f7587d60349c29b8a7d425e677f08cb0e981452e98e7a2db4a942"
+    sha256 "773235cce1ff637e3d1dcf5df02413da2eca2198c1d310cc7a4e78afcc4a38ea"
 
     url "#{homepage}/build/#{zip}"
   else
