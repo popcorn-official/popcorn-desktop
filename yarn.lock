@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@fortawesome/fontawesome-free@^5.14.0":
-  version "5.15.4"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz#ecda5712b61ac852c760d8b3c79c96adca5554e5"
-  integrity sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg==
+"@fortawesome/fontawesome-free@^6.1":
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-6.1.2.tgz#d18880eddeadd42b1c64cb559f2f3d13d47a4a64"
+  integrity sha512-XwWADtfdSN73/udaFm+1mnGIj/ShDZNFMe/PRoqv3FhQ4GNI2PUN70yFTPsjq65Lw2C9i4TG5/hTbxXIXVCiqQ==
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.3"
@@ -1560,6 +1560,11 @@ commander@^2.19.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
+commander@^8.0.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
+  integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
 compact2string@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/compact2string/-/compact2string-1.4.1.tgz#8d34929055f8300a13cfc030ad1832e2e53c2e25"
@@ -2270,6 +2275,11 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+esm@^3.2.25:
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
+  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 etag@~1.8.1:
   version "1.8.1"
@@ -3437,6 +3447,15 @@ http2-wrapper@^1.0.0-beta.5.2:
   dependencies:
     quick-lru "^5.1.1"
     resolve-alpn "^1.0.0"
+
+i18n-unused@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/i18n-unused/-/i18n-unused-0.8.0.tgz#93e5166734495b06ebd91874eedbadefa341db1f"
+  integrity sha512-xqlf9idp2A5Xz+UWECmhUyS24OG748oBRLVDA7fwHHahCawwcBMoN0LmtSUAlT/5q00t2e4OlBuEKM8q8imJNQ==
+  dependencies:
+    commander "^8.0.0"
+    esm "^3.2.25"
+    ts-import "^2.0.39"
 
 i18n@0.x.x:
   version "0.13.3"
@@ -4834,12 +4853,7 @@ minimatch@^5.1.0:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.1.0, minimist@^1.1.3:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
-
-minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -5215,6 +5229,15 @@ nw-builder@^3.5.7:
     winresourcer "0.9.0"
     yargs "17.5.1"
 
+nyaa-wrapper@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nyaa-wrapper/-/nyaa-wrapper-1.0.0.tgz#e8ddbbf60da32855b133d7d7cb9e68afa28b7376"
+  integrity sha512-1URdhuS8kimbyt5cFbJZMsey1e8D01hXR0UTRf3g4M9opqjhH3y0XZCAxTu8UBSS4Kp9AQlI0tX3R8TksLBgyA==
+  dependencies:
+    axios "^0.21"
+    cheerio "^1.0.0-rc.3"
+    got "^11.0.0"
+
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
@@ -5341,6 +5364,11 @@ opensubtitles-api@^5.1.2:
   dependencies:
     urijs "^1.19.1"
     xmlrpc "^1.3.2"
+
+options-defaults@^2.0.39:
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/options-defaults/-/options-defaults-2.0.40.tgz#18a1521519e68e561e2267a3dcb409f2fba81510"
+  integrity sha512-a0oW0AMaP/Uqk1gU7s3unE83wzs/MACy3wsCnNREn4wqp4KCcxRdulRjf0d2FeIxENbGJ4EBGtHTQ6J30XB6Cw==
 
 ordered-read-streams@^0.3.0:
   version "0.3.0"
@@ -7141,10 +7169,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thehiddenbay@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/thehiddenbay/-/thehiddenbay-1.0.1.tgz#cb4d0d9bad74473ab9fd77e784fc12e017ffc9d7"
-  integrity sha512-wyJGGx9F6sXS5QPuLpQRrQICmH+utO5CLgG7wGHpCLLMCVKLfbgrY7S94qbsliltYgFOcGCTbvoY/M/Iwe/Xig==
+thehiddenbay@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/thehiddenbay/-/thehiddenbay-1.0.2.tgz#b8bbf07947a8999a0ff8e0b75b2690eb9c4d2e38"
+  integrity sha512-FT9Faj/IJKl+YxsIHQzBMNQTIYi6XsNIpcjeEbaux3eN20IokXlHkgsBfr0zz0qhfVeMFNFckjzSrmwAkXy+cA==
   dependencies:
     axios "^0.21"
     cheerio "^1.0.0-rc.3"
@@ -7353,27 +7381,28 @@ torrent-piece@^2.0.1:
   resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-2.0.1.tgz#a1a50fffa589d9bf9560e38837230708bc3afdc6"
   integrity sha512-JLSOyvQVLI6JTWqioY4vFL0JkEUKQcaHQsU3loxkCvPTSttw8ePs2tFwsP4XIjw99Fz8EdOzt/4faykcbnPbCQ==
 
-torrentapi-wrapper3@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/torrentapi-wrapper3/-/torrentapi-wrapper3-0.0.4.tgz#65b2a7027a68a1baa3940f54022136666b442498"
-  integrity sha512-k4U8nss+a+VdDAcGZqHOZO6DMxA6a5GqUnCNx7e5Ko8rla0P9CK7ltK/ZlJT7qoUf84nTiD7h1R9WrQSTihgMw==
+torrentapi-wrapper3@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/torrentapi-wrapper3/-/torrentapi-wrapper3-0.0.5.tgz#dae19035e6bcb31ff528be854ede4d40c01d70f9"
+  integrity sha512-JI71HvalZYRFg3og+Jg1R81TusU2oCw2rnINNPoB9V+RuyaRq7t4t9drTupQo0eSLjaK/WE4n6aDOKBoTtHhMg==
   dependencies:
     got "11.x.x"
 
-torrentcollection5@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.4.tgz#bce5fed3c3b3b09349b8f89ae77ac873226622e9"
-  integrity sha512-/kBs7AF+Hr7kiGBqPeti4ENM3j/iJwuxFLXJ9tx5mKB9P+CO9JUQ+QUzFjB29sU0OkACJN+U/I+8iZSUjJiS5g==
+torrentcollection5@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.6.tgz#619a2a13e86a2fb310b45df1ef50699e063bb10e"
+  integrity sha512-4zXQSJTwlQOLJLK5UcqO4VPHBtQD8heC4rgkysF/gX3SVnyzNtH16tafZqqaPlxH1dN4GYwpPYuGV5vh3al96Q==
   dependencies:
-    thehiddenbay "1.0.1"
-    torrentapi-wrapper3 "0.0.4"
-    torrentgalaxy "1.0.3"
+    nyaa-wrapper "1.0.0"
+    thehiddenbay "1.0.2"
+    torrentapi-wrapper3 "0.0.5"
+    torrentgalaxy "1.0.4"
     xtorrent-pt "1.0.1"
 
-torrentgalaxy@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/torrentgalaxy/-/torrentgalaxy-1.0.3.tgz#b0ecf55610bd3594e007ba15bf8a37f42b663b4d"
-  integrity sha512-QXwQjUdY9EuVhqEqX14HNwLmzQsJ+K2bL/DvOg95PX4AXrBiXHQ2gSzYwK+oZ4/FQgPKRSrLdYNvWMubudk/Pg==
+torrentgalaxy@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/torrentgalaxy/-/torrentgalaxy-1.0.4.tgz#1b5f34b5bb7f44435feeff64dbf4c0aba2ac9946"
+  integrity sha512-69mExFGw20yLes6kjYa9/+tyYwyBVuMRK+e85ycOq06uln+WYoc4q8JAfUgL9Ti0Ud1inebo4gpVcmaIthQJew==
   dependencies:
     axios "^0.21"
     cheerio "^1.0.0-rc.3"
@@ -7437,6 +7466,13 @@ trim-newlines@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/trim-newlines/-/trim-newlines-1.0.0.tgz#5887966bb582a4503a41eb524f7d35011815a613"
   integrity sha1-WIeWa7WCpFA6QetST301ARgVphM=
+
+ts-import@^2.0.39:
+  version "2.0.40"
+  resolved "https://registry.yarnpkg.com/ts-import/-/ts-import-2.0.40.tgz#1d9bb6e62a8349a4e6337992680b1969e555cdd4"
+  integrity sha512-yTP9fSDaBL1LvcN7/taRHbcQoazk7cLrDOEPyIDUVKLNYTMhaDkvZhfUwp41iXe+GlAFL6l87ZoGABWZRdIfjg==
+  dependencies:
+    options-defaults "^2.0.39"
 
 tslib@^2.2.0:
   version "2.3.1"

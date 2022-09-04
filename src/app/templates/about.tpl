@@ -8,8 +8,9 @@
         <div class="title-version">
             <a data-toggle="tooltip" data-placement="top" title=<%= i18n.__("Changelog") %> id="changelog"><%= App.settings.version %> "<%= App.settings.releaseName %>" Beta </a>
             <% if(App.git) { %>
-                - <small><i>(<a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= encodeURI(Settings.commitUrl) %>/<%= App.git.commit %>"><%= App.git.commit %></a>)</i></small>
+                - <small><i><a data-toggle="tooltip" data-placement="top" title=<%= App.git.semver %> class="links" href="<%= encodeURI(Settings.commitUrl) %>/<%= App.git.commit %>"><%= App.git.commit %></a></i></small>
             <% } %>
+            <small>&nbsp;&nbsp;&nbsp;<a class="update-app" href="#"><i class="fa fa-rotate"></i> <%= i18n.__("Check for updates") %></a></small>
             <small>&nbsp;&nbsp;&nbsp;<a href="<%= encodeURI(Settings.issuesUrl) %>" class="links"><i class="fa fa-exclamation-circle"></i> <%= i18n.__("Report an issue") %></a></small>
         </div>
 
@@ -24,9 +25,9 @@
             <% if (Settings.projectUrl) { %><a href="<%= encodeURI(Settings.projectUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectUrl.split('://')[1].replace(/\/+$/, '')) %>" class="links site_icon"></a><% } %>
             <% if (Settings.sourceUrl) { %><a href="<%= encodeURI(Settings.sourceUrl) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.sourceUrl.split('://')[1].replace(/\/+$/, '')) %>" class="links github_icon"></a><% } %>
             <% if (Settings.projectCi) { %><a href="<%= encodeURI(Settings.projectCi) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectCi.split('://')[1].replace(/\/+$/, '')) %>" class="links ci_icon"></a><% } %>
-            <% if (Settings.projectBlog) { %><a href="<%= encodeURI(Settings.projectBlog) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectBlog.split('://')[1].replace(/\/+$/, '')) %>" class="links blog_icon"></a><% } %>
             <% if (Settings.projectForum) { %><a href="<%= encodeURI(Settings.projectForum) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum.split('://')[1].replace(/\/+$/, '')) %>" class="links reddit_icon"></a><% } %>
             <% if (Settings.projectForum2) { %><a href="<%= encodeURI(Settings.projectForum2) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectForum2.split('://')[1].replace(/\/+$/, '')) %>" class="links forum_icon"></a><% } %>
+            <% if (Settings.projectBlog) { %><a href="<%= encodeURI(Settings.projectBlog) %>" data-toggle="tooltip" data-placement="top" title="<%= encodeURI(Settings.projectBlog.split('://')[1].replace(/\/+$/, '')) %>" class="links blog_icon"></a><% } %>
         </div>
 
         <div class="last-line">

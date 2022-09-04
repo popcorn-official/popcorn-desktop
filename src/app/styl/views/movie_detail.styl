@@ -41,6 +41,7 @@
         .mcover-image
             float: right
             width: 100%
+            height: 100%
             max-width: 50vh
             max-height: 75vh
             position: relative
@@ -119,7 +120,7 @@
                     color: #f8f8f8
                     font-size: 12px
                     position: relative
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     text-stroke: 1px rgba(0,0,0,0.1)
                     float: left
                     font-smoothing: antialiased
@@ -131,7 +132,7 @@
                     color: #f8f8f8
                     font-size: 11px
                     position: relative
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     text-stroke: 1px rgba(0,0,0,0.1)
                     float: left
                     font-smoothing: antialiased
@@ -243,7 +244,7 @@
                     position: relative
                     font-size: 13px
                     float: right
-                    margin-right: 10px
+                    margin-right: 12px
                     color: #DDD
                     cursor: pointer
                     &:hover
@@ -300,7 +301,7 @@
 
             #torrent-list
                 position: relative
-                top: 50px
+                top: 48px
                 max-height: 55%
                 margin: 0 20px 0 3px
 
@@ -333,10 +334,9 @@
             flex-direction: row
             justify-content: space-between
             white-space: nowrap
-
             height: 70px
             line-height: 35px
-            margin: -1px 25px 1px 16px
+            margin: 8px 25px 1px 16px
 
             .flex-left
                 min-width: 420px
@@ -370,7 +370,7 @@
 
                 &:before
                     content: "\f004"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
@@ -381,7 +381,7 @@
 
                 &:after
                     content: "\f004"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
@@ -403,7 +403,7 @@
 
                     &:before
                         content: "\f004"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 18px
@@ -414,7 +414,7 @@
 
                     &:after
                         content: "\f004"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 18px
@@ -432,7 +432,7 @@
             .watched-toggle
                 cursor: pointer
                 padding: 5px
-                padding-left: 24px
+                padding-left: 28px
                 float: left
                 color: #FFF
                 height: 26px
@@ -445,18 +445,19 @@
 
                 &:before
                     content: "\f070"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
                     left: 0
                     opacity: 1
+                    transform: scaleY(0.9)
                     transition: opacity 0.5s
 
                 &:after
                     content: "\f00c"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 20px
@@ -475,7 +476,7 @@
                 &.selected
                     &:before
                         content: "\f00c"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 20px
@@ -486,7 +487,7 @@
 
                     &:after
                         content: "\f070"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 18px
@@ -521,7 +522,7 @@
                     background: $QualitySelectorBg
 
                 &.fa-spinner
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     transition: none
                     margin-left: 6px
 

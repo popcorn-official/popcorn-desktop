@@ -351,6 +351,15 @@
           that.restartButter();
         }
 
+        fs.promises.readdir(data_path + '/TorrentCollection/').then(files => {
+            if (files.length) {
+                const fse = require('fs-extra');
+                fse.move(data_path + '/TorrentCollection', App.settings['databaseLocation'] + '/TorrentCollection', { overwrite: true }).then(() => {
+                    fse.ensureDir(data_path + '/TorrentCollection');
+                }).catch(err => {});
+            }
+        }).catch(err => {});
+
         // Focus the window when the app opens
         win.focus();
       });
@@ -360,7 +369,7 @@
         policy.ignore();
       });
 
-      App.vent.trigger('updatePostersSizeStylesheet');
+      this.updatePostersSizeStylesheet(true);
       App.vent.trigger('main:ready');
     },
 
@@ -623,14 +632,16 @@
       $(window).trigger('resize');
     },
 
-    updatePostersSizeStylesheet: function() {
+    updatePostersSizeStylesheet: function(start) {
       var that = this;
-
       App.db
         .getSetting({
           key: 'postersWidth'
         })
         .then(function(doc) {
+          if (!doc || (parseInt(doc.value) === 134 && start)) {
+            return;
+          }
           var postersWidth = doc.value;
           var postersHeight = Math.round(
             postersWidth * Settings.postersSizeRatio
@@ -654,7 +665,7 @@
 
             '.list .items .item .cover,',
             '.load-more {',
-            'background-size: cover;',
+            'background-size: ', postersWidth, 'px ', postersHeight, 'px;',
             'width: ',
             postersWidth,
             'px;',

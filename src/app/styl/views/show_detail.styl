@@ -222,9 +222,10 @@
                 font-smoothing: antialiased
                 font-size: 12px
                 line-height: 37px
+                margin-top: -2px
                 &:before
                     content: "\f004"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
@@ -238,7 +239,7 @@
 
                 &:after
                     content: "\f004"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
@@ -262,7 +263,7 @@
                     width: 200px
                     &:before
                         content: "\f004"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 18px
@@ -276,7 +277,7 @@
 
                     &:after
                         content: "\f004"
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         font-weight: 900
                         position: absolute
                         font-size: 18px
@@ -298,7 +299,7 @@
             .sha-watched
                 float: left
                 cursor: pointer
-                padding-left: 24px
+                padding-left: 28px
                 margin-left: 20px
                 color: #FFF
                 position: relative
@@ -306,22 +307,24 @@
                 font-smoothing: antialiased
                 font-size: 12px
                 line-height: 37px
+                margin-top: -2px
                 display: none
 
                 &:before
                     content: "\f070"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 18px
                     color: #FFF
                     left: 0
                     opacity: 1
+                    transform: scaleY(0.9)
                     transition: opacity 0.5s
 
                 &:after
                     content: "\f00c"
-                    font-family: "Font Awesome 5 Free"
+                    font-family: "Font Awesome 6 Free"
                     font-weight: 900
                     position: absolute
                     font-size: 20px
@@ -466,6 +469,7 @@
 
             .sdo-infos
                 height: fit-content
+                overflow-x: hidden
 
                 .sdoi-title
                     overflow: hidden
@@ -503,6 +507,7 @@
                     .magnet-icon
                         font-size: 13px
                         color: #DDD
+                        margin-right: 2px
 
                         &:hover
                             color: #FFF
@@ -575,7 +580,7 @@
                     color: $ShowText1
                     transition: all .2s ease-in, margin 0s
                     padding: 0 6px
-                    margin: 12px 6px 0 0
+                    margin: 13px 6px 0 0
                     border-radius: 10px
                     height: 19px
                     line-height: 19px
@@ -586,7 +591,7 @@
                         background: $QualitySelectorBg
 
                     &.fa-spinner
-                        font-family: "Font Awesome 5 Free"
+                        font-family: "Font Awesome 6 Free"
                         transition: none
                         margin-left: 6px
 
@@ -594,7 +599,7 @@
                             background: none
 
                 .sdow-quality
-                    margin-top: 12px
+                    margin-top: 13px
                     float: left
 
                     div
@@ -626,6 +631,11 @@
 
                     &.disabled
                         visibility: hidden
+
+                    #player-chooser
+                        .button
+                            margin-right: 0px
+
         .sd-torrents
             grid-area: torrents;
             max-height: 300px;

@@ -6,6 +6,18 @@
     -webkit-user-select none
     opacity 1
 
+    > .spinner
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4) center center no-repeat;
+        pointer-events: all;
+        z-index: 1;
+
+        .loading-container
+            margin: 50vh auto 0px
+            opacity: .8;
+
     .margintop
         height 100px
 
@@ -21,16 +33,21 @@
         #savedtorrentslabel
             font-size 50px
             opacity 0.07
-            left 80px
-            top 122px
+            left 78px
+            top 126px
             text-align left
             position absolute
             z-index -1
+            cursor pointer
+            transition opacity .3s
+
+            &:hover
+                opacity 0.27
 
         #searchresultslabel
             font-size 48px
             opacity 0.07
-            left 80px
+            left 76px
             top 126px
             text-align left
             position absolute
@@ -51,17 +68,18 @@
         .onlinesearch
             position relative
             padding-left 210px
-            width 630px
+            width 736px
             margin 0 auto
+            z-index 2
             
             .search_in
                 background-color $InputBoxBg
                 margin 0px 0px 15px -88px
-                padding 9px 0px 9px 2px
+                padding 9px 0px 9px 6px
                 display none
                 position absolute
                 height 30px
-                min-width 352px
+                min-width 458px
 
                 span
                     color $InputBoxText
@@ -69,10 +87,9 @@
                     font-size 12px
                     float left
                     height 12px
-                    padding 0px 7px 10px 7px
+                    padding 0px 8px 10px 8px
                     vertical-align top
-                    opacity 0.85
-                    margin-top 1px
+                    opacity 0.9
                     transition opacity .1s ease-in
 
                     &:hover
@@ -93,35 +110,41 @@
                         height 12px
                         display inline-block
                         line-height 12px
-                        font-size 12px
+                        font-size 11px
                         font-family $MainFont
                         vertical-align middle
                         cursor pointer
-                        color $SettingsText1
-                        opacity 0.5
+                        color $DropDownText
+                        opacity 0.25
+                        filter grayscale(1)
+                        transition opacity .1s ease-in
 
                         &:hover
                             opacity 1
+                            filter none
 
                     &.sengine-checkbox:checked+label
                         opacity 1
+                        filter none
                         &:after
                             opacity 1
+                            filter none
 
                 label
                     &:before
                         content '\f0c8'
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-size 12px
-                        padding-right 5px
+                        width 0px
                         margin-left -1px
                         float left
                         position relative
                         color $CheckboxBg
+                        visibility hidden
                     &:after
                         content '\f00c'
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-size 10px
                         margin-right -14px
@@ -131,6 +154,12 @@
                         left -15px
                         opacity 0
                         transition opacity .1s ease-in-out
+                        visibility hidden
+
+                    img
+                        height 14px
+                        vertical-align middle
+                        margin -2px 4px 0 -4px
 
             .engine-selector
                 position absolute
@@ -168,23 +197,30 @@
                 cursor text
                 outline 0 !important
                 height 30px
-                min-width 264px
+                min-width 370px
 
             .online-search
                 margin-left 5px
                 cursor pointer
                 color $SettingsText1
                 opacity 0.5
-                transition opacity .3s
+                transition opacity .3s, color .3s
 
                 &:hover
                     opacity 1
+
+                &.active
+                    opacity 1
+                    color $FilterBarIconHover
 
             .togglesengines
                 cursor pointer
                 color $SettingsText1
                 opacity 0.5
                 transition opacity .3s
+                font-size 14px
+                line-height 24px
+                vertical-align text-top
 
                 &:hover
                     opacity 1
@@ -258,7 +294,7 @@
         .onlinesearch-info
             display none
             margin 60px auto
-            height calc(100% - 90px)
+            height calc(100% - 100px)
             color $Text1
             font-family $Font, $AlternateFont
             font-size 17px
@@ -280,19 +316,23 @@
             ul
                 &.file-list
                     overflow hidden
+                    cursor pointer
 
                 li.file-item,
                 li.result-item
-                    border-bottom 1px solid $EpisodeSelectorHover
-                    background $ShowBgColor2
+                    margin-top 2px
+                    margin-bottom 2px
                     text-align left
                     cursor pointer
                     color $SettingsText1
-                    height 46px
+                    height 40px
                     padding-left 40px
                     padding-right 50px
                     font-family $MainFont
                     font-size 15px
+
+                    &:nth-child(odd)
+                        background $ShowBgColor2
 
                     &.disabled
                         cursor not-allowed
@@ -300,15 +340,16 @@
                         filter grayscale(30%)
 
                     a
-                        color $SettingsText1
+                        color $EpisodeListText
                         text-decoration blink
                         width 100%
-                        padding 14px 0
+                        padding 12px 0
                         display block
                         transition all 0.3s
                         overflow hidden
                         white-space nowrap
                         text-overflow ellipsis
+                        margin-left 2px
 
                     &:hover
                         background $EpisodeSelectorHover
@@ -321,7 +362,7 @@
                         transition all 0.3s
                         cursor pointer
                         left calc(100% + 22px)
-                        top -45px
+                        top -42px
 
                         &:hover
                             opacity 1
@@ -331,7 +372,7 @@
 
                     .item-icon
                         position relative
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-style normal
                         font-size 15px
@@ -340,7 +381,7 @@
                         color $SettingsText1
                         opacity 0.7
                         left -25px
-                        top -30px
+                        top -27px
                         transition opacity .3s
 
                         &.torrent-icon:before
@@ -365,7 +406,7 @@
                         font-style normal
                         font-size .9em
                         left calc(100% - 180px)
-                        top -45px
+                        top -42px
                         min-width 100px
                         text-align right
                         display inline-block
@@ -377,13 +418,13 @@
                         font-style normal
                         font-size .9em
                         left calc(100% - 155px)
-                        top -45px
+                        top -42px
                         min-width 70px
                         text-align right
                         display inline-block
 
                 li.result-item a
-                    width calc(100% - 50px)
+                    width calc(100% - 160px)
 
         .onlinesearch-info
             ul
@@ -399,10 +440,9 @@
             position absolute
             color $SettingsText1
             top 5px
-            margin-left 330px
+            margin-left 426px
 
             .collection-paste,
-            .collection-open,
             .collection-import
                 transition all 0.3s
                 cursor pointer
@@ -418,11 +458,6 @@
 
                     &:hover
                         opacity 0.15
-
-            .collection-open
-                position absolute
-                margin-left 5px
-                margin-top 1px
 
             .collection-import-hidden
                 display none

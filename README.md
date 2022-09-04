@@ -17,10 +17,10 @@
   <a href="https://github.com/popcorn-official/popcorn-desktop/actions"><img src="https://img.shields.io/github/workflow/status/popcorn-official/popcorn-desktop/CI?label=latest%20build"></a>
   <a href="https://david-dm.org/popcorn-official/popcorn-desktop"><img src="https://img.shields.io/david/popcorn-official/popcorn-desktop?label=deps"></a><br>
   <a href="https://popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorntime.app"></a>
-  <a href="https://ci.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=ci.popcorntime.app&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fci.popcorntime.app"></a>
-  <a href="https://blog.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=blog&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fblog.popcorntime.app"></a>
   <a href="https://www.reddit.com/r/PopCornTimeApp"><img src="https://img.shields.io/reddit/subreddit-subscribers/PopCornTimeApp?color=e84722&label=reddit&style=flat"></a>
   <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=forum&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fdiscuss.popcorntime.app"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/wiki/"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=wiki&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fgithub.com%2Fpopcorn-official%2Fpopcorn-desktop%2Fwiki%2F"></a>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/wiki/FAQ"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=faq&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fgithub.com%2Fpopcorn-official%2Fpopcorn-desktop%2Fwiki%2FFAQ"></a>
 
 <h4 align="center">Visit the project's website at <a href="https://popcorntime.app">popcorntime.app</a></h4>
 
@@ -46,7 +46,7 @@ Easily install Popcorn Time via _[Homebrew](https://brew.sh) ([Cask](https://doc
   brew install --cask popcorn-time #--no-quarantine
   ~~~
 
-By default, this will build the app from source using the latest version of [NW.js](https://nwjs.io) on macOS 10.12 (Monterey) or later, else revert to the [latest](https://github.com/popcorn-official/popcorn-desktop/releases/latest) stable build on previous versions of macOS. This behaviour can also be forced by `export`ing a `HOMEBREW_POPCORN_TIME_BUILD=false` [environment variable](https://en.wikipedia.org/wiki/Environment_variable), for example in `~/.bashrc` or `~/.zshrc`.
+By default, this will build the app from source using the latest version of [NW.js](https://nwjs.io) on macOS 12.x (Monterey) or later, else revert to the [latest](https://github.com/popcorn-official/popcorn-desktop/releases/latest) stable build on previous versions of macOS. This behaviour can also be forced by `export`ing a `HOMEBREW_POPCORN_TIME_BUILD=false` [environment variable](https://en.wikipedia.org/wiki/Environment_variable), for example in `~/.bashrc` or `~/.zshrc`.
 
 Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usage), you can add something like this:
   ~~~ rb
@@ -55,9 +55,6 @@ Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usa
   #ENV["HOMEBREW_POPCORN_TIME_BUILD"] = "false"
   cask "popcorn-time" #, args: { "no-quarantine": true }
   ~~~
-
-Update from _zip_ file:  
-  * Unpack the contents of the zip file. This should leave you with a file named `update.tar`. Unpacking the .tar file should get you a folder named `Content`. Navigate to your `Application` folder, right click on Popcorn Time and press `Show Package Content` then replace the `Content` folder there with the `Content` folder from the `update.zip`
 
 
 ### Linux - Debian/Ubuntu based distros:
@@ -73,15 +70,15 @@ Via .deb package:
 Via archive and command line (tested on ubuntu 18.04 and 20.04):
   1. Download Popcorn Time archive:  
       * For the **latest release**:  
-      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.8-linux64.zip`  
+      `wget -c https://get.popcorntime.app/repo/build/Popcorn-Time-0.4.9-linux64.zip`  
   _if eventually you get issue with popcorntime.app website you can try to download from the github repo  
-  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.8/Popcorn-Time-0.4.8-linux64.zip`_
+  `wget -c https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.4.9/Popcorn-Time-0.4.9-linux64.zip`_
   2. Create popcorn-time folder in /opt/:  
   `sudo mkdir /opt/popcorn-time`  
   3. Install unzip && dependencies (they should not be always required but some users needed them to make Popcorn Time working):  
   `sudo apt update && sudo apt install unzip libcanberra-gtk-module libgconf-2-4 libatomic1`  
   4. Extract the zip in /opt/popcorn-time:  
-  `sudo unzip Popcorn-Time-0.4.8-linux64.zip -d /opt/popcorn-time`  
+  `sudo unzip Popcorn-Time-0.4.9-linux64.zip -d /opt/popcorn-time`  
   5. Create symlink of Popcorn-Time in /usr/bin:  
   `sudo ln -sf /opt/popcorn-time/Popcorn-Time /usr/bin/popcorn-time`  
   6. Create .desktop file (so the launcher):  
@@ -142,7 +139,7 @@ You can also join our [community](README.md#community) to keep up-to-date and me
 <a name="community"></a>
 ## Community
 Keep track of Popcorn Time development and community activity.
-  * Read and subscribe to [The Official Popcorn Time Blog](https://blog.popcorntime.app/).
+  * Read and contribute to the official [Popcorn Time Wiki](https://github.com/popcorn-official/popcorn-desktop/wiki/).
   * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTimeApp](https://www.reddit.com/r/PopcornTimeApp).
 
 

@@ -25,9 +25,9 @@
             'click .close-icon': 'closeDetails',
             'click .tab-season': 'clickSeason',
             'click .tab-episode': 'clickEpisode',
-            'click .shmi-year': 'openRelInfo',
-            'click .shmi-imdb': 'openIMDb',
-            'click .shmi-tmdb-link': 'openTmdb',
+            'mousedown .shmi-year': 'openRelInfo',
+            'mousedown .shmi-imdb': 'openIMDb',
+            'mousedown .shmi-tmdb-link': 'openTmdb',
             'mousedown .magnet-icon': 'openMagnet',
             'mousedown .source-icon': 'openSource',
             'dblclick .tab-episode': 'dblclickEpisode',
@@ -35,6 +35,7 @@
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
             'mousedown .shp-img': 'clickPoster',
+            'mousedown .shm-title, .sdoi-title, .episodeData div': 'copytoclip',
             'click .playerchoicehelp': 'showPlayerList'
         },
 
@@ -392,12 +393,12 @@
                 });
         },
 
-        openRelInfo: function () {
-            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo');
+        openRelInfo: function (e) {
+            Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id') + '/releaseinfo', i18n.__('release info link'));
         },
 
-        openIMDb: function () {
-            nw.Shell.openExternal('https://www.imdb.com/title/' + this.model.get('imdb_id'));
+        openIMDb: function (e) {
+            Common.openOrClipboardLink(e, 'https://www.imdb.com/title/' + this.model.get('imdb_id'), i18n.__('IMDb page link'));
         },
 
         openMagnet: function (e) {
@@ -408,7 +409,9 @@
 
         openSource: function (e) {
             var torrentUrl = $('.startStreaming').attr('data-source');
-            Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+            if (torrentUrl) {
+                Common.openOrClipboardLink(e, torrentUrl, i18n.__('source link'));
+            }
         },
 
         openTmdb: function(e) {
@@ -438,7 +441,7 @@
 
             if (tmdb) {
                 let tmdbLink = 'https://www.themoviedb.org/tv/' + tmdb + '/edit?language=' + Settings.language;
-                Common.openOrClipboardLink(e, tmdbLink, i18n.__('TMDB link'));
+                Common.openOrClipboardLink(e, tmdbLink, i18n.__('submit metadata & translations link'));
             } else {
                 $('.shmi-tmdb-link').addClass('disabled').prop('disabled', true).attr('title', i18n.__('Not available')).tooltip('hide').tooltip('fixTitle');
             }
@@ -921,6 +924,8 @@
             }
         },
 
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className ? i18n.__($(e.target)[0].className.replace('shm-', '').replace('sdoi-', 'episode ')) : i18n.__('episode title')), true),
+
         retrieveTorrentHealth: function(cb) {
             const torrentURL = $('.startStreaming').attr('data-torrent');
             return Common.retrieveTorrentHealth(torrentURL, cb);
@@ -945,7 +950,7 @@
                 this.icons.getLink(showProvider, provider)
                     .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
                     .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
-                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')">`));
+                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')" onload="this.onerror=null; this.onload=null;">`));
                 $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
                 $('.source-icon').html('');

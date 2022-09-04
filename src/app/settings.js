@@ -101,6 +101,7 @@ Settings.lastTab = '';
 Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
+Settings.favoritesTabEnable = true;
 Settings.coversShowRating = true;
 Settings.showSeedboxOnDlInit = true;
 Settings.expandedSearch = false;
@@ -118,6 +119,7 @@ Settings.bigPicture = 100;
 Settings.nativeWindowFrame = nw.App.manifest.window.frame;
 Settings.alwaysOnTop = false;
 Settings.minimizeToTray = false;
+Settings.events = true;
 Settings.ratingStars = true;
 Settings.showAdvancedSettings = true;
 
@@ -125,7 +127,7 @@ Settings.showAdvancedSettings = true;
 Settings.language = '';
 Settings.contentLanguage = '';
 Settings.contentLangOnly = false;
-Settings.translateTitle = 'translated-origin';
+Settings.translateTitle = 'translated';
 Settings.translateEpisodes = true;
 Settings.translateSynopsis = true;
 Settings.translatePosters = true;
@@ -167,6 +169,7 @@ Settings.enableThepiratebaySearch = true;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
 Settings.enableTgxtorrentSearch = true;
+Settings.enableNyaaSearch = true;
 Settings.activateSeedbox = true;
 Settings.activateTempf = true;
 
@@ -180,6 +183,7 @@ Settings.httpApiPassword = 'popcorn';
 Settings.customMoviesServer = '';
 Settings.customSeriesServer = '';
 Settings.customAnimeServer = '';
+Settings.dhtEnable = '';
 
 // Connection
 Settings.maxActiveTorrents = 5;
@@ -205,10 +209,9 @@ Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
 // Database
 Settings.databaseLocation = path.join(data_path, 'data');
 
-// Miscellaneous
+// Updates
+Settings.updateNotification = true;
 Settings.automaticUpdating = '';
-Settings.dhtEnable = '';
-Settings.events = true;
 
 // App Settings
 Settings.version = false;

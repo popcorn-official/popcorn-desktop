@@ -44,7 +44,7 @@
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
       'click #cancel-button-vpn': 'cancelStreamingVPN',
-      'click .open-button': 'openItem',
+      'dblclick .text_filename': 'openItem',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
       'click .play': 'resumeStreaming',
@@ -64,7 +64,7 @@
       App.vent.trigger('settings:close');
       App.vent.trigger('about:close');
       $('.button:not(#download-torrent), .show-details .sdo-watch, .sdow-watchnow, .show-details #download-torrent, .file-item, .file-item a, .result-item, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row').addClass('disabled');
-      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
+      $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
       // If a child was removed from above this view
       App.vent.on('viewstack:pop', function() {
         if (_.last(App.ViewStack) === that.className) {
@@ -131,7 +131,9 @@
         $('.loading').css({'height': '0', 'width': '0'});
         this.ui.minimizeIcon.hide();
         this.ui.maximizeIcon.show();
-        $('.filter-bar').show();
+        if (!App.ViewStack.includes('settings-container-contain')) {
+          $('.filter-bar').show();
+        }
         Mousetrap.bind(['esc', 'backspace'], function(e) {
           App.vent.trigger('show:closeDetail');
           App.vent.trigger('movie:closeDetail');
@@ -156,7 +158,7 @@
       $('#header').addClass('header-shadow');
       App.LoadingView = this;
       this.initKeyboardShortcuts();
-      $('.minimize-icon,#maxic,.open-button,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
+      $('.minimize-icon,#maxic,.title,.text_filename,.text_streamurl,.show-pcontrols,.magnet-icon').tooltip({
         html: true,
         delay: {
           'show': 800,
@@ -203,7 +205,7 @@
           this.ui.playingbar.css('width', '0%');
           this.ui.cancel_button.css('visibility', 'visible');
           if (Settings.activateLoCtrl === true) {
-            $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').attr('data-original-title', i18n.__('Hide playback controls'));
+            $('.show-pcontrols').removeClass('fa-caret-down').addClass('fa-caret-up').attr('data-original-title', i18n.__('Hide playback controls'));
             this.ui.cancel_button.css('display', 'none');
             this.ui.controls.css('display', 'block');
             this.ui.playingbarBox.css('display', 'block');
@@ -318,13 +320,13 @@
     showpcontrols: function (e) {
       if (Settings.activateLoCtrl === false) {
         AdvSettings.set('activateLoCtrl', true);
-        $('.show-pcontrols').removeClass('fa-angle-down').addClass('fa-angle-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
+        $('.show-pcontrols').removeClass('fa-caret-down').addClass('fa-caret-up').tooltip('hide').attr('data-original-title', i18n.__('Hide playback controls'));
         this.ui.cancel_button.css('display', 'none');
         this.ui.controls.css('display', 'block');
         this.ui.playingbarBox.css('display', 'block');
       } else if (Settings.activateLoCtrl === true) {
         AdvSettings.set('activateLoCtrl', false);
-        $('.show-pcontrols').removeClass('fa-angle-up').addClass('fa-angle-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
+        $('.show-pcontrols').removeClass('fa-caret-up').addClass('fa-caret-down').tooltip('hide').attr('data-original-title', i18n.__('Show playback controls'));
         this.ui.cancel_button.css('display', 'block');
         this.ui.controls.css('display', 'none');
         this.ui.playingbarBox.css('display', 'none');
@@ -435,7 +437,7 @@
     onBeforeDestroy: function() {
       $('.filter-bar').show();
       $('#header').removeClass('header-shadow');
-      $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
+      $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
       Mousetrap.bind(['esc', 'backspace'], function(e) {
         App.vent.trigger('show:closeDetail');
         App.vent.trigger('movie:closeDetail');

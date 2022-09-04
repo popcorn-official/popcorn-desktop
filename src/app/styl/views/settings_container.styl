@@ -286,7 +286,30 @@
                         position relative
                         top 2px
 
-        #apiserver
+                .syncOpensubtitles,
+                .createOpensubtitles
+                    color $ButtonBgActive
+
+                    &:hover
+                        color $ButtonBgHover
+
+        #remote-control
+            .content
+                .qr-code
+                    font-size 15px
+                    margin-left 158px
+                    vertical-align middle
+                    cursor pointer
+                    transition all .5s
+
+                    &:hover
+                        color $ButtonBgActive
+
+                #settingsIpAddr, #httpApiPort, #httpApiUsername, #httpApiPassword
+                    width 166px
+
+        #apiserver,
+        #miscellaneous
             input
                 text-overflow ellipsis
 
@@ -384,12 +407,28 @@
         #database
             .open-database-folder
                 font-size: 16px
-                margin-left: 10px
+                margin-left: 6px
                 transition: all .5s
                 &:hover
                     cursor: pointer
                     color: $ButtonBgActive
                     transition: all .5s
+
+            .import-db
+                margin-left: 7px
+                padding: 0 1px
+                cursor: pointer
+                transition: all .5s
+                &:hover
+                    color: $ButtonBgActive
+
+            .export-database
+                margin-left: 1px
+                padding: 0 1px
+                cursor: pointer
+                transition: all .5s
+                &:hover
+                    color: $ButtonBgActive
 
         .set-current-filter,
         .reset-current-filter,
@@ -422,7 +461,7 @@
             &.database
                 float left
                 padding-top 0
-                padding-bottom 13px
+                padding-bottom 8px
 
         .btn-settings
             position relative
@@ -598,7 +637,7 @@
     .settings-label
         &:before
             content: '\f0c8'
-            font-family: "Font Awesome 5 Free"
+            font-family: "Font Awesome 6 Free"
             font-weight: 900
             font-size: 18px
             padding-right: 8px
@@ -607,7 +646,7 @@
             color: $CheckboxBg
         &:after
             content: '\f00c'
-            font-family: "Font Awesome 5 Free"
+            font-family: "Font Awesome 6 Free"
             font-weight: 900
             font-size: 12px
             margin-right: -14px

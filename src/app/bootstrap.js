@@ -29,6 +29,7 @@
         script.src = 'lib/providers/' + file;
 
         script.onload = function() {
+          this.onload = null;
           win.info('loaded', file);
           q.resolve(file);
         };

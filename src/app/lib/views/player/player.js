@@ -30,9 +30,10 @@
             'click .playnownextNOT': 'playNextNot',
             'click .verifmetaTRUE': 'verifyMetadata',
             'click .verifmetaFALSE': 'wrongMetadata',
-            'click .vjs-subtitles-button': 'toggleSubtitles',
+            'mousedown .vjs-subtitles-button': 'toggleSubtitles',
             'click .vjs-text-track': 'moveSubtitles',
             'mousedown .eye-info-player': 'filenametoclip',
+            'mousedown .copytoclip': 'copytoclip',
             'click .minimize-icon': 'minDetails',
             'click .maximize-icon': 'minDetails',
             'click #max_play_ctrl': 'maxPlayCtrl',
@@ -321,6 +322,8 @@
             }
         },
 
+        copytoclip: (e) => Common.openOrClipboardLink(e, e.target.textContent.replace(' - Trailer', ''), i18n.__($(e.target).data('copy')), true),
+
         onPlayerReady: function () {
             win.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
 
@@ -438,7 +441,7 @@
             var that = this;
 
             $('.button:not(#download-torrent), .show-details .sdo-watch, .sdow-watchnow, .show-details #download-torrent, .file-item, .file-item a, .result-item, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row').addClass('disabled');
-            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
+            $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
 
             // Double Click to toggle Fullscreen
             $('#video_player, .state-info-player').dblclick(function (event) {
@@ -1194,7 +1197,11 @@
             $('.vjs-fullscreen-control').click();
         },
 
-        toggleSubtitles: function () {},
+        toggleSubtitles: function (e) {
+            if (e.button === 2) {
+                nw.Shell.openExternal('https://www.opensubtitles.org/search/' + (this.model.get('imdb_id') ? this.model.get('imdb_id').replace('tt', 'imdbid-') : ''));
+            }
+        },
 
         moveSubtitles: function (e) {
             AdvSettings.set('playerSubPosition', $('.vjs-text-track').css('top'));
@@ -1256,7 +1263,7 @@
             if (this.inFullscreen && !win.isFullscreen) {
                 $('.btn-os.fullscreen').removeClass('active');
             }
-            $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
+            $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
             this.unbindKeyboardShortcuts();
             Mousetrap.bind('ctrl+v', function (e) {
             });

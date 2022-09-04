@@ -2,7 +2,9 @@
     'use strict';
 
     var clipboard = nw.Clipboard.get(),
-        collection = path.join(data_path + '/TorrentCollection/'),
+        collection = path.join(App.settings['databaseLocation'] + '/TorrentCollection/'),
+        curitems,
+        curprovider,
         hidetooltps;
 
     var TorrentCollection = Marionette.View.extend({
@@ -12,11 +14,12 @@
         events: {
             'click .file-item a': 'openFileSelector',
             'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
-            'click .result-item': 'onlineOpen',
-            'contextmenu .result-item > *': 'openMagnet',
+            'click .result-item > *:not(.item-icon)': 'onlineOpen',
+            'contextmenu .result-item > *:not(.item-icon)': 'openMagnet',
+            'mousedown .result-item .item-icon img': 'openSource',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
-            'click .magnet-icon': 'openMagnet',
+            'click .file-item .magnet-icon': 'openMagnet',
             'click .torrent-icon': 'openTorrent',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
@@ -29,7 +32,14 @@
             'change #enableThepiratebaySearch': 'toggleThepiratebay',
             'change #enable1337xSearch': 'toggle1337x',
             'change #enableRarbgSearch': 'toggleRarbg',
-            'change #enableTgxtorrentSearch': 'toggleTgxtorrent'
+            'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
+            'change #enableNyaaSearch': 'toggleNyaa',
+            'contextmenu .online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL': 'onlineFilter',
+            'change .online-categories select': 'setCategory',
+        },
+
+        ui: {
+            spinner: '.spinner'
         },
 
         initialize: function () {
@@ -48,6 +58,9 @@
         },
 
         onRender: function () {
+            if (typeof (this.ui.spinner) === 'object') {
+                this.ui.spinner.hide();
+            }
             $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
@@ -63,6 +76,7 @@
             clearTimeout(hidetooltps);
 
             this.$('.tooltipped').tooltip({
+                html: true,
                 delay: {
                     'show': 800,
                     'hide': 100
@@ -100,11 +114,21 @@
             AdvSettings.set('enableTgxtorrentSearch', !Settings.enableTgxtorrentSearch);
         },
 
+        toggleNyaa: function () {
+            AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
+        },
+
+        setCategory: function () {
+            var category = $('.online-categories > select').val();
+            AdvSettings.set('OnlineSearchCategory', category);
+        },
+
         onlineSearch: function (e, retry) {
             if (e) {
                 e.preventDefault();
             }
             var that = this;
+            that.curitems = '';
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
@@ -120,11 +144,9 @@
                 return;
             }
 
-            $('.togglesengines').css('visibility', 'hidden');
-            $('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
-            $('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL').attr('title', '0 results').tooltip('fixTitle');
-            $('.onlinesearch-info').hide();
-            $('.onlinesearch-info>ul.file-list').html('');
+            this.ui.spinner.show();
+            that.$('.online-search').addClass('active');
+            that.$('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL').attr('title', '0 results').tooltip('fixTitle');
 
             clearTimeout(hidetooltps);
 
@@ -150,6 +172,7 @@
                                     provider: 'thepiratebay.org',
                                     icon: 'tpb',
                                     title: item.title,
+                                    url: item.url,
                                     magnet: item.magnet,
                                     seeds: item.seed,
                                     peers: item.leech,
@@ -187,6 +210,7 @@
                                     provider: '1337x.to',
                                     icon: 'T1337x',
                                     title: item.Name,
+                                    url: item.Url,
                                     magnet: item.Magnet,
                                     seeds: item.Seeders,
                                     peers: item.Leechers,
@@ -224,6 +248,7 @@
                                     provider: 'rarbg.to',
                                     icon: 'rarbg',
                                     title: item.title,
+                                    url: item.info_page,
                                     magnet: item.download,
                                     seeds: item.seeders,
                                     peers: item.leechers,
@@ -261,6 +286,7 @@
                                     provider: 'torrentgalaxy.to',
                                     icon: 'TorrentGalaxy',
                                     title: item.title,
+                                    url: item.url,
                                     magnet: item.magnet,
                                     seeds: item.seed,
                                     peers: item.leech,
@@ -272,6 +298,44 @@
                             });
                         }).catch(function (err) {
                             console.error('TorrentGalaxy search:', err);
+                            resolve(results);
+                        });
+                    });
+                }
+            };
+
+            var nyaaSI = function () {
+                if (Settings.enableNyaaSearch) {
+                    return new Promise(function (resolve) {
+                        const results = [];
+                        setTimeout(function () {
+                            resolve(results);
+                        }, 6000);
+                        const nyaa = torrentCollection.nyaa;
+                        nyaa.search({
+                            query: input,
+                            category: category,
+                            sort: 'seeders',
+                            verified: false
+                        }).then(function (data) {
+                            $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
+                            data.torrents.forEach(function (item) {
+                                const itemModel = {
+                                    provider: 'nyaa.si',
+                                    icon: 'nyaa',
+                                    title: item.Name,
+                                    url: item.Url,
+                                    magnet: item.Magnet,
+                                    seeds: item.Seeders,
+                                    peers: item.Leechers,
+                                    size: item.Size,
+                                    index: index
+                                };
+                                results.push(itemModel);
+                                index++;
+                            });
+                        }).catch(function (err) {
+                            console.error('Nyaa search:', err);
                             resolve(results);
                         });
                     });
@@ -297,29 +361,32 @@
                 });
             };
 
-            $('.notorrents-info,.torrents-info').hide();
             return Promise.all([
                 piratebay(),
                 leetx(),
                 rarbg(),
                 torrentgalaxy(),
+                nyaaSI(),
             ]).then(function (results) {
                 var items = removeDupesAndSort(results);
+                that.curitems = items;
                 console.log('Search Providers: %d results', items.length);
-                $('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
+                that.$('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
                 hidetooltps = setTimeout(function() {
                     $('.tooltip').tooltip('hide');
                 }, 2000);
 
+                $('.onlinesearch-info').scrollTop(0).hide();
+                $('.onlinesearch-info>ul.file-list').html('');
+                $('.notorrents-info,.torrents-info').hide();
+                that.ui.spinner.hide();
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
-                        $('.result-item, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
+                        $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
-                    $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.togglesengines').css('visibility', 'visible');
                     $('.onlinesearch-info').show();
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
@@ -335,24 +402,57 @@
             });
         },
 
-        onlineAddItem: function (item) {
-            $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
-                    '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.parentElement.innerHTML=`&#xf076`"></div>'+
-                    '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
-                    '<div class="online-size">'+item.size+'</div>'+
-                '</li>'
-            );
+        onlineAddItem: function (item, provider) {
+            if (!provider || item.provider === provider) {
+                $('.onlinesearch-info>ul.file-list').append(
+                    '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '" data-source="' + item.url + '">'+
+                        '<a>' + item.title + '</a>'+
+                        '<div class="item-icon magnet-icon tooltipped" data-toggle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png"></div>'+
+                        '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
+                        '<div class="online-size">'+item.size+'</div>'+
+                    '</li>'
+                );
+            }
+        },
+
+        onlineFilter: function (e) {
+            var that = this;
+            var provider = e.target.classList.contains('providerIcon') ? e.target.parentNode.textContent : e.target.textContent;
+            if (!that.curitems || that.curprovider === provider) {
+                return;
+            }
+            that.curprovider = provider;
+            $('.onlinesearch-info>ul.file-list').html('');
+            $('.onlinesearch-info').scrollTop(0);
+            return Promise.all(that.curitems.map(function (item) {
+                that.onlineAddItem(item, provider);
+            })).then(function () {
+                if ($('.loading .maximize-icon').is(':visible')) {
+                    $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
+                }
+                if ($('.onlinesearch-info>ul.file-list').html() === '') {
+                    $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
+                }
+                that.$('.tooltipped').tooltip({
+                    html: true,
+                    delay: {
+                        'show': 50,
+                        'hide': 50
+                    }
+                });
+            });
         },
 
         onlineOpen: function (e) {
-            var file = e.currentTarget.dataset.file;
+            var file = e.currentTarget.parentNode.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
 
         onlineClose: function () {
+            this.curitems = '';
+            this.curprovider = '';
+            $('.online-search').removeClass('active');
             $('.onlinesearch-info>ul.file-list').html('');
             $('.onlinesearch-info').hide();
             this.render();
@@ -432,12 +532,30 @@
             this.$('.tooltip').css('display', 'none');
             e.preventDefault();
             e.stopPropagation();
-            var torrentFile;
             if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
-                var _file = e.currentTarget.parentNode.innerText,
-                    torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
+                let _file = e.currentTarget.parentNode.innerText;
+                let torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
+                Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
             }
-            Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
+        },
+
+        openSource: function(e) {
+            this.$('.tooltip').css('display', 'none');
+            e.preventDefault();
+            e.stopPropagation();
+            var sourceLink;
+            if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
+                // stored
+                var _file = e.currentTarget.parentNode.innerText,
+                    file = _file.substring(0, _file.length - 2); // avoid ENOENT
+                sourceLink = fs.readFileSync(collection + file, 'utf8');
+            } else {
+                // search result
+                sourceLink = e.currentTarget.parentNode.parentNode.attributes['data-source'].value;
+            }
+            if (sourceLink) {
+                Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
+            }
         },
 
         deleteItem: function (e) {

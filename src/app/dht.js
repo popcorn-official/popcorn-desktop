@@ -97,9 +97,9 @@ class DhtReader {
         if (e) {
             let tmpclass = e === 'success' ? 'valid-tick' : 'invalid-cross';
             $('.update-dht').removeClass('fa-spin fa-spinner').addClass(tmpclass);
-            setTimeout(function() { $('.update-dht').removeClass(tmpclass).addClass('fa-redo');}, 6000);
+            setTimeout(function() { $('.update-dht').removeClass(tmpclass).addClass('fa-rotate');}, 6000);
         } else {
-            $('.update-dht').removeClass('fa-redo').removeClass('valid-tick').removeClass('invalid-cross').addClass('fa-spin fa-spinner');
+            $('.update-dht').removeClass('fa-rotate valid-tick invalid-cross').addClass('fa-spin fa-spinner');
         }
     }
 

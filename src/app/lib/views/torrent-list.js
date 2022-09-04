@@ -5,16 +5,19 @@
         template: '#torrent-list-tpl',
         ui: {
         },
+
         events: {
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
             'contextmenu .item-row td:not(.provider)': 'copyMagnet',
         },
+
         initialize: function() {
             this.model.set('torrents', []);
             this.icons = App.Providers.get('Icons');
         },
+
         onAttach: function () {
             this.model.set('torrents', []);
             this.model.get('promise').then((data) => this.updateTorrents(data));
@@ -51,7 +54,9 @@
 
         openSource: function(e) {
             const torrent = this.getTorrent(e.target);
-            Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+            if (torrent.source) {
+                Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+            }
         },
 
         copyMagnet: function(e) {
@@ -67,7 +72,7 @@
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
                 title: this.model.get('select') && !download ? null : torrent.title,
-                defaultSubtitle: $("#subs-dropdown .selected-lang")[0] ? $("#subs-dropdown .selected-lang")[0].classList[$("#subs-dropdown .selected-lang")[0].classList.length - 1] : Settings.subtitle_language,
+                defaultSubtitle: $('#subs-dropdown .selected-lang')[0] ? $('#subs-dropdown .selected-lang')[0].classList[$('#subs-dropdown .selected-lang')[0].classList.length - 1] : Settings.subtitle_language,
                 imdb_id: $('.list .items .item.selected')[0] ? $('.list .items .item.selected')[0].dataset.imdbId : null,
                 season: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-season'].value : null,
                 episode: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-episode'].value : null,

@@ -43,7 +43,7 @@
                       color: $ShowWatchedIcon_false
                       transition color .5s
                       font-size: 0.9em
-                      font-family: "Font Awesome 5 Free", $MainFont
+                      font-family: $MainFont, "Font Awesome 6 Free"
 
                       &.true
                           color: $ShowWatchedIcon_true
@@ -239,6 +239,7 @@
                       .magnet-icon
                           font-size: 13px
                           color: #DDD
+                          margin-right: 2px
 
                           &:hover
                               color: #FFF
@@ -258,17 +259,17 @@
 
                       i
                           margin-right: 5px
-                          font-family: "Font Awesome 5 Free", $MainFont
+                          font-family: $MainFont, "Font Awesome 6 Free"
 
                   .seedbox-infos-synopsis
                       color: $ShowText1
                       font-size: 13px
                       line-height: 18px
                       text-align: justify
-                      margin-top: 10px
+                      margin-top: 14px
                       margin-left: -18px
                       padding: 4px 15px 5px 0
-                      height: calc(100vh - 334px)
+                      height: calc(100vh - 338px)
                       scrollable()
 
                       ul
@@ -276,35 +277,25 @@
 
                           li.file-item,
                           li.result-item
-                              border-bottom 1px solid rgba(255, 255, 255, 0)
                               background $FileSelectorBg
                               text-align left
                               cursor pointer
                               color $FileSelectorText
-                              height 46px
+                              height 42px
                               padding-left 34px
-                              padding-top 14px
+                              padding-top 12px
                               padding-right 50px
                               margin-right -2px
 
                               &:hover
                                   backdrop-filter contrast(80%)
-                                  border-bottom 1px solid rgba(255, 255, 255, 0)
 
                               &.unselected
                                   opacity 0.3
                                   background none
-                                  border-bottom 1px solid rgba(255, 255, 255, 0.1)
 
                                   &:hover
-                                      opacity 0.6
-                                      border-bottom 1px solid rgba(255, 255, 255, 0.04)
-
-                                      &:last-child
-                                          border-bottom 1px solid rgba(255, 255, 255, 0)
-
-                                  &:last-child
-                                      border-bottom 1px solid rgba(255, 255, 255, 0)
+                                      opacity 0.4
 
                                   .filesize
                                       color rgba($FileSelectorText, 0.6)
@@ -344,7 +335,7 @@
                                   color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
-                                  top -17px
+                                  top -18px
 
                                   &:hover
                                       color $CloseButtonHover
@@ -361,7 +352,7 @@
 
                               .item-icon
                                   position relative
-                                  font-family "Font Awesome 5 Free"
+                                  font-family "Font Awesome 6 Free"
                                   font-weight: 900
                                   font-style normal
                                   font-size 15px

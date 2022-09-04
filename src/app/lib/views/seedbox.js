@@ -12,7 +12,7 @@
     const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
 
     var formatBytes = function (bytes, decimals) {
-        if (bytes === 0) {
+        if (!bytes || bytes < 1) {
             return '0 B';
         }
         let k = 1024,
@@ -34,6 +34,7 @@
             'click .trash-torrent': 'onRemoveTorrentClicked',
             'click .tab-torrent': 'clickTorrent',
             'dblclick .file-item': 'openItem',
+            'mousedown .seedbox-infos-title, .file-item a, .episodeData div': 'copytoclip',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'click .item-remove': 'removeItem'
@@ -103,7 +104,7 @@
                     </span>
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}">0 Kb/s</i>
+                <i class="fa fa-download watched" id="download-${torrent.infoHash}" style="margin-right:6px">0 Kb/s</i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}">0 Kb/s</i>
                 <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left" style="margin-left: 14px;"></i>
               </li>`
@@ -156,14 +157,12 @@
             // completely pause this torrent, stop download data (pause only stops new connections)
             const removedPeers = [];
             for (const id in torrent._peers) {
-                if (torrent._peers.hasOwnProperty(id)) {
-                    // collect peers, need to do this before calling removePeer!
+                if (torrent._peers[id] && torrent._peers[id].addr) {
                     removedPeers.push(torrent._peers[id].addr);
                     torrent.removePeer(id);
                 }
             }
-            if(removedPeers.length > 0) {
-                // store removed peers, so we can re-add them when resuming
+            if (removedPeers.length > 0) {
                 torrent.pctRemovedPeers = removedPeers;
             }
             torrent._xsRequests.forEach(req => {
@@ -192,7 +191,9 @@
                     const peers = torrent.pctRemovedPeers;
                     torrent.pctRemovedPeers = undefined;
                     for (let peer of peers) {
-                        torrent.addPeer(peer);
+                        if (peer) {
+                            torrent.addPeer(peer);
+                        }
                     }
                 }
             }
@@ -268,6 +269,8 @@
             this.updateView($(e.currentTarget), true /*wasJustSelected*/);
         },
 
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className || $(e.target)[0].id ? i18n.__('title') : i18n.__('filename')), true),
+
         openItem: function (e) {
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
             const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
@@ -282,6 +285,7 @@
             const oldScroll = $('.seedbox-infos-synopsis').scrollTop();
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
             const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+            const isPaused = thisTorrent.paused;
             var torrentStart = new Backbone.Model({
                 torrent: thisTorrent.magnetURI,
                 title: thisTorrent.name,
@@ -289,7 +293,7 @@
                 device: App.Device.Collection.selected,
                 file_name: e.target.parentNode.childNodes[1].innerHTML
             });
-            if (thisTorrent.paused) {
+            if (thisTorrent.paused && target.hasClass('item-play')) {
                 $('#resume-'+hash).show();
                 $('#play-'+hash).hide();
             }
@@ -302,6 +306,8 @@
                 if (target.hasClass('item-play')) {
                     $('#trash-'+hash).addClass('disabled').prop('disabled', true);
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+                } else if (isPaused) {
+                    this.pauseTorrent(thisTorrent);
                 }
             }, 100);
             App.vent.trigger('stream:start', torrentStart, target.hasClass('item-play') ? '' : 'downloadOnly' );

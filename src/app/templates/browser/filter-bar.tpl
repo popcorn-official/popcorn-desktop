@@ -8,7 +8,13 @@
     %>
     <li class="source <%= tab.type %>TabShow providerinfo" data-toggle="tooltip" data-placement="bottom" title="<%= providerURL %>"><%= i18n.__(tab.name) %></li>
     <% }); %>
-    <li id="filterbar-favorites" class="source"><%= i18n.__("Favorites") %></li>
+    <% if (Settings.favoritesTabEnable) { %>
+    <li id="filterbar-favorites" class="source" style="display:block">
+    <% } else { %>
+    <li id="filterbar-favorites" class="source" style="display:none">
+    <% } %>
+        <%= i18n.__("Favorites") %>
+    </li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% filters = [
@@ -56,7 +62,7 @@
     <% } else { %>
     <li id="torrent_col" style="display:none">
     <% } %>
-        <i id="filterbar-torrent-collection" class="fa fa-list-ul torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
+        <i id="filterbar-torrent-collection" class="fa fa-bars-staggered torrent-collection tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Torrent Collection") %>"></i>
     </li>
 
     <!-- Seedbox -->
@@ -74,7 +80,7 @@
     <% } else { %>
     <li style="display:none">
     <% } %>
-        <i id="filterbar-tempf" class="fa fa-folder-open about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
+        <i id="filterbar-tempf" class="fa fa-box-archive about tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Cache Folder") %>"></i>
     </li>
 
     <!-- Settings -->

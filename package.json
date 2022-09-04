@@ -11,8 +11,8 @@
   },
   "license": "GPL-3.0",
   "main": "src/app/index.html",
-  "version": "0.4.8",
-  "releaseName": "Who Crossed the Streams?",
+  "version": "0.4.9",
+  "releaseName": "Ogres are not like cakes",
   "scripts": {
     "build": "gulp build",
     "clean": "gulp clean",
@@ -44,7 +44,7 @@
     "butter-provider/yts.js"
   ],
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
+    "@fortawesome/fontawesome-free": "^6.1",
     "@vpnht/sdk": "^1.0.10",
     "adm-zip": "0.4.16",
     "airplayer": "2.0.0",
@@ -90,7 +90,7 @@
     "socks-proxy-agent": "^6.0.0",
     "srt-to-vtt": "^1.1",
     "tar": "4.4.18",
-    "torrentcollection5": "1.0.4",
+    "torrentcollection5": "1.0.6",
     "trakt.tv": "7.x.x",
     "trakt.tv-images": "5.x.x",
     "trakt.tv-matcher": "7.x.x",
@@ -116,6 +116,7 @@
     "gulp-tar": "^2.1.0",
     "gulp-zip": "^4.2.0",
     "guppy-pre-commit": "^0.4.0",
+    "i18n-unused": "^0.8.0",
     "jshint": "^2.9.6",
     "jshint-stylish": "^2.2.1",
     "nib": "^1.1.2",
