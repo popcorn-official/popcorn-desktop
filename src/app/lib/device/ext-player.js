@@ -160,7 +160,7 @@
             var url = streamModel.attributes.src;
             
             // A conditional check to see if VLC was installed via flatpak
-            this.get('path').includes('flatpak') && this.get('path').includes('VLC') ? cmdPath = '/usr/bin/flatpak run org.videolan.VLC ' : cmdPath += path.normalize('"' + this.get('path') + '" ');
+            this.get('path').includes('/flatpak/app/org.videolan.VLC/') ? cmdPath = '/usr/bin/flatpak run org.videolan.VLC ' : cmdPath += path.normalize('"' + this.get('path') + '" ');
             
             cmdSwitch += getPlayerSwitches(this.get('id')) + ' ';
 
