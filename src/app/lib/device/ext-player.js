@@ -158,7 +158,10 @@
             // "" So it behaves when spaces in path
             var cmd = '', cmdPath = '', cmdSwitch = '', cmdSub = '', cmdFs = '', cmdFilename = '', cmdUrl = '';
             var url = streamModel.attributes.src;
-            cmdPath += path.normalize('"' + this.get('path') + '" ');
+            
+            // A conditional check to see if VLC was installed via flatpak
+            this.get('path').includes('flatpak') && this.get('path').includes('VLC') ? cmdPath = '/usr/bin/flatpak run org.videolan.VLC ' : cmdPath += path.normalize('"' + this.get('path') + '" ');
+            
             cmdSwitch += getPlayerSwitches(this.get('id')) + ' ';
 
             var subtitle = streamModel.attributes.subFile || '';
@@ -232,6 +235,7 @@
     addPath('/usr/bin');
     addPath('/usr/local/bin');
     addPath('/snap/bin');
+    addPath('/var/lib/flatpak/app/org.videolan.VLC/current/active'); //Fedora Flatpak VLC Dir
     addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
     addPath('/run/current-system/sw/bin'); // NixOS
     // darwin
