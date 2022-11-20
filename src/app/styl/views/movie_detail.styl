@@ -83,6 +83,8 @@
                 top: 15px
                 height: 20px
                 position: relative
+                display: flex
+                flex-wrap: wrap
 
                 .metaitem, .year, .certification, .show-cast, .movie-imdb-link
                     &:hover ~ .tmdb-link
@@ -95,7 +97,6 @@
                     position: relative
                     font-family: $MainFontBold
                     text-stroke: 1px rgba(0,0,0,0.1)
-                    float: left
                     font-smoothing: antialiased
                     max-width: 29%
                     overflow: hidden
@@ -122,7 +123,6 @@
                     position: relative
                     font-family: "Font Awesome 6 Free"
                     text-stroke: 1px rgba(0,0,0,0.1)
-                    float: left
                     font-smoothing: antialiased
                     cursor: pointer
 
@@ -134,7 +134,6 @@
                     position: relative
                     font-family: "Font Awesome 6 Free"
                     text-stroke: 1px rgba(0,0,0,0.1)
-                    float: left
                     font-smoothing: antialiased
                     cursor: pointer
                     opacity: 0
@@ -156,7 +155,6 @@
                     position: relative
                     font-family: $MainFontBold
                     text-stroke: 1px rgba(0,0,0,0.1)
-                    float: left
                     font-smoothing: antialiased
                     cursor: pointer
 
@@ -164,7 +162,6 @@
                     margin-top: -3px
                     padding-top: 3px
                     width: 29px
-                    float: left
                     height: 16px
                     position: relative
                     cursor: pointer
@@ -223,47 +220,48 @@
                             margin-right -1px
                             margin-left 4px
 
-                .health-icon
-                    position: relative
-                    font-size: 14px
-                    float: right
-                    margin-right: 2%
-                    margin-top: -1px
-                    color: #737577
-                    cursor: pointer
-                    &.Bad
-                        color: #d53f3f
-                    &.Medium
-                        color: #ece523
-                    &.Good
-                        color: #a3e147
-                    &.Excellent
-                        color: #2ad942
+                .status-indicators
+                    margin-left: auto
+                    display: flex
+                    flex-direction: row-reverse
 
-                .magnet-link
-                    position: relative
-                    font-size: 13px
-                    float: right
-                    margin-right: 12px
-                    color: #DDD
-                    cursor: pointer
-                    &:hover
-                        color: #FFF
-                        transition: all .5s
+                    &>*:not(:first-child)
+                        margin-right: 1em
 
-                .source-link
-                    position: relative
-                    font-size: 13px
-                    float: right
-                    margin-right: 10px
-                    color: #DDD
-                    cursor: pointer
-                    top: -2px
-                    &:hover
-                        color: #FFF
-                        transition: all .5s
-                    img
-                        height: 16px
+                    .health-icon
+                        position: relative
+                        font-size: 14px
+                        color: #737577
+                        cursor: pointer
+                        &.Bad
+                            color: #d53f3f
+                        &.Medium
+                            color: #ece523
+                        &.Good
+                            color: #a3e147
+                        &.Excellent
+                            color: #2ad942
+
+                    .magnet-link
+                        position: relative
+                        top: 2px
+                        font-size: 13px
+                        color: #DDD
+                        cursor: pointer
+                        &:hover
+                            color: #FFF
+                            transition: all .5s
+
+                    .source-link
+                        position: relative
+                        font-size: 13px
+                        color: #DDD
+                        cursor: pointer
+                        &:hover
+                            color: #FFF
+                            transition: all .5s
+                        img
+                            height: 16px
 
             .overview
                 position: relative
