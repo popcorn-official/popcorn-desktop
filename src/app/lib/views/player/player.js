@@ -782,9 +782,9 @@
         adjustHue: function (difference) {
             this.filters.hue += difference;
             if (this.filters.hue < -180) {
-                this.filters.hue = -180;
+                this.filters.hue += 360;
             } else if (this.filters.hue > 180) {
-                this.filters.hue = 180;
+                this.filters.hue -= 360;
             }
             this.applyFilters();
             this.displayOverlayMsg(i18n.__('Hue') + ': ' + this.filters.hue.toFixed(0));
@@ -807,7 +807,12 @@
             // On some devices, the image turns orange if both hue-rotate() and saturate() are used!
             // So we only add the hue-rotate() filter if requested by the user.
             const hueAdjustment = hue === 0 ? '' : `hue-rotate(${hue}deg)`;
-            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
+            // By default, increasing brightness in HTML5 also visually increases saturation and contrast
+            // To match other players, we reduce contrast and saturation, to keep the other filters steady
+            const deltaB = brightness - 1.0;
+            const finalContrast = contrast - deltaB * 0.333;
+            const finalSaturation = saturation - deltaB * 0.5;
+            curVideo[0].style.filter = `brightness(${brightness}) contrast(${finalContrast}) ${hueAdjustment} saturate(${finalSaturation})`;
         },
 
         bindKeyboardShortcuts: function () {
