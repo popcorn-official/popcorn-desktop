@@ -782,9 +782,9 @@
         adjustHue: function (difference) {
             this.filters.hue += difference;
             if (this.filters.hue < -180) {
-                this.filters.hue = -180;
+                this.filters.hue += 360;
             } else if (this.filters.hue > 180) {
-                this.filters.hue = 180;
+                this.filters.hue -= 360;
             }
             this.applyFilters();
             this.displayOverlayMsg(i18n.__('Hue') + ': ' + this.filters.hue.toFixed(0));
