@@ -21,12 +21,27 @@
         return ((elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
 
+    function getTypeByView(view) {
+        switch (view) {
+            case 'movies':
+                return 'movie';
+            case 'shows':
+                return 'tvshow';
+            case 'anime':
+                return 'anime';
+            default:
+                return '';
+        }
+    }
+
     var ErrorView = Marionette.View.extend({
         template: '#movie-error-tpl',
         ui: {
             retryButton: '.retry-button',
             changeApi: '.change-api',
-            onlineSearch: '.online-search'
+            onlineSearch: '.online-search',
+            updateDht: '.update-dht-btn',
+            serverFail: '.server-fail'
         },
         onBeforeRender: function () {
             this.model.set('error', this.error);
@@ -40,12 +55,16 @@
                     this.ui.onlineSearch.css('visibility', 'visible');
                     this.ui.retryButton.css('visibility', 'visible');
                     this.ui.changeApi.css('visibility', 'visible');
+                    this.ui.updateDht.css('visibility', Settings.dhtEnable ? 'visible' : 'none');
+                    this.ui.serverFail.css('visibility', Settings.dhtEnable ? 'visible' : 'none');
                     this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 case 'Watchlist':
                     this.ui.onlineSearch.css('display', 'none');
                     this.ui.retryButton.css('visibility', 'visible');
                     this.ui.changeApi.css('display', 'none');
+                    this.ui.updateDht.css('display', 'none');
+                    this.ui.serverFail.css('display', 'none');
                     this.ui.onlineSearch.parent().parent().css({'text-align': 'center', 'width': '100%'});
                     break;
                 default:
@@ -97,20 +116,8 @@
             case 'shows':
             case 'anime':
                 if (this.collection.state === 'error') {
-                    var errorURL;
-                    switch (App.currentview) {
-                    case 'movies':
-                        errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
-                        break;
-                    case 'shows':
-                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
-                        break;
-                    case 'anime':
-                        errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
-                        break;
-                    default:
-                        errorURL = '';
-                    }
+                    var type = getTypeByView(App.currentview);
+                    var errorURL = App.Config.getProviderForType(type)[0].apiURL.slice(0);
                     errorURL.forEach(function(e, index) {
                         errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
                     });

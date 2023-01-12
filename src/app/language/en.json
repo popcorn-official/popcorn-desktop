@@ -544,6 +544,8 @@
 	"Seeds": "Seeds",
 	"Peers": "Peers",
 	"less...": "less...",
+	"First try to update servers, if this does not help, then look for a solution on site and forum": "First try to update servers, if this does not help, then look for a solution on site and forum",
+	"Addresses may change, please press update servers and restart after update, before click links": "Addresses may change, please press update servers and restart after update, before click links",
 	"Show a notification when a new version is available": "Show a notification when a new version is available",
 	"New version available !": "New version available !",
 	"Exit %s and download now ?": "Exit %s and download now ?",

@@ -47,6 +47,7 @@
         display: inline-block
 
     .change-api,
+    .update-dht-btn,
     .online-search
         visibility: hidden
         width: auto
@@ -56,3 +57,32 @@
         white-space: nowrap
         position: relative
         display: inline-block
+
+    .server-fail
+        color: $ButtonText
+        margin: 20px auto
+        width: 70%
+
+    .icons_social
+        top 45px
+        position relative
+        left 0
+        right 0
+
+        a
+            width 38px
+            height 38px
+            display inline-block
+            transition opacity .2s ease
+            margin 0 8px
+
+            &:hover
+                opacity .7
+
+        a.site_icon
+            background url(../images/icons/icon-popcorn.png) no-repeat center
+            background-size contain
+
+        a.reddit_icon
+            background url(../images/icons/icon-reddit.png) no-repeat center
+            background-size contain

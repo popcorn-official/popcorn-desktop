@@ -20,6 +20,7 @@
             'click .retry-button': 'onFilterChange',
             'click .online-search': 'onlineSearch',
             'click .change-api': 'changeApi',
+            'click .update-dht-btn': 'updateDht',
             'click #search-more-item': 'onlineSearch',
             'mouseover #search-more-item': 'onlineSearchHov',
             'mouseover #load-more-item': 'onlineSearchHov'
@@ -131,6 +132,10 @@
             }
             App.vent.trigger('settings:show');
             curView ? $(curView).attr('style', 'border: 2px solid !important; animation: fadeBd .5s forwards, fa-beat 0.8s; margin-left: 9px; --fa-beat-scale: 1.2').focus().focusout(function() { this.removeAttribute('style'); }) : null;
+        },
+
+        updateDht: function() {
+            App.DhtReader.update('manual');
         },
 
         onlineSearchHov: function () {
