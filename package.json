@@ -62,7 +62,7 @@
     "dayjs": "^1.10.6",
     "dlnacasts2": "0.2.0",
     "edit-json-file": "^1.4.1",
-    "flag-icon-css": "^3.5.0",
+    "flag-icons": "^3.5.0",
     "i18n": "0.x.x",
     "iconv-lite": "0.x.x",
     "jquery": "^3.5.1",
