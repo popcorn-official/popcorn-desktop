@@ -31,7 +31,6 @@ var _ = require('underscore'),
   http = require('http'),
   request = require('request'),
   // Web
-  querystring = require('querystring'),
   URI = require('urijs'),
   Trakt = require('trakt.tv'),
   // Torrent engines
