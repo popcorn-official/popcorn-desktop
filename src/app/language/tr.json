@@ -399,7 +399,7 @@
     "Enable remote control": "Uzaktan kontrole izin ver",
     "Server": "Sunucu",
     "API Server(s)": "API Sunucusu/ları",
-    "Proxy Server": "Proxy Sunucu",
+    "Proxy Server": "Proxy Sunucusu",
     "Remember to Export your Database before updating in case its necessary to restore your Favorites, marked as watched or settings": "Güncellemeden önce veritabanınızı dışa aktarmayı unutmayın ki, gerektiğinde favorilerinizi, izlendi işaretlemelerinizi veya ayarlarınızı geri aktarabilin.",
     "Update Now": "Şimdi güncelle",
     "Database Exported": "Veritabanı dışa aktarıldı",
