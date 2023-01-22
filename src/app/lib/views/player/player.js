@@ -401,13 +401,13 @@
 
         onPlayerError: function (error) {
             this.sendToTrakt('stop');
-            // TODO: user errors
             if (this.model.get('type') === 'video/youtube') {
-                setTimeout(function () {
-                    App.vent.trigger('player:close');
-                }, 2000);
+                $('.vjs-error-display').hide();
+                var msCatch = document.getElementsByClassName('trailer_mouse_catch')[0];
+                msCatch.style.cursor = 'pointer';
+                msCatch.onmouseup = function (e) { Common.openOrClipboardLink(e, _this.model.get('src'), i18n.__('link')); };
+                msCatch.onclick = function () { _this.closePlayer(); };
             }
-            var videoPlayer = $('#video_player');
         },
 
         metadataCheck: function () {
