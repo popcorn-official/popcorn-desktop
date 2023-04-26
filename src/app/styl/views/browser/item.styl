@@ -13,7 +13,8 @@
 
     .cover
         background-image url(../images/posterholder.png)
-        background-size: 134px 196px
+        background-size: 100%
+        background-position center
         width: 134px
         height: 196px
         border-radius: $PosterRadius
@@ -41,7 +42,7 @@
             &.cover-info-overlay
               padding 88px 0
               background $PosterHoverOverlay
-              border: 2px solid $PosterHoverOverlayOpq
+              border-bottom: 1px solid $PosterHoverOverlayOpq
               border-radius $PosterRadius
 
             .actions-favorites
@@ -132,8 +133,11 @@
             animation: fadeBd 0.5s ease
 
         .cover
+            background-size 103%
+            background-position center
+            transition: all 0.5s ease
             .cover-info-overlay
-                border 2px solid $PosterHoverBorder
+                border-bottom: 1px solid $PosterHoverBorder
                 opacity: 1
                 will-change: transform
     .title
