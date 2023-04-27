@@ -7,7 +7,7 @@
         <i class="fa fa-heart actions-favorites tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
         <i class="fa fa-eye actions-watched tooltipped" data-toggle="tooltip" data-placement="auto bottom" data-delay='{ "show": "800", "hide": "100" }'></i>
 
-        <% if(typeof rating !== 'undefined'){
+        <% if (typeof rating !== 'undefined' && (typeof item_data !== 'undefined' || typeof num_seasons !== 'undefined' || typeof qualityList !== 'undefined')) {
         var p_rating = Math.round(rating) / 2;  %>
             <div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
                 <div class="rating-stars">
@@ -52,4 +52,24 @@
     <p class="seasons quality">
         <%= qualityList %>
     </p>
+<% } else if (typeof rating !== 'undefined') {
+        var p_rating = Math.round(rating) / 2;  %>
+		<div class="seasons">
+			<div class="rating" <% if(Settings.coversShowRating){ %> style="display: block;"<% } %> >
+				<div class="rating-stars">
+					<% for (var i = 1; i <= Math.floor(p_rating); i++) { %>
+						<i class="fa fa-star rating-star"></i>
+					<% }; %>
+					<% if (p_rating % 1 > 0) { %>
+						<span class = "fa-stack rating-star-half-container">
+							<i class="fa fa-star fa-stack-1x rating-star-half-empty"></i>
+							<i class="fa fa-star-half fa-stack-1x rating-star-half"></i>
+						</span>
+					<% }; %>
+					<% for (var i = Math.ceil(p_rating); i < 5; i++) { %>
+						<i class="fa fa-star rating-star-empty"></i>
+					<% }; %>
+				</div>
+			</div>
+		</div>
 <% } %>
