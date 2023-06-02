@@ -89,7 +89,7 @@
     "socks-proxy-agent": "^6.0.0",
     "srt-to-vtt": "^1.1",
     "tar": "4.4.18",
-    "torrentcollection5": "1.0.6",
+    "torrentcollection6": "1.0.6",
     "trakt.tv": "7.x.x",
     "trakt.tv-images": "5.x.x",
     "trakt.tv-matcher": "7.x.x",
