@@ -6709,6 +6709,13 @@ socks@^2.0.0, socks@^2.6.1:
     ip "^1.1.5"
     smart-buffer "^4.1.0"
 
+solidtorrents@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/solidtorrents/-/solidtorrents-1.0.0.tgz#f8f091bb3e8c991d2969d32b32d8adeff34cb5ad"
+  integrity sha512-G1P40Uo+TwFjW+ywBFsK2a/7RgspzUm8vQNkdh+p0SAbFyGPijzhGUzjAfn9BuXtDbtdYLqO5ijQ1/FAE8qgeg==
+  dependencies:
+    got "11.x.x"
+
 source-map-resolve@^0.5.0, source-map-resolve@^0.5.2:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/source-map-resolve/-/source-map-resolve-0.5.3.tgz#190866bece7553e1f8f267a2ee82c606b5509a1a"
@@ -7164,10 +7171,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
-thehiddenbay@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/thehiddenbay/-/thehiddenbay-1.0.2.tgz#b8bbf07947a8999a0ff8e0b75b2690eb9c4d2e38"
-  integrity sha512-FT9Faj/IJKl+YxsIHQzBMNQTIYi6XsNIpcjeEbaux3eN20IokXlHkgsBfr0zz0qhfVeMFNFckjzSrmwAkXy+cA==
+thehiddenbay@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/thehiddenbay/-/thehiddenbay-1.0.3.tgz#c35877ec6a073dc1b4b6ffadf8ce8d707db7d060"
+  integrity sha512-VzilLaP8LYj606Xp+Cm5Dr6mFsD0AubAFMEN58lmAXIE9lzvvi5ol3oCsTt6jqf5BYV0AWlTI87BcWUP7q20OA==
   dependencies:
     axios "^0.21"
     cheerio "^1.0.0-rc.3"
@@ -7376,21 +7383,14 @@ torrent-piece@^2.0.1:
   resolved "https://registry.yarnpkg.com/torrent-piece/-/torrent-piece-2.0.1.tgz#a1a50fffa589d9bf9560e38837230708bc3afdc6"
   integrity sha512-JLSOyvQVLI6JTWqioY4vFL0JkEUKQcaHQsU3loxkCvPTSttw8ePs2tFwsP4XIjw99Fz8EdOzt/4faykcbnPbCQ==
 
-torrentapi-wrapper3@0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/torrentapi-wrapper3/-/torrentapi-wrapper3-0.0.5.tgz#dae19035e6bcb31ff528be854ede4d40c01d70f9"
-  integrity sha512-JI71HvalZYRFg3og+Jg1R81TusU2oCw2rnINNPoB9V+RuyaRq7t4t9drTupQo0eSLjaK/WE4n6aDOKBoTtHhMg==
-  dependencies:
-    got "11.x.x"
-
-torrentcollection5@1.0.6:
+torrentcollection6@1.0.6:
   version "1.0.6"
-  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.6.tgz#619a2a13e86a2fb310b45df1ef50699e063bb10e"
-  integrity sha512-4zXQSJTwlQOLJLK5UcqO4VPHBtQD8heC4rgkysF/gX3SVnyzNtH16tafZqqaPlxH1dN4GYwpPYuGV5vh3al96Q==
+  resolved "https://registry.yarnpkg.com/torrentcollection6/-/torrentcollection6-1.0.6.tgz#a7ead1b1598a4e625fcc84ef83a8797bbb72e5cd"
+  integrity sha512-X378DBOxWU6uPNtEgubAMPVo2OyRnXD/HPawdHULTvuy9jvLI/haq2jBHefDrr19w2LlGdtWcMFhCuVerVMDHg==
   dependencies:
     nyaa-wrapper "1.0.0"
-    thehiddenbay "1.0.2"
-    torrentapi-wrapper3 "0.0.5"
+    solidtorrents "1.0.0"
+    thehiddenbay "1.0.3"
     torrentgalaxy "1.0.4"
     xtorrent-pt "1.0.1"
 
