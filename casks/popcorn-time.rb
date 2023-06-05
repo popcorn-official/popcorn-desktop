@@ -6,7 +6,7 @@ cask "popcorn-time" do
 
   name token.gsub(/\b\w/, &:capitalize)
   desc "BitTorrent client that includes an integrated media player"
-  homepage "https://#{token}.ga/"
+  homepage "https://shows.cf/"
 
   repo = "popcorn-official/popcorn-desktop"
   zip = "#{name.first}-#{version}-osx64.zip"
