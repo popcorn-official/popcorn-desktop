@@ -163,7 +163,6 @@
                         tpb.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableThepiratebaySearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -201,7 +200,6 @@
                         leet.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -209,12 +207,12 @@
                                 const itemModel = {
                                     provider: '1337x.to',
                                     icon: 'T1337x',
-                                    title: item.Name,
-                                    url: item.Url,
-                                    magnet: item.Magnet,
-                                    seeds: item.Seeders,
-                                    peers: item.Leechers,
-                                    size: item.Size,
+                                    title: item.title,
+                                    url: item.url,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
+                                    size: item.size,
                                     index: index
                                 };
                                 results.push(itemModel);
@@ -239,7 +237,6 @@
                         stor.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableSolidTorrentsSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -277,7 +274,6 @@
                         tgx.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableTgxtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -315,7 +311,6 @@
                         nyaa.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -323,12 +318,12 @@
                                 const itemModel = {
                                     provider: 'nyaa.si',
                                     icon: 'nyaa',
-                                    title: item.Name,
-                                    url: item.Url,
-                                    magnet: item.Magnet,
-                                    seeds: item.Seeders,
-                                    peers: item.Leechers,
-                                    size: item.Size,
+                                    title: item.title,
+                                    url: item.url,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
+                                    size: item.size,
                                     index: index
                                 };
                                 results.push(itemModel);
