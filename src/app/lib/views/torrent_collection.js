@@ -158,12 +158,11 @@
                         const results = [];
                         setTimeout(function () {
                             resolve(results);
-                        }, 6000);
+                        }, 8000);
                         const tpb = torrentCollection.tpb;
                         tpb.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableThepiratebaySearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -182,6 +181,7 @@
                                 results.push(itemModel);
                                 index++;
                             });
+                            resolve(results);
                         }).catch(function (err) {
                             console.error('ThePirateBay search:', err);
                             resolve(results);
@@ -196,12 +196,11 @@
                         const results = [];
                         setTimeout(function () {
                             resolve(results);
-                        }, 6000);
+                        }, 8000);
                         const leet = torrentCollection.leet;
                         leet.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enable1337xSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -209,17 +208,18 @@
                                 const itemModel = {
                                     provider: '1337x.to',
                                     icon: 'T1337x',
-                                    title: item.Name,
-                                    url: item.Url,
-                                    magnet: item.Magnet,
-                                    seeds: item.Seeders,
-                                    peers: item.Leechers,
-                                    size: item.Size,
+                                    title: item.title,
+                                    url: item.url,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
+                                    size: item.size,
                                     index: index
                                 };
                                 results.push(itemModel);
                                 index++;
                             });
+                            resolve(results);
                         }).catch(function (err) {
                             console.error('1337x search:', err);
                             resolve(results);
@@ -234,12 +234,11 @@
                         const results = [];
                         setTimeout(function () {
                             resolve(results);
-                        }, 6000);
+                        }, 8000);
                         const stor = torrentCollection.stor;
                         stor.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableSolidTorrentsSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -258,6 +257,7 @@
                                 results.push(itemModel);
                                 index++;
                             });
+                            resolve(results);
                         }).catch(function (err) {
                             console.error('SolidTorrents search:', err);
                             resolve(results);
@@ -272,12 +272,11 @@
                         const results = [];
                         setTimeout(function () {
                             resolve(results);
-                        }, 6000);
+                        }, 8000);
                         const tgx = torrentCollection.tgx;
                         tgx.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableTgxtorrentSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -296,6 +295,7 @@
                                 results.push(itemModel);
                                 index++;
                             });
+                            resolve(results);
                         }).catch(function (err) {
                             console.error('TorrentGalaxy search:', err);
                             resolve(results);
@@ -310,12 +310,11 @@
                         const results = [];
                         setTimeout(function () {
                             resolve(results);
-                        }, 6000);
+                        }, 8000);
                         const nyaa = torrentCollection.nyaa;
                         nyaa.search({
                             query: input,
                             category: category,
-                            sort: 'seeders',
                             verified: false
                         }).then(function (data) {
                             $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
@@ -323,17 +322,18 @@
                                 const itemModel = {
                                     provider: 'nyaa.si',
                                     icon: 'nyaa',
-                                    title: item.Name,
-                                    url: item.Url,
-                                    magnet: item.Magnet,
-                                    seeds: item.Seeders,
-                                    peers: item.Leechers,
-                                    size: item.Size,
+                                    title: item.title,
+                                    url: item.url,
+                                    magnet: item.magnet,
+                                    seeds: item.seed,
+                                    peers: item.leech,
+                                    size: item.size,
                                     index: index
                                 };
                                 results.push(itemModel);
                                 index++;
                             });
+                            resolve(results);
                         }).catch(function (err) {
                             console.error('Nyaa search:', err);
                             resolve(results);
