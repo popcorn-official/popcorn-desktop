@@ -90,6 +90,7 @@ Settings.trackers = {
     'udp://explodie.org:6969',
     'udp://retracker.lanta-net.ru:2710',
     'udp://opentracker.i2p.rocks:6969',
+    'udp://tracker.bitsearch.to:1337',
     'wss://tracker.openwebtorrent.com'
   ]
 };
