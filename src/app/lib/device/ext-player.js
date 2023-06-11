@@ -58,7 +58,8 @@
             type: 'mpv',
             switches: '--no-terminal',
             subswitch: '--sub-file=',
-            fs: '--fs'
+            fs: '--fs',
+            filenameswitch: '--force-media-title='
         },
         'mpvnet': {
             type: 'mpvnet',
