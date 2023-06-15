@@ -26,6 +26,7 @@
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: i18n.__('Please wait') + '...',
                     body: i18n.__('Updating the API Server URLs'),
+                    showClose: false,
                     type: 'danger'
                 }));
             } else {
