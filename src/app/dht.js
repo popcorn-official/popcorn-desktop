@@ -113,6 +113,7 @@ class DhtReader {
         }.bind(this);
         var notificationModel = new App.Model.Notification({
             title: i18n.__('Success'),
+            showClose: false,
             type: 'success',
         });
         switch (alertType) {
@@ -134,6 +135,7 @@ class DhtReader {
             case 'restart':
                 notificationModel.set('body', i18n.__('Please restart your application'));
                 notificationModel.set('showRestart', true);
+                notificationModel.set('showClose', true);
                 break;
             case 'updated':
                 notificationModel.set('body', i18n.__('API Server URLs updated'));
