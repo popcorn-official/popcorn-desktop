@@ -413,7 +413,6 @@
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: '',
                             body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was removed from bookmarks'),
-                            showClose: true,
                             autoclose: true,
                             type: 'info',
                             buttons: [{ title: i18n.__('Undo'), action: delCache }]
