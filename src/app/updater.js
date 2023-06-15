@@ -350,6 +350,7 @@
                     title: i18n.__('Error'),
                     body: i18n.__('Failed to check for new version'),
                     autoclose: true,
+                    showClose: false,
                     type: 'error'
                 }));
                 initBtn.removeClass('fa-spin fa-spinner').addClass('invalid-cross');
@@ -382,6 +383,7 @@
                 title: i18n.__('Success'),
                 body: i18n.__('Already using the latest version'),
                 autoclose: true,
+                showClose: false,
                 type: 'success'
             }));
         }
