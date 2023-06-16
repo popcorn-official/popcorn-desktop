@@ -34,7 +34,7 @@ Download and install:
   * Or **latest dev build (for testers)**: check the repo's [actions page](https://github.com/popcorn-official/popcorn-desktop/actions)
 
 
-### MacOS:
+### macOS:
 Download and install:
   * **Latest release**: check [popcorntime.app](https://popcorntime.app/#get-app) or the repo's [releases page](https://github.com/popcorn-official/popcorn-desktop/releases)
   * Or **latest dev build (for testers)**: check the repo's [actions page](https://github.com/popcorn-official/popcorn-desktop/actions)
