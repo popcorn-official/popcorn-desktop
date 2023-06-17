@@ -523,9 +523,9 @@
                     <p><%= i18n.__("Movies API Server(s)") %></p>
                     <input type="text" size="61" id="customMoviesServer" name="customMoviesServer" list="moviesServers" value="<%= encodeURI(Settings.customMoviesServer ? Settings.customMoviesServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.movie.uri[0].split('=')[1])) %>">
                     <datalist id="moviesServers">
-                        <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                        <% var movieServList = [Settings.providers.movie.uri[0].split('=')[1]];
                            Settings.customServers && Settings.customServers.movie ? movieServList = movieServList.concat(Settings.customServers.movie) : null;
-                           Settings.dhtInfo ? movieServList = movieServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? movieServList = movieServList.concat([Settings.dhtInfo.server]) : null;
                            for (var i = 0; i < movieServList.length; ++i) {
                         %>
                         <option value="<%= encodeURI(movieServList[i]).replace(/%20/g, ' ') %>">
@@ -538,9 +538,9 @@
                     <p><%= i18n.__("Series API Server(s)") %></p>
                     <input type="text" size="61" id="customSeriesServer" name="customSeriesServer" list="seriesServers" value="<%= encodeURI(Settings.customSeriesServer ? Settings.customSeriesServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.tvshow.uri[0].split('=')[1])) %>">
                     <datalist id="seriesServers">
-                        <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                        <% var seriesServList = [Settings.providers.tvshow.uri[0].split('=')[1]];
                            Settings.customServers && Settings.customServers.tvshow ? seriesServList = seriesServList.concat(Settings.customServers.tvshow) : null;
-                           Settings.dhtInfo ? seriesServList = seriesServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? seriesServList = seriesServList.concat([Settings.dhtInfo.server]) : null;
                            for (var i = 0; i < seriesServList.length; ++i) {
                         %>
                         <option value="<%= encodeURI(seriesServList[i]).replace(/%20/g, ' ') %>">
@@ -553,9 +553,9 @@
                     <p><%= i18n.__("Anime API Server(s)") %></p>
                     <input type="text" size="61" id="customAnimeServer" name="customAnimeServer" list="animeServers" value="<%= encodeURI(Settings.customAnimeServer ? Settings.customAnimeServer : (Settings.dhtEnable && Settings.dhtInfo ? Settings.dhtInfo.server : Settings.providers.anime.uri[0].split('=')[1])) %>">
                     <datalist id="animeServers">
-                        <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1].replace(/,/g, ',  ')];
+                        <% var animeServList = [Settings.providers.anime.uri[0].split('=')[1]];
                            Settings.customServers && Settings.customServers.anime ? animeServList = animeServList.concat(Settings.customServers.anime) : null;
-                           Settings.dhtInfo ? animeServList = animeServList.concat([Settings.dhtInfo.server.replace(/,/g, ',  ')]) : null;
+                           Settings.dhtInfo ? animeServList = animeServList.concat([Settings.dhtInfo.server]) : null;
                            for (var i = 0; i < animeServList.length; ++i) {
                         %>
                         <option value="<%= encodeURI(animeServList[i]).replace(/%20/g, ' ') %>">
