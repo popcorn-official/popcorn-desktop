@@ -98,23 +98,27 @@
             case 'anime':
                 if (this.collection.state === 'error') {
                     var errorURL;
-                    switch (App.currentview) {
-                    case 'movies':
-                        errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
-                        break;
-                    case 'shows':
-                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
-                        break;
-                    case 'anime':
-                        errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
-                        break;
-                    default:
-                        errorURL = '';
+                    if (App.Config.getProviderForType('movie')[0].apiURL) {
+                        switch (App.currentview) {
+                        case 'movies':
+                            errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
+                            break;
+                        case 'shows':
+                            errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
+                            break;
+                        case 'anime':
+                            errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
+                            break;
+                        default:
+                            errorURL = '';
+                        }
+                        errorURL.forEach(function(e, index) {
+                            errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
+                        });
+                        errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
+                    } else {
+                        errorURL = i18n.__('the URL(s)');
                     }
-                    errorURL.forEach(function(e, index) {
-                        errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
-                    });
-                    errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
                     return ErrorView.extend({
                         retry: true,
                         error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', errorURL)
