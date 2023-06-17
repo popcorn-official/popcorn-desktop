@@ -212,7 +212,7 @@ Settings.databaseLocation = path.join(data_path, 'data');
 
 // Updates
 Settings.updateNotification = true;
-Settings.automaticUpdating = false;
+Settings.automaticUpdating = '';
 
 // App Settings
 Settings.version = false;
