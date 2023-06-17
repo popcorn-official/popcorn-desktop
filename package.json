@@ -39,7 +39,7 @@
   },
   "providers": [
     "butter-provider/movie.js",
-    "butter-provider/anime.js",
+    "butter-provider/anime-show.js",
     "butter-provider/tv.js",
     "butter-provider/yts.js"
   ],
