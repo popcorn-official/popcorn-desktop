@@ -98,20 +98,20 @@
             case 'anime':
                 if (this.collection.state === 'error') {
                     var errorURL;
-                    if (App.Config.getProviderForType('movie')[0].apiURL) {
-                        switch (App.currentview) {
-                        case 'movies':
-                            errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
-                            break;
-                        case 'shows':
-                            errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
-                            break;
-                        case 'anime':
-                            errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
-                            break;
-                        default:
-                            errorURL = '';
-                        }
+                    switch (App.currentview) {
+                    case 'movies':
+                        errorURL = App.Config.getProviderForType('movie')[0].apiURL ? App.Config.getProviderForType('movie')[0].apiURL.slice(0) : '';
+                        break;
+                    case 'shows':
+                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL ? App.Config.getProviderForType('tvshow')[0].apiURL.slice(0) : '';
+                        break;
+                    case 'anime':
+                        errorURL = App.Config.getProviderForType('anime')[0].apiURL ? App.Config.getProviderForType('anime')[0].apiURL.slice(0) : '';
+                        break;
+                    default:
+                        errorURL = '';
+                    }
+                    if (errorURL) {
                         errorURL.forEach(function(e, index) {
                             errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
                         });
