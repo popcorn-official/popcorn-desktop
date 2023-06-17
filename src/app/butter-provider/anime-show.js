@@ -40,6 +40,23 @@ class AnimeApi extends TVApi {
     });
   }
 
+  formatFiltersFromServer(sorters, data)
+  {
+    let filters = {
+      genres: {},
+      sorters: {},
+    };
+    for (const genre of sorters) {
+      filters.sorters[genre] = i18n.__(genre.capitalizeEach());
+    }
+
+    filters.genres = {
+      'All': 'Anime',
+    };
+
+    return filters;
+  }
+
   filters() {
     const params = {
       contentLocale: this.contentLanguage,
