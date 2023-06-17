@@ -18,7 +18,6 @@
       InitModal: '#initializing',
       Disclaimer: '#disclaimer-container',
       About: '#about-container',
-      VPN: '#vpn-container',
       Keyboard: '#keyboard-container',
       Help: '#help-container',
       TorrentCollection: '#torrent-collection-container',
@@ -82,13 +81,6 @@
       App.vent.on(
         'about:close',
         _.bind(this.getRegion('About').empty, this.getRegion('About'))
-      );
-
-      // Add event to show VPN installer
-      App.vent.on('vpn:show', _.bind(this.showVPN, this));
-      App.vent.on(
-        'vpn:close',
-        _.bind(this.getRegion('VPN').empty, this.getRegion('VPN'))
       );
 
       // Keyboard
@@ -459,10 +451,6 @@
 
     showAbout: function(e) {
       this.showChildView('About', new App.View.About());
-    },
-
-    showVPN: function(e) {
-      this.showChildView('VPN', new App.View.VPN());
     },
 
     showTorrentCollection: function(e) {

@@ -26,12 +26,10 @@
       streaming: '.external-play',
       controls: '.player-controls',
       cancel_button: '#cancel-button',
-      cancel_button_vpn: '#cancel-button-vpn',
       playingbarBox: '.playing-progressbar',
       playingbar: '#playingbar-contents',
       minimizeIcon: '.minimize-icon',
       maximizeIcon: '.maximize-icon',
-      vpn: '#vpn-contents',
       userIp: '#userIp',
       userCity: '#userCity',
       userCountry: '#userCountry',
@@ -43,7 +41,6 @@
     events: {
       'click #cancel-button': 'cancelStreaming',
       'click #cancel-button-regular': 'cancelStreaming',
-      'click #cancel-button-vpn': 'cancelStreamingVPN',
       'dblclick .text_filename': 'openItem',
       'click .pause': 'pauseStreaming',
       'click .stop': 'stopStreaming',
@@ -86,30 +83,6 @@
       });
       win.info('Loading torrent');
       this.listenTo(this.model, 'change:state', this.onStateUpdate);
-    },
-
-    showVPNLoader: function() {
-      request(
-        {
-          url: 'https://myip.ht/status',
-          json: true
-        },
-        (err, _, data) => {
-          if (err || !data || data.error) {
-            console.log('can\'t extract user data, using default loader');
-          } else {
-            this.ui.cancel_button.css('visibility', 'hidden');
-            this.ui.vpn.css('display', 'block');
-            this.ui.state.css('top', '200px');
-            this.ui.userIp.text(data.ip);
-            this.ui.userCity.text(data.advanced.city);
-            this.ui.userCountry.text(data.advanced.countryName);
-            this.ui.userZIP.text(data.advanced.postalCode);
-            this.ui.userISP.text(data.isp);
-            this.ui.map.parent().html('<i class="fas fa-lock" style="opacity:0.2;font-size:600%"></i>');
-          }
-        }
-      );
     },
 
     initKeyboardShortcuts: function() {
@@ -201,7 +174,6 @@
         this.ui.stateTextDownload.text(i18n.__('Downloading'));
         this.ui.progressbar.parent().css('visibility', 'hidden');
         if (streamInfo && streamInfo.get('device')) {
-          this.ui.vpn.css('display', 'none');
           this.ui.playingbar.css('width', '0%');
           this.ui.cancel_button.css('visibility', 'visible');
           if (Settings.activateLoCtrl === true) {
@@ -310,11 +282,6 @@
       App.vent.trigger('stream:stop');
       App.vent.trigger('player:close');
       App.vent.trigger('torrentcache:stop');
-    },
-
-    cancelStreamingVPN: function() {
-      this.cancelStreaming();
-      App.vent.trigger('vpn:open');
     },
 
     showpcontrols: function (e) {

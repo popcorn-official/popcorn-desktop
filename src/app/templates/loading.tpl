@@ -24,47 +24,6 @@
             <!-- download -->
             <div class="text_download"><%= i18n.__(state) %></div>
 
-            <!-- vpn -->
-            <div id="vpn-contents" class="vpn">
-                <div class="heading">Anyone can know where you’re from</div>
-                <div class="subheading">
-                    <p>Hide your IP with a VPN to block unwanted exposure and data leaks.</p>
-                    <p>Without VPN, <span id="userISP"></span> will continue to track and record everything.</p>
-                </div>
-                <div class="flex-map">
-                    <div class="map">
-                        <img id="map" src="#" / >
-                    </div>
-                    <div class="details">
-                        <div class="group">
-                            <div class="fixed-width">IP Address:</div>
-                            <div id="userIp"></div>
-                        </div>
-                        <div class="group">
-                            <div class="fixed-width">City:</div>
-                            <div id="userCity"></div>
-                        </div>
-                        <div class="group">
-                            <div class="fixed-width">Country:</div>
-                            <div id="userCountry"></div>
-                        </div>
-                        <div class="group">
-                            <div class="fixed-width">ZIP:</div>
-                            <div id="userZIP"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="cancel-button-regular" class="cancel-button">
-                      <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
-                </div>
-
-                <div id="cancel-button-vpn" class="cancel-button">
-                    <div class="cancel-button-text"><%= i18n.__("Cancel and use VPN") %></div>
-                </div>
-
-            </div>
-
             <div class="seed_status">
                 <!-- downloading info -->
                 <div class="loading-info">

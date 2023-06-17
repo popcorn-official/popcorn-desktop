@@ -26,7 +26,6 @@
       'click .ratings .dropdown-menu a': 'changeRating',
       'click #filterbar-settings': 'settings',
       'click #filterbar-tempf': 'tempf',
-      'click #filterbar-vpn': 'vpn',
       'click .movieTabShow': 'movieTabShow',
       'click .tvshowTabShow': 'tvshowTabShow',
       'click .animeTabShow': 'animeTabShow',
@@ -41,34 +40,6 @@
       App.vent.on('filter-bar:render', () => {
         this.render();
         this.setActive(App.currentview);
-      });
-
-      if (VPNht.isInstalled()) {
-        VPNht.isConnected().then(isConnected => {
-          if (isConnected) {
-            $('#filterbar-vpn')
-              .addClass('vpn-connected')
-              .addClass('fa-lock')
-              .removeClass('vpn-disconnected')
-              .removeClass('fa-unlock');
-          }
-        });
-      }
-
-      App.vent.on('vpn:connected', function() {
-        $('#filterbar-vpn')
-          .addClass('vpn-connected')
-          .addClass('fa-lock')
-          .removeClass('vpn-disconnected')
-          .removeClass('fa-unlock');
-      });
-
-      App.vent.on('vpn:disconnected', function() {
-        $('#filterbar-vpn')
-          .addClass('vpn-disconnected')
-          .addClass('fa-unlock')
-          .removeClass('vpn-connected')
-          .removeClass('fa-lock');
       });
     },
 
@@ -372,10 +343,6 @@
 
     tempf: function (e) {
       App.settings.os === 'windows' ? nw.Shell.openExternal(Settings.tmpLocation) : nw.Shell.openItem(Settings.tmpLocation);
-    },
-
-    vpn: function(e) {
-      App.vent.trigger('vpn:open');
     },
 
     showTorrentCollection: function(e) {
