@@ -36,8 +36,6 @@ var _ = require('underscore'),
   // Torrent engines
   WebTorrent = require('webtorrent'),
   torrentCollection = require('torrentcollection6'),
-  // VPN
-  VPNht = require('@vpnht/sdk'),
   // NodeJS
   child = require('child_process'),
   // package.json
