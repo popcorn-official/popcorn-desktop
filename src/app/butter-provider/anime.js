@@ -31,7 +31,7 @@ class AnimeApi extends TVApi {
 
     const uri = `shows/${filters.page}?` + new URLSearchParams(params);
     return this._get(0, uri).then(data => {
-      data.forEach(entry => {entry.type = 'show'; entry.title = entry.slug.replace(/-/g, ' ').capitalizeEach()});
+      data.forEach(entry => (entry.type = 'show'));
 
       return {
         results: sanitize(data),
