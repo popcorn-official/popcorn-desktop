@@ -945,16 +945,15 @@
             const sourceURL = $('.startStreaming').attr('data-source');
             const provider = $('.startStreaming').attr('data-provider');
             let providerIcon;
+            const showProvider = App.Config.getProviderForType('tvshow')[0];
+            this.icons.getLink(showProvider, provider)
+                .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
+                .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
+                .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')" onload="this.onerror=null; this.onload=null;">`));
             if (sourceURL) {
-                const showProvider = App.Config.getProviderForType('tvshow')[0];
-                this.icons.getLink(showProvider, provider)
-                    .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
-                    .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
-                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.onerror=null; this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')" onload="this.onerror=null; this.onload=null;">`));
-                $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
+                $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]).css('cursor', 'pointer');
             } else {
-                $('.source-icon').html('');
-                $('.source-icon').hide();
+                $('.source-icon').show().attr('data-original-title', provider.toLowerCase()).css('cursor', 'default');
             }
         },
 
