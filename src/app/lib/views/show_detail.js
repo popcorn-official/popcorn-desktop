@@ -263,7 +263,7 @@
         },
         localizeTexts: function () {
             const locale = this.model.get('locale');
-            let title = App.currentview !== 'anime' ? this.model.get('title') : this.model.get('title1');
+            let title = this.model.get('title');
             if (Settings.translateTitle === 'translated-origin' || Settings.translateTitle === 'translated') {
                 if (locale && locale.title) {
                     title = locale.title;
