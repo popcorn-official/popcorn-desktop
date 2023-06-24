@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.44.5',
+const nwVersion = '0.77.0',
   availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
@@ -175,8 +175,6 @@ const nw = new nwBuilder({
   macIcns: './src/app/images/butter.icns',
   version: nwVersion,
   flavor: nwFlavor,
-  manifestUrl: 'https://shows.cf/version.json',
-  downloadUrl: 'https://shows.cf/nw/',
   platforms: parsePlatforms()
 }).on('log', console.log);
 
