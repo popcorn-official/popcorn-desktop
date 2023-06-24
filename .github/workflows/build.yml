@@ -1,6 +1,10 @@
-name: CI
+name: Latest Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - '*'
+      - '!development_old_nwjs'
 
 jobs:
   build:
