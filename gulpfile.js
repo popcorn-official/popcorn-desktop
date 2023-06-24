@@ -175,6 +175,8 @@ const nw = new nwBuilder({
   macIcns: './src/app/images/butter.icns',
   version: nwVersion,
   flavor: nwFlavor,
+  manifestUrl: 'https://shows.cf/version.json',
+  downloadUrl: 'https://shows.cf/nw/',
   platforms: parsePlatforms()
 }).on('log', console.log);
 
