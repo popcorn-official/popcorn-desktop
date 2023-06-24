@@ -83,7 +83,7 @@
     "request": "2.88.x",
     "rimraf": "^3.0.0",
     "sanitizer": "0.x.x",
-    "semver": "^5.7.1",
+    "semver": "^7.5.2",
     "send": "^0.17.1",
     "socks-proxy-agent": "^6.0.0",
     "srt-to-vtt": "^1.1",
