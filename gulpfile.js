@@ -472,7 +472,7 @@ gulp.task('injectgit', () => {
             'git.json',
             JSON.stringify({
               commit: gitInfo.hash.substr(1),
-              semver: gitInfo.semverString,
+              semver: gitInfo.semverString.includes(pkJson.version) ? gitInfo.semverString : gitInfo.semverString + '-' + pkJson.version.split('-').slice(1).join('-'),
             }),
             (error) => {
               return error ? reject(error) : resolve(gitInfo);
