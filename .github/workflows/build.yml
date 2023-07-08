@@ -28,7 +28,7 @@ jobs:
       - name: Prepare NSIS
         if: matrix.os == 'windows-latest'
         id: prep_nsis
-        uses: joncloud/makensis-action@v1
+        uses: joncloud/makensis-action@v4
         with:
           just-include: true
 
