@@ -24,13 +24,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Prepare NSIS
-        if: matrix.os == 'windows-latest'
-        id: prep_nsis
-        uses: joncloud/makensis-action@v1
-        with:
-          just-include: true
-
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
         with:
