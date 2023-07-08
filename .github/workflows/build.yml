@@ -1,10 +1,9 @@
-name: Latest Build
+name: Latest Build (old NW.js)
 
 on:
   push:
     branches:
-      - '*'
-      - '!development_old_nwjs'
+      - development_old_nwjs
 
 jobs:
   build:
