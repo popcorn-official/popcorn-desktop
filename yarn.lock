@@ -7899,7 +7899,7 @@ webtorrent-health@1.x.x:
     bittorrent-tracker "^9.19.0"
     parse-torrent "^9.1.5"
 
-webtorrent@^1.5.8:
+webtorrent@^1.9.7:
   version "1.9.7"
   resolved "https://registry.yarnpkg.com/webtorrent/-/webtorrent-1.9.7.tgz#5c959a8b5cd598e579493395f941b564750b9cea"
   integrity sha512-N+hRuVctWviTAYem/sI6tuFP2J/Rn3/ETEh++7GnJv6Oro49kDjcPuz1W6s+vfS65xKr3Eh4HMuxf3hH82LGfg==
