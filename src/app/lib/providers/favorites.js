@@ -189,10 +189,19 @@
     };
 
     Favorites.prototype.filters = function () {
-        const data = {
-            types: ['All', 'Movies', 'Series', 'Anime'],
+        let data = {
+            types: ['All'],
             sorters: ['watched items', 'year', 'title', 'rating']
         };
+        if (Settings.moviesTabEnable) {
+            data.types.push('Movies');
+        }
+        if (Settings.seriesTabEnable) {
+            data.types.push('Series');
+        }
+        if (Settings.animeTabEnable) {
+            data.types.push('Anime');
+        }
         let filters = {
             types: {},
             sorters: {},
