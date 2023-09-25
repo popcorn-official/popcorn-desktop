@@ -11,8 +11,11 @@
 
     var queryTorrents = function (filters) {
         let query_func = App.db.getBookmarks; // default to favorites
-        if (filters.kind == 'Watched') {
+        if (filters.kind === 'Watched') {
             query_func = App.db.getWatched;
+            if (filters.type === 'show') {
+                filters.type = 'episode';
+            }
         }
         return query_func(filters)
             .then(function (data) {
@@ -113,12 +116,14 @@
         return showProvider.detail(imdb_id, {
             contextLocale: App.settings.contextLanguage || App.settings.language
         }).then(function (show) {
+            show.type = 'show';
             return show;
         });
     };
 
-    var formatForButter = function (items) {
+    var formatForButter = function (items, kind) {
         var movieList = [];
+        var WseriesList = [];
 
         items.forEach(function (movie) {
             var movie_fetch_func = Database.getMovie;
@@ -126,9 +131,11 @@
             var shouldMark = true;
             // note: in the future we could check if the movie is also in
             // the local db to avoid fetching data we already have
-            if (isUndefined(movie.imdb_id)) {
+            if (kind === 'Watched') {
                 shouldMark = false;
-                movie.imdb_id = movie.movie_id;
+                if (movie.type === 'movie') {
+                    movie.imdb_id = movie.movie_id;
+                }
                 // if we're displaying movies from the watched database
                 // we'll fetch them from the providers instead of the local database
                 // given that storing them there would make the movie database
@@ -156,6 +163,13 @@
                         });
             } else {
                 // its a tv show
+                if (kind === 'Watched') {
+                    // process only one instance of series
+                    if (WseriesList.includes(movie.imdb_id)) {
+                        return;
+                    }
+                    WseriesList.push(movie.imdb_id);
+                }
                 var _data = null;
                 show_fetch_func(movie.imdb_id)
                     .then(function (data) {
@@ -197,8 +211,10 @@
                         // Scrub bookmark and TV show
                         // But return previous data one last time
                         // So error to erase database doesn't show
-                        Database.deleteBookmark(_data.imdb_id);
-                        Database.deleteTVShow(_data.imdb_id);
+                        if (shouldMark) {
+                            Database.deleteBookmark(_data.imdb_id);
+                            Database.deleteTVShow(_data.imdb_id);
+                        }
                         deferred.resolve(_data);
                     });
             }
@@ -226,8 +242,9 @@
         }
 
         return queryTorrents(params)
-            .then(formatForButter)
             .then(function (items) {
+                return formatForButter(items, filters.kind);
+            }).then(function (items) {
                 return sort(items, filters);
             });
     };
