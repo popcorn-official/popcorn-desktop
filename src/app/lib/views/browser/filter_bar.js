@@ -10,6 +10,7 @@
       search: '.search',
       searchClear: '.search .clear',
       sorterValue: '.sorters .value',
+      kindValue: '.kinds .value',
       typeValue: '.types .value',
       genreValue: '.genres .value',
       ratingValue: '.ratings .value'
@@ -22,6 +23,7 @@
       'click  @ui.search': 'focusSearch',
       'click .sorters .dropdown-menu a': 'sortBy',
       'click .genres .dropdown-menu a': 'changeGenre',
+      'click .kinds .dropdown-menu a': 'changeKind',
       'click .types .dropdown-menu a': 'changeType',
       'click .ratings .dropdown-menu a': 'changeRating',
       'click #filterbar-settings': 'settings',
@@ -333,6 +335,22 @@
       this.model.set({
         keyword: '',
         rating: rating
+      });
+    },
+
+    changeKind: function(e) {
+      App.vent.trigger('about:close');
+      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('seedbox:close');
+      this.$('.kinds .active').removeClass('active');
+      $(e.target).addClass('active');
+
+      var kind = $(e.target).attr('data-value');
+      this.ui.kindValue.text($(e.target).text());
+
+      this.model.set({
+        keyword: '',
+        kind: kind
       });
     },
 
