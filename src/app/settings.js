@@ -78,7 +78,6 @@ Settings.trackers = {
     'udp://tracker.openbittorrent.com:1337',
     'udp://p4p.arenabg.com:1337',
     'udp://exodus.desync.com:6969',
-    'udp://tracker.cyberia.is:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
     'udp://tracker.moeking.me:6969',
