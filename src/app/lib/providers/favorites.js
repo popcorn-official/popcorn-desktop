@@ -10,12 +10,15 @@
     };
 
     var queryTorrents = function (filters) {
-        let query_func = App.db.getBookmarks; // default to favorites
-        if (filters.kind === 'Watched') {
+        let query_func;
+        if (App.currentview === 'Watched') {
+            filters.kind = 'Watched';
             query_func = App.db.getWatched;
             if (filters.type === 'show') {
                 filters.type = 'episode';
             }
+        } else {
+            query_func = App.db.getBookmarks; // default to favorites
         }
         return query_func(filters)
             .then(function (data) {
@@ -230,6 +233,9 @@
     };
 
     Favorites.prototype.fetch = function (filters) {
+        if (App.currentview === 'Watched') {
+            filters.kind = 'Watched';
+        }
         var params = {
             page: filters.page,
             kind: filters.kind
