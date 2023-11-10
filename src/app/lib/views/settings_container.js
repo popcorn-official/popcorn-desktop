@@ -356,6 +356,7 @@
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
                 case 'favoritesTabEnable':
+                case 'watchedTabEnable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -581,6 +582,14 @@
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Favorites') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'watchedTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Watched') {
                         $('select[name=start_screen]').change();
                     }
                     break;
