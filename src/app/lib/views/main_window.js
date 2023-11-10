@@ -304,6 +304,7 @@
         switch (openScreen) {
           case 'Watchlist': that.showWatchlist(); break;
           case 'Favorites': that.showFavorites(); break;
+          case 'Watched': that.showFavorites(); break;
           case 'TV Series': that.tvshowTabShow(); break;
           case 'Anime': that.animeTabShow(); break;
           case 'Torrent-collection':
