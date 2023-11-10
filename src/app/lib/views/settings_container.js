@@ -26,6 +26,7 @@
             'contextmenu input': 'rightclick_field',
             'click .rebuild-bookmarks': 'rebuildBookmarks',
             'click .flush-bookmarks': 'flushBookmarks',
+            'click .flush-watched': 'flushWatched',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
             'click #fakedownloadsLocation': 'showDownloadsDirectoryDialog',
@@ -884,6 +885,21 @@
             this.alertMessageWait(i18n.__('We are flushing your database'));
 
             Database.deleteBookmarks()
+                .then(function () {
+                    that.alertMessageSuccess(true);
+                });
+        },
+
+        flushWatched: function (e) {
+            var btn = $(e.currentTarget);
+
+            if (!this.areYouSure(btn, i18n.__('Flushing watched...'))) {
+                return;
+            }
+
+            this.alertMessageWait(i18n.__('We are flushing your database'));
+
+            Database.deleteWatched()
                 .then(function () {
                     that.alertMessageSuccess(true);
                 });

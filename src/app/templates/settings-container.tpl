@@ -760,6 +760,7 @@
     <div class="btns">
         <div class="btn-settings rebuild-bookmarks"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
         <div class="btn-settings flush-bookmarks"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush bookmarks database") %></div>
+        <div class="btn-settings flush-watched"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush watched database") %></div>
         <div class="btn-settings flush-databases"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush all databases") %></div>
         <div class="btn-settings default-settings"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
     </div>
