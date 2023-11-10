@@ -118,6 +118,20 @@ var Database = {
         return db.bookmarks.find(query).skip(offset).limit(byPage);
     },
 
+    // format: {page: page, keywords: title}
+    getWatched: function (data) {
+        var page = data.page - 1;
+        var byPage = 500;
+        var offset = page * byPage;
+        var query = {};
+
+        if (data.type) {
+            query.type = data.type;
+        }
+
+        return db.watched.find(query).skip(offset).limit(byPage);
+    },
+
     getAllBookmarks: function () {
         return db.bookmarks.find({});
     },
