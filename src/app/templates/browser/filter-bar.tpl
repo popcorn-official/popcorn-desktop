@@ -15,10 +15,16 @@
     <% } %>
         <%= i18n.__("Favorites") %>
     </li>
+    <% if (Settings.watchedTabEnable) { %>
+    <li id="filterbar-watched" class="source" style="display:block">
+    <% } else { %>
+    <li id="filterbar-watched" class="source" style="display:none">
+    <% } %>
+        <%= i18n.__("Watched") %>
+    </li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">
     <% filters = [
-        {class: 'kinds', title:  "Kind", current: kind, list: kinds},
         {class: 'types', title: "Type", current: type, list: types},
         {class: 'ratings', title:  "Rating", current: rating, list: ratings},
         {class: 'genres', title:  "Genre", current: genre, list: genres},

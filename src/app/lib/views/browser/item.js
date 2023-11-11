@@ -144,17 +144,19 @@
             if (this.model.get('watched') && !itemtype.match('show')) {
                 this.ui.watchedIcon.addClass('selected');
 
-                switch (Settings.watchedCovers) {
-                    case 'fade':
-                        this.$el.addClass('watched');
-                        break;
-                    case 'hide':
-                        if ($('.search input').val() || itemtype.match('bookmarked')) {
+                if (App.currentview !== 'Watched') {
+                    switch (Settings.watchedCovers) {
+                        case 'fade':
                             this.$el.addClass('watched');
-                        } else {
-                            this.$el.remove();
-                        }
-                        break;
+                            break;
+                        case 'hide':
+                            if ($('.search input').val() || itemtype.match('bookmarked')) {
+                                this.$el.addClass('watched');
+                            } else {
+                                this.$el.remove();
+                            }
+                            break;
+                    }
                 }
             }
 

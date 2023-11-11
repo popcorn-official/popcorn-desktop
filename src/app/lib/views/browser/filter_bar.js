@@ -10,7 +10,6 @@
       search: '.search',
       searchClear: '.search .clear',
       sorterValue: '.sorters .value',
-      kindValue: '.kinds .value',
       typeValue: '.types .value',
       genreValue: '.genres .value',
       ratingValue: '.ratings .value'
@@ -23,7 +22,6 @@
       'click  @ui.search': 'focusSearch',
       'click .sorters .dropdown-menu a': 'sortBy',
       'click .genres .dropdown-menu a': 'changeGenre',
-      'click .kinds .dropdown-menu a': 'changeKind',
       'click .types .dropdown-menu a': 'changeType',
       'click .ratings .dropdown-menu a': 'changeRating',
       'click #filterbar-settings': 'settings',
@@ -32,6 +30,7 @@
       'click .tvshowTabShow': 'tvshowTabShow',
       'click .animeTabShow': 'animeTabShow',
       'click #filterbar-favorites': 'showFavorites',
+      'click #filterbar-watched': 'showWatched',
       'click #filterbar-watchlist': 'showWatchlist',
       'click #filterbar-torrent-collection': 'showTorrentCollection',
       'click .triggerUpdate': 'updateDB',
@@ -84,6 +83,10 @@
         case 'Favorites':
         case 'favorites':
           $('#filterbar-favorites').addClass('active');
+          break;
+        case 'Watched':
+        case 'watched':
+          $('#filterbar-watched').addClass('active');
           break;
         case 'Watchlist':
         case 'watchlist':
@@ -169,6 +172,10 @@
             break;
           case 'Favorites':
             App.currentview = 'Favorites';
+            App.previousview = 'movies';
+            break;
+          case 'Watched':
+            App.currentview = 'Watched';
             App.previousview = 'movies';
             break;
           case 'Watchlist':
@@ -338,22 +345,6 @@
       });
     },
 
-    changeKind: function(e) {
-      App.vent.trigger('about:close');
-      App.vent.trigger('torrentCollection:close');
-      App.vent.trigger('seedbox:close');
-      this.$('.kinds .active').removeClass('active');
-      $(e.target).addClass('active');
-
-      var kind = $(e.target).attr('data-value');
-      this.ui.kindValue.text($(e.target).text());
-
-      this.model.set({
-        keyword: '',
-        kind: kind
-      });
-    },
-
     settings: function(e) {
       App.vent.trigger('about:close');
       App.vent.trigger('settings:show');
@@ -440,6 +431,17 @@
       App.vent.trigger('seedbox:close');
       App.vent.trigger('favorites:list', []);
       this.setActive('Favorites');
+    },
+
+    showWatched: function(e) {
+      e.preventDefault();
+      App.previousview = App.currentview;
+      App.currentview = 'Watched';
+      App.vent.trigger('about:close');
+      App.vent.trigger('torrentCollection:close');
+      App.vent.trigger('seedbox:close');
+      App.vent.trigger('favorites:list', []);
+      this.setActive('Watched');
     },
 
     showWatchlist: function(e) {
