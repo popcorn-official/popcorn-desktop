@@ -98,6 +98,7 @@ Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
 Settings.favoritesTabEnable = true;
+Settings.watchedTabEnable = true;
 Settings.coversShowRating = true;
 Settings.showSeedboxOnDlInit = true;
 Settings.expandedSearch = false;
