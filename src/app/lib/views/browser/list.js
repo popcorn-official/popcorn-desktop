@@ -173,6 +173,9 @@
             if (Settings.favoritesTabEnable) {
                 filterBarElem.push('Favorites');
             }
+            if (Settings.watchedTabEnable) {
+                filterBarElem.push('Watched');
+            }
 
             _this.initKeyboardShortcuts();
 
@@ -228,32 +231,44 @@
                         }
                     }
                     App.currentview = filterBarElem[filterBarPos];
-                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'Watched') {
+                        App.vent.trigger('favorites:list', []);
+                    } else {
+                        App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    }
                     if (App.currentview === 'movies') {
                         $('.source.movieTabShow').addClass('active');
                     } else if (App.currentview === 'shows') {
                             $('.source.tvshowTabShow').addClass('active');
                     } else if (App.currentview === 'Favorites') {
                             $('#filterbar-favorites').addClass('active');
+                    } else if (App.currentview === 'Watched') {
+                            $('#filterbar-watched').addClass('active');
                     } else {
                             $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
                 }
             });
 
-            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4'], function (e, combo) {
+            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4', 'ctrl+5'], function (e, combo) {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0 && combo.charAt(5) <= $(filterBarElem).toArray().length && App.currentview !== filterBarElem[combo.charAt(5) - 1]) {
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
                     $('.filter-bar').find('.active').removeClass('active');
                     App.currentview = filterBarElem[combo.charAt(5) - 1];
-                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'Watched') {
+                        App.vent.trigger('favorites:list', []);
+                    } else {
+                        App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    }
                     if (App.currentview === 'movies') {
                         $('.source.movieTabShow').addClass('active');
                     } else if (App.currentview === 'shows') {
                         $('.source.tvshowTabShow').addClass('active');
                     } else if (App.currentview === 'Favorites') {
                         $('#filterbar-favorites').addClass('active');
+                    } else if (App.currentview === 'Watched') {
+                        $('#filterbar-watched').addClass('active');
                     } else {
                         $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
