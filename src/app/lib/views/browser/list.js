@@ -143,6 +143,18 @@
                     });
                 }
                 break;
+            case 'Watched':
+                if (this.collection.state === 'error') {
+                    return ErrorView.extend({
+                        retry: true,
+                        error: i18n.__('Error, database is probably corrupted. Try flushing the watched items in settings.')
+                    });
+                } else if (this.collection.state !== 'loading') {
+                    return ErrorView.extend({
+                        error: i18n.__('No ' + App.currentview.toLowerCase() + ' items found...')
+                    });
+                }
+                break;
             case 'Watchlist':
                 if (this.collection.state === 'error') {
                     return ErrorView.extend({
