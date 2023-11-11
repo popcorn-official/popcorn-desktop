@@ -10,7 +10,14 @@
     };
 
     var queryTorrents = function (filters) {
-        return App.db.getBookmarks(filters)
+        let query_func = App.db.getBookmarks; // default to favorites
+        if (filters.kind === 'Watched') {
+            query_func = App.db.getWatched;
+            if (filters.type === 'show') {
+                filters.type = 'episode';
+            }
+        }
+        return query_func(filters)
             .then(function (data) {
                     return data;
                 },
@@ -94,19 +101,58 @@
         return sorted;
     };
 
-    var formatForButter = function (items) {
+    var movie_fetch_wrapper = async function (imdb_id) {
+        let movieProvider = App.Config.getProviderForType('movie')[0];
+        return movieProvider.fetch({keywords: imdb_id, page:1}).then(function (movies) {
+            if (movies.results.length !== 1) {
+                throw "Unknown movie in watched DB or cannot fetch movie data";
+            }
+            return movies.results[0];
+        });
+    };
+
+    var show_fetch_wrapper = async function (imdb_id) {
+        let showProvider = App.Config.getProviderForType('tvshow')[0];
+        return showProvider.detail(imdb_id, {
+            contextLocale: App.settings.contextLanguage || App.settings.language
+        }).then(function (show) {
+            show.type = 'show';
+            return show;
+        });
+    };
+
+    var formatForButter = function (items, kind) {
         var movieList = [];
+        var WseriesList = [];
 
         items.forEach(function (movie) {
-
+            var movie_fetch_func = Database.getMovie;
+            var show_fetch_func = Database.getTVShowByImdb;
+            var shouldMark = true;
+            // note: in the future we could check if the movie is also in
+            // the local db to avoid fetching data we already have
+            if (kind === 'Watched') {
+                shouldMark = false;
+                if (movie.type === 'movie') {
+                    movie.imdb_id = movie.movie_id;
+                }
+                // if we're displaying movies from the watched database
+                // we'll fetch them from the providers instead of the local database
+                // given that storing them there would make the movie database
+                // very large
+                movie_fetch_func = movie_fetch_wrapper;
+                show_fetch_func = show_fetch_wrapper;
+            }
             var deferred = Q.defer();
             // we check if its a movie
             // or tv show then we extract right data
             if (movie.type === 'movie') {
                 // its a movie
-                Database.getMovie(movie.imdb_id)
+                movie_fetch_func(movie.imdb_id)
                     .then(function (data) {
-                            data.type = 'bookmarkedmovie';
+                            if (shouldMark) {
+                                data.type = 'bookmarkedmovie';
+                            }
                             if (/slurm.trakt.us/.test(data.image)) {
                                 data.image = data.image.replace(/slurm.trakt.us/, 'walter.trakt.us');
                             }
@@ -117,10 +163,19 @@
                         });
             } else {
                 // its a tv show
+                if (kind === 'Watched') {
+                    // process only one instance of series
+                    if (WseriesList.includes(movie.imdb_id)) {
+                        return;
+                    }
+                    WseriesList.push(movie.imdb_id);
+                }
                 var _data = null;
-                Database.getTVShowByImdb(movie.imdb_id)
+                show_fetch_func(movie.imdb_id)
                     .then(function (data) {
-                        data.type = 'bookmarkedshow';
+                        if (shouldMark) {
+                            data.type = 'bookmarkedshow';
+                        }
                         data.imdb = data.imdb_id;
                         // Fallback for old bookmarks without provider in database or marked as Eztv
                         if (typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
@@ -141,12 +196,14 @@
                         deferred.reject(err);
                     }).then(function (data) {
                         if (data) {
-                            // Cache new show and return
-                            Database.deleteBookmark(_data.imdb_id);
-                            Database.deleteTVShow(_data.imdb_id);
-                            Database.addTVShow(data);
-                            Database.addBookmark(data.imdb_id, 'tvshow');
-                            data.type = 'bookmarkedshow';
+                            if (shouldMark) {
+                                // Cache new show and return
+                                Database.deleteBookmark(_data.imdb_id);
+                                Database.deleteTVShow(_data.imdb_id);
+                                Database.addTVShow(data);
+                                Database.addBookmark(data.imdb_id, 'tvshow');
+                                data.type = 'bookmarkedshow';
+                            }
                             deferred.resolve(data);
                         }
                     }, function (err) {
@@ -154,8 +211,10 @@
                         // Scrub bookmark and TV show
                         // But return previous data one last time
                         // So error to erase database doesn't show
-                        Database.deleteBookmark(_data.imdb_id);
-                        Database.deleteTVShow(_data.imdb_id);
+                        if (shouldMark) {
+                            Database.deleteBookmark(_data.imdb_id);
+                            Database.deleteTVShow(_data.imdb_id);
+                        }
                         deferred.resolve(_data);
                     });
             }
@@ -172,7 +231,8 @@
 
     Favorites.prototype.fetch = function (filters) {
         var params = {
-            page: filters.page
+            page: filters.page,
+            kind: filters.kind
         };
         if (filters.type === 'Series') {
             params.type = 'show';
@@ -182,18 +242,21 @@
         }
 
         return queryTorrents(params)
-            .then(formatForButter)
             .then(function (items) {
+                return formatForButter(items, filters.kind);
+            }).then(function (items) {
                 return sort(items, filters);
             });
     };
 
     Favorites.prototype.filters = function () {
         const data = {
+            kinds: ['Favorites', 'Watched'],
             types: ['All', 'Movies', 'Series', 'Anime'],
             sorters: ['watched items', 'year', 'title', 'rating']
         };
         let filters = {
+            kinds: {},
             types: {},
             sorters: {},
         };
@@ -202,6 +265,9 @@
         }
         for (const type of data.types) {
             filters.types[type] = i18n.__(type);
+        }
+        for (const kind of data.kinds) {
+            filters.kinds[kind] = i18n.__(kind);
         }
 
         return Promise.resolve(filters);
