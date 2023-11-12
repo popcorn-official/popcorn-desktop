@@ -80,12 +80,10 @@ Settings.trackers = {
     'udp://exodus.desync.com:6969',
     'udp://tracker.torrent.eu.org:451',
     'udp://open.stealth.si:80',
-    'udp://tracker.moeking.me:6969',
+    'udp://open.tracker.cl:1337',
     'udp://tracker.dler.org:6969',
     'udp://explodie.org:6969',
-    'udp://retracker.lanta-net.ru:2710',
     'udp://opentracker.i2p.rocks:6969',
-    'udp://tracker.bitsearch.to:1337',
     'wss://tracker.openwebtorrent.com'
   ]
 };
