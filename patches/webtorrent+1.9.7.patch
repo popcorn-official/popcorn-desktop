@@ -3,7 +3,7 @@
 @@ -1318,11 +1318,11 @@
    _updateWireWrapper (wire) {
      const self = this
- 
+
 -    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
 -      window.requestIdleCallback(() => { self._updateWire(wire) }, { timeout: 250 })
 -    } else {
@@ -14,6 +14,5 @@
 -    }
 +    //}
    }
- 
+
    /**
-   
