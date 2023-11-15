@@ -107,11 +107,8 @@
     var movie_fetch_wrapper = async function (imdb_id) {
         let movieProvider = App.Config.getProviderForType('movie')[0];
         return movieProvider.fetch({keywords: imdb_id, page:1}).then(function (movies) {
-            if (movies.results.length !== 1) {
-                throw "Unknown movie in watched DB or cannot fetch movie data";
-            }
             return movies.results[0];
-        });
+        }).catch((error) => {});
     };
 
     var show_fetch_wrapper = async function (imdb_id) {
@@ -122,7 +119,7 @@
             show.type = 'show';
             show.country.toLowerCase() === 'jp' ? show.title = show.slug.replace(/-/g, " ").capitalizeEach() : null;
             return show;
-        });
+        }).catch((error) => {});
     };
 
     var formatForButter = function (items, kind) {
@@ -154,10 +151,10 @@
                 // its a movie
                 movie_fetch_func(movie.imdb_id)
                     .then(function (data) {
-                            if (shouldMark) {
+                            if (data && shouldMark) {
                                 data.type = 'bookmarkedmovie';
                             }
-                            if (/slurm.trakt.us/.test(data.image)) {
+                            if (data && /slurm.trakt.us/.test(data.image)) {
                                 data.image = data.image.replace(/slurm.trakt.us/, 'walter.trakt.us');
                             }
                             deferred.resolve(data);
@@ -177,22 +174,22 @@
                 var _data = null;
                 show_fetch_func(movie.imdb_id)
                     .then(function (data) {
-                        if (shouldMark) {
+                        if (data && shouldMark) {
                             data.type = 'bookmarkedshow';
                         }
-                        data.imdb = data.imdb_id;
+                        data ? data.imdb = data.imdb_id : null;
                         // Fallback for old bookmarks without provider in database or marked as Eztv
-                        if (typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
+                        if (data && typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
                             data.provider = 'tvshow';
                         }
                         // This is an old boxart, fetch the latest boxart
-                        if (/slurm.trakt.us/.test(data.images.poster)) {
+                        if (data && /slurm.trakt.us/.test(data.images.poster)) {
                             // Keep reference to old data in case of error
                             _data = data;
                             var provider = App.Providers.get(data.provider);
                             return provider.detail(data.imdb_id, data);
                         } else {
-                            data.poster = data.images.poster;
+                            data ? data.poster = data.images.poster : null;
                             deferred.resolve(data);
                             return null;
                         }
@@ -215,7 +212,7 @@
                         // Scrub bookmark and TV show
                         // But return previous data one last time
                         // So error to erase database doesn't show
-                        if (shouldMark) {
+                        if (_data && shouldMark) {
                             Database.deleteBookmark(_data.imdb_id);
                             Database.deleteTVShow(_data.imdb_id);
                         }
@@ -226,7 +223,7 @@
             movieList.push(deferred.promise);
         });
 
-        return Q.all(movieList);
+        return Q.all(movieList).then(values => values.filter(v => v));
     };
 
     Favorites.prototype.extractIds = function (items) {
