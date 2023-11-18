@@ -42,6 +42,10 @@
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
+                        <div class="exit-when-done">
+                            <i class="fa fa-power-off"></i></span>
+                            <span><%= i18n.__('Exit when all downloads complete') %></span>
+                        </div>
                     </div>
                 </div>
             </div>
