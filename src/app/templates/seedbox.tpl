@@ -44,7 +44,7 @@
                         </div>
                         <div class="exit-when-done">
                             <i class="fa fa-power-off"></i></span>
-                            <span><%= i18n.__('Exit when all downloads complete') %></span>
+                            <span><%= i18n.__('Exit when all downloads complete') %>
                         </div>
                     </div>
                 </div>
