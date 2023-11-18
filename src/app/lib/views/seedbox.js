@@ -7,6 +7,10 @@
         totalSize,
         totalDownloaded,
         totalPer,
+        exitWhenDoneBtn,
+        exitWhenDoneStatus,
+        exitWhenDoneTimer,
+        exitWhenDoneInt,
         updateInterval;
 
     const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
@@ -37,7 +41,8 @@
             'mousedown .seedbox-infos-title, .file-item a, .episodeData div': 'copytoclip',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
-            'click .item-remove': 'removeItem'
+            'click .item-remove': 'removeItem',
+            'click .exit-when-done': 'exitWhenDone'
         },
 
         initialize: function () {
@@ -61,7 +66,9 @@
                 let currentHash;
                 try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
                 currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled').prop('disabled', true) : null;
+                $('.seedbox .exit-when-done').addClass('disabled');
             }
+            exitWhenDoneStatus ? $('.seedbox .exit-when-done').addClass('active') : $('.seedbox .exit-when-done').removeClass('active');
         },
 
         onRender: function () {
@@ -306,6 +313,7 @@
                 if (target.hasClass('item-play')) {
                     $('#trash-'+hash).addClass('disabled').prop('disabled', true);
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+                    $('.seedbox .exit-when-done').addClass('disabled');
                 } else if (isPaused) {
                     this.pauseTorrent(thisTorrent);
                 }
@@ -331,6 +339,50 @@
                     }
                 }, 100);
             }
+        },
+
+        exitWhenDone: function () {
+            clearInterval(exitWhenDoneInt);
+            clearTimeout(exitWhenDoneTimer);
+            exitWhenDoneBtn = $('.seedbox .exit-when-done');
+            App.vent.trigger('notification:close');
+            if (exitWhenDoneBtn.hasClass('active')) {
+                exitWhenDoneStatus = false;
+                exitWhenDoneBtn.removeClass('active');
+                return;
+            }
+            exitWhenDoneStatus = true;
+            exitWhenDoneBtn.addClass('active');
+            exitWhenDoneInt = window.setInterval(function () {
+                var torrents = App.WebTorrent.torrents;
+                var doneTorrents = 0;
+                for (const i in torrents) {
+                    torrents[i].done || !torrents[i].done && torrents[i].paused ? doneTorrents++ : null;
+                }
+                if (!$('.loading').is(':visible') && !$('.player').is(':visible') && torrents.length === doneTorrents) {
+                    clearInterval(exitWhenDoneInt);
+                    if (torrents.length === 0) {
+                        exitWhenDoneStatus = false;
+                        exitWhenDoneBtn.removeClass('active');
+                        return;
+                    }
+                    exitWhenDoneTimer = window.setTimeout(function () { win.close(true); }, 30000);
+                    var abortExit = (function () {
+                        this.clearTimeout(exitWhenDoneTimer);
+                        exitWhenDoneStatus = false;
+                        $('.seedbox .exit-when-done').removeClass('active');
+                        App.vent.trigger('notification:close');
+                    }.bind(this));
+                    var notificationModel = new App.Model.Notification({
+                        title: '',
+                        body: '<br><font size=4>' + i18n.__('Exiting Popcorn Time...') + '</font><br>' + i18n.__('Press Cancel in the next 30 seconds') + '<br>' + i18n.__('to cancel this action') + '<br><br>',
+                        type: 'danger',
+                        showClose: false,
+                        buttons: [{ title: i18n.__('Exit Now'), action: (function () { win.close(true); }) }, { title: i18n.__('Cancel'), action: abortExit }]
+                    });
+                    App.vent.trigger('notification:show', notificationModel);
+                }
+            }, 10000);
         },
 
         openMagnet: function (e) {
