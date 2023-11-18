@@ -573,5 +573,10 @@
 	"Popularity": "Popularity",
 	"Last Added": "Last Added",
 	"Kind": "Kind",
-	"Watched": "Watched"
+	"Watched": "Watched",
+	"Exit when all downloads complete": "Exit when all downloads complete",
+	"Exiting Popcorn Time...": "Exiting Popcorn Time...",
+	"Press Cancel in the next 30 seconds": "Press Cancel in the next 30 seconds",
+	"to cancel this action": "to cancel this action",
+	"Exit Now": "Exit Now"
 }
