@@ -576,7 +576,9 @@
 	"Watched": "Watched",
 	"Exit when all downloads complete": "Exit when all downloads complete",
 	"Exiting Popcorn Time...": "Exiting Popcorn Time...",
-	"Press Cancel in the next 30 seconds": "Press Cancel in the next 30 seconds",
-	"to cancel this action": "to cancel this action",
-	"Exit Now": "Exit Now"
+	"does not clear the Cache Folder": "does not clear the Cache Folder",
+	"left to cancel this action": "left to cancel this action",
+	"Exit Now": "Exit Now",
+	"second": "second",
+	"seconds": "seconds"
 }
