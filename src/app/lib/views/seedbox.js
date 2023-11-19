@@ -343,7 +343,7 @@
 
         exitWhenDone: function () {
             clearInterval(exitWhenDoneInt);
-            clearTimeout(exitWhenDoneTimer);
+            clearInterval(exitWhenDoneTimer);
             exitWhenDoneBtn = $('.seedbox .exit-when-done');
             App.vent.trigger('notification:close');
             if (exitWhenDoneBtn.hasClass('active')) {
@@ -366,16 +366,25 @@
                         exitWhenDoneBtn.removeClass('active');
                         return;
                     }
-                    exitWhenDoneTimer = window.setTimeout(function () { win.close(true); }, 30000);
+                    var timeleft = 30;
+                    exitWhenDoneTimer = setInterval(function () {
+                        timeleft--;
+                        if (timeleft <= 0) {
+                            win.close(true);
+                        } else if (timeleft === 1) {
+                            $('#notification .notificationWrapper #timerunit').html(i18n.__('second'));
+                        }
+                        $('#notification .notificationWrapper #timer').html(timeleft);
+                    }, 1000);
                     var abortExit = (function () {
-                        this.clearTimeout(exitWhenDoneTimer);
+                        this.clearInterval(exitWhenDoneTimer);
                         exitWhenDoneStatus = false;
                         $('.seedbox .exit-when-done').removeClass('active');
                         App.vent.trigger('notification:close');
                     }.bind(this));
                     var notificationModel = new App.Model.Notification({
                         title: '',
-                        body: '<br><font size=4>' + i18n.__('Exiting Popcorn Time...') + '</font><br>' + i18n.__('Press Cancel in the next 30 seconds') + '<br>' + i18n.__('to cancel this action') + '<br><br>',
+                        body: '<br><font size=4>' + i18n.__('Exiting Popcorn Time...') + '</font><br>(' + i18n.__('does not clear the Cache Folder') + ')<br><br>' + '<span id="timer">30</span> ' + '<span id="timerunit">' + i18n.__('seconds') + '</span> ' + i18n.__('left to cancel this action') + '<br><br>',
                         type: 'danger',
                         showClose: false,
                         buttons: [{ title: i18n.__('Exit Now'), action: (function () { win.close(true); }) }, { title: i18n.__('Cancel'), action: abortExit }]
