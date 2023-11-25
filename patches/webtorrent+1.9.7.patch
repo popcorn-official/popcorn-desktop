@@ -1,6 +1,6 @@
 --- a/node_modules/webtorrent/lib/torrent.js
 +++ b/node_modules/webtorrent/lib/torrent.js
-@@ -1270,11 +1270,11 @@
+@@ -1318,11 +1318,11 @@
    _updateWireWrapper (wire) {
      const self = this
 
