@@ -82,6 +82,7 @@ Settings.trackers = {
     'udp://open.stealth.si:80',
     'udp://tracker.dler.org:6969',
     'udp://explodie.org:6969',
+    'udp://tracker.therarbg.com:6969',
     'udp://opentracker.i2p.rocks:6969',
     'wss://tracker.openwebtorrent.com'
   ]
