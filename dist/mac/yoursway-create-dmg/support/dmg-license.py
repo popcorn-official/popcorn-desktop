@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 """
 This script adds a license file to a DMG. Requires Xcode and a plain ascii text
 license file.
