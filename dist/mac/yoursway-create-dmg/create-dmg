@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/bash
 
 # Create a read-only disk image of the contents of a folder
 
