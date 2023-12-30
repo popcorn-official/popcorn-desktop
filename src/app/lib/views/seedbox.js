@@ -366,12 +366,12 @@
                         exitWhenDoneBtn.removeClass('active');
                         return;
                     }
-                    var timeleft = 30;
+                    var exittime = new Date().getTime() + 30000;
                     exitWhenDoneTimer = setInterval(function () {
-                        timeleft--;
+                        var timeleft = Math.round((exittime - new Date().getTime()) / 1000);
                         if (timeleft <= 0) {
                             win.close(true);
-                        } else if (timeleft === 1) {
+                        } else if (timeleft <= 1) {
                             $('#notification .notificationWrapper #timerunit').html(i18n.__('second'));
                         }
                         $('#notification .notificationWrapper #timer').html(timeleft);
