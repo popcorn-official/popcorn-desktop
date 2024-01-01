@@ -172,4 +172,4 @@ You should have received a copy of the GNU General Public License along with thi
 
 ***
 
-Copyright © 2023 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+Copyright © 2024 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
