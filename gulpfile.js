@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.79.1',
+const nwVersion = '0.83.0',
   availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
