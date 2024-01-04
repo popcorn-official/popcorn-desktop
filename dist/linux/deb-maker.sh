@@ -64,7 +64,7 @@ Section: web
 Priority: optional
 Architecture: $real_arch
 Installed-Size: $size
-Depends:
+Depends: libatomic1
 Maintainer: $projectName Project <butter@xaiki.net>
 Description: $projectName
  Watch Movies and TV Shows instantly
