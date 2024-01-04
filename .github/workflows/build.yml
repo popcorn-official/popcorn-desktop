@@ -48,21 +48,18 @@ jobs:
         if: matrix.os == 'macOS-latest'
         run: |
           yarn
-          npm install --legacy-peer-deps
           yarn gulp dist
 
       - name: Build App [ubuntu]
         if: matrix.os == 'ubuntu-latest'
         run: |
           yarn
-          npm install --legacy-peer-deps
           yarn gulp dist --platforms=linux32,linux64
 
       - name: Build App [windows]
         if: matrix.os == 'windows-latest'
         run: |
           yarn
-          npm install --legacy-peer-deps
           yarn gulp dist --platforms=win32
           yarn gulp dist --platforms=win64
         env:
