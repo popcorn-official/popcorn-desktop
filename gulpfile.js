@@ -3,8 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.82.0',
-  availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
+const availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
 
@@ -27,6 +26,9 @@ const gulp = require('gulp'),
   pkJson = require('./package.json');
 
 const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs');
+
+// see: https://shows.cf/version.json
+const nwVersion = yargs.argv.nwVersion || '0.83.0'
 
 /***********
  *  custom  *

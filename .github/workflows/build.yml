@@ -14,6 +14,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
+        bit: [32, 64]
+        nwjs: ['0.83.0', '0.44.5']
+        exclude:
+          - os: macOS-latest
+            bit: 32
 
     steps:
       - name: Context
@@ -44,31 +49,28 @@ jobs:
         run: |
           node --version
 
-      - name: Build App [macOS]
-        if: matrix.os == 'macOS-latest'
-        run: |
-          yarn
-          yarn gulp dist
+      - uses: kanga333/variable-mapper@master
+        with:
+          key: "${{ matrix.os }}"
+          map: |
+            {
+              "ubuntu-latest": { "platform": "linux" },
+              "windows-latest": { "platform": "win" },
+              "macOS-latest": { "platform": "osx" }
+            }
 
-      - name: Build App [ubuntu]
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          yarn
-          yarn gulp dist --platforms=linux32,linux64
+      - name: Echo environment
+        run: echo ${{ env.platform }}
 
-      - name: Build App [windows]
-        if: matrix.os == 'windows-latest'
+      - name: Build App
         run: |
           yarn
-          yarn gulp dist --platforms=win32
-          yarn gulp dist --platforms=win64
-        env:
-          NSIS_PATH: ${{ steps.prep_nsis.outputs.nsis-path }}
+          yarn gulp dist --platforms=${{ env.platform }}${{ matrix.bit }} --nwVersion=${{ matrix.nwjs }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.os }}
+          name: ${{ env.platform }}${{ matrix.bit }}-${{ matrix.nwjs }}
           path: build
 
   release:
