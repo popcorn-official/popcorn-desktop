@@ -15,7 +15,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
         bit: [32, 64]
-        nwjs: ['0.83.0', '0.44.5']
+        nwjs: ['0.82.0', '0.44.5']
         exclude:
           - os: macOS-latest
             bit: 32
@@ -59,8 +59,8 @@ jobs:
               "macOS-latest": { "platform": "osx" }
             }
 
-      - name: Echo environment
-        run: echo ${{ env.platform }}
+      - name: Build info
+        run: echo Build ${{ env.platform }}${{ matrix.bit }} on nw-v${{ matrix.nwjs }}
 
       - name: Build App
         run: |

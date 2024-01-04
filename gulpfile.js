@@ -3,7 +3,8 @@
 /********
  * setup *
  ********/
-const availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
+const defaultNwVersion = '0.82.0',
+  availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
 
@@ -28,7 +29,7 @@ const gulp = require('gulp'),
 const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs');
 
 // see: https://shows.cf/version.json
-const nwVersion = yargs.argv.nwVersion || '0.83.0'
+const nwVersion = yargs.argv.nwVersion || defaultNwVersion;
 
 /***********
  *  custom  *
@@ -105,6 +106,13 @@ const curVersion = () => {
     } else {
         return pkJson.version;
     }
+};
+
+const nwSuffix = () => {
+    if (nwVersion === defaultNwVersion) {
+        return '';
+    }
+    return '-nw' + nwVersion;
 };
 
 const waitProcess = function(process) {
@@ -280,7 +288,7 @@ gulp.task('compresszip', () => {
         return gulp
           .src(sources + '/**')
           .pipe(
-            zip(pkJson.name + '-' + curVersion() + '-' + platform + '.zip')
+            zip(pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '.zip')
           )
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
@@ -310,7 +318,7 @@ gulp.task('compressUpdater', () => {
         console.log('Packaging updater for: %s', platform);
         return gulp
           .src(path.join('build', updateFile))
-          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + nwSuffix() + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
@@ -408,14 +416,14 @@ gulp.task('mac-pkg', () => {
 
         waitProcess(child).then(() => {
             console.log('%s pkg packaged in', platform, path.join(process.cwd(), releasesDir));
-            if (pkJson.version === curVersion()) {
+            if (pkJson.version === curVersion() && !nwSuffix()) {
                 resolve();
                 return;
             }
             return renameFile(
                 path.join(process.cwd(), releasesDir),
                 pkJson.name + '-' + pkJson.version + '.pkg',
-                pkJson.name + '-' + curVersion() + '.pkg'
+                pkJson.name + '-' + curVersion() + nwSuffix() + '.pkg'
             ).then(() => resolve());
         }).catch(() => {
             console.log('%s failed to package pkg', platform);
@@ -538,14 +546,14 @@ gulp.task('nsis', () => {
 
         waitProcess(child).then(() => {
             console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
-            if (pkJson.version === curVersion()) {
+            if (pkJson.version === curVersion() && !nwSuffix()) {
                 resolve();
                 return;
             }
             return renameFile(
                 path.join(process.cwd(), releasesDir),
                 pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe',
-                pkJson.name + '-' + curVersion() + '-' + platform + '-Setup.exe'
+                pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '-Setup.exe'
             ).then(() => resolve());
         }).catch(() => {
             console.log('%s failed to package nsis', platform);
@@ -585,7 +593,16 @@ gulp.task('deb', () => {
 
         waitProcess(child).then(() => {
             console.log('%s deb packaged in', platform, path.join(process.cwd(), releasesDir));
-            resolve();
+            if (!nwSuffix()) {
+                resolve();
+                return;
+            }
+            const suffix = platform === 'linux64' ? 'amd64' : 'i386';
+            return renameFile(
+                path.join(process.cwd(), releasesDir),
+                pkJson.name + '-' + curVersion() + '-' + suffix + '.deb',
+                pkJson.name + '-' + curVersion() + '-' + suffix + nwSuffix() + '.deb'
+            ).then(() => resolve());
         }).catch(() => {
             console.log('%s failed to package deb', platform);
             reject();
@@ -665,12 +682,12 @@ gulp.task('prepareUpdater:win', () => {
             path.join(
               process.cwd(),
               releasesDir,
-              pkJson.name + '-' + curVersion() + '-' + platform + '-Setup.exe'
+              pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '-Setup.exe'
             )
           )
           .pipe(gulpRename('update.exe'))
           .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
-          .pipe(zip('update-' + curVersion() + '-' + platform + '.zip'))
+          .pipe(zip('update-' + curVersion() + '-' + platform + nwSuffix() + '.zip'))
           .pipe(gulp.dest(releasesDir))
           .on('end', () => {
             console.log(
