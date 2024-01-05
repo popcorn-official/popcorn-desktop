@@ -112,7 +112,7 @@ const nwSuffix = () => {
     if (nwVersion === defaultNwVersion) {
         return '';
     }
-    return '-nw' + nwVersion;
+    return '-' + nwVersion;
 };
 
 const waitProcess = function(process) {
