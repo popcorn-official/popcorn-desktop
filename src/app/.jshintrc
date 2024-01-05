@@ -1,5 +1,5 @@
 {
-    "esversion": 8,
+    "esversion": 11,
 
     // Environments
     "browser"  : true,

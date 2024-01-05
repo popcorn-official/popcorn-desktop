@@ -117,7 +117,7 @@
             contextLocale: App.settings.contextLanguage || App.settings.language
         }).then(function (show) {
             show.type = 'show';
-            show.country.toLowerCase() === 'jp' ? show.title = show.slug.replace(/-/g, " ").capitalizeEach() : null;
+            show.country.toLowerCase() === 'jp' ? show.title = show.slug.replace(/-/g, ' ').capitalizeEach() : null;
             return show;
         }).catch((error) => {});
     };
