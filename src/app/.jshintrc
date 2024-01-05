@@ -1,4 +1,6 @@
 {
+    "esversion": 8,
+
     // Environments
     "browser"  : true,
     "node"     : true,
@@ -19,7 +21,6 @@
     "expr"     : true,
     "eqnull"   : true,
     "quotmark" : "single",
-    "trailing" : true,
     "sub"      : true,
     "trailing" : true,
     "undef"    : true,
@@ -31,6 +32,7 @@
     // Globals
     "globals": {
         // App
+        "nw": true,
         "App": true,
         "Settings": true,
         "AdvSettings": true,
