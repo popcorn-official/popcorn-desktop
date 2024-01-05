@@ -89,6 +89,13 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
 
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
       - uses: actions/download-artifact@v1
         if: startsWith(github.ref, 'refs/tags/v')
         with:
