@@ -387,7 +387,7 @@
                         body: '<br><font size=4>' + i18n.__('Exiting Popcorn Time...') + '</font><br>(' + i18n.__('does not clear the Cache Folder') + ')<br><br>' + '<span id="timer">30</span> ' + '<span id="timerunit">' + i18n.__('seconds') + '</span> ' + i18n.__('left to cancel this action') + '<br><br>',
                         type: 'danger',
                         showClose: false,
-                        buttons: [{ title: i18n.__('Exit Now'), action: (function () { win.close(true); }) }, { title: i18n.__('Cancel'), action: abortExit }]
+                        buttons: [{ title: i18n.__('Exit Now'), action: function () { win.close(true); } }, { title: i18n.__('Cancel'), action: abortExit }]
                     });
                     App.vent.trigger('notification:show', notificationModel);
                 }
