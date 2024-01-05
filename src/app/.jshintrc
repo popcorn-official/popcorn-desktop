@@ -38,7 +38,6 @@
         "Database": true,
         "detectLanguage": true,
         "Common": true,
-        "indexedDB": true,
         "startupTime": true,
         "deleteFolder": true,
         "deleteCookies": true,
@@ -49,7 +48,6 @@
         "Promise": true,
 
         // Global variables
-        "_": true,
         "async": true,
         "inherits": true,
         "Q": true,
@@ -85,7 +83,6 @@
         "Backbone": true,
         "Mousetrap": true,
         "_": true,
-        "request": true,
         "videojs": true,
         "vjs": true
     }

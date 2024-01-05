@@ -130,20 +130,6 @@
       'Western'
     ],
 
-    cache: {
-      name: 'cachedb',
-      version: '1.7',
-      tables: ['subtitle'],
-      desc: 'Cache database',
-      size: 10 * 1024 * 1024
-    },
-
-    cachev2: {
-      name: 'cache',
-      version: 5,
-      tables: ['metadata']
-    },
-
     getTabTypes: function() {
       return _.sortBy(
         _.filter(

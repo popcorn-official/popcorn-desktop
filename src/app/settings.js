@@ -440,27 +440,7 @@ var AdvSettings = {
 
   performUpgrade: function() {
     // This gives the official version (the package.json one)
-    var currentVersion = nw.App.manifest.version;
-
-    if (currentVersion !== AdvSettings.get('version')) {
-      // Nuke the DB if there's a newer version
-      // Todo: Make this nicer so we don't lose all the cached data
-      var cacheDb = openDatabase(
-        'cachedb',
-        '',
-        'Cache database',
-        50 * 1024 * 1024
-      );
-
-      cacheDb.transaction(function(tx) {
-        tx.executeSql('DELETE FROM subtitle');
-        tx.executeSql('DELETE FROM metadata');
-      });
-
-      // Add an upgrade flag
-      window.__isUpgradeInstall = true;
-    }
-    AdvSettings.set('version', currentVersion);
+    AdvSettings.set('version', nw.App.manifest.version);
     AdvSettings.set('releaseName', nw.App.manifest.releaseName);
   }
 };

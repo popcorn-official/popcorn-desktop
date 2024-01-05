@@ -383,16 +383,7 @@ var Database = {
 
         fs.unlinkSync(path.join(data_path, 'data/settings.db'));
 
-        return new Promise(function (resolve, reject) {
-            var req = indexedDB.deleteDatabase(App.Config.cache.name);
-            req.onsuccess = function () {
-                resolve();
-            };
-            req.onerror = function () {
-                resolve();
-            };
-        });
-
+        return Promise.resolve();
     },
 
     initialize: function () {
