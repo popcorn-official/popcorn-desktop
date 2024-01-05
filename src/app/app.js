@@ -176,15 +176,15 @@ var initTemplates = function () {
   var ts = [];
 
   _.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
-    var d = Q.defer();
-    $.get(el.src, function (res) {
-      el.innerHTML = res;
-      d.resolve(true);
-    });
-    ts.push(d.promise);
+    ts.push(new Promise((resolve, reject) => {
+      $.get(el.src, function (res) {
+        el.innerHTML = res;
+        resolve(true);
+      });
+    }));
   });
 
-  return Q.all(ts);
+  return Promise.all(ts);
 };
 
 var initApp = function () {
@@ -544,7 +544,7 @@ var handleVideoFile = function (file) {
 
   // get subtitles from provider
   var getSubtitles = function (subdata) {
-    return Q.Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       win.debug('Subtitles data request:', subdata);
 
       var subtitleProvider = App.Config.getProviderForType('subtitle');

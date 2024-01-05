@@ -2,9 +2,8 @@
     'use strict';
 
     var getDataFromProvider = function (providers, collection) {
-        var deferred = Q.defer();
         var filters = Object.assign(collection.filter, {page: providers.torrent.page});
-        providers.torrent.fetch(filters)
+        return providers.torrent.fetch(filters)
             .then(function (torrents) {
                 // If a new request was started...
                 _.each(torrents.results, function (movie) {
@@ -25,14 +24,12 @@
                     movie.providers = providers;
                 });
 
-                return deferred.resolve(torrents);
+                return torrents;
             })
             .catch(function (err) {
                 collection.state = 'error';
                 collection.trigger('loaded', collection, collection.state);
             });
-
-        return deferred.promise;
     };
 
     var PopCollection = Backbone.Collection.extend({
