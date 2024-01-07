@@ -288,7 +288,7 @@
         });
 
         // we check if the disclaimer is accepted
-        if (!AdvSettings.get('disclaimerAccepted') || AdvSettings.get('automaticUpdating') === '' || AdvSettings.get('dhtEnable') === '') {
+        if (!AdvSettings.get('disclaimerAccepted') || AdvSettings.get('dhtEnable') === '') {
           that.showDisclaimer();
         }
 
