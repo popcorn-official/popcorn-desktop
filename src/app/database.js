@@ -434,10 +434,6 @@ var Database = {
                 App.vent.trigger('initHttpApi');
                 App.vent.trigger('db:ready');
                 App.vent.trigger('stream:loadExistTorrents');
-
-                /*return AdvSettings.checkApiEndpoints([
-                    Settings.updateEndpoint
-                ]);*/
             })
             .then(function () {
                 // set app language
@@ -449,15 +445,6 @@ var Database = {
             })
             .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
-                if (Settings.automaticUpdating === false) {
-                    return;
-                }
-                // check update
-                var updater = new App.Updater();
-                updater.update()
-                    .catch(function (err) {
-                        win.error('updater.update()', err);
-                    });
             })
             .then(function () {
                 if (Settings.protocolEncryption) {

@@ -342,7 +342,6 @@
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
                 case 'playNextEpisodeAuto':
-                case 'automaticUpdating':
                 case 'updateNotification':
                 case 'events':
                 case 'alwaysFullscreen':
