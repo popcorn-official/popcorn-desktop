@@ -205,7 +205,7 @@ Settings.downloadsLocation = path.join(os.tmpdir(), Settings.projectName);
 Settings.databaseLocation = path.join(data_path, 'data');
 
 // Updates
-Settings.updateNotification = true;
+Settings.updateNotification = '';
 
 // App Settings
 Settings.version = false;

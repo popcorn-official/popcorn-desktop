@@ -19,6 +19,7 @@
             e.preventDefault();
             Mousetrap.unpause();
             AdvSettings.set('dhtEnable', document.getElementById('dhtEnableFR').checked ? true : false);
+            AdvSettings.set('updateNotification', document.getElementById('updateNotificationFR').checked ? true : false);
             AdvSettings.set('disclaimerAccepted', 1);
             if (document.getElementById('dhtEnableFR').checked) {
                 App.DhtReader.update();
