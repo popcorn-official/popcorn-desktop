@@ -173,3 +173,9 @@ You should have received a copy of the GNU General Public License along with thi
 ***
 
 Copyright © 2024 Popcorn Time Project - Released under the [GPL v3 license](LICENSE.txt).
+
+It will be more useful for the user to have the watch list in a location where the user can access it more easily. For example, a separate tab can be created for the watch list next to the favorites instead of using a filter inside the favourite tab.
+
+Thank you for your interest and wish you good work.
+
+
