@@ -536,7 +536,7 @@ gulp.task('nsis', () => {
 
         // spawn isn't exec
         const makensis =
-          process.platform === 'win32' ? 'makensis.exe' : 'makensis';
+          platform === 'win32' ? 'makensis.exe' : 'makensis';
 
         const child = spawn(makensis, [
           './dist/windows/installer_makensis.nsi',
@@ -631,7 +631,7 @@ gulp.task('prepareUpdater', () => {
 
         // list of commands
         let excludeCmd = '--exclude .git';
-        if (process.platform.indexOf('linux') !== -1) {
+        if (platform.indexOf('linux') !== -1) {
           excludeCmd = '--exclude-vcs';
         }
 
