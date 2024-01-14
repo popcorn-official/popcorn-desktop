@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - '*'
-      - '!development_old_nwjs'
     tags:
       - 'v*'
 
@@ -52,35 +51,18 @@ jobs:
           key: "${{ matrix.os }}"
           map: |
             {
-              "ubuntu-latest": { "platform": "linux" },
-              "macOS-latest": { "platform": "osx" },
-              "windows-latest": { "platform": "win" }
+              "ubuntu-latest": { "platform": "linux", "dist": "linux32,linux64" },
+              "macOS-latest": { "platform": "osx", "dist": "osx64" },
+              "windows-latest": { "platform": "win", "dist": "win32,win64" }
             }
 
-      - name: Build info macOS
-        if: matrix.os == 'macOS-latest'
-        run: |
-          echo Build ${{ env.platform }}64 on nw-v${{ matrix.nwjs }}
+      - name: Build info
+        run: echo Build ${{ env.dist }} on nw-v${{ matrix.nwjs }}
 
-      - name: Build info Linux & Windows
-        if: matrix.os != 'macOS-latest'
-        run: |
-          echo Build ${{ env.platform }}32 on nw-v${{ matrix.nwjs }}
-          echo Build ${{ env.platform }}64 on nw-v${{ matrix.nwjs }}
-
-      - name: Build macOS
-        if: matrix.os == 'macOS-latest'
+      - name: Build App
         run: |
           yarn
-          yarn gulp dist --platforms=${{ env.platform }}64 --nwVersion=${{ matrix.nwjs }}
-
-      - name: Build Linux & Windows
-        if: matrix.os != 'macOS-latest'
-        run: |
-          yarn
-          yarn gulp dist --platforms=${{ env.platform }}32 --nwVersion=${{ matrix.nwjs }}
-          yarn gulp dist --platforms=${{ env.platform }}64 --nwVersion=${{ matrix.nwjs }}
-
+          yarn gulp dist --platforms=${{ env.platform == 'win' && '"' || '' }}${{ env.dist }}${{ env.platform == 'win' && '"' || '' }} --nwVersion=${{ matrix.nwjs }}
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
