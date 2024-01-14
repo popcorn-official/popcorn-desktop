@@ -1,3 +1,33 @@
+## 0.4.10 - Release name here - 20 January 2024
+
+New Features:
+- Update NW.js runtime to 0.82.0 (0.44.5 still supported as an option for this release)
+- Add working Anime tab
+- Add Watched tab
+- Add Seedbox option for exiting the app when downloads complete
+- Add VLC flatpack external player support
+- Switch to the new OpenSubtitles REST API
+- Update WebTorrent to 1.9.7
+
+Bug Fixes:
+- Fix WebTorrent bug which caused high CPU/memory usage
+- Fix issue with broken bookmark entries preventing list from loading
+- Fix issue with title translations
+- Fix bug which caused switching to the default Chromium player when broken trailer link
+- Fix bug which prevented saving magnet links with no name property
+- Fix missing provider icons when no source link
+- Fix brightness and hue filters implementations
+- Fix title display for mpv external player
+
+Other:
+- Update the build system
+- Clean up obsolete/unnecessary code
+- Update Torrent Collection providers
+- Update torrent trackers
+- Update flag icons
+- Update various modules/dependencies
+- Various other small fixes and optimizations
+
 ## 0.4.9 - Ogres are not like cakes - 04 September 2022
 
 New Features:
