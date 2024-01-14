@@ -304,35 +304,6 @@ gulp.task('compresszip', () => {
   ).catch(log);
 });
 
-gulp.task('compressUpdater', () => {
-  return Promise.all(
-    nw.options.platforms.map((platform) => {
-      return new Promise((resolve, reject) => {
-        if (platform.indexOf('win') !== -1) {
-          console.log('Windows updater is already compressed');
-          return resolve();
-        }
-
-        let updateFile = 'update.tar';
-
-        console.log('Packaging updater for: %s', platform);
-        return gulp
-          .src(path.join('build', updateFile))
-          .pipe(zip('update-' + curVersion() + '-' + platform + nwSuffix() + '.zip'))
-          .pipe(gulp.dest(releasesDir))
-          .on('end', () => {
-            console.log(
-              '%s zip packaged in %s',
-              platform,
-              path.join(process.cwd(), releasesDir)
-            );
-            resolve();
-          });
-      });
-    })
-  ).catch(log);
-});
-
 // beautify entire code (tweak in .jsbeautifyrc)
 gulp.task('jsbeautifier', () => {
   return gulp
@@ -363,22 +334,6 @@ gulp.task('jsbeautifier', () => {
 gulp.task(
   'clean:build',
   deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files')
-);
-
-gulp.task(
-  'clean:updater',
-  deleteAndLog(
-    [path.join(process.cwd(), releasesDir, 'update.tar')],
-    'build files'
-  )
-);
-
-gulp.task(
-  'clean:updater:win',
-  deleteAndLog(
-    [path.join(process.cwd(), releasesDir, 'update.exe')],
-    'build files'
-  )
 );
 
 // clean dist files (dist)
@@ -599,96 +554,6 @@ gulp.task('deb', () => {
             console.log('%s failed to package deb', platform);
             reject();
         });
-      });
-    })
-  ).catch(log);
-});
-
-gulp.task('prepareUpdater', () => {
-  return Promise.all(
-    nw.options.platforms.map((platform) => {
-      // don't package win, use nsis
-      if (platform.indexOf('win') !== -1) {
-        console.log('No `compress` task for:', platform);
-        return null;
-      }
-
-      return new Promise((resolve, reject) => {
-        console.log('Packaging tar for: %s', platform);
-
-        let sources = path.join('build', pkJson.name, platform);
-        if (platform === 'osx64') {
-          sources = path.join(sources, pkJson.name + '.app');
-        }
-
-        // list of commands
-        let excludeCmd = '--exclude .git';
-        if (platform.indexOf('linux') !== -1) {
-          excludeCmd = '--exclude-vcs';
-        }
-
-        const commands = [
-          'cd ' + sources,
-          'tar ' +
-            excludeCmd +
-            ' -cf ' +
-            path.join(process.cwd(), releasesDir, 'update.tar') +
-            ' .',
-          'echo "' +
-            platform +
-            ' tar packaged in ' +
-            path.join(process.cwd(), releasesDir) +
-            '" || echo "' +
-            platform +
-            ' failed to package tar"'
-        ].join(' && ');
-
-        exec(commands, (error, stdout, stderr) => {
-          if (error || stderr) {
-            console.log(error || stderr);
-            console.log('%s failed to package tar', platform);
-            resolve();
-          } else {
-            console.log(stdout.replace('\n', ''));
-            resolve();
-          }
-        });
-      });
-    })
-  ).catch(log);
-});
-
-gulp.task('prepareUpdater:win', () => {
-  return Promise.all(
-    nw.options.platforms.map((platform) => {
-      if (platform.indexOf('win') === -1) {
-        console.log(
-          'This updater sequence is only possible on win, skipping ' + platform
-        );
-        return null;
-      }
-
-      return new Promise((resolve, reject) => {
-        gulp
-          .src(
-            path.join(
-              process.cwd(),
-              releasesDir,
-              pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '-Setup.exe'
-            )
-          )
-          .pipe(gulpRename('update.exe'))
-          .pipe(gulp.dest(path.join(process.cwd(), releasesDir)))
-          .pipe(zip('update-' + curVersion() + '-' + platform + nwSuffix() + '.zip'))
-          .pipe(gulp.dest(releasesDir))
-          .on('end', () => {
-            console.log(
-              '%s zip packaged in %s',
-              platform,
-              path.join(process.cwd(), releasesDir)
-            );
-            resolve();
-          });
       });
     })
   ).catch(log);

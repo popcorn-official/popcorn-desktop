@@ -4,7 +4,6 @@ src/app/themes
 build/
 cache/
 dist/windows/*-Setup.exe
-dist/windows/update.exe
 dist/linux/linux-installer
 dist/linux/*.deb
 src/app/css/app.css
