@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - '*'
-      - '!development_old_nwjs'
     tags:
       - 'v*'
 
@@ -15,8 +14,12 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        nwjs: ['0.44.5', '0.82.0']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        bit: [32, 64]
+        nwjs: ['0.82.0', '0.44.5']
+        exclude:
+          - os: macOS-latest
+            bit: 32
 
     steps:
       - name: Context
@@ -53,38 +56,22 @@ jobs:
           map: |
             {
               "ubuntu-latest": { "platform": "linux" },
-              "macOS-latest": { "platform": "osx" },
-              "windows-latest": { "platform": "win" }
+              "windows-latest": { "platform": "win" },
+              "macOS-latest": { "platform": "osx" }
             }
 
-      - name: Build info macOS
-        if: matrix.os == 'macOS-latest'
-        run: |
-          echo Build ${{ env.platform }}64 on nw-v${{ matrix.nwjs }}
+      - name: Build info
+        run: echo Build ${{ env.platform }}${{ matrix.bit }} on nw-v${{ matrix.nwjs }}
 
-      - name: Build info Linux & Windows
-        if: matrix.os != 'macOS-latest'
-        run: |
-          echo Build ${{ env.platform }}32 on nw-v${{ matrix.nwjs }}
-          echo Build ${{ env.platform }}64 on nw-v${{ matrix.nwjs }}
-
-      - name: Build macOS
-        if: matrix.os == 'macOS-latest'
+      - name: Build App
         run: |
           yarn
-          yarn gulp dist --platforms=${{ env.platform }}64 --nwVersion=${{ matrix.nwjs }}
-
-      - name: Build Linux & Windows
-        if: matrix.os != 'macOS-latest'
-        run: |
-          yarn
-          yarn gulp dist --platforms=${{ env.platform }}32 --nwVersion=${{ matrix.nwjs }}
-          yarn gulp dist --platforms=${{ env.platform }}64 --nwVersion=${{ matrix.nwjs }}
+          yarn gulp dist --platforms=${{ env.platform }}${{ matrix.bit }} --nwVersion=${{ matrix.nwjs }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ env.platform }}-${{ matrix.nwjs }}
+          name: ${{ env.platform }}${{ matrix.bit }}-${{ matrix.nwjs }}
           path: build
 
   release:

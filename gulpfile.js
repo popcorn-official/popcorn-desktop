@@ -534,11 +534,7 @@ gulp.task('nsis', () => {
       return new Promise((resolve, reject) => {
         console.log('Packaging nsis for: %s', platform);
 
-        // spawn isn't exec
-        const makensis =
-          process.platform === 'win32' ? 'makensis.exe' : 'makensis';
-
-        const child = spawn(makensis, [
+        const child = spawn('makensis.exe', [
           './dist/windows/installer_makensis.nsi',
           '-DARCH=' + platform,
           '-DOUTDIR=' + path.join(process.cwd(), releasesDir)
@@ -631,7 +627,7 @@ gulp.task('prepareUpdater', () => {
 
         // list of commands
         let excludeCmd = '--exclude .git';
-        if (process.platform.indexOf('linux') !== -1) {
+        if (platform.indexOf('linux') !== -1) {
           excludeCmd = '--exclude-vcs';
         }
 
