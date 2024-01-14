@@ -490,7 +490,7 @@ gulp.task('nsis', () => {
         console.log('Packaging nsis for: %s', platform);
 
         const child = platform === 'win32' ? spawn('makensis.exe', ['./dist/windows/installer_makensis32.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]) : spawn('makensis', ['./dist/windows/installer_makensis64.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]);
-        
+
         waitProcess(child).then(() => {
           console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
           if (pkJson.version === curVersion() && !nwSuffix()) {
