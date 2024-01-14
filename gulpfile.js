@@ -534,30 +534,22 @@ gulp.task('nsis', () => {
       return new Promise((resolve, reject) => {
         console.log('Packaging nsis for: %s', platform);
 
-        // spawn isn't exec
-        const makensis =
-          process.platform === 'win32' ? 'makensis.exe' : 'makensis';
-
-        const child = spawn(makensis, [
-          './dist/windows/installer_makensis.nsi',
-          '-DARCH=' + platform,
-          '-DOUTDIR=' + path.join(process.cwd(), releasesDir)
-        ]);
-
+        const child = platform === 'win32' ? spawn('makensis.exe', ['./dist/windows/installer_makensis32.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]) : spawn('makensis', ['./dist/windows/installer_makensis64.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]);
+        
         waitProcess(child).then(() => {
-            console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
-            if (pkJson.version === curVersion() && !nwSuffix()) {
-                resolve();
-                return;
-            }
-            return renameFile(
-                path.join(process.cwd(), releasesDir),
-                pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe',
-                pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '-Setup.exe'
-            ).then(() => resolve());
+          console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));
+          if (pkJson.version === curVersion() && !nwSuffix()) {
+            resolve();
+            return;
+          }
+          return renameFile(
+            path.join(process.cwd(), releasesDir),
+            pkJson.name + '-' + pkJson.version + '-' + platform + '-Setup.exe',
+            pkJson.name + '-' + curVersion() + '-' + platform + nwSuffix() + '-Setup.exe'
+          ).then(() => resolve());
         }).catch(() => {
-            console.log('%s failed to package nsis', platform);
-            reject();
+          console.log('%s failed to package nsis', platform);
+          reject();
         });
       });
     })
@@ -631,7 +623,7 @@ gulp.task('prepareUpdater', () => {
 
         // list of commands
         let excludeCmd = '--exclude .git';
-        if (process.platform.indexOf('linux') !== -1) {
+        if (platform.indexOf('linux') !== -1) {
           excludeCmd = '--exclude-vcs';
         }
 
