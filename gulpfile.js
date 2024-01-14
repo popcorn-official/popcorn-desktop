@@ -534,7 +534,12 @@ gulp.task('nsis', () => {
       return new Promise((resolve, reject) => {
         console.log('Packaging nsis for: %s', platform);
 
-        const child = platform === 'win32' ? spawn('makensis.exe', ['./dist/windows/installer_makensis32.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]) : spawn('makensis', ['./dist/windows/installer_makensis64.nsi', '-DOUTDIR=' + path.join(process.cwd(), releasesDir)]);
+        const installer = platform === 'win32' ? 'installer_makensis32.nsi' : 'installer_makensis64.nsi';
+        const child = spawn('makensis.exe', [
+            './dist/windows/' + installer,
+            '-DARCH=' + platform,
+            '-DOUTDIR=' + path.join(process.cwd(), releasesDir)
+        ]);
         
         waitProcess(child).then(() => {
           console.log('%s nsis packaged in', platform, path.join(process.cwd(), releasesDir));

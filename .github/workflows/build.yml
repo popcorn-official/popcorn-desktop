@@ -14,8 +14,12 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        nwjs: ['0.44.5', '0.82.0']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        bit: [32, 64]
+        nwjs: ['0.82.0', '0.44.5']
+        exclude:
+          - os: macOS-latest
+            bit: 32
 
     steps:
       - name: Context
@@ -51,22 +55,23 @@ jobs:
           key: "${{ matrix.os }}"
           map: |
             {
-              "ubuntu-latest": { "platform": "linux", "dist": "linux32,linux64" },
-              "macOS-latest": { "platform": "osx", "dist": "osx64" },
-              "windows-latest": { "platform": "win", "dist": "win32,win64" }
+              "ubuntu-latest": { "platform": "linux" },
+              "windows-latest": { "platform": "win" },
+              "macOS-latest": { "platform": "osx" }
             }
 
       - name: Build info
-        run: echo Build ${{ env.dist }} on nw-v${{ matrix.nwjs }}
+        run: echo Build ${{ env.platform }}${{ matrix.bit }} on nw-v${{ matrix.nwjs }}
 
       - name: Build App
         run: |
           yarn
-          yarn gulp dist --platforms=${{ env.platform == 'win' && '"' || '' }}${{ env.dist }}${{ env.platform == 'win' && '"' || '' }} --nwVersion=${{ matrix.nwjs }}
+          yarn gulp dist --platforms=${{ env.platform }}${{ matrix.bit }} --nwVersion=${{ matrix.nwjs }}
+
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ env.platform }}-${{ matrix.nwjs }}
+          name: ${{ env.platform }}${{ matrix.bit }}-${{ matrix.nwjs }}
           path: build
 
   release:
