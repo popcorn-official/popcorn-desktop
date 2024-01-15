@@ -21,7 +21,7 @@
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
-                var index = link.indexOf('\&dn=') + 4, // keep display name
+                var index = Settings.droppedMagnet.indexOf('\&dn=') !== -1 ? link.indexOf('\&dn=') + 4 : link.indexOf('btih:') + 5,
                     _link = link.substring(index); // remove everything before dn
                 _link = _link.split('\&'); // array of strings starting with &
                 _link = _link[0]; // keep only the first (i.e: display name)
@@ -81,12 +81,6 @@
             // bypass errors
             if (!Settings.droppedTorrent && !Settings.droppedMagnet) {
                 $('.store-torrent').hide();
-                return false;
-            } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
-                var storeTorrent = $('.store-torrent');
-                storeTorrent.text(i18n.__('Cannot be stored'));
-                storeTorrent.addClass('disabled').prop('disabled', true);
-                win.warn('Magnet lacks Display Name, unable to store it');
                 return false;
             }
             var file, _file;
