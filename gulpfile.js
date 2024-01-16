@@ -1,5 +1,3 @@
-'use strict';
-
 /********
  * setup *
  ********/
@@ -11,6 +9,7 @@ const defaultNwVersion = '0.82.0',
 /***************
  * dependencies *
  ***************/
+const { series, parallel } = require('gulp');
 const gulp = require('gulp'),
   glp = require('gulp-load-plugins')(),
   del = require('del'),
@@ -167,16 +166,6 @@ const renameFile = (dir, src, dest) => {
     }).then(() => del(path.join(dir, src)));
 };
 
-// clean for dist
-gulp.task('cleanForDist', (done) => {
-  del([path.join(releasesDir, pkJson.name)]).then((paths) => {
-    paths.length
-      ? console.log('Deleted: \n', paths.join('\n'))
-      : console.log('Nothing to delete');
-    done();
-  });
-});
-
 // nw-builder configuration
 const nw = new nwBuilder({
   files: [],
@@ -195,7 +184,7 @@ const nw = new nwBuilder({
  *************/
 // start app in development
 // default is help, because we can!
-gulp.task('default', (done) => {
+exports.default = function(done) {
   console.log(
     [
       '\nBasic usage:',
@@ -211,8 +200,9 @@ gulp.task('default', (done) => {
     ].join('\n')
   );
   done();
-});
-gulp.task('run', () => {
+};
+
+exports.run = () => {
   return new Promise((resolve, reject) => {
     let platform = parsePlatforms()[0],
       bin = path.join('cache', nwVersion + '-' + nwFlavor, platform);
@@ -258,10 +248,10 @@ gulp.task('run', () => {
       reject(error);
     });
   });
-});
+};
 
 // check entire sources for potential coding issues (tweak in .jshintrc)
-gulp.task('jshint', () => {
+exports.jshint = () => {
   return gulp
     .src([
       'gulpfile.js',
@@ -274,9 +264,10 @@ gulp.task('jshint', () => {
     .pipe(glp.jshint('.jshintrc'))
     .pipe(glp.jshint.reporter('jshint-stylish'))
     .pipe(glp.jshint.reporter('fail'));
-});
+};
+
 // zip compress all
-gulp.task('compresszip', () => {
+exports.compresszip = () => {
   return Promise.all(
     nw.options.platforms.map((platform) => {
       return new Promise((resolve, reject) => {
@@ -302,10 +293,10 @@ gulp.task('compresszip', () => {
       });
     })
   ).catch(log);
-});
+};
 
 // beautify entire code (tweak in .jsbeautifyrc)
-gulp.task('jsbeautifier', () => {
+exports.jsbeautifier = () => {
   return gulp
     .src(
       [
@@ -328,35 +319,21 @@ gulp.task('jsbeautifier', () => {
     )
     .pipe(glp.jsbeautifier.reporter())
     .pipe(gulp.dest('./'));
-});
+};
 
 // clean build files (nwjs)
-gulp.task(
-  'clean:build',
-  deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files')
-);
+exports.cleanBuild = async () =>
+    deleteAndLog([path.join(releasesDir, pkJson.name)], 'build files');
 
 // clean dist files (dist)
-gulp.task(
-  'clean:dist',
-  deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables')
-);
+exports.cleanDist = async () =>
+  deleteAndLog([path.join(releasesDir, '*.*')], 'distribuables');
 
 // clean compiled css
-gulp.task('clean:css', deleteAndLog(['src/app/themes'], 'css files'));
+exports.cleanCss = async () =>
+    deleteAndLog(['src/app/themes'], 'css files');
 
-//TODO:
-//setexecutable?
-//bower_clean
-
-//TODO: test and tweak
-/*gulp.task('codesign', () => {
-    exec('sh dist/mac/codesign.sh || echo "Codesign failed, likely caused by not being run on mac, continuing"', (error, stdout, stderr) => {
-        console.log(stdout);
-    });
-});
-*/
-gulp.task('mac-pkg', () => {
+exports.macPkg = () => {
   return Promise.all(
     nw.options.platforms.map((platform) => {
       if (detectCurrentPlatform(process).indexOf('osx') === -1) {
@@ -387,10 +364,10 @@ gulp.task('mac-pkg', () => {
       });
     })
   ).catch(log);
-});
+};
 
 // download and compile nwjs
-gulp.task('nwjs', () => {
+exports.nwjs = () => {
   return parseReqDeps()
     .then((requiredDeps) => {
       // required files
@@ -425,10 +402,10 @@ gulp.task('nwjs', () => {
     .catch(function(error) {
       console.error(error);
     });
-});
+};
 
 // create git.json (used in 'About')
-gulp.task('injectgit', () => {
+exports.injectgit = () => {
   return git.gitDescribe()
     .then(
       (gitInfo) =>
@@ -453,10 +430,10 @@ gulp.task('injectgit', () => {
       console.log(error);
       console.log('Injectgit task failed');
     });
-});
+};
 
 // compile styl files
-gulp.task('css', () => {
+exports.css = () => {
   const sources = 'src/app/styl/*.styl',
     dest = 'src/app/themes/';
 
@@ -474,10 +451,10 @@ gulp.task('css', () => {
         path.join(process.cwd(), dest)
       );
     });
-});
+};
 
 // compile nsis installer
-gulp.task('nsis', () => {
+exports.nsis = () => {
   return Promise.all(
     nw.options.platforms.map((platform) => {
       // nsis is for win only
@@ -509,11 +486,11 @@ gulp.task('nsis', () => {
       });
     })
   ).catch(log);
-});
+};
 
 // compile debian packages
 // TODO: https://www.npmjs.com/package/nobin-debian-installer
-gulp.task('deb', () => {
+exports.deb = () => {
   return Promise.all(
     nw.options.platforms.map((platform) => {
       // deb is for linux only
@@ -557,56 +534,49 @@ gulp.task('deb', () => {
       });
     })
   ).catch(log);
-});
+};
+
+exports.jshint.displayName = 'jshint';
+exports.injectgit.displayName = 'injectgit';
+exports.css.displayName = 'css';
+
+exports.compresszip.displayName = 'compresszip';
+exports.nwjs.displayName = 'nwjs';
+exports.deb.displayName = 'deb';
+exports.macPkg.displayName = 'macPkg';
+
+exports.cleanBuild.displayName = 'cleanBuild';
+exports.cleanDist.displayName = 'cleanDist';
+exports.cleanCss.displayName = 'cleanCss';
 
 // prevent commiting if conditions aren't met and force beautify (bypass with `git commit -n`)
-gulp.task(
-  'pre-commit',
-  gulp.series('jshint', function(done) {
-    // default task code here
-    done();
-  })
-);
+exports['pre-commit'] = series(exports.jshint);
 
 // build app from sources
-gulp.task(
-  'build',
-  gulp.series('injectgit', 'css', 'nwjs', function(done) {
-    // default task code here
-    done();
-  })
-);
+exports.build = series(exports.injectgit, exports.css, exports.nwjs);
 
 // create redistribuable packages
-gulp.task(
-  'dist',
-  gulp.series(
-    'build',
-    'compresszip',
-    'deb',
-    'mac-pkg',
-    'nsis',
-    'cleanForDist',
-    function(done) {
-      // default task code here
-      done();
-    }
-  )
+exports.dist = series(
+    exports.build,
+    parallel(
+        exports.compresszip,
+        exports.deb,
+        exports.macPkg,
+        exports.nsis,
+    ),
+    exports.cleanBuild
 );
 
 // clean gulp-created files
-gulp.task(
-  'clean',
-  gulp.series('clean:dist', 'clean:build', 'clean:css', function(done) {
-    // default task code here
-    done();
-  })
+exports.clean = parallel(
+    exports.cleanBuild,
+    exports.cleanDist,
+    exports.cleanCss,
 );
+
 // travis tests
-gulp.task(
-  'test',
-  gulp.series('jshint', 'injectgit', 'css', function(done) {
-    // default task code here
-    done();
-  })
+exports.test = series(
+    exports.jshint,
+    exports.injectgit,
+    exports.css,
 );
