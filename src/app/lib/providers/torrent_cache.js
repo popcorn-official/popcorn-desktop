@@ -11,84 +11,28 @@
 
     var handlers = {
         handletorrent: function (filePath, torrent) {
-            // just copy the torrent file
-            var deferred = Q.defer();
-            Common.copyFile(torrent, filePath, function (err) {
-                if (err) {
-                    return handlers.handleError('TorrentCache.handletorrent() error: ' + err, torrent);
-                }
-                deferred.resolve(filePath);
+            return new Promise(function (resolve, reject) {
+                fs.copyFile(torrent, filePath, function (err) {
+                    if (err) {
+                        return handlers.handleError('TorrentCache.handletorrent() error: ' + err, torrent);
+                    }
+                    resolve(filePath);
+                });
             });
-            return deferred.promise;
         },
         handletorrenturl: function (filePath, torrent) {
-            // try to download the file
-            var deferred = Q.defer(),
-                safeTimeoutID = null,
-                doneReached = false;
-            var done = function (error) {
-                clearTimeout(safeTimeoutID);
-                if (doneReached) {
-                    return;
-                }
-                doneReached = true;
-                if (error) {
-                    // try unlinking the file in case it was created
-                    try {
-                        fs.unlink(filePath);
-                    } catch (e) {}
+            const request = fetch(torrent)
+                .then(result => result.arrayBuffer())
+                .catch(error => {
                     return handlers.handleError('TorrentCache.handletorrenturl() error: ' + error, torrent);
-                }
-                deferred.resolve(filePath);
-            };
-            try { // in case somehow invaid link hase made it through to here
-                var ws = fs.createWriteStream(filePath),
-                    params = {
-                        url: torrent,
-                        headers: {
-                            'accept-charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                            'accept-language': 'en-US,en;q=0.8',
-                            'accept-encoding': 'gzip,deflate',
-                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-                            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.143 Safari/537.36'
-                        }
-                    },
-                    req = request(params)
-                    .on('response', function (resp) {
-                        if (resp.statusCode >= 400) {
-                            return done('Invalid status: ' + resp.statusCode);
-                        }
-                        switch (resp.headers['content-encoding']) {
-                        case 'gzip':
-                            resp.pipe(zlib.createGunzip()).pipe(ws);
-                            break;
-                        case 'deflate':
-                            resp.pipe(zlib.createInflate()).pipe(ws);
-                            break;
-                        default:
-                            resp.pipe(ws);
-                            break;
-                        }
-                        ws
-                            .on('error', done)
-                            .on('close', done);
-                    })
-                    .on('error', done)
-                    .on('end', function () {
-                        // just to be on the safe side here, set 'huge' amount of time, close event should be triggered on ws long before this one if all goes good.
-                        safeTimeoutID = setTimeout(function () {
-                            done('Waiting for stream to end error: timed out.');
-                        }, 5 * 1000);
-                    });
-            } catch (e) {
-                done(e);
-            }
-            return deferred.promise;
+                });
+            return request.then(function (result) {
+                fs.writeFileSync(filePath, Buffer.from(result));
+                return Promise.resolve(filePath);
+            });
         },
         handlemagnet: function (filePath, torrent) {
-            var deferred = Q.defer();
-            deferred.resolve(torrent);
-            return deferred.promise;
+            return Promise.resolve(torrent);
         },
         handleSuccess: function (filePath) {
             win.debug('TorrentCache.handleSuccess() ' + filePath + ' stopped: ' + !stateModel);
@@ -144,10 +88,13 @@
             if (torrent.substring(0, 8) === 'magnet:?') {
                 return 'magnet';
             }
+            if (torrent.indexOf('https://') === 0) {
+                return 'torrenturl';
+            }
+            if (torrent.indexOf('http://') === 0) {
+                return 'torrenturl';
+            }
             if (torrent.indexOf('.torrent') !== -1) {
-                if (torrent.indexOf('http://') === 0) {
-                    return 'torrenturl';
-                }
                 return 'torrent';
             }
         }
@@ -190,34 +137,34 @@
     };
 
     pmod.checkCache = function (torrent) {
-        var deferred = Q.defer(),
-            name = this._getKey(torrent) + '.torrent',
-            targetPath = path.join(tpmDir, name);
+        return new Promise((resolve, reject) => {
+            var name = this._getKey(torrent) + '.torrent',
+                targetPath = path.join(tpmDir, name);
 
-        // check if file already exists
-        fs.readdir(tpmDir, function (err, files) {
-            if (err) {
-                handlers.handleError('TorrentCache.checkCache() readdir:' + err, torrent);
-                return deferred.reject(err);
-            }
-            var idx = files.indexOf(name);
-            if (idx === -1) {
-                return deferred.resolve([targetPath, false]);
-            }
-            // check if it actually is a file, not dir..
-            fs.lstat(targetPath, function (err, stats) {
+            // check if file already exists
+            fs.readdir(tpmDir, function (err, files) {
                 if (err) {
-                    handlers.handleError('TorrentCache.checkCache() lstat:' + err, torrent);
-                    return deferred.reject(err);
+                    handlers.handleError('TorrentCache.checkCache() readdir:' + err, torrent);
+                    return reject(err);
                 }
-                if (stats.isFile()) {
-                    return deferred.resolve([targetPath, true]);
+                var idx = files.indexOf(name);
+                if (idx === -1) {
+                    return resolve([targetPath, false]);
                 }
-                handlers.handleError('TorrentCache.checkCache() target torrent is directory', torrent);
-                deferred.reject('Target torrent is directory');
+                // check if it actually is a file, not dir..
+                fs.lstat(targetPath, function (err, stats) {
+                    if (err) {
+                        handlers.handleError('TorrentCache.checkCache() lstat:' + err, torrent);
+                        return reject(err);
+                    }
+                    if (stats.isFile()) {
+                        return resolve([targetPath, true]);
+                    }
+                    handlers.handleError('TorrentCache.checkCache() target torrent is directory', torrent);
+                    reject('Target torrent is directory');
+                });
             });
         });
-        return deferred.promise;
     };
 
     pmod.stop = function () {

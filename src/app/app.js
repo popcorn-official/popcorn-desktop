@@ -790,6 +790,7 @@ if (
   last_arg &&
   (last_arg.substring(0, 8) === 'magnet:?' ||
     last_arg.substring(0, 7) === 'http://' ||
+    last_arg.substring(0, 8) === 'https://' ||
     last_arg.endsWith('.torrent'))
 ) {
   App.vent.on('app:started', function () {
