@@ -101,7 +101,7 @@
     "webtorrent-health": "1.x.x"
   },
   "devDependencies": {
-    "del": "^3.x.x",
+    "del": "^6",
     "git-describe": "^4.1.1",
     "gulp": "^4.0.2",
     "gulp-filter": "^5.1.0",
@@ -110,16 +110,16 @@
     "gulp-jshint": "^2.1.0",
     "gulp-load-plugins": "^1.6.0",
     "gulp-rename": "^2.0.0",
-    "gulp-stylus": "^2.7.1",
+    "gulp-stylus": "^3",
     "gulp-tar": "^2.1.0",
     "gulp-zip": "^4.2.0",
     "guppy-pre-commit": "^0.4.0",
-    "i18n-unused": "^0.8.0",
+    "i18n-unused": "^0.16",
     "jshint": "^2.13.6",
     "jshint-stylish": "^2.2.1",
     "nib": "^1.2.0",
     "nw-builder": "^3.7.4",
-    "stylus": "^0.54.5",
-    "yargs": "^12.x.x"
+    "stylus": "^0.62",
+    "yargs": "^17"
   }
 }
