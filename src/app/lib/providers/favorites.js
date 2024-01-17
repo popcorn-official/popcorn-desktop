@@ -144,24 +144,17 @@
                 movie_fetch_func = movie_fetch_wrapper;
                 show_fetch_func = show_fetch_wrapper;
             }
-            var deferred = Q.defer();
             // we check if its a movie
             // or tv show then we extract right data
             if (movie.type === 'movie') {
                 // its a movie
-                movie_fetch_func(movie.imdb_id)
-                    .then(function (data) {
-                            if (data && shouldMark) {
-                                data.type = 'bookmarkedmovie';
-                            }
-                            if (data && /slurm.trakt.us/.test(data.image)) {
-                                data.image = data.image.replace(/slurm.trakt.us/, 'walter.trakt.us');
-                            }
-                            deferred.resolve(data);
-                        },
-                        function (err) {
-                            deferred.reject(err);
-                        });
+                const promise = movie_fetch_func(movie.imdb_id).then(function (data) {
+                    if (data && shouldMark) {
+                        data.type = 'bookmarkedmovie';
+                    }
+                    return data;
+                });
+                movieList.push(promise);
             } else {
                 // its a tv show
                 if (kind === 'Watched') {
@@ -171,59 +164,19 @@
                     }
                     WseriesList.push(movie.imdb_id);
                 }
-                var _data = null;
-                show_fetch_func(movie.imdb_id)
-                    .then(function (data) {
-                        if (data && shouldMark) {
-                            data.type = 'bookmarkedshow';
-                        }
-                        data ? data.imdb = data.imdb_id : null;
-                        // Fallback for old bookmarks without provider in database or marked as Eztv
-                        if (data && typeof (data.provider) === 'undefined' || data.provider === 'Eztv') {
-                            data.provider = 'tvshow';
-                        }
-                        // This is an old boxart, fetch the latest boxart
-                        if (data && /slurm.trakt.us/.test(data.images.poster)) {
-                            // Keep reference to old data in case of error
-                            _data = data;
-                            var provider = App.Providers.get(data.provider);
-                            return provider.detail(data.imdb_id, data);
-                        } else {
-                            data ? data.poster = data.images.poster : null;
-                            deferred.resolve(data);
-                            return null;
-                        }
-                    }, function (err) {
-                        deferred.reject(err);
-                    }).then(function (data) {
-                        if (data) {
-                            if (shouldMark) {
-                                // Cache new show and return
-                                Database.deleteBookmark(_data.imdb_id);
-                                Database.deleteTVShow(_data.imdb_id);
-                                Database.addTVShow(data);
-                                Database.addBookmark(data.imdb_id, 'tvshow');
-                                data.type = 'bookmarkedshow';
-                            }
-                            deferred.resolve(data);
-                        }
-                    }, function (err) {
-                        // Show no longer exists on provider
-                        // Scrub bookmark and TV show
-                        // But return previous data one last time
-                        // So error to erase database doesn't show
-                        if (_data && shouldMark) {
-                            Database.deleteBookmark(_data.imdb_id);
-                            Database.deleteTVShow(_data.imdb_id);
-                        }
-                        deferred.resolve(_data);
-                    });
+                const promise = show_fetch_func(movie.imdb_id).then(function (data) {
+                    if (data && shouldMark) {
+                        data.type = 'bookmarkedshow';
+                    }
+                    data ? data.imdb = data.imdb_id : null;
+                    data ? data.poster = data.images.poster : null;
+                    return data;
+                });
+                movieList.push(promise);
             }
-
-            movieList.push(deferred.promise);
         });
 
-        return Q.all(movieList).then(values => values.filter(v => v));
+        return Promise.all(movieList).then(values => values.filter(v => v));
     };
 
     Favorites.prototype.extractIds = function (items) {
