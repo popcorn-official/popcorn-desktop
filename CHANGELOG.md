@@ -1,7 +1,7 @@
-## 0.4.10 - Release name here - 20 January 2024
+## 0.4.10 - Mischief Managed - 20 January 2024
 
 New Features:
-- Update NW.js runtime to 0.82.0 (0.44.5 still supported as an option for this release)
+- Update NW.js runtime to 0.84.0 (0.44.5 still supported as an option for this release)
 - Add working Anime tab
 - Add Watched tab
 - Add Seedbox option for exiting the app when downloads complete
@@ -24,7 +24,6 @@ Other:
 - Clean up obsolete/unnecessary code
 - Update Torrent Collection providers
 - Update torrent trackers
-- Update flag icons
 - Update various modules/dependencies
 - Various other small fixes and optimizations
 
