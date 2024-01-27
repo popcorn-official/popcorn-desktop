@@ -258,11 +258,6 @@ var deleteCookies = function () {
   });
 };
 
-var deleteCache = function () {
-  window.indexedDB.deleteDatabase('cache');
-  win.close(true);
-};
-
 var deleteLogs = function() {
   var dataPath = path.join(data_path, 'logs.txt');
   if (fs.existsSync(dataPath)) {
@@ -346,7 +341,7 @@ function close() {
             deleteFolder(App.settings.downloadsLocation + '/TorrentCache/');
           }
           deleteLogs();
-          deleteCache();
+          win.close(true);
         } catch (err) {
           return onError(err);
         }
