@@ -46,7 +46,7 @@ jobs:
         run: |
           node --version
 
-      - uses: simenandre/setup-variables@v2
+      - uses: kanga333/variable-mapper@master
         with:
           key: "${{ matrix.os }}"
           map: |
