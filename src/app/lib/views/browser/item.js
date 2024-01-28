@@ -209,7 +209,17 @@
             }
 
             Common.loadImage(poster).then((img) => {
-                if (this.ui.cover.css) {
+                if (!img && this.model.get('poster_med') && poster !== this.model.get('poster_med')) {
+                    poster = this.model.get('poster_med');
+                    this.model.set('poster', poster);
+                    this.model.set('image', poster);
+                    this.model.set('cover', poster);
+                    Common.loadImage(poster).then((img) => {
+                        if (this.ui.cover.css) {
+                            this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
+                        }
+                    });
+                } else if (this.ui.cover.css) {
                     this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
                 }
             });
