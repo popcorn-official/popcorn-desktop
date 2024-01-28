@@ -32,6 +32,7 @@ class MovieApi extends Generic {
           cover: movie.images ? movie.images.poster : false,
           backdrop: movie.images ? movie.images.fanart : false,
           poster: movie.images ? movie.images.poster : false,
+          poster_med: movie.images ? movie.images.poster_med : false,
           synopsis: movie.synopsis,
           trailer: movie.trailer !== null ? movie.trailer : false,
           certification: movie.certification,
