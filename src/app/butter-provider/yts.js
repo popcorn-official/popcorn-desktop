@@ -43,6 +43,7 @@ class YTSApi extends Generic {
             cover: movie.large_cover_image,
             backdrop: movie.background_image_original,
             poster: movie.large_cover_image,
+            poster_medium: movie.medium_cover_image,
             synopsis: movie.description_full,
             trailer: 'https://www.youtube.com/watch?v=' + movie.yt_trailer_code || false,
             certification: movie.mpa_rating,
