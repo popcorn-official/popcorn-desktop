@@ -209,8 +209,8 @@
             }
 
             Common.loadImage(poster).then((img) => {
-                if (!img && this.model.get('poster_med') && poster !== this.model.get('poster_med')) {
-                    poster = this.model.get('poster_med');
+                if (!img && this.model.get('poster_medium') && poster !== this.model.get('poster_medium')) {
+                    poster = this.model.get('poster_medium');
                     this.model.set('poster', poster);
                     this.model.set('image', poster);
                     this.model.set('cover', poster);
