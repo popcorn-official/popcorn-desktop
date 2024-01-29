@@ -35,6 +35,7 @@
             'click .shmi-rating': 'switchRating',
             'click .health-icon': 'refreshTorrentHealth',
             'mousedown .shp-img': 'clickPoster',
+            'mousedown .show-detail-container': 'exitZoom', 
             'mousedown .shm-title, .sdoi-title, .episodeData div': 'copytoclip',
             'click .playerchoicehelp': 'showPlayerList'
         },
@@ -916,11 +917,31 @@
 
         clickPoster: function(e) {
             if (e.button === 0) {
+                var height = document.querySelector('.shp-img').clientHeight;
+                var width = document.querySelector('.shp-img').clientWidth;
+                var zoom = (((window.innerHeight - 67) / (height / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
+                var top = parseInt((height * zoom - height) / 2 + (3000 / Settings.bigPicture));
+                var left = parseInt((width * zoom - width) / 2 + (2000 / Settings.bigPicture));
                 $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
+                var poster = document.querySelector('.sh-poster.active');
+                if (poster) {
+                    poster.style.transform = 'scale('+ zoom +')';
+                    poster.style.top = top + 'px';
+                    poster.style.left = left + 'px';
+                } else {
+                    document.querySelector('.sh-poster').style = '';
+                }
             } else if (e.button === 2) {
                 var clipboard = nw.Clipboard.get();
                 clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ''), 'text');
                 $('.notification_alert').text(i18n.__('The image url was copied to the clipboard')).fadeIn('fast').delay(2500).fadeOut('fast');
+            }
+        },
+
+        exitZoom: function(e) {
+            if (e.target !== document.querySelector('.shp-img') && document.querySelector('.sh-poster.active')) {
+                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
+                document.querySelector('.sh-poster').style = '';
             }
         },
 
