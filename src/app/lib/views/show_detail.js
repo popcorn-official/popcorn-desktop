@@ -917,14 +917,14 @@
 
         clickPoster: function(e) {
             if (e.button === 0) {
-                var height = document.querySelector('.shp-img').clientHeight;
-                var width = document.querySelector('.shp-img').clientWidth;
-                var zoom = (((window.innerHeight - 67) / (height / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
-                var top = parseInt((height * zoom - height) / 2 + (3000 / Settings.bigPicture));
-                var left = parseInt((width * zoom - width) / 2 + (2000 / Settings.bigPicture));
                 $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
                 var poster = document.querySelector('.sh-poster.active');
                 if (poster) {
+                    var height = document.querySelector('.shp-img').clientHeight;
+                    var width = document.querySelector('.shp-img').clientWidth;
+                    var zoom = (((window.innerHeight - 67) / (height / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
+                    var top = parseInt((height * zoom - height) / 2 + (3000 / Settings.bigPicture));
+                    var left = parseInt((width * zoom - width) / 2 + (2000 / Settings.bigPicture));
                     poster.style.transform = 'scale('+ zoom +')';
                     poster.style.top = top + 'px';
                     poster.style.left = left + 'px';
@@ -940,7 +940,7 @@
 
         exitZoom: function(e) {
             if (e.target !== document.querySelector('.shp-img') && document.querySelector('.sh-poster.active')) {
-                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
+                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').removeClass('active');
                 document.querySelector('.sh-poster').style = '';
             }
         },
