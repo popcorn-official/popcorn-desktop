@@ -916,21 +916,9 @@
         },
 
         clickPoster: function(e) {
+            e.stopPropagation();
             if (e.button === 0) {
-                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').toggleClass('active');
-                var poster = document.querySelector('.sh-poster.active');
-                if (poster) {
-                    var height = document.querySelector('.shp-img').clientHeight;
-                    var width = document.querySelector('.shp-img').clientWidth;
-                    var zoom = (((window.innerHeight - 67) / (height / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
-                    var top = parseInt((height * zoom - height) / 2 + (3000 / Settings.bigPicture));
-                    var left = parseInt((width * zoom - width) / 2 + (2000 / Settings.bigPicture));
-                    poster.style.transform = 'scale('+ zoom +')';
-                    poster.style.top = top + 'px';
-                    poster.style.left = left + 'px';
-                } else {
-                    document.querySelector('.sh-poster').style = '';
-                }
+                $('.sh-poster').hasClass('active') ? this.exitZoom() : this.posterZoom();
             } else if (e.button === 2) {
                 var clipboard = nw.Clipboard.get();
                 clipboard.set($('.shp-img')[0].style.backgroundImage.slice(4, -1).replace(/"/g, ''), 'text');
@@ -938,11 +926,16 @@
             }
         },
 
-        exitZoom: function(e) {
-            if (e.target !== document.querySelector('.shp-img') && document.querySelector('.sh-poster.active')) {
-                $('.sh-poster, .show-details, .sh-metadata, .sh-actions').removeClass('active');
-                document.querySelector('.sh-poster').style = '';
-            }
+        posterZoom: function() {
+            var zoom = (($('.show-detail-container').height() / ($('.shp-img').height() / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
+            var top = parseInt(($('.shp-img').height() * zoom - $('.shp-img').height()) / 2 + (3000 / Settings.bigPicture)) + 'px';
+            var left = parseInt(($('.shp-img').width() * zoom - $('.shp-img').width()) / 2 + (2000 / Settings.bigPicture)) + 'px';
+            $('.sh-poster, .show-details, .sh-metadata, .sh-actions').addClass('active');
+            $('.sh-poster.active').css({transform: 'scale(' + zoom + ')', top: top, left: left});
+        },
+
+        exitZoom: function() {
+            $('.sh-poster').hasClass('active') ? $('.sh-poster, .show-details, .sh-metadata, .sh-actions').removeClass('active').removeAttr('style') : null;
         },
 
         copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, ($(e.target)[0].className ? i18n.__($(e.target)[0].className.replace('shm-', '').replace('sdoi-', 'episode ')) : i18n.__('episode title')), true),
