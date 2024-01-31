@@ -927,7 +927,7 @@
         },
 
         posterZoom: function() {
-            var zoom = (($('.show-detail-container').height() / ($('.shp-img').height() / Settings.bigPicture * 100)) -1) / (Settings.bigPicture / 100);
+            var zoom = $('.show-detail-container').height() / $('.shp-img').height() * (0.75 + Settings.bigPicture / 2000);
             var top = parseInt(($('.shp-img').height() * zoom - $('.shp-img').height()) / 2 + (3000 / Settings.bigPicture)) + 'px';
             var left = parseInt(($('.shp-img').width() * zoom - $('.shp-img').width()) / 2 + (2000 / Settings.bigPicture)) + 'px';
             $('.sh-poster, .show-details, .sh-metadata, .sh-actions').addClass('active');
