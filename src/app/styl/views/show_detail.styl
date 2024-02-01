@@ -634,8 +634,17 @@
                             margin-right: 0px
 
         .sd-torrents
-            grid-area: torrents;
-            max-height: 300px;
+            grid-area: torrents
+            max-height: 300px
+
+            .action
+                color: rgba(0,0,0,0) !important
+                width: 0px !important
+                padding: 0px !important
+                pointer-events: none
+
+                .item-download
+                    font-family: $Font, $AlternateFont
 
         > .spinner
             position: fixed;

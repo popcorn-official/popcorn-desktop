@@ -69,6 +69,8 @@
             e.stopPropagation();
             const torrent = this.getTorrent(e.target);
             const download = !$(e.target).hasClass('item-play');
+            Settings.droppedMagnet = torrent.url || null;
+            Settings.droppedMagnetName = torrent.title || null;
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
                 title: this.model.get('select') && !download ? null : torrent.title,
