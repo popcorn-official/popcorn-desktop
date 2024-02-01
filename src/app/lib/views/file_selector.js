@@ -2,6 +2,7 @@
     'use strict';
 
     var that,
+        magnetName,
         formatMagnet;
 
     var FileSelector = Marionette.View.extend({
@@ -18,6 +19,8 @@
 
         initialize: function () {
             that = this;
+            magnetName = Settings.droppedMagnetName;
+            delete(Settings.droppedMagnetName);
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
@@ -88,7 +91,7 @@
                 file = Settings.droppedTorrent;
             } else if (Settings.droppedMagnet && !Settings.droppedStoredMagnet) {
                 _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                    file = magnetName || formatMagnet(_file);
             } else if (Settings.droppedMagnet && Settings.droppedStoredMagnet) {
                 file = Settings.droppedStoredMagnet;
             }
@@ -124,7 +127,7 @@
                 }
             } else if (Settings.droppedMagnet) {
                 _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                    file = magnetName || formatMagnet(_file);
 
                 if (this.isTorrentStored()) {
                     if (Settings.droppedStoredMagnet) {
