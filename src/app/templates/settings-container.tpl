@@ -171,6 +171,10 @@
                 <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
             </span>
             <span>
+                <input class="settings-checkbox" name="seriesUITransparency" id="seriesUITransparency" type="checkbox" <%=(Settings.seriesUITransparency? "checked='checked'":"")%>>
+                <label class="settings-label" for="seriesUITransparency"><%= i18n.__("Series detail UI transparency") %></label>
+            </span>
+            <span>
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
                 <label class="settings-label" for="nativeWindowFrame"><%= i18n.__("Native window frame") %></label>
             </span>
