@@ -153,6 +153,20 @@
                 </div>
             </span>
             <span>
+                <div class="dropdown seriesUITransparency">
+                   <p><%= i18n.__("Series detail transparency") %></p>
+                        <%
+                            var transp_type = {"": "Disabled", "low": "Low", "normal": "Normal", "high": "High", "vhigh": "Very High"};
+                            var transp_sizes = "";
+                            for(var key in transp_type) {
+                                transp_sizes += "<option "+(Settings.seriesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transp_type[key])+"</option>";
+                            }
+                        %>
+                    <select name="seriesUITransparency"><%=transp_sizes%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
                 <div class="dropdown poster_size">
                    <p><%= i18n.__("Poster Size") %></p>
                         <%
@@ -169,10 +183,6 @@
             <span>
                 <p><%= i18n.__("UI Scaling") %></p>
                 <input id="bigPicture" type="text" size="5" name="bigPicture" value="<%=Settings.bigPicture%>%" autocomplete="off"/>&nbsp;&nbsp;&nbsp;<em><%= i18n.__("25% - 400%") %></em>
-            </span>
-            <span>
-                <input class="settings-checkbox" name="seriesUITransparency" id="seriesUITransparency" type="checkbox" <%=(Settings.seriesUITransparency? "checked='checked'":"")%>>
-                <label class="settings-label" for="seriesUITransparency"><%= i18n.__("Series detail UI transparency") %></label>
             </span>
             <span>
                 <input class="settings-checkbox" name="nativeWindowFrame" id="nativeWindowFrame" type="checkbox" <%=(Settings.nativeWindowFrame? "checked='checked'":"")%>>
