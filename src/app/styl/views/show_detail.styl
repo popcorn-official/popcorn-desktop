@@ -14,7 +14,7 @@
         .sh-backdrop
             .shb-img
                 position: absolute
-                min-height: 215px
+                min-height: 90vh
                 width: 100vw
                 background-repeat: no-repeat
                 background-size: cover
@@ -343,7 +343,7 @@
     .show-details
         width: 100vw
         z-index: 1
-        background: $ShowBgColor1
+        background: rgba($ShowBgColor1, 0.7)
         height: calc(100vh - 282px)
         display: grid
         padding-left: 20px /* left-pad */
@@ -351,6 +351,14 @@
         grid-template-columns: fit-content(165px) 2fr minmax(480px, 1fr);
         grid-template-rows: 2fr auto;
         grid-template-areas: "seasons  episodes overview" "torrents torrents overview";
+        &.transpVHigh
+            background: rgba($ShowBgColor1, 0.5)
+        &.transpHigh
+            background: rgba($ShowBgColor1, 0.6)
+        &.transpLow
+            background: rgba($ShowBgColor1, 0.8)
+        &.transpOff
+            background: $ShowBgColor1
 
         .sd-seasons ul, .sd-episodes ul
             position: absolute;
@@ -379,7 +387,11 @@
                         color: $ShowWatchedIcon_true
 
             li:nth-child(odd)
-                background-color $ShowBgColor2
+                background-color rgba($ShowBgColor1, 0.3)
+                backdrop-filter $ShowOddHighlight
+                &:not(.active).transpOff
+                    background-color $ShowBgColor2
+                    backdrop-filter none
 
             li:hover
                 background $EpisodeSelectorHover
@@ -395,7 +407,7 @@
                     right -12px
                     width 0
                     height 0
-                    border-color $ShowBgColor1 $ShowBgColor1 $ShowBgColor1 $EpisodeSelectorBg
+                    border-color rgba(0,0,0,0) rgba(0,0,0,0) rgba(0,0,0,0) $EpisodeSelectorBg
                     border-style solid
                     border-width 16px 6px 17px 6px
 
@@ -458,11 +470,13 @@
                 color: $EpisodeSelectorText
 
         .sd-overview
-            background: $ShowBgColor2
+            background: rgba($ShowBgColor1, 0.3)
             grid-area: overview;
             padding: 10px 30px 10px 18px /* right pad */
             display: grid
             grid-template-rows: auto 2fr
+            &.transpOff
+                background: $ShowBgColor2
 
             .sdo-infos
                 height: fit-content

@@ -307,6 +307,7 @@
                 case 'theme':
                 case 'delSeedboxCache':
                 case 'maxLimitMult':
+                case 'seriesUITransparency':
                     value = $('option:selected', field).val();
                     break;
                 case 'poster_size':
@@ -635,6 +636,7 @@
                 case 'multipleExtSubtitles':
                 case 'httpApiEnabled':
                 case 'expandedSearch':
+                case 'seriesUITransparency':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
