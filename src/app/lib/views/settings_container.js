@@ -334,6 +334,7 @@
                 case 'coversShowRating':
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
+                case 'seriesUITransparency':
                 case 'nativeWindowFrame':
                 case 'audioPassthrough':
                 case 'translatePosters':
@@ -635,6 +636,7 @@
                 case 'multipleExtSubtitles':
                 case 'httpApiEnabled':
                 case 'expandedSearch':
+                case 'seriesUITransparency':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
