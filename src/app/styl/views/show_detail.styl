@@ -25,8 +25,6 @@
                 &.fadein
                     transition: opacity .3s ease-in;
                     opacity: 1
-                &.transpOff
-                    min-height: 215px
 
         .sh-poster
             float: left
@@ -353,6 +351,12 @@
         grid-template-columns: fit-content(165px) 2fr minmax(480px, 1fr);
         grid-template-rows: 2fr auto;
         grid-template-areas: "seasons  episodes overview" "torrents torrents overview";
+        &.transpVHigh
+            background: rgba($ShowBgColor1, 0.5)
+        &.transpHigh
+            background: rgba($ShowBgColor1, 0.6)
+        &.transpLow
+            background: rgba($ShowBgColor1, 0.8)
         &.transpOff
             background: $ShowBgColor1
 
