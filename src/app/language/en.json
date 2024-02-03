@@ -581,5 +581,9 @@
 	"Exit Now": "Exit Now",
 	"second": "second",
 	"seconds": "seconds",
-	"Series detail UI transparency": "Series detail UI transparency"
+	"Series detail transparency": "Series detail transparency",
+	"Low": "Low",
+	"Normal": "Normal",
+	"High": "High",
+	"Very High": "Very High"
 }
