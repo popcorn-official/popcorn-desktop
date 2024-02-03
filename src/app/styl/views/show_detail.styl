@@ -384,8 +384,10 @@
 
             li:nth-child(odd)
                 background-color rgba($ShowBgColor1, 0.3)
+                backdrop-filter $ShowOddHighlight
                 &:not(.active).transpOff
                     background-color $ShowBgColor2
+                    backdrop-filter none
 
             li:hover
                 background $EpisodeSelectorHover
