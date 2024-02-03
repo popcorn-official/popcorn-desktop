@@ -36,7 +36,7 @@
 
             &:nth-of-type(odd)
                 td
-                    background: $ShowBgColor2
+                    background: rgba(0,0,0,0)
 
             &:hover > td
                 background: $EpisodeSelectorHover
@@ -98,3 +98,9 @@
         td
             &.info, &.action
                 color: $ShowWatchedIcon_false
+
+        tr:nth-of-type(odd)
+            td
+                background: rgba($ShowBgColor1, 0.3)
+                &.transpOff
+                    background: $ShowBgColor2
