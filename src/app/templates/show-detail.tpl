@@ -3,7 +3,7 @@
 
     <section class="show-header">
         <div class="sh-backdrop">
-            <div class="shb-img<%= Settings.seriesUITransparency ? '' : ' transpOff' %>"></div>
+            <div class="shb-img"></div>
         </div>
         <div class="sh-poster">
             <div class="shp-img"></div>
@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="show-details<%= Settings.seriesUITransparency ? '' : ' transpOff' %>">
+    <section class="show-details<%= !Settings.seriesUITransparency ? ' transpOff' : (Settings.seriesUITransparency === 'vhigh' ? ' transpVHigh' : (Settings.seriesUITransparency === 'high' ? ' transpHigh' : (Settings.seriesUITransparency === 'low' ? ' transpLow' : ''))) %>">
         <div class="spinner">
             <div class="loading-container">
                 <div class="ball"></div>
