@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="show-details<% switch(Settings.seriesUITransparency) { case '' : %> transpOff<%; break; case 'vlow': %> transpVLow<%; break; case 'low' : %> transpLow<%; break; case 'high': %> transpHigh<%; break; case 'vhigh': %> transpVHigh<%; break; default: %><%} %>">
+    <section class="show-details<% if (Settings.seriesUITransparency !== 'normal') {switch(Settings.seriesUITransparency) { case '' : %> transpOff<%; break; case 'vlow': %> transpVLow<%; break; case 'low' : %> transpLow<%; break; case 'high': %> transpHigh<%; break; case 'vhigh': %> transpVHigh<%; break; default: %><%}} %>">
         <div class="spinner">
             <div class="loading-container">
                 <div class="ball"></div>
