@@ -156,7 +156,7 @@
                 <div class="dropdown seriesUITransparency">
                    <p><%= i18n.__("Series detail transparency") %></p>
                         <%
-                            var transp_type = {"": "Disabled", "low": "Low", "normal": "Normal", "high": "High", "vhigh": "Very High"};
+                            var transp_type = {"": "Disabled", "vlow": "Very Low", "low": "Low", "normal": "Normal", "high": "High", "vhigh": "Very High"};
                             var transp_sizes = "";
                             for(var key in transp_type) {
                                 transp_sizes += "<option "+(Settings.seriesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transp_type[key])+"</option>";
