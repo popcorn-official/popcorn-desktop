@@ -307,6 +307,7 @@
                 case 'theme':
                 case 'delSeedboxCache':
                 case 'maxLimitMult':
+                case 'seriesUITransparency':
                     value = $('option:selected', field).val();
                     break;
                 case 'poster_size':
@@ -334,7 +335,6 @@
                 case 'coversShowRating':
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
-                case 'seriesUITransparency':
                 case 'nativeWindowFrame':
                 case 'audioPassthrough':
                 case 'translatePosters':
