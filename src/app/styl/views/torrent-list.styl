@@ -107,5 +107,9 @@
                 background: rgba($ShowOddHighlight, $ShowOddHighlightOp)
                 &.transpOff
                     background: $ShowBgColor2
-                    &:hover
-                        background-color $EpisodeSelectorHover
+
+            &:hover >
+                td
+                    background-color: rgba($EpisodeSelectorHoverTran,20%)
+                td.transpOff
+                    background-color: $EpisodeSelectorHover
