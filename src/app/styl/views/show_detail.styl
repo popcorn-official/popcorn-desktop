@@ -394,7 +394,9 @@
                     background-color $ShowBgColor2
 
             li:hover
-                background $EpisodeSelectorHover
+                background rgba($EpisodeSelectorHoverTran,20%)
+                &.transpOff
+                    background: $EpisodeSelectorHover
 
             li.active
                 background-color $EpisodeSelectorBg
