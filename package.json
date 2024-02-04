@@ -22,6 +22,7 @@
     "test": "gulp test",
     "postinstall": "patch-package"
   },
+  "user-agent":"%name %ver on nw%nwver %osinfo",
   "chromium-args": "--enable-node-worker",
   "engines": {
     "yarn": ">= 1.0.0"
