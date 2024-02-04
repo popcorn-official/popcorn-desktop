@@ -38,8 +38,12 @@
                 td
                     background: rgba(0,0,0,0)
 
-            &:hover > td
-                background: $EpisodeSelectorHover
+            &:hover >
+                td
+                    background: rgba($EpisodeSelectorHoverTran,20%)
+
+                td.transpOff
+                    background: $EpisodeSelectorHover
 
             &.disabled
                 cursor: not-allowed
@@ -104,3 +108,10 @@
                 background: rgba($ShowOddHighlight, $ShowOddHighlightOp)
                 &.transpOff
                     background: $ShowBgColor2
+
+            &:hover >
+                td
+                    background: rgba($EpisodeSelectorHoverTran,20%)
+
+                td.transpOff
+                    background: $EpisodeSelectorHover
