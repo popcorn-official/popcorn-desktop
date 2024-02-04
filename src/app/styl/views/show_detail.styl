@@ -389,11 +389,9 @@
                         color: $ShowWatchedIcon_true
 
             li:nth-child(odd)
-                background-color rgba($ShowBgColor1, 0.3)
-                backdrop-filter $ShowOddHighlight
+                background-color rgba($ShowOddHighlight, $ShowOddHighlightOp)
                 &:not(.active).transpOff
                     background-color $ShowBgColor2
-                    backdrop-filter none
 
             li:hover
                 background $EpisodeSelectorHover
