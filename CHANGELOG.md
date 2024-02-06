@@ -1,7 +1,7 @@
-## 0.4.10 - Mischief Managed - 20 January 2024
+## 0.5.0 - Mischief Managed - 10 February 2024
 
 New Features:
-- Update NW.js runtime to 0.84.0 (0.44.5 still supported as an option for this release)
+- Update NW.js runtime to 0.82.0 (0.44.5 still supported as an option for this release)
 - Add working Anime tab
 - Add Watched tab
 - Add Seedbox option for exiting the app when downloads complete
