@@ -279,6 +279,9 @@
                         value = value + '/';
                     }
                     field.val(value);
+                    if (value === Settings.dhtInfo.server) {
+                        value = '';
+                    }
                     break;
                 case 'proxyServer':
                     apiServerChanged = true;
