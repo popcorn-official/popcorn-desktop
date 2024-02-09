@@ -173,7 +173,7 @@
             <span>
                 <div class="dropdown UITransparency">
                     <p><%= i18n.__("UI Transparency") %></p>
-                    <label>Movies</label>
+                    <label><%= i18n.__("Movies") %></label>
                         <%
                             var transpm_type = {"1": "Disabled", "0.90": "Very Low", "0.75": "Low", "0.65": "Medium", "0.55": "High", "0.40": "Very High"};
                             var transpm_sizes = "";
@@ -183,7 +183,7 @@
                         %>
                     <select name="moviesUITransparency"><%=transpm_sizes%></select>
                     <div class="dropdown-arrow"></div>
-                    <label>Series</label>
+                    <label><%= i18n.__("Series") %></label>
                         <%
                             var transps_type = {"": "Disabled", "vlow": "Very Low", "low": "Low", "medium": "Medium", "high": "High", "vhigh": "Very High"};
                             var transps_sizes = "";
