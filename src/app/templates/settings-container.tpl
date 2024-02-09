@@ -136,6 +136,35 @@
                 </div>
             </span>
             <span>
+                <div class="dropdown moviesUITransparency">
+                   <p><%= i18n.__("Movie detail transparency") %></p>
+                        <%
+                            var transpm_type = {"1": "Disabled", "0.90": "Very Low", "0.75": "Low", "0.65": "Medium", "0.55": "High", "0.40": "Very High"};
+                            var transpm_sizes = "";
+                            for(var key in transpm_type) {
+                                transpm_sizes += "<option "+(Settings.moviesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transpm_type[key])+"</option>";
+                            }
+                        %>
+                    <select name="moviesUITransparency"><%=transpm_sizes%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+
+            <span>
+                <div class="dropdown seriesUITransparency">
+                   <p><%= i18n.__("Series detail transparency") %></p>
+                        <%
+                            var transps_type = {"": "Disabled", "vlow": "Very Low", "low": "Low", "medium": "Medium", "high": "High", "vhigh": "Very High"};
+                            var transps_sizes = "";
+                            for(var key in transps_type) {
+                                transps_sizes += "<option "+(Settings.seriesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transps_type[key])+"</option>";
+                            }
+                        %>
+                    <select name="seriesUITransparency"><%=transps_sizes%></select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </span>
+            <span>
                 <div class="dropdown tv_detail_jump_to">
                     <p><%= i18n.__("Series detail opens to") %></p>
                         <%
@@ -149,20 +178,6 @@
                             }
                         %>
                     <select name="tv_detail_jump_to"><%=selected_tv_detail_jump%></select>
-                    <div class="dropdown-arrow"></div>
-                </div>
-            </span>
-            <span>
-                <div class="dropdown seriesUITransparency">
-                   <p><%= i18n.__("Series detail transparency") %></p>
-                        <%
-                            var transp_type = {"": "Disabled", "vlow": "Very Low", "low": "Low", "medium": "Medium", "high": "High", "vhigh": "Very High"};
-                            var transp_sizes = "";
-                            for(var key in transp_type) {
-                                transp_sizes += "<option "+(Settings.seriesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transp_type[key])+"</option>";
-                            }
-                        %>
-                    <select name="seriesUITransparency"><%=transp_sizes%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
             </span>
