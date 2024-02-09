@@ -139,7 +139,7 @@
                 <div class="dropdown moviesUITransparency">
                    <p><%= i18n.__("Movie detail transparency") %></p>
                         <%
-                            var transpm_type = {"1": "Disabled", "0.90": "Very Low", "0.75": "Low", "0.65": "Medium", "0.55": "High", "0.40": "Very High"};
+                            var transpm_type = {"1": "Disabled", "0.85": "Very Low", "0.75": "Low", "0.65": "Medium", "0.55": "High", "0.45": "Very High"};
                             var transpm_sizes = "";
                             for(var key in transpm_type) {
                                 transpm_sizes += "<option "+(Settings.moviesUITransparency == key? "selected='selected'":"")+" value='"+key+"'>"+i18n.__(transpm_type[key])+"</option>";
