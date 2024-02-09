@@ -307,6 +307,7 @@
                 case 'theme':
                 case 'delSeedboxCache':
                 case 'maxLimitMult':
+                case 'moviesUITransparency':
                 case 'seriesUITransparency':
                     value = $('option:selected', field).val();
                     break;
@@ -636,6 +637,7 @@
                 case 'multipleExtSubtitles':
                 case 'httpApiEnabled':
                 case 'expandedSearch':
+                case 'moviesUITransparency':
                 case 'seriesUITransparency':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
