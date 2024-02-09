@@ -12,7 +12,7 @@ if (genre) {
 %>
 
 <div class="backdrop"></div>
-<div class="backdrop-overlay"></div>
+<div class="backdrop-overlay" <% if(Settings.moviesUITransparency !== '0.65') {%> style="opacity:<%=Settings.moviesUITransparency%>"<%}%>></div>
 
 <div class="fa fa-times close-icon"></div>
 
