@@ -1,4 +1,6 @@
 {
+    "esversion": 11,
+
     // Environments
     "browser"  : true,
     "node"     : true,
@@ -19,7 +21,6 @@
     "expr"     : true,
     "eqnull"   : true,
     "quotmark" : "single",
-    "trailing" : true,
     "sub"      : true,
     "trailing" : true,
     "undef"    : true,
@@ -31,6 +32,7 @@
     // Globals
     "globals": {
         // App
+        "nw": true,
         "App": true,
         "Settings": true,
         "AdvSettings": true,
@@ -38,7 +40,6 @@
         "Database": true,
         "detectLanguage": true,
         "Common": true,
-        "indexedDB": true,
         "startupTime": true,
         "deleteFolder": true,
         "deleteCookies": true,
@@ -49,7 +50,6 @@
         "Promise": true,
 
         // Global variables
-        "_": true,
         "async": true,
         "inherits": true,
         "Q": true,
@@ -85,7 +85,6 @@
         "Backbone": true,
         "Mousetrap": true,
         "_": true,
-        "request": true,
         "videojs": true,
         "vjs": true
     }

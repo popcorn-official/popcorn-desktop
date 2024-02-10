@@ -13,8 +13,6 @@ before_install:
   - yarn config set yarn-offline-mirror ./node_modules/
   - yarn install --ignore-engines
   - yarn build
-install:
-  - yarn gulp prepareUpdater
 after_success:
   - ls -ltr ./build/
 deploy:

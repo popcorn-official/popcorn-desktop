@@ -2,6 +2,7 @@
     'use strict';
 
     var that,
+        magnetName,
         formatMagnet;
 
     var FileSelector = Marionette.View.extend({
@@ -18,10 +19,12 @@
 
         initialize: function () {
             that = this;
+            magnetName = Settings.droppedMagnetName;
+            delete(Settings.droppedMagnetName);
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
-                var index = link.indexOf('\&dn=') + 4, // keep display name
+                var index = Settings.droppedMagnet.indexOf('\&dn=') !== -1 ? link.indexOf('\&dn=') + 4 : link.indexOf('btih:') + 5,
                     _link = link.substring(index); // remove everything before dn
                 _link = _link.split('\&'); // array of strings starting with &
                 _link = _link[0]; // keep only the first (i.e: display name)
@@ -82,19 +85,13 @@
             if (!Settings.droppedTorrent && !Settings.droppedMagnet) {
                 $('.store-torrent').hide();
                 return false;
-            } else if (Settings.droppedMagnet && Settings.droppedMagnet.indexOf('\&dn=') === -1) {
-                var storeTorrent = $('.store-torrent');
-                storeTorrent.text(i18n.__('Cannot be stored'));
-                storeTorrent.addClass('disabled').prop('disabled', true);
-                win.warn('Magnet lacks Display Name, unable to store it');
-                return false;
             }
             var file, _file;
             if (Settings.droppedTorrent) {
                 file = Settings.droppedTorrent;
             } else if (Settings.droppedMagnet && !Settings.droppedStoredMagnet) {
                 _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                    file = magnetName || formatMagnet(_file);
             } else if (Settings.droppedMagnet && Settings.droppedStoredMagnet) {
                 file = Settings.droppedStoredMagnet;
             }
@@ -130,7 +127,7 @@
                 }
             } else if (Settings.droppedMagnet) {
                 _file = Settings.droppedMagnet,
-                    file = formatMagnet(_file);
+                    file = magnetName || formatMagnet(_file);
 
                 if (this.isTorrentStored()) {
                     if (Settings.droppedStoredMagnet) {

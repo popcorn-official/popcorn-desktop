@@ -54,7 +54,7 @@ class TVApi extends Generic {
   }
 
   detail(imdb_id, old_data, debug) {
-    return this.contentOnLang(imdb_id, old_data.contextLocale);
+    return this.contentOnLang(imdb_id, old_data.contextLocale, old_data.title1);
   }
 
   feature(name) { return name==='torrents'; }
@@ -77,7 +77,7 @@ class TVApi extends Generic {
     return this._get(0, uri);
   }
 
-  contentOnLang(imdb_id, lang) {
+  contentOnLang(imdb_id, lang, title1) {
     const params = {};
     if (this.language) {
       params.locale = this.language;
@@ -88,6 +88,9 @@ class TVApi extends Generic {
     const uri = `show/${imdb_id}?` + new URLSearchParams(params);
 
     return this._get(0, uri).then(data => {
+      if (title1) {
+        data.title = title1;
+      }
       return data;
       return sanitize(data);
     });

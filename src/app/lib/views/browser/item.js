@@ -144,17 +144,19 @@
             if (this.model.get('watched') && !itemtype.match('show')) {
                 this.ui.watchedIcon.addClass('selected');
 
-                switch (Settings.watchedCovers) {
-                    case 'fade':
-                        this.$el.addClass('watched');
-                        break;
-                    case 'hide':
-                        if ($('.search input').val() || itemtype.match('bookmarked')) {
+                if (App.currentview !== 'Watched') {
+                    switch (Settings.watchedCovers) {
+                        case 'fade':
                             this.$el.addClass('watched');
-                        } else {
-                            this.$el.remove();
-                        }
-                        break;
+                            break;
+                        case 'hide':
+                            if ($('.search input').val() || itemtype.match('bookmarked')) {
+                                this.$el.addClass('watched');
+                            } else {
+                                this.$el.remove();
+                            }
+                            break;
+                    }
                 }
             }
 
@@ -207,7 +209,17 @@
             }
 
             Common.loadImage(poster).then((img) => {
-                if (this.ui.cover.css) {
+                if (!img && this.model.get('poster_medium') && poster !== this.model.get('poster_medium')) {
+                    poster = this.model.get('poster_medium');
+                    this.model.set('poster', poster);
+                    this.model.set('image', poster);
+                    this.model.set('cover', poster);
+                    Common.loadImage(poster).then((img) => {
+                        if (this.ui.cover.css) {
+                            this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
+                        }
+                    });
+                } else if (this.ui.cover.css) {
                     this.ui.cover.css('background-image', 'url(' + (img || noimg) + ')').addClass('fadein');
                 }
             });
@@ -413,7 +425,6 @@
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: '',
                             body: '<font size="3">' + this.model.get('title') + ' (' + this.model.get('year') + ')' + '</font><br>' + i18n.__('was removed from bookmarks'),
-                            showClose: true,
                             autoclose: true,
                             type: 'info',
                             buttons: [{ title: i18n.__('Undo'), action: delCache }]

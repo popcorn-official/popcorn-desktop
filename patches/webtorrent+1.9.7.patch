@@ -1,0 +1,18 @@
+--- a/node_modules/webtorrent/lib/torrent.js
++++ b/node_modules/webtorrent/lib/torrent.js
+@@ -1318,11 +1318,11 @@
+   _updateWireWrapper (wire) {
+     const self = this
+
+-    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+-      window.requestIdleCallback(() => { self._updateWire(wire) }, { timeout: 250 })
+-    } else {
++    //if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
++    //  window.requestIdleCallback(() => { self._updateWire(wire) }, { timeout: 250 })
++    //} else {
+       self._updateWire(wire)
+-    }
++    //}
+   }
+
+   /**

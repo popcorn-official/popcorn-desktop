@@ -18,7 +18,6 @@
       InitModal: '#initializing',
       Disclaimer: '#disclaimer-container',
       About: '#about-container',
-      VPN: '#vpn-container',
       Keyboard: '#keyboard-container',
       Help: '#help-container',
       TorrentCollection: '#torrent-collection-container',
@@ -82,13 +81,6 @@
       App.vent.on(
         'about:close',
         _.bind(this.getRegion('About').empty, this.getRegion('About'))
-      );
-
-      // Add event to show VPN installer
-      App.vent.on('vpn:show', _.bind(this.showVPN, this));
-      App.vent.on(
-        'vpn:close',
-        _.bind(this.getRegion('VPN').empty, this.getRegion('VPN'))
       );
 
       // Keyboard
@@ -296,7 +288,7 @@
         });
 
         // we check if the disclaimer is accepted
-        if (!AdvSettings.get('disclaimerAccepted') || AdvSettings.get('automaticUpdating') === '' || AdvSettings.get('dhtEnable') === '') {
+        if (!AdvSettings.get('disclaimerAccepted') || AdvSettings.get('updateNotification') === '' || AdvSettings.get('dhtEnable') === '') {
           that.showDisclaimer();
         }
 
@@ -312,6 +304,7 @@
         switch (openScreen) {
           case 'Watchlist': that.showWatchlist(); break;
           case 'Favorites': that.showFavorites(); break;
+          case 'Watched': that.showFavorites(); break;
           case 'TV Series': that.tvshowTabShow(); break;
           case 'Anime': that.animeTabShow(); break;
           case 'Torrent-collection':
@@ -459,10 +452,6 @@
 
     showAbout: function(e) {
       this.showChildView('About', new App.View.About());
-    },
-
-    showVPN: function(e) {
-      this.showChildView('VPN', new App.View.VPN());
     },
 
     showTorrentCollection: function(e) {

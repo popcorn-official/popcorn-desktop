@@ -118,6 +118,20 @@ var Database = {
         return db.bookmarks.find(query).skip(offset).limit(byPage);
     },
 
+    // format: {page: page, keywords: title}
+    getWatched: function (data) {
+        var page = data.page - 1;
+        var byPage = 500;
+        var offset = page * byPage;
+        var query = {};
+
+        if (data.type) {
+            query.type = data.type;
+        }
+
+        return db.watched.find(query).skip(offset).limit(byPage);
+    },
+
     getAllBookmarks: function () {
         return db.bookmarks.find({});
     },
@@ -369,16 +383,7 @@ var Database = {
 
         fs.unlinkSync(path.join(data_path, 'data/settings.db'));
 
-        return new Promise(function (resolve, reject) {
-            var req = indexedDB.deleteDatabase(App.Config.cache.name);
-            req.onsuccess = function () {
-                resolve();
-            };
-            req.onerror = function () {
-                resolve();
-            };
-        });
-
+        return Promise.resolve();
     },
 
     initialize: function () {
@@ -420,10 +425,6 @@ var Database = {
                 App.vent.trigger('initHttpApi');
                 App.vent.trigger('db:ready');
                 App.vent.trigger('stream:loadExistTorrents');
-
-                /*return AdvSettings.checkApiEndpoints([
-                    Settings.updateEndpoint
-                ]);*/
             })
             .then(function () {
                 // set app language
@@ -435,15 +436,6 @@ var Database = {
             })
             .then(function () {
                 App.Trakt = App.Config.getProviderForType('metadata');
-                if (Settings.automaticUpdating === false) {
-                    return;
-                }
-                // check update
-                var updater = new App.Updater();
-                updater.update()
-                    .catch(function (err) {
-                        win.error('updater.update()', err);
-                    });
             })
             .then(function () {
                 if (Settings.protocolEncryption) {

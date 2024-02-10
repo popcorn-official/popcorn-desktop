@@ -1,6 +1,6 @@
 <ul class="nav nav-hor left">
     <% _.each (App.Config.getTabTypes(), function (tab) { %>
-    <% var providerURL = App.Config.getProviderForType(tab.type)[0].apiURL.slice(0);
+    <% var providerURL = App.Config.getProviderForType(tab.type)[0].apiURL ? App.Config.getProviderForType(tab.type)[0].apiURL.slice(0) : [];
         providerURL.forEach(function(e, index) {
             providerURL[index] = e.replace(/http:\/\/|https:\/\/|\/$/g, '');
         });
@@ -14,6 +14,13 @@
     <li id="filterbar-favorites" class="source" style="display:none">
     <% } %>
         <%= i18n.__("Favorites") %>
+    </li>
+    <% if (Settings.watchedTabEnable) { %>
+    <li id="filterbar-watched" class="source" style="display:block">
+    <% } else { %>
+    <li id="filterbar-watched" class="source" style="display:none">
+    <% } %>
+        <%= i18n.__("Watched") %>
     </li>
 </ul>
 <ul id="nav-filters" class="nav nav-hor filters">

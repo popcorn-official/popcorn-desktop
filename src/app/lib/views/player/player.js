@@ -401,13 +401,13 @@
 
         onPlayerError: function (error) {
             this.sendToTrakt('stop');
-            // TODO: user errors
             if (this.model.get('type') === 'video/youtube') {
-                setTimeout(function () {
-                    App.vent.trigger('player:close');
-                }, 2000);
+                $('.vjs-error-display').hide();
+                var msCatch = document.getElementsByClassName('trailer_mouse_catch')[0];
+                msCatch.style.cursor = 'pointer';
+                msCatch.onmouseup = function (e) { Common.openOrClipboardLink(e, _this.model.get('src'), i18n.__('link')); };
+                msCatch.onclick = function () { _this.closePlayer(); };
             }
-            var videoPlayer = $('#video_player');
         },
 
         metadataCheck: function () {
@@ -782,9 +782,9 @@
         adjustHue: function (difference) {
             this.filters.hue += difference;
             if (this.filters.hue < -180) {
-                this.filters.hue = -180;
+                this.filters.hue += 360;
             } else if (this.filters.hue > 180) {
-                this.filters.hue = 180;
+                this.filters.hue -= 360;
             }
             this.applyFilters();
             this.displayOverlayMsg(i18n.__('Hue') + ': ' + this.filters.hue.toFixed(0));
@@ -807,7 +807,12 @@
             // On some devices, the image turns orange if both hue-rotate() and saturate() are used!
             // So we only add the hue-rotate() filter if requested by the user.
             const hueAdjustment = hue === 0 ? '' : `hue-rotate(${hue}deg)`;
-            curVideo[0].style.filter = `brightness(${brightness}) contrast(${contrast}) ${hueAdjustment} saturate(${saturation})`;
+            // By default, increasing brightness in HTML5 also visually increases saturation and contrast
+            // To match other players, we reduce contrast and saturation, to keep the other filters steady
+            const deltaB = brightness - 1.0;
+            const finalContrast = contrast - deltaB * 0.333;
+            const finalSaturation = saturation - deltaB * 0.5;
+            curVideo[0].style.filter = `brightness(${brightness}) contrast(${finalContrast}) ${hueAdjustment} saturate(${finalSaturation})`;
         },
 
         bindKeyboardShortcuts: function () {
@@ -1263,7 +1268,7 @@
             if (this.inFullscreen && !win.isFullscreen) {
                 $('.btn-os.fullscreen').removeClass('active');
             }
-            $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
+            $('.button, #watch-now, .show-details .sdo-watch, .sdow-watchnow, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .trash-torrent, .collection-paste, .collection-import, .seedbox .item-play, .seedbox .exit-when-done, #torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').removeClass('disabled').removeProp('disabled');
             this.unbindKeyboardShortcuts();
             Mousetrap.bind('ctrl+v', function (e) {
             });

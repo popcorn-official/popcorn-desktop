@@ -55,7 +55,7 @@
         </div>
     </section>
 
-    <section class="show-details">
+    <section class="show-details<% if (Settings.seriesUITransparency !== 'medium') {switch(Settings.seriesUITransparency) { case '' : %> transpOff<%; break; case 'vlow': %> transpVLow<%; break; case 'low' : %> transpLow<%; break; case 'high': %> transpHigh<%; break; case 'vhigh': %> transpVHigh<%; break; default: %><%}} %>">
         <div class="spinner">
             <div class="loading-container">
                 <div class="ball"></div>
@@ -67,7 +67,7 @@
             <div class="sds-list">
                 <ul>
                     <%_.each(torrents, function(value, season) { %>
-                    <li class="tab-season" data-tab="season-<%=season %>">
+                    <li class="tab-season<%= Settings.seriesUITransparency ? '' : ' transpOff' %>" data-tab="season-<%=season %>">
                         <a><%= i18n.__("Season %s", season) %></a>
                     </li>
                     <% }); %>
@@ -81,7 +81,7 @@
                 <div class="tab-episodes season-<%=season %>">
                     <ul>
                         <% _.each(value, function(episodeData, episode) { %>
-                        <li class="tab-episode" data-id="<%=episodeData.tvdb_id %>" data-season="<%=episodeData.season %>" data-episode="<%=episodeData.episode %>">
+                        <li class="tab-episode<%= Settings.seriesUITransparency ? '' : ' transpOff' %>" data-id="<%=episodeData.tvdb_id %>" data-season="<%=episodeData.season %>" data-episode="<%=episodeData.episode %>">
                             <a href="#" class="episodeData">
                                 <span><%=episodeData.episode %></span>
                                 <% if (Settings.activateSeedbox) { %>
@@ -99,7 +99,7 @@
                 <% }); %>
             </div>
         </div>
-        <div class="sd-overview">
+        <div class="sd-overview<%= Settings.seriesUITransparency ? '' : ' transpOff' %>">
             <div class="sdo-infos">
                 <div class="sdoi-title"></div>
                 <div class="sdoi-links">

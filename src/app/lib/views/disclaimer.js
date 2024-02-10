@@ -19,13 +19,14 @@
             e.preventDefault();
             Mousetrap.unpause();
             AdvSettings.set('dhtEnable', document.getElementById('dhtEnableFR').checked ? true : false);
-            AdvSettings.set('automaticUpdating', document.getElementById('automaticUpdatingFR').checked ? true : false);
+            AdvSettings.set('updateNotification', document.getElementById('updateNotificationFR').checked ? true : false);
             AdvSettings.set('disclaimerAccepted', 1);
             if (document.getElementById('dhtEnableFR').checked) {
                 App.DhtReader.update();
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: i18n.__('Please wait') + '...',
                     body: i18n.__('Updating the API Server URLs'),
+                    showClose: false,
                     type: 'danger'
                 }));
             } else {

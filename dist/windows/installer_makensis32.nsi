@@ -32,11 +32,7 @@ Unicode True
 ; ------------------- ;
 ;Default to detected platform build if not defined by -DARCH= argument
 !ifndef ARCH
-    !if /fileexists "..\..\build\${APP_NAME}\win64\*.*"
-        !define ARCH "win64"
-    !else
-        !define ARCH "win32"
-    !endif
+    !define ARCH "win32"
 !endif
 
 ; ------------------- ;
@@ -63,7 +59,7 @@ VIAddVersionKey "LegalCopyright" "${APP_URL}"
 VIProductVersion "${APP_VERSION_CLEAN}.0"
 OutFile "${OUTDIR}/${APP_NAME}-${APP_VERSION}-${ARCH}-Setup.exe"
 CRCCheck on
-SetCompressor /SOLID lzma
+SetCompressor /SOLID bzip2
 
 ;Default installation folder
 InstallDir "$LOCALAPPDATA\${APP_NAME}"

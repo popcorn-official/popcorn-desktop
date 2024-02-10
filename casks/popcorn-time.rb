@@ -6,7 +6,7 @@ cask "popcorn-time" do
 
   name token.gsub(/\b\w/, &:capitalize)
   desc "BitTorrent client that includes an integrated media player"
-  homepage "https://#{token}.ga/"
+  homepage "https://shows.cf/"
 
   repo = "popcorn-official/popcorn-desktop"
   zip = "#{name.first}-#{version}-osx64.zip"
@@ -21,52 +21,9 @@ cask "popcorn-time" do
     silent = "silent"
   end
 
-  if MacOS.version < :monterey || ENV["HOMEBREW_POPCORN_TIME_BUILD"] == "false"
-    sha256 "7fd9fb25734f7587d60349c29b8a7d425e677f08cb0e981452e98e7a2db4a942"
+  sha256 "773235cce1ff637e3d1dcf5df02413da2eca2198c1d310cc7a4e78afcc4a38ea"
 
-    url "#{homepage}/build/#{zip}"
-  else
-    sha256 "95dc272fbb3977f5c10449ab80d0568c43df80a47a16cf9a9fa4d959a56aab17"
-
-    github = "github.com/iteufel/nwjs-ffmpeg-prebuilt"
-    url "https://#{github}/releases/download/#{nwjs}/#{nwjs}-osx-#{arch}.zip", verified: github
-
-    preflight do
-      Tap.fetch(repo).path.cd do
-        ENV["PATH"] += ":#{HOMEBREW_PREFIX}/bin"
-
-        installed = Formula.installed.map(&:name)
-        yarnrc = Pathname "#{Dir.home}/.yarnrc"
-        keep = yarnrc.exist?
-
-        app_build = "build/#{@cask.name.first}/os#{arch}/#{@cask.name.first}.app"
-
-        gulpfile = Pathname "gulpfile.js"
-        content = gulpfile.read
-                          .sub!(/(nwVersion\s*=\s*['"])[0-9]+\.[0-9]+\.[0-9]+/, "\\1#{nwjs}")
-                          .remove!(/(manifest|download)Url:.+/)
-        gulpfile.write content
-
-        system <<-EOS
-          #{HOMEBREW_BREW_FILE} install node --#{quiet}
-
-          npx --yes yarn install --ignore-engines --#{silent}
-          npx yarn build --#{silent}
-
-          rsync --recursive --relative node_modules #{app_build}/Contents/Resources/app.nw --#{quiet}
-
-          /bin/mv #{v} #{staged_path}/libffmpeg.dylib \
-          #{app_build}/Contents/Frameworks/nwjs*.framework/Versions/Current
-          /bin/mv #{v} #{app_build} #{staged_path}
-
-          git reset --hard --#{quiet}
-          git clean -xd --force --#{quiet}
-        EOS
-        system(*%W[brew uninstall node --ignore-dependencies --#{quiet}]) unless installed.include? "node"
-        FileUtils.rm_f yarnrc unless keep
-      end
-    end
-  end
+  url "#{homepage}/build/#{zip}"
 
   auto_updates true
   depends_on arch: :x86_64

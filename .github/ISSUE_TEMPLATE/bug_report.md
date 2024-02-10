@@ -9,9 +9,9 @@ assignees: ''
 
 <!--
 If you are asking a question rather than filing a bug, try one of these instead:
-- Reddit /r/PopCornTime's FAQs (https://www.reddit.com/r/PopCornTime/wiki/faq)
-- Reddit /r/PopCornTime (https://www.reddit.com/r/PopCornTime/)
-- PopCornTime Forum (https://discuss.popcorntime.app/)
+- Wiki & FAQ (https://github.com/popcorn-official/popcorn-desktop/wiki)
+- Reddit /r/PopCornTimeApp (https://www.reddit.com/r/PopCornTimeApp/)
+- Popcorn Time Forum (https://discuss.popcorntime.app/)
 -->
 
 Operating System Version:

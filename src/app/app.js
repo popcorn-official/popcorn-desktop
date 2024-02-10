@@ -176,15 +176,15 @@ var initTemplates = function () {
   var ts = [];
 
   _.each(document.querySelectorAll('[type="text/x-template"]'), function (el) {
-    var d = Q.defer();
-    $.get(el.src, function (res) {
-      el.innerHTML = res;
-      d.resolve(true);
-    });
-    ts.push(d.promise);
+    ts.push(new Promise((resolve, reject) => {
+      $.get(el.src, function (res) {
+        el.innerHTML = res;
+        resolve(true);
+      });
+    }));
   });
 
-  return Q.all(ts);
+  return Promise.all(ts);
 };
 
 var initApp = function () {
@@ -258,11 +258,6 @@ var deleteCookies = function () {
   });
 };
 
-var deleteCache = function () {
-  window.indexedDB.deleteDatabase('cache');
-  win.close(true);
-};
-
 var deleteLogs = function() {
   var dataPath = path.join(data_path, 'logs.txt');
   if (fs.existsSync(dataPath)) {
@@ -270,9 +265,17 @@ var deleteLogs = function() {
   }
 };
 
+var posterZoom = function () {
+  var zoom = $('.show-detail-container').height() / $('.shp-img').height() * (0.75 + Settings.bigPicture / 2000);
+  var top = parseInt(($('.shp-img').height() * zoom - $('.shp-img').height()) / 2 + (3000 / Settings.bigPicture)) + 'px';
+  var left = parseInt(($('.shp-img').width() * zoom - $('.shp-img').width()) / 2 + (2000 / Settings.bigPicture)) + 'px';
+  $('.sh-poster.active').css({transform: 'scale(' + zoom + ')', top: top, left: left});
+};
+
 win.on('resize', function (width, height) {
   localStorage.width = Math.round(width);
   localStorage.height = Math.round(height);
+  $('.sh-poster').hasClass('active') ? posterZoom() : null;
 });
 
 win.on('move', function (x, y) {
@@ -282,29 +285,31 @@ win.on('move', function (x, y) {
 
 win.on('enter-fullscreen', function () {
   App.vent.trigger('window:focus');
-  if (!Settings.nativeWindowFrame) {
+  if (!Settings.nativeWindowFrame && parseFloat(process.versions['node-webkit'].replace('0.', '')) <= 50) {
     win.setResizable(false);
   }
 });
 
 win.on('leave-fullscreen', function () {
-  if (!Settings.nativeWindowFrame) {
+  if (!Settings.nativeWindowFrame && parseFloat(process.versions['node-webkit'].replace('0.', '')) <= 50) {
     win.setResizable(true);
   }
 });
 
 win.on('maximize', function () {
-  if (!Settings.nativeWindowFrame) {
+  if (!Settings.nativeWindowFrame && parseFloat(process.versions['node-webkit'].replace('0.', '')) <= 50) {
     win.setResizable(false);
   }
   localStorage.maximized = true;
+  $('.sh-poster').hasClass('active') ? posterZoom() : null;
 });
 
 win.on('restore', function () {
-  if (!Settings.nativeWindowFrame) {
+  if (!Settings.nativeWindowFrame && parseFloat(process.versions['node-webkit'].replace('0.', '')) <= 50) {
     win.setResizable(true);
   }
   localStorage.maximized = false;
+  $('.sh-poster').hasClass('active') ? posterZoom() : null;
 });
 
 // Now this function is used via global keys (cmd+q and alt+f4)
@@ -346,7 +351,7 @@ function close() {
             deleteFolder(App.settings.downloadsLocation + '/TorrentCache/');
           }
           deleteLogs();
-          deleteCache();
+          win.close(true);
         } catch (err) {
           return onError(err);
         }
@@ -544,7 +549,7 @@ var handleVideoFile = function (file) {
 
   // get subtitles from provider
   var getSubtitles = function (subdata) {
-    return Q.Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       win.debug('Subtitles data request:', subdata);
 
       var subtitleProvider = App.Config.getProviderForType('subtitle');
@@ -790,6 +795,7 @@ if (
   last_arg &&
   (last_arg.substring(0, 8) === 'magnet:?' ||
     last_arg.substring(0, 7) === 'http://' ||
+    last_arg.substring(0, 8) === 'https://' ||
     last_arg.endsWith('.torrent'))
 ) {
   App.vent.on('app:started', function () {
@@ -807,105 +813,6 @@ if (last_arg && isVideo(last_arg)) {
     handleVideoFile(fileModel);
   });
 }
-
-// VPN
-let subscribed = false;
-const subscribeEvents = () => {
-  const appInstalled = VPNht.isInstalled();
-  if (subscribed || !appInstalled) {
-    return;
-  }
-  try {
-    const vpnStatus = VPNht.status();
-
-    vpnStatus.on('connected', () => {
-      App.vent.trigger('vpn:connected');
-    });
-
-    vpnStatus.on('disconnected', () => {
-      App.vent.trigger('vpn:disconnected');
-    });
-
-    vpnStatus.on('error', error => {
-      console.log('ERROR', error);
-    });
-
-    subscribed = true;
-  } catch (error) {
-    console.log(error);
-    subscribed = false;
-  }
-};
-
-const checkVPNStatus = () => {
-  try {
-    const appInstalled = VPNht.isInstalled();
-    if (!appInstalled) {
-      return;
-    }
-
-    VPNht.isConnected().then(isConnected => {
-      console.log(isConnected);
-      if (isConnected) {
-        App.vent.trigger('vpn:connected');
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-App.vent.on('app:started', function () {
-  subscribeEvents();
-  checkVPNStatus();
-});
-
-App.vent.on('vpn:open', function () {
-  try {
-    const appInstalled = VPNht.isInstalled();
-    if (!appInstalled) {
-      App.vent.trigger('vpn:show');
-    } else {
-      VPNht.open();
-      subscribeEvents();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-App.vent.on('vpn:install', function () {
-  try {
-    const appInstalled = VPNht.isInstalled();
-    if (!appInstalled) {
-      VPNht.install().then(installer => {
-        installer.on('download', data => {
-          if (data && data.percent) {
-            App.vent.trigger('vpn:installProgress', data.percent);
-          }
-        });
-
-        installer.on('downloaded', () => {
-          App.vent.trigger('vpn:downloaded');
-        });
-
-        installer.on('installed', () => {
-          VPNht.open();
-          subscribeEvents();
-        });
-
-        installer.on('error', data => {
-          console.log(data);
-        });
-      });
-    } else {
-      VPNht.open();
-      subscribeEvents();
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 nw.App.on('open', function (cmd) {
   var file;

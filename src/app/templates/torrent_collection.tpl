@@ -35,8 +35,8 @@
                         <label id="enable1337xSearchL" for="enable1337xSearch" class="tooltipped" data-placement="bottom" data-toggle="tooltip"><img class="providerIcon" src="/src/app/images/icons/T1337x.png"><%= i18n.__("1337x.to") %></label>
                     </span>
                     <span>
-                        <input class="sengine-checkbox" name="enableRarbgSearch" id="enableRarbgSearch" type="checkbox" <%=(Settings.enableRarbgSearch? "checked='checked'":"")%>>
-                        <label id="enableRarbgSearchL" for="enableRarbgSearch" class="tooltipped" data-placement="bottom" data-toggle="tooltip"><img class="providerIcon" src="/src/app/images/icons/rarbg.png"><%= i18n.__("rarbg.to") %></label>
+                        <input class="sengine-checkbox" name="enableSolidTorrentsSearch" id="enableSolidTorrentsSearch" type="checkbox" <%=(Settings.enableSolidTorrentsSearch? "checked='checked'":"")%>>
+                        <label id="enableSolidTorrentsSearchL" for="enableSolidTorrentsSearch" class="tooltipped" data-placement="bottom" data-toggle="tooltip"><img class="providerIcon" src="/src/app/images/icons/solidtorrents.png"><%= i18n.__("solidtorrents.to") %></label>
                     </span>
                     <span>
                         <input class="sengine-checkbox" name="enableTgxtorrentSearch" id="enableTgxtorrentSearch" type="checkbox" <%=(Settings.enableTgxtorrentSearch? "checked='checked'":"")%>>

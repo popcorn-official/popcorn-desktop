@@ -7,11 +7,11 @@
   var fs = require('fs');
 
   function loadLocalProviders() {
-    var appPath = '';
     var providerPath = './src/app/lib/providers/';
 
     var files = fs.readdirSync(providerPath);
 
+    var head = document.getElementsByTagName('head')[0];
     return files
       .map(function(file) {
         if (!file.match(/\.js$/) || file.match(/generic.js$/)) {
@@ -20,23 +20,20 @@
 
         win.info('loading local provider', file);
 
-        var q = Q.defer();
+        return new Promise((resolve, reject) => {
+          var script = document.createElement('script');
 
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = 'lib/providers/' + file;
 
-        script.type = 'text/javascript';
-        script.src = 'lib/providers/' + file;
+          script.onload = function() {
+            script.onload = null;
+            win.info('loaded', file);
+            resolve(file);
+          };
 
-        script.onload = function() {
-          this.onload = null;
-          win.info('loaded', file);
-          q.resolve(file);
-        };
-
-        head.appendChild(script);
-
-        return q.promise;
+          head.appendChild(script);
+        });
       })
       .filter(function(q) {
         return q;
@@ -75,7 +72,7 @@
   }
 
   function loadNpmSettings() {
-    return Q.all(
+    return Promise.all(
       loadFromPackageJSON(/butter-settings-/, function(settings) {
         Settings = _.extend(Settings, settings);
       })
@@ -83,13 +80,13 @@
   }
 
   function loadProviders() {
-    return Q.all(
+    return Promise.all(
       loadLocalProviders()
     );
   }
 
   function loadProvidersDelayed() {
-    return Q.all(
+    return Promise.all(
       loadNpmProviders().concat(loadLegacyNpmProviders())
     );
   }

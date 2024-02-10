@@ -5,7 +5,6 @@
 <div id="changelog-container"></div>
 <div id="disclaimer-container"></div>
 <div id="about-container"></div>
-<div id="vpn-container"></div>
 <div id="help-container"></div>
 <div id="issue-container"></div>
 <div id="keyboard-container"></div>

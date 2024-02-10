@@ -36,10 +36,14 @@
 
             &:nth-of-type(odd)
                 td
-                    background: $ShowBgColor2
+                    background: rgba(0,0,0,0)
 
-            &:hover > td
-                background: $EpisodeSelectorHover
+            &:hover >
+                td
+                    background: rgba($EpisodeSelectorHoverTran,20%)
+
+                td.transpOff
+                    background: $EpisodeSelectorHover
 
             &.disabled
                 cursor: not-allowed
@@ -84,6 +88,7 @@
             &.action
                 width: 40px
                 cursor: pointer
+                padding-left: 8px
 
                 &:hover
                     color: $ShowText1
@@ -91,9 +96,23 @@
 
 #torrent-show-list
     font-size: 15px
-    margin-top: 6px
+    margin: 6px 1px 19px 0px
+    max-height: 281px
 
     table
         td
             &.info, &.action
                 color: $ShowWatchedIcon_false
+
+        tr:nth-of-type(odd)
+            td
+                background: rgba($ShowOddHighlight, $ShowOddHighlightOp)
+                &.transpOff
+                    background: $ShowBgColor2
+
+            &:hover >
+                td
+                    background: rgba($EpisodeSelectorHoverTran,20%)
+
+                td.transpOff
+                    background: $EpisodeSelectorHover

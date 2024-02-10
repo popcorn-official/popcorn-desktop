@@ -12,7 +12,7 @@ if (genre) {
 %>
 
 <div class="backdrop"></div>
-<div class="backdrop-overlay"></div>
+<div class="backdrop-overlay" <% if(Settings.moviesUITransparency !== '0.65') {%> style="opacity:<%=Settings.moviesUITransparency%>"<%}%>></div>
 
 <div class="fa fa-times close-icon"></div>
 
@@ -53,10 +53,11 @@ if (genre) {
                 <div class="number-container hidden"><%= rating %> <em>/10</em></div>
             </div>
             <div data-toggle="tooltip" data-placement="top" title="<%=i18n.__('Submit metadata & translations') %>" class="fa fa-pencil-alt tmdb-link"></div>
-            <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health false') %>" class="fa fa-circle health-icon <%= health %>"></div>
-            <div data-toogle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-link"></div>
-            <div data-toogle="tooltip" data-placement="left" title="" class="source-link"></div>
-
+            <div class="status-indicators">
+                <div data-toggle="tooltip" data-placement="left" title="<%=i18n.__('Health false') %>" class="fa fa-circle health-icon <%= health %>"></div>
+                <div data-toogle="tooltip" data-placement="left" title="<%=i18n.__('Magnet link') %>" class="fa fa-magnet magnet-link"></div>
+                <div data-toogle="tooltip" data-placement="left" title="" class="source-link"></div>
+            </div>
         </div>
 
         <div class="overview"><%= displaySynopsis %></div>

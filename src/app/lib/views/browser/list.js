@@ -100,21 +100,25 @@
                     var errorURL;
                     switch (App.currentview) {
                     case 'movies':
-                        errorURL = App.Config.getProviderForType('movie')[0].apiURL.slice(0);
+                        errorURL = App.Config.getProviderForType('movie')[0].apiURL ? App.Config.getProviderForType('movie')[0].apiURL.slice(0) : '';
                         break;
                     case 'shows':
-                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL.slice(0);
+                        errorURL = App.Config.getProviderForType('tvshow')[0].apiURL ? App.Config.getProviderForType('tvshow')[0].apiURL.slice(0) : '';
                         break;
                     case 'anime':
-                        errorURL = App.Config.getProviderForType('anime')[0].apiURL.slice(0);
+                        errorURL = App.Config.getProviderForType('anime')[0].apiURL ? App.Config.getProviderForType('anime')[0].apiURL.slice(0) : '';
                         break;
                     default:
                         errorURL = '';
                     }
-                    errorURL.forEach(function(e, index) {
-                        errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
-                    });
-                    errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
+                    if (errorURL) {
+                        errorURL.forEach(function(e, index) {
+                            errorURL[index] = '<a class="links" href="' + encodeURI(e) + '">' + encodeURI(e.replace(/http:\/\/|https:\/\/|\/$/g, '')) + '</a>';
+                        });
+                        errorURL = errorURL.join(', ').replace(/,(?=[^,]*$)/, ' &');
+                    } else {
+                        errorURL = i18n.__('the URL(s)');
+                    }
                     return ErrorView.extend({
                         retry: true,
                         error: i18n.__('The remote ' + App.currentview + ' API failed to respond, please check %s and try again later', errorURL)
@@ -136,6 +140,18 @@
                 } else if (this.collection.state !== 'loading') {
                     return ErrorView.extend({
                         error: i18n.__('No ' + App.currentview.toLowerCase() + ' found...')
+                    });
+                }
+                break;
+            case 'Watched':
+                if (this.collection.state === 'error') {
+                    return ErrorView.extend({
+                        retry: true,
+                        error: i18n.__('Error, database is probably corrupted. Try flushing the watched items in settings.')
+                    });
+                } else if (this.collection.state !== 'loading') {
+                    return ErrorView.extend({
+                        error: i18n.__('No ' + App.currentview.toLowerCase() + ' items found...')
                     });
                 }
                 break;
@@ -168,6 +184,9 @@
             }
             if (Settings.favoritesTabEnable) {
                 filterBarElem.push('Favorites');
+            }
+            if (Settings.watchedTabEnable) {
+                filterBarElem.push('Watched');
             }
 
             _this.initKeyboardShortcuts();
@@ -224,32 +243,44 @@
                         }
                     }
                     App.currentview = filterBarElem[filterBarPos];
-                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'Watched') {
+                        App.vent.trigger('favorites:list', []);
+                    } else {
+                        App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    }
                     if (App.currentview === 'movies') {
                         $('.source.movieTabShow').addClass('active');
                     } else if (App.currentview === 'shows') {
                             $('.source.tvshowTabShow').addClass('active');
                     } else if (App.currentview === 'Favorites') {
                             $('#filterbar-favorites').addClass('active');
+                    } else if (App.currentview === 'Watched') {
+                            $('#filterbar-watched').addClass('active');
                     } else {
                             $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }
                 }
             });
 
-            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4'], function (e, combo) {
+            Mousetrap.bind(['ctrl+1', 'ctrl+2', 'ctrl+3', 'ctrl+4', 'ctrl+5'], function (e, combo) {
                 if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#about-container').children().length <= 0 && $('#player').children().length <= 0 && combo.charAt(5) <= $(filterBarElem).toArray().length && App.currentview !== filterBarElem[combo.charAt(5) - 1]) {
                     App.vent.trigger('torrentCollection:close');
                     App.vent.trigger('seedbox:close');
                     $('.filter-bar').find('.active').removeClass('active');
                     App.currentview = filterBarElem[combo.charAt(5) - 1];
-                    App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    if (App.currentview === 'Watched') {
+                        App.vent.trigger('favorites:list', []);
+                    } else {
+                        App.vent.trigger(App.currentview.toLowerCase() + ':list', []);
+                    }
                     if (App.currentview === 'movies') {
                         $('.source.movieTabShow').addClass('active');
                     } else if (App.currentview === 'shows') {
                         $('.source.tvshowTabShow').addClass('active');
                     } else if (App.currentview === 'Favorites') {
                         $('#filterbar-favorites').addClass('active');
+                    } else if (App.currentview === 'Watched') {
+                        $('#filterbar-watched').addClass('active');
                     } else {
                         $('.source.' + App.currentview + 'TabShow').addClass('active');
                     }

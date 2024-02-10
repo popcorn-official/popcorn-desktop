@@ -11,6 +11,7 @@
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.4) center center no-repeat;
+        backdrop-filter: blur(4px);
         pointer-events: all;
         z-index: 1;
 
@@ -67,7 +68,7 @@
 
         .onlinesearch
             position relative
-            padding-left 210px
+            padding-left 190px
             width 736px
             margin 0 auto
             z-index 2
@@ -79,7 +80,7 @@
                 display none
                 position absolute
                 height 30px
-                min-width 458px
+                min-width 498px
 
                 span
                     color $InputBoxText
@@ -197,7 +198,7 @@
                 cursor text
                 outline 0 !important
                 height 30px
-                min-width 370px
+                min-width 410px
 
             .online-search
                 margin-left 5px
@@ -358,7 +359,7 @@
                     .item-rename
                         position relative
                         color $SettingsText1
-                        opacity 0.5
+                        opacity 0.12
                         transition all 0.3s
                         cursor pointer
                         left calc(100% + 22px)
@@ -440,7 +441,7 @@
             position absolute
             color $SettingsText1
             top 5px
-            margin-left 426px
+            margin-left 462px
 
             .collection-paste,
             .collection-import

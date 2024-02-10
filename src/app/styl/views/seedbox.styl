@@ -481,6 +481,57 @@
             }
         }
 
+        .exit-when-done
+            width: 44px;
+            margin-top: 21px;
+            margin-right: -18px;
+            float: right;
+            padding: 0.36rem 1rem;
+            border-radius: 3px;
+            background: $ShowBgColor2;
+            color: $ShowText2;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            overflow: hidden;
+            text-overflow: clip;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.7s ease, color 0.3s, background-color 0.3s;
+            transition-delay: 0.6s, 0s, 0s;
+
+            &:hover
+                width: 35vw;
+                transition-delay: 0.3s, 0s, 0s;
+                border-radius: 0;
+                padding: 0.86rem 1.62rem 0.86rem 1rem;
+                margin-top: 13px;
+                margin-right: -28px;
+
+                & > span
+                    opacity: 1;
+                    transition-delay: 0.3s;
+
+            &.active
+                color: #fff;
+                background-color: #27ae60;
+
+            &.disabled
+                visibility: hidden;
+
+            & i
+                font-family: "Font Awesome 6 Free";
+                font-size: 12px;
+                float: right;
+                pointer-events: none;
+
+            & span
+                opacity: 0;
+                transition: opacity 0.5s ease-in-out;
+                transition-delay: 0.6s;
+                pointer-events: none;
+                margin-left: 12px;
+
         .progress-info {
             margin-bottom: .5rem;
             display: flex;

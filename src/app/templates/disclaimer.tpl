@@ -33,9 +33,9 @@
             <input class="settings-checkbox" name="dhtEnableFR" id="dhtEnableFR" type="checkbox" <%=(Settings.dhtEnable === false ? "":"checked='checked'")%>>
             <label class="settings-label" for="dhtEnableFR"><%= i18n.__("Enable automatically updating the API Server URLs") %></label>
         </span>
-        <span class="automaticUpdatingSpn">
-            <input class="settings-checkbox" name="automaticUpdatingFR" id="automaticUpdatingFR" type="checkbox" <%=(Settings.automaticUpdating === false ? "":"checked='checked'")%>>
-            <label class="settings-label" for="automaticUpdatingFR"><%= i18n.__("Enable automatically updating the app when a new version is available") %></label>
+        <span class="updateNotificationSpn">
+            <input class="settings-checkbox" name="updateNotificationFR" id="updateNotificationFR" type="checkbox" <%=(Settings.updateNotification === false ? "":"checked='checked'")%>>
+            <label class="settings-label" for="updateNotificationFR"><%= i18n.__("Show a notification when a new version is available") %></label>
         </span><br>
         <a class="btn-accept"><%= i18n.__("I Accept") %></a> <a class="btn-close"><%= i18n.__("Leave") %></a>
     </div>

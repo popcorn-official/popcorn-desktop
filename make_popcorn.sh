@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 ## Version 0.1.1
 ##
@@ -127,7 +127,7 @@ if yarn build; then
     if [[ `uname -s` != *"NT"* ]]; then # if not windows
         ./Create-Desktop-Entry
     fi
-    echo "Run 'gulp run' from inside the repository to launch the app or check out under ./build folder..."
+    echo "Run 'yarn start' to launch the app or run Popcorn-Time from the ./build folder..."
     echo "Enjoy!"
 else
     echo "Popcorn Time encountered an error and couldn't be built"

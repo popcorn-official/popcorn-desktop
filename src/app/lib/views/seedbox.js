@@ -7,6 +7,10 @@
         totalSize,
         totalDownloaded,
         totalPer,
+        exitWhenDoneBtn,
+        exitWhenDoneStatus,
+        exitWhenDoneTimer,
+        exitWhenDoneInt,
         updateInterval;
 
     const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
@@ -37,7 +41,8 @@
             'mousedown .seedbox-infos-title, .file-item a, .episodeData div': 'copytoclip',
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
-            'click .item-remove': 'removeItem'
+            'click .item-remove': 'removeItem',
+            'click .exit-when-done': 'exitWhenDone'
         },
 
         initialize: function () {
@@ -61,7 +66,9 @@
                 let currentHash;
                 try { currentHash = App.LoadingView.model.attributes.streamInfo.attributes.torrentModel.attributes.torrent.infoHash; } catch(err) {}
                 currentHash && $('#trash-'+currentHash)[0] ? $('#trash-'+currentHash).addClass('disabled').prop('disabled', true) : null;
+                $('.seedbox .exit-when-done').addClass('disabled');
             }
+            exitWhenDoneStatus ? $('.seedbox .exit-when-done').addClass('active') : $('.seedbox .exit-when-done').removeClass('active');
         },
 
         onRender: function () {
@@ -275,7 +282,7 @@
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
             const torrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
             const filename = e.target.childNodes[1] ? e.target.childNodes[1].innerHTML : e.target.innerHTML;
-            const location = torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, '');
+            const location = path.join(torrent.path, torrent.files.filter(obj => { return obj.name === filename; })[0].path.replace(/[^\\/]*$/, ''));
             App.settings.os === 'windows' ? nw.Shell.openExternal(location) : nw.Shell.openItem(location);
         },
 
@@ -306,6 +313,7 @@
                 if (target.hasClass('item-play')) {
                     $('#trash-'+hash).addClass('disabled').prop('disabled', true);
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+                    $('.seedbox .exit-when-done').addClass('disabled');
                 } else if (isPaused) {
                     this.pauseTorrent(thisTorrent);
                 }
@@ -331,6 +339,59 @@
                     }
                 }, 100);
             }
+        },
+
+        exitWhenDone: function () {
+            clearInterval(exitWhenDoneInt);
+            clearInterval(exitWhenDoneTimer);
+            exitWhenDoneBtn = $('.seedbox .exit-when-done');
+            App.vent.trigger('notification:close');
+            if (exitWhenDoneBtn.hasClass('active')) {
+                exitWhenDoneStatus = false;
+                exitWhenDoneBtn.removeClass('active');
+                return;
+            }
+            exitWhenDoneStatus = true;
+            exitWhenDoneBtn.addClass('active');
+            exitWhenDoneInt = window.setInterval(function () {
+                var torrents = App.WebTorrent.torrents;
+                var doneTorrents = 0;
+                for (const i in torrents) {
+                    torrents[i].done || !torrents[i].done && torrents[i].paused ? doneTorrents++ : null;
+                }
+                if (!$('.loading').is(':visible') && !$('.player').is(':visible') && torrents.length === doneTorrents) {
+                    clearInterval(exitWhenDoneInt);
+                    if (torrents.length === 0) {
+                        exitWhenDoneStatus = false;
+                        exitWhenDoneBtn.removeClass('active');
+                        return;
+                    }
+                    var exittime = new Date().getTime() + 30000;
+                    exitWhenDoneTimer = setInterval(function () {
+                        var timeleft = Math.round((exittime - new Date().getTime()) / 1000);
+                        if (timeleft <= 0) {
+                            win.close(true);
+                        } else if (timeleft <= 1) {
+                            $('#notification .notificationWrapper #timerunit').html(i18n.__('second'));
+                        }
+                        $('#notification .notificationWrapper #timer').html(timeleft);
+                    }, 1000);
+                    var abortExit = (function () {
+                        this.clearInterval(exitWhenDoneTimer);
+                        exitWhenDoneStatus = false;
+                        $('.seedbox .exit-when-done').removeClass('active');
+                        App.vent.trigger('notification:close');
+                    }.bind(this));
+                    var notificationModel = new App.Model.Notification({
+                        title: '',
+                        body: '<br><font size=4>' + i18n.__('Exiting Popcorn Time...') + '</font><br>(' + i18n.__('does not clear the Cache Folder') + ')<br><br>' + '<span id="timer">30</span> ' + '<span id="timerunit">' + i18n.__('seconds') + '</span> ' + i18n.__('left to cancel this action') + '<br><br>',
+                        type: 'danger',
+                        showClose: false,
+                        buttons: [{ title: i18n.__('Exit Now'), action: function () { win.close(true); } }, { title: i18n.__('Cancel'), action: abortExit }]
+                    });
+                    App.vent.trigger('notification:show', notificationModel);
+                }
+            }, 10000);
         },
 
         openMagnet: function (e) {

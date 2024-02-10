@@ -49,13 +49,9 @@
 
             e.preventDefault();
 
-            var cache = new App.Cache('subtitle');
-            cache.flushTable()
-                .then(Database.deleteDatabases)
-                .then(function () {
-                    App.vent.trigger('restartButter');
-                });
-
+            Database.deleteDatabases().then(function () {
+                App.vent.trigger('restartButter');
+            });
         },
 
     });

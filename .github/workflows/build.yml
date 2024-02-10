@@ -1,6 +1,11 @@
-name: CI
+name: Latest Build
 
-on: [push]
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -9,7 +14,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        nwjs: ['0.44.5', '0.82.0']
 
     steps:
       - name: Context
@@ -17,21 +23,20 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - name: Prepare NSIS
-        if: matrix.os == 'windows-latest'
-        id: prep_nsis
-        uses: joncloud/makensis-action@v1
-        with:
-          just-include: true
+      - name: Reconfigure git to use HTTP authentication
+        run: >
+          git config --global url."https://github.com/".insteadOf
+          ssh://git@github.com/
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
         with:
-          node-version: 14.x
+          node-version: 20
 
       - name: yarn version
         run: |
@@ -41,34 +46,27 @@ jobs:
         run: |
           node --version
 
-      - name: Build App [macOS]
-        if: matrix.os == 'macOS-latest'
+      - uses: kiriles90/variable-mapper@master
+        with:
+          key: "${{ matrix.os }}"
+          map: |
+            {
+              "ubuntu-latest": { "platform": "linux", "dist": "linux32,linux64" },
+              "macOS-latest": { "platform": "osx", "dist": "osx64" },
+              "windows-latest": { "platform": "win", "dist": "win32,win64" }
+            }
+
+      - name: Build info
+        run: echo Build ${{ env.dist }} on nw-v${{ matrix.nwjs }}
+
+      - name: Build App
         run: |
           yarn
-          npm install
-          yarn gulp dist
-
-      - name: Build App [ubuntu]
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          yarn
-          npm install
-          yarn gulp dist --platforms=linux32,linux64
-
-      - name: Build App [windows]
-        if: matrix.os == 'windows-latest'
-        run: |
-          yarn
-          npm install
-          yarn gulp dist --platforms=win32
-          yarn gulp dist --platforms=win64
-        env:
-          NSIS_PATH: ${{ steps.prep_nsis.outputs.nsis-path }}
-
+          yarn gulp dist --platforms=${{ env.platform == 'win' && '"' || '' }}${{ env.dist }}${{ env.platform == 'win' && '"' || '' }} --nwVersion=${{ matrix.nwjs }}
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.os }}
+          name: ${{ env.platform }}-${{ matrix.nwjs }}
           path: build
 
   release:
@@ -82,156 +80,17 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-      - name: Get the version
-        id: get_version
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\/v/}
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
 
-      - uses: actions/download-artifact@v1
+      - name: Display structure of downloaded files
+        run: ls -R artifacts
+
+      - uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/v')
         with:
-          name: ubuntu-latest
-
-      - uses: actions/download-artifact@v1
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          name: windows-latest
-
-      - uses: actions/download-artifact@v1
-        if: startsWith(github.ref, 'refs/tags/v')
-        with:
-          name: macOS-latest
-
-      - run: find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
-
-      - name: Create Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        id: create_release
-        uses: actions/create-release@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release Asset [macOS-zip]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macOS-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-osx64.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-osx64.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [macOS-pkg]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./macOS-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}.pkg
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}.pkg
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [ubuntu-deb-amd64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-amd64.deb
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-amd64.deb
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [ubuntu-zip-x64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux64.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux64.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [ubuntu-deb-i386]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-i386.deb
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-i386.deb
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [ubuntu-zip-x32]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./ubuntu-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-linux32.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [windows-zip-x64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [windows-zip-ia32]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32.zip
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32.zip
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [windows-setup-x64]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64-Setup.exe
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win64-Setup.exe
-          asset_content_type: application/octet-stream
-
-      - name: Upload Release Asset [windows-setup-ia32]
-        if: startsWith(github.ref, 'refs/tags/v')
-        continue-on-error: true
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./windows-latest/Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32-Setup.exe
-          asset_name: Popcorn-Time-${{ steps.get_version.outputs.VERSION }}-win32-Setup.exe
-          asset_content_type: application/octet-stream
+          allowUpdates: true
+          name: ${{ github.ref_name }}
+          artifacts: "artifacts/*"

@@ -26,6 +26,7 @@
             'contextmenu input': 'rightclick_field',
             'click .rebuild-bookmarks': 'rebuildBookmarks',
             'click .flush-bookmarks': 'flushBookmarks',
+            'click .flush-watched': 'flushWatched',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
             'click #fakedownloadsLocation': 'showDownloadsDirectoryDialog',
@@ -306,6 +307,8 @@
                 case 'theme':
                 case 'delSeedboxCache':
                 case 'maxLimitMult':
+                case 'moviesUITransparency':
+                case 'seriesUITransparency':
                     value = $('option:selected', field).val();
                     break;
                 case 'poster_size':
@@ -341,7 +344,6 @@
                 case 'showAdvancedSettings':
                 case 'alwaysOnTop':
                 case 'playNextEpisodeAuto':
-                case 'automaticUpdating':
                 case 'updateNotification':
                 case 'events':
                 case 'alwaysFullscreen':
@@ -356,6 +358,7 @@
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
                 case 'favoritesTabEnable':
+                case 'watchedTabEnable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -584,6 +587,14 @@
                         $('select[name=start_screen]').change();
                     }
                     break;
+                case 'watchedTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Watched') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
                 case 'activateWatchlist':
                     if (App.Trakt.authenticated) {
                         $('.nav-hor.left li:first').click();
@@ -626,6 +637,8 @@
                 case 'multipleExtSubtitles':
                 case 'httpApiEnabled':
                 case 'expandedSearch':
+                case 'moviesUITransparency':
+                case 'seriesUITransparency':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
@@ -875,6 +888,21 @@
             this.alertMessageWait(i18n.__('We are flushing your database'));
 
             Database.deleteBookmarks()
+                .then(function () {
+                    that.alertMessageSuccess(true);
+                });
+        },
+
+        flushWatched: function (e) {
+            var btn = $(e.currentTarget);
+
+            if (!this.areYouSure(btn, i18n.__('Flushing watched...'))) {
+                return;
+            }
+
+            this.alertMessageWait(i18n.__('We are flushing your database'));
+
+            Database.deleteWatched()
                 .then(function () {
                     that.alertMessageSuccess(true);
                 });

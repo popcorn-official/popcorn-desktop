@@ -169,12 +169,12 @@
                 for (var r in results) {
                     var item = results[r];
                     var ids = item[item.type].ids;
-                    if ([ids.imdb, ids.tvdb].indexOf(id) !== -1) {
+                    if ([ids.imdb?.toString(), ids.tvdb?.toString()].indexOf(id.toString()) !== -1) {
                         return item.progress;
                     }
                 }
                 return 0;
-            });
+            }.bind(this));
         },
 
         scrobble: function(action, type, id, progress) {
