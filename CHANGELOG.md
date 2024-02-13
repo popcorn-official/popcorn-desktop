@@ -2,6 +2,7 @@
 
 New Features:
 - Update NW.js runtime to 0.82.0 (0.44.5 still supported as an option for this release)
+- Add macOS build for Apple Silicon
 - Add working Anime tab
 - Add Watched tab
 - Add Seedbox option for exiting the app when downloads complete
