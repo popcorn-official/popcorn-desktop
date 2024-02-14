@@ -6,7 +6,7 @@ cask "popcorn-time" do
 
   name token.gsub(/\b\w/, &:capitalize)
   desc "BitTorrent client that includes an integrated media player"
-  homepage "https://shows.cf/"
+  homepage "https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.5.0/Popcorn-Time-0.5.0-osx64.zip"
 
   repo = "popcorn-official/popcorn-desktop"
   zip = "#{name.first}-#{version}-osx64.zip"
@@ -23,7 +23,7 @@ cask "popcorn-time" do
 
   sha256 "773235cce1ff637e3d1dcf5df02413da2eca2198c1d310cc7a4e78afcc4a38ea"
 
-  url "#{homepage}/build/#{zip}"
+  url "https://github.com/popcorn-official/popcorn-desktop/releases/download/v0.5.0/Popcorn-Time-0.5.0-osx64.zi"
 
   auto_updates true
   depends_on arch: :x86_64
