@@ -14,11 +14,9 @@
   <a href="https://github.com/popcorn-official/popcorn-desktop/releases/latest"><img src="https://img.shields.io/github/release-date/popcorn-official/popcorn-desktop?label="></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/compare/master...development"><img src="https://img.shields.io/github/commits-since/popcorn-official/popcorn-desktop/latest?label=commits%20since"></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/commit/development"><img src="https://img.shields.io/github/last-commit/popcorn-official/popcorn-desktop?label=latest%20commit"></a>
-  <a href="https://github.com/popcorn-official/popcorn-desktop/actions"><img src="https://img.shields.io/github/actions/workflow/status/popcorn-official/popcorn-desktop/build.yml?branch=development&label=latest%20build"></a>
-  <a href="https://david-dm.org/popcorn-official/popcorn-desktop"><img src="https://img.shields.io/david/popcorn-official/popcorn-desktop?label=deps"></a><br>
+  <a href="https://github.com/popcorn-official/popcorn-desktop/actions"><img src="https://img.shields.io/github/actions/workflow/status/popcorn-official/popcorn-desktop/build.yml?branch=development&label=latest%20build"></a><br>
   <a href="https://popcorn-time.site"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=popcorn-time.site&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fpopcorn-time.site"></a>
   <a href="https://www.reddit.com/r/PopCornTimeApp"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=reddit&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fold.reddit.com%2Fr%2Fpopcorntimeapp%2F"></a>
-  <a href="https://discuss.popcorntime.app"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=forum&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fdiscuss.popcorntime.app"></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/wiki/"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=wiki&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fgithub.com%2Fpopcorn-official%2Fpopcorn-desktop%2Fwiki%2F"></a>
   <a href="https://github.com/popcorn-official/popcorn-desktop/wiki/FAQ"><img src="https://img.shields.io/website?down_color=red&down_message=offline&label=faq&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fgithub.com%2Fpopcorn-official%2Fpopcorn-desktop%2Fwiki%2FFAQ"></a>
 
@@ -135,7 +133,7 @@ You can also join our [community](README.md#community) to keep up-to-date and me
 ## Community
 Keep track of Popcorn Time development and community activity.
   * Read and contribute to the official [Popcorn Time Wiki](https://github.com/popcorn-official/popcorn-desktop/wiki/).
-  * Join in discussions on the [Popcorn Time Forum](https://discuss.popcorntime.app) and [r/PopCornTimeApp](https://www.reddit.com/r/PopcornTimeApp).
+  * Join in discussions on [r/PopCornTimeApp](https://www.reddit.com/r/PopcornTimeApp).
 
 
 ## Screenshots
