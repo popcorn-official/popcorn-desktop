@@ -356,7 +356,6 @@ var Database = {
         }
         if (dhtInfo.site) {
             Settings.projectUrl = dhtInfo.site;
-            dhtInfo.d ? Settings.projectForum2 = dhtInfo.site.split('//')[0] + '//discuss.' + dhtInfo.site.split('//')[1] : null;
             dhtInfo.s ? Settings.statusUrl = dhtInfo.site.split('//')[0] + '//status.' + dhtInfo.site.split('//')[1] : null;
         }
         if (dhtInfo.keys) {
