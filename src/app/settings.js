@@ -5,7 +5,6 @@ var Settings = {
   projectCi: 'https://github.com/popcorn-official/popcorn-desktop/actions',
   projectBlog: 'https://github.com/popcorn-official/popcorn-desktop/wiki',
   projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
-  projectForum2: '',
   statusUrl: 'https://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
