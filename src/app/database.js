@@ -351,7 +351,6 @@ var Database = {
             Settings.issuesUrl = dhtInfo.git + 'issues';
             Settings.sourceUrl = dhtInfo.git;
             Settings.commitUrl = dhtInfo.git + 'commit';
-            Settings.projectCi = dhtInfo.git + 'actions';
             Settings.projectBlog = dhtInfo.git + 'wiki';
         }
         if (dhtInfo.site) {
