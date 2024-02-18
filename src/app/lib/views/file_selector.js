@@ -4,6 +4,7 @@
     var that,
         magnetName,
         importedTorrent,
+        backdrop,
         formatMagnet;
 
     var FileSelector = Marionette.View.extend({
@@ -53,16 +54,17 @@
             if (!$.trim($('.file-selector-container .file-list').html()).length) {
                 $('.file-selector-container .file-list').html('<li style="margin-top: 30px">' + i18n.__('No results found') + '</li>');
             }
+            backdrop = !importedTorrent && $('.shb-img')[0] && $('.shb-img')[0].style ? $('.shb-img')[0].style.backgroundImage : null;
+            $('.file-selector-backdrop').css('background-image', backdrop);
         },
 
         startStreaming: function (e) {
             var torrent = that.model.get('torrent');
             var file = $(e.currentTarget).parent().attr('data-file');
-            var backdr = document.querySelector('.backdrop') || document.querySelector('.shb-img') || null;
 
             var torrentStart = new Backbone.Model({
                 torrent: torrent.magnetURI,
-                backdrop: !importedTorrent && backdr && backdr.style && backdr.style.backgroundImage ? backdr.style.backgroundImage.replace('url("', '').replace('")', '') : null,
+                backdrop: backdrop ? backdrop.replace('url("', '').replace('")', '') : null,
                 torrent_read: true,
                 file_name: file,
                 device: App.Device.Collection.selected
