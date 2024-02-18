@@ -1,6 +1,6 @@
 <div class="loading">
   <div class="loading-backdrop" <% try { %> style="background-image:url( <%= backdrop %> )" <% }catch(err) {} %>></div>
-  <div class="loading-backdrop-overlay"></div>
+  <div class="loading-backdrop-overlay"<% if(Settings.moviesUITransparency !== '0.65') {%> style="opacity:<%=Settings.moviesUITransparency%>"<%}%>></div>
   <div class="fa fa-angle-down minimize-icon tooltipped" data-toggle="tooltip" data-placement="bottom" title="<%= i18n.__("Minimize") %>"></div>
   <div class="maximize-icon">
       <span class="buffer_percent"></span>
