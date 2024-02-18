@@ -383,8 +383,8 @@
                 tmdb: metadatas.type === 'movie' ? metadatas.movie.ids.tmdb : false
             }).then(function (img) {
                 if (this.torrentModel) {
-                    this.torrentModel.set('backdrop', img.background);
-                    this.torrentModel.set('poster', img.poster);
+                    !this.torrentModel.get('backdrop') ? this.torrentModel.set('backdrop', img.background) : null;
+                    !this.torrentModel.get('poster') ? this.torrentModel.set('poster', img.poster) : null;
                 }
             }.bind(this));
         },
