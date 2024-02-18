@@ -721,6 +721,7 @@ var handleTorrent = function (torrent) {
   } catch (err) {
     // The player wasn't running
   }
+  Settings.importedTorrent = true;
   App.Config.getProviderForType('torrentCache').resolve(torrent);
 };
 

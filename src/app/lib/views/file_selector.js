@@ -3,6 +3,7 @@
 
     var that,
         magnetName,
+        importedTorrent,
         formatMagnet;
 
     var FileSelector = Marionette.View.extend({
@@ -21,6 +22,8 @@
             that = this;
             magnetName = Settings.droppedMagnetName;
             delete(Settings.droppedMagnetName);
+            importedTorrent = Settings.importedTorrent;
+            delete(Settings.importedTorrent);
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
@@ -55,9 +58,11 @@
         startStreaming: function (e) {
             var torrent = that.model.get('torrent');
             var file = $(e.currentTarget).parent().attr('data-file');
+            var backdr = document.querySelector('.backdrop') || document.querySelector('.shb-img') || null;
 
             var torrentStart = new Backbone.Model({
                 torrent: torrent.magnetURI,
+                backdrop: !importedTorrent && backdr && backdr.style && backdr.style.backgroundImage ? backdr.style.backgroundImage.replace('url("', '').replace('")', '') : null,
                 torrent_read: true,
                 file_name: file,
                 device: App.Device.Collection.selected
