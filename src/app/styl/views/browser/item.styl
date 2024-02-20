@@ -31,6 +31,23 @@
             opacity 0
             display none
 
+            &.selected
+                opacity 1
+                display block
+                padding 88px 0
+                border: 2px solid $PosterHoverOverlayOpq
+                border-radius $PosterRadius
+
+                .actions-watched,
+                .rating
+                    visibility hidden
+                    transition none
+
+                &:hover >
+                    .actions-watched,
+                    .rating
+                        visibility visible
+
             &img
                 position absolute
                 left 0
@@ -43,6 +60,12 @@
               background $PosterHoverOverlay
               border: 2px solid $PosterHoverOverlayOpq
               border-radius $PosterRadius
+
+              &.selected
+                  background none
+
+                  &:hover
+                      background $PosterHoverOverlay
 
             .actions-favorites
                 float: right
