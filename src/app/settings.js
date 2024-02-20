@@ -96,6 +96,7 @@ Settings.animeTabEnable = true;
 Settings.favoritesTabEnable = true;
 Settings.watchedTabEnable = true;
 Settings.coversShowRating = true;
+Settings.alwaysShowBookmarks = false;
 Settings.showSeedboxOnDlInit = true;
 Settings.expandedSearch = false;
 Settings.defaultFilters = 'default';
