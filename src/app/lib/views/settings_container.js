@@ -334,6 +334,7 @@
                 case 'contentLangOnly':
                 case 'dhtEnable':
                 case 'coversShowRating':
+                case 'alwaysShowBookmarks':
                 case 'showSeedboxOnDlInit':
                 case 'expandedSearch':
                 case 'nativeWindowFrame':
@@ -631,6 +632,7 @@
                         !value ? scrollPosOffset++ : scrollPosOffset--;
                     }
                     /* falls through */
+                case 'alwaysShowBookmarks':
                 case 'watchedCovers':
                 case 'defaultFilters':
                 case 'activateTempf':
