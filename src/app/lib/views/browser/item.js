@@ -20,6 +20,7 @@
           covers: '.cover-imgs',
           defaultCover: '.cover',
           cover: '.cover',
+          overlay: '.cover-overlay',
           bookmarkIcon: '.actions-favorites',
           watchedIcon: '.actions-watched'
         },
@@ -139,6 +140,9 @@
 
             if (this.model.get('bookmarked') || itemtype.match('bookmarked')) {
                 this.ui.bookmarkIcon.addClass('selected');
+                if (Settings.alwaysShowBookmarks) {
+                    this.ui.overlay.addClass('selected');
+                }
             }
 
             if (this.model.get('watched') && !itemtype.match('show')) {
@@ -400,6 +404,7 @@
 
                     this.model.set('bookmarked', false);
                     this.ui.bookmarkIcon.removeClass('selected');
+                    this.ui.overlay.removeClass('selected');
                     this.setCoverStates();
                     this.setTooltips();
 
