@@ -87,6 +87,10 @@
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
+            <span>
+                <input class="settings-checkbox" name="alwaysShowBookmarks" id="alwaysShowBookmarks" type="checkbox" <%=(Settings.alwaysShowBookmarks? "checked='checked'":"")%>>
+                <label class="settings-label" for="alwaysShowBookmarks"><%= i18n.__("Always show bookmark over covers") %></label>
+            </span>
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
