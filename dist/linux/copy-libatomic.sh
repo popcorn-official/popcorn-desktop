@@ -12,6 +12,11 @@ if [ ! $? = 0 ]; then
   sudo apt update
   sudo apt install -y libatomic1
 fi
+dpkg-query -s libatomic1:i386
+if [ ! $? = 0 ]; then
+  sudo apt update
+  sudo apt install -y libatomic1:i386
+fi
 
 if [[ $arch -eq "linux64" ]]; then
   read source <<< `readlink -f /usr/lib/x86_64*/libatomic.so.*`
