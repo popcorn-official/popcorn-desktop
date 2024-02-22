@@ -422,6 +422,19 @@ gulp.task('nwjs', () => {
 
       return nw.build();
     })
+    .then(() => {
+        const platform = detectCurrentPlatform(process);
+        if (platform.indexOf('linux') === -1) {
+            return null;
+        }
+        const child = spawn('bash', [
+            'dist/linux/copy-libatomic.sh',
+            platform,
+            pkJson.name,
+            releasesDir
+        ]);
+        return waitProcess(child);
+    })
     .catch(function(error) {
       console.error(error);
     });
