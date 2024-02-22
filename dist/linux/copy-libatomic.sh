@@ -1,12 +1,13 @@
 #!/bin/bash
-# launch 'copy-libatomic.sh <platform> <app-name> <destination>'
+# launch 'copy-libatomic.sh <destination> <app-name> <platform>'
 
-arch=$1
+builddir=$1
 projectName=$2
-builddir=$3
+arch=$3
 
-outDir="$3/$2/$1"
+outDir="$1/$2/$3"
 
+sudo dpkg --add-architecture i386
 dpkg-query -s libatomic1
 if [ ! $? = 0 ]; then
   sudo apt update
@@ -18,10 +19,10 @@ if [ ! $? = 0 ]; then
   sudo apt install -y libatomic1:i386
 fi
 
-if [[ $arch -eq "linux64" ]]; then
+if [[ $arch == "linux64" ]]
+then
   read source <<< `readlink -f /usr/lib/x86_64*/libatomic.so.*`
 else
   read source <<< `readlink -f /usr/lib/i386*/libatomic.so.*`
 fi
-echo "copy $source to $outDir" > "$outDir/echo"
 cp $source "$outDir/lib/libatomic.so.1"
