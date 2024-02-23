@@ -93,11 +93,8 @@
 
       // Help
       App.vent.on('help:show', _.bind(this.showHelp, this));
-      App.vent.on(
-        'help:close',
-        _.bind(this.getRegion('Help').empty, this.getRegion('Help'))
-      );
-      App.vent.on('help:toggle', _.bind(this.toggleHelp, this));
+      App.vent.on('help:close',_.bind(this.showHelp, this));
+      App.vent.on('help:toggle', _.bind(this.showHelp, this));
 
       // Movies
       App.vent.on('movie:showDetail', _.bind(this.showMovieDetail, this));
@@ -475,15 +472,7 @@
     },
 
     showHelp: function(e) {
-      this.showChildView('Help', new App.View.Help());
-    },
-
-    toggleHelp: function(e) {
-      if ($('.help-container').length > 0) {
-        App.vent.trigger('help:close');
-      } else {
-        this.showHelp();
-      }
+      nw.Shell.openExternal(Settings.projectBlog + '/FAQ');
     },
 
     preventDefault: function(e) {
