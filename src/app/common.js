@@ -265,7 +265,7 @@ Common.normalize = (function () {
 	};
 })();
 
-Common.loadImage = function(img) {
+Common.loadImage = function(img, proxy = false) {
 	return new Promise(function(resolve, reject) {
 		let cache = new Image();
 		cache.onload = () => {
@@ -281,7 +281,15 @@ Common.loadImage = function(img) {
 			resolve(img);
 		};
 
-		cache.onerror = () => resolve(null);
+		cache.onerror = () => {
+			if (proxy) {
+				resolve(null);
+				return;
+			}
+			const apiUrl = App.Config.getProviderForType('tvshow')[0].apiURL;
+			const url = apiUrl[0] + 'posters/' + img.split('/').pop();
+			resolve(Common.loadImage(url, true));
+		};
 		cache.src = img;
 	});
 };
