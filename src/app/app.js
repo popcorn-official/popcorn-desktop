@@ -705,10 +705,7 @@ var handleVideoFile = function (file) {
       localVideo.attributes
     );
 
-    var tmpPlayer = App.Device.Collection.selected.attributes.id;
-    App.Device.Collection.setDevice('local');
     App.vent.trigger('stream:ready', localVideo); // start stream
-    App.Device.Collection.setDevice(tmpPlayer);
 
     $('.eye-info-player, .maximize-icon #maxdllb').hide();
     $('.vjs-load-progress').css('width', '100%');
