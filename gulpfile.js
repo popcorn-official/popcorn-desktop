@@ -422,6 +422,22 @@ gulp.task('nwjs', () => {
 
       return nw.build();
     })
+    .then(() => {
+      return Promise.all(
+        nw.options.platforms.map((platform) => {
+            if (platform.indexOf('linux') === -1) {
+                return null;
+            }
+            const child = spawn('bash', [
+                'dist/linux/copy-libatomic.sh',
+                releasesDir,
+                pkJson.name,
+                platform
+            ]);
+            return waitProcess(child);
+        })
+      );
+    })
     .catch(function(error) {
       console.error(error);
     });
