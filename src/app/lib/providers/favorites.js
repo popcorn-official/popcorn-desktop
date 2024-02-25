@@ -209,9 +209,18 @@
     Favorites.prototype.filters = function () {
         const data = {
             kinds: ['Favorites', 'Watched'],
-            types: ['All', 'Movies', 'Series', 'Anime'],
+            types: ['All'],
             sorters: ['watched items', 'year', 'title', 'rating']
         };
+        if (Settings.moviesTabEnable) {
+            data.types.push('Movies');
+        }
+        if (Settings.seriesTabEnable) {
+            data.types.push('Series');
+        }
+        if (Settings.animeTabEnable) {
+            data.types.push('Anime');
+        }
         let filters = {
             kinds: {},
             types: {},
