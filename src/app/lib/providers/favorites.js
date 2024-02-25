@@ -85,7 +85,7 @@
                 }
             } else if (filters.type === 'Anime') {
                 for (var k = sorted.length; k--;) {
-                    if (sorted[k].country !== 'JP' && !sorted[k].genres.includes('animation')) {
+                    if (sorted[k].country !== 'JP' || !sorted[k].genres.includes('animation')) {
                         sorted.splice(k, 1);
                     }
                 }
