@@ -286,6 +286,10 @@ Common.loadImage = function(img, proxy = false) {
 				resolve(null);
 				return;
 			}
+			if (img.indexOf('image.tmdb.org') === -1) {
+				resolve(null);
+				return;
+			}
 			const apiUrl = App.Config.getProviderForType('tvshow')[0].apiURL;
 			const url = apiUrl[0] + 'posters/' + img.split('/').pop();
 			resolve(Common.loadImage(url, true));
