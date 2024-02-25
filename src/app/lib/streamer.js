@@ -25,6 +25,8 @@
         this.downloadOnly = false;
         // Boolean to indicate preload episode state
         this.preload = false;
+        // Boolean to indicate is local file
+        this.isLocalFile = false;
     };
 
     WebTorrentStreamer.prototype = {
@@ -112,6 +114,16 @@
 
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
+            if (this.isLocalFile) {
+                this.torrent = this.torrentModel.get('torrent');
+                this.handleStreamInfo();
+                this.stateModel.set('device', this.torrentModel.get('device'));
+                this.stateModel.set('title', this.torrentModel.get('title'));
+                this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
+                App.vent.trigger('stream:ready', this.torrentModel.get('torrent'));
+                this.stateModel.destroy();
+                return this.createServer();
+            }
 
             if (!this.downloadOnly && !this.preload) {
                 this.fetchTorrent(this.torrentModel.get('torrent'), location, model.get('title')).then(function (torrent) {
@@ -571,6 +583,7 @@
 
         setModels: function (model, state) {
             this.stopped = false;
+            this.isLocalFile = state === 'local' ? true : false;
             this.downloadOnly = state === 'downloadOnly' ? true : false;
             this.preload = state === 'preload' ? true : false;
             this.torrentModel = model;
