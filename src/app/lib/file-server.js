@@ -4,13 +4,13 @@ const mime = require('mime');
 const pump = require('pump');
 const rangeParser = require('range-parser');
 const queueMicrotask = require('queue-microtask');
+const fs = require('fs'); // we only need fs to get the ReadStream and WriteStream prototypes
 
 function FileServer (file, opts = {}) {
   const server = http.createServer();
   if (!opts.origin) { opts.origin = '*'; } // allow all origins by default
 
   const sockets = new Set();
-  const pendingReady = new Set();
   let closed = false;
   const _listen = server.listen;
   const _close = server.close;
@@ -26,10 +26,6 @@ function FileServer (file, opts = {}) {
     closed = true;
     server.removeListener('connection', onConnection);
     server.removeListener('request', onRequest);
-    pendingReady.forEach(onReady => {
-      file.removeListener('ready', onReady);
-    });
-    pendingReady.clear();
     _close.call(server, cb);
   };
 
@@ -102,13 +98,7 @@ function FileServer (file, opts = {}) {
     }
 
     if (req.method === 'GET' || req.method === 'HEAD') {
-      if (torrent.ready) {
-        return handleRequest();
-      } else {
-        pendingReady.add(onReady);
-        torrent.once('ready', onReady);
-        return;
-      }
+      return handleRequest();
     }
 
     return serveMethodNotAllowed();
@@ -127,86 +117,78 @@ function FileServer (file, opts = {}) {
       res.end()
     }
 
-    function onReady () {
-      pendingReady.delete(onReady)
-      handleRequest()
-    }
-
     function handleRequest () {
       if (pathname === '/') {
-        return serveIndexPage()
+        return serveIndexPage();
       }
 
-      const index = Number(pathname.split('/')[1])
-      if (Number.isNaN(index) || index >= torrent.files.length) {
-        return serve404Page()
+      const index = Number(pathname.split('/')[1]);
+      if (Number.isNaN(index)) {
+        return serve404Page();
       }
 
-      const file = torrent.files[index]
-      serveFile(file)
+      serveFile(file);
     }
 
     function serveIndexPage () {
-      res.statusCode = 200
-      res.setHeader('Content-Type', 'text/html')
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
 
-      const listHtml = torrent.files
-        .map((file, i) => (
+      console.log(file);
+      const listHtml =
           `<li>
             <a
               download="${escapeHtml(file.name)}"
-              href="${escapeHtml(i)}/${escapeHtml(file.name)}"
+              href="0/${escapeHtml(file.name)}"
             >
               ${escapeHtml(file.path)}
             </a>
             (${escapeHtml(file.length)} bytes)
-          </li>`
-        ))
-        .join('<br>')
+          </li>`;
 
       const html = getPageHTML(
-        `${escapeHtml(torrent.name)} - WebTorrent`,
+        `Local File - WebTorrent`,
         `
-          <h1>${escapeHtml(torrent.name)}</h1>
+          <h1>Local File</h1>
           <ol>${listHtml}</ol>
         `
-      )
-      res.end(html)
+      );
+      res.end(html);
     }
 
     function serve404Page () {
-      res.statusCode = 404
-      res.setHeader('Content-Type', 'text/html')
+      res.statusCode = 404;
+      res.setHeader('Content-Type', 'text/html');
 
       const html = getPageHTML(
         '404 - Not Found',
         '<h1>404 - Not Found</h1>'
-      )
-      res.end(html)
+      );
+      res.end(html);
     }
 
     function serveFile (file) {
-      res.setHeader('Content-Type', mime.getType(file.name) || 'application/octet-stream')
+      res.setHeader('Content-Type', mime.getType(file.name) || 'application/octet-stream');
 
       // Support range-requests
-      res.setHeader('Accept-Ranges', 'bytes')
+      res.setHeader('Accept-Ranges', 'bytes');
 
       // Set name of file (for "Save Page As..." dialog)
       res.setHeader(
         'Content-Disposition',
         `inline; filename*=UTF-8''${encodeRFC5987(file.name)}`
-      )
+      );
 
       // Support DLNA streaming
-      res.setHeader('transferMode.dlna.org', 'Streaming')
+      res.setHeader('transferMode.dlna.org', 'Streaming');
       res.setHeader(
         'contentFeatures.dlna.org',
         'DLNA.ORG_OP=01;DLNA.ORG_CI=0;DLNA.ORG_FLAGS=01700000000000000000000000000000'
-      )
+      );
 
       // `rangeParser` returns an array of ranges, or an error code (number) if
       // there was an error parsing the range.
-      let range = rangeParser(file.length, req.headers.range || '')
+      let range = rangeParser(file.length, req.headers.range || '');
 
       if (Array.isArray(range)) {
         res.statusCode = 206 // indicates that range-request was understood
@@ -229,7 +211,7 @@ function FileServer (file, opts = {}) {
         return res.end()
       }
 
-      pump(file.createReadStream(range), res)
+      pump(fs.createReadStream(file.path, range), res);
     }
 
     function serveMethodNotAllowed () {

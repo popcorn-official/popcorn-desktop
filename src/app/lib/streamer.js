@@ -118,13 +118,24 @@ const FileServer = require("./lib/file-server");
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
             if (this.isLocalFile) {
                 this.torrent = this.torrentModel.get('torrent');
+                const index = this.torrentModel.get('video_file').index;
+                const path = this.torrentModel.get('torrent').get('videoFile');
+                this.torrent.files = [];
+                this.torrent.files[index] = {download:0, upload:0};
                 this.handleStreamInfo();
                 this.stateModel.set('device', this.torrentModel.get('device'));
                 this.stateModel.set('title', this.torrentModel.get('title'));
                 this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
-                App.vent.trigger('stream:ready', this.torrentModel.get('torrent'));
-                this.stateModel.destroy();
-                return this.createFileServer(this.torrentModel.get('torrent').get('src'));
+                //App.vent.trigger('stream:ready', this.torrentModel.get('torrent'));
+                const fileForServer = {
+                    name: path.split('/').pop(),
+                    path: path,
+                    length: fs.statSync(path).size,
+                    index: index,
+                };
+
+                return this.createFileServer(fileForServer)
+                    .then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
             }
 
             if (!this.downloadOnly && !this.preload) {
@@ -560,8 +571,9 @@ const FileServer = require("./lib/file-server");
 
                 try {
                     const server = new FileServer(file, serverPort);
+                    server.listen(serverPort);
 
-                    this.torrentModel.get('torrent').createServer().listen(serverPort);
+                    this.torrentModel.get('torrent').set('server', server);
 
                     var url = 'http://127.0.0.1:' + serverPort + '/' + file.index;
 
@@ -571,7 +583,7 @@ const FileServer = require("./lib/file-server");
                     resolve(url);
                 } catch (e) {
                     setTimeout(function () {
-                        return this.createFileServer(0).then(resolve);
+                        return this.createFileServer(file, 0).then(resolve);
                     }.bind(this), 100);
                 }
             }.bind(this));

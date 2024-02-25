@@ -73,6 +73,7 @@
     "mkdirp": "*",
     "mousetrap": "~1.6.5",
     "mv": "2.x.x",
+    "mime": "^3.0.0",
     "nedb-promises": "^5.0.3",
     "node-tvdb": "^4.1.0",
     "opensubtitles-api": "^5.1.2",
