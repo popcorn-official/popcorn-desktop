@@ -135,7 +135,10 @@ const FileServer = require("./lib/file-server");
                 };
 
                 return this.createFileServer(fileForServer)
-                    .then(this.waitForBuffer.bind(this)).catch(this.handleErrors.bind(this));
+                    .then(() => {
+                        App.vent.trigger('stream:ready', this.streamInfo);
+                        this.torrent = null;
+                    });
             }
 
             if (!this.downloadOnly && !this.preload) {
