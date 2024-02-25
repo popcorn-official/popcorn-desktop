@@ -282,11 +282,7 @@ Common.loadImage = function(img, proxy = false) {
 		};
 
 		cache.onerror = () => {
-			if (proxy) {
-				resolve(null);
-				return;
-			}
-			if (img.indexOf('image.tmdb.org') === -1) {
+			if (proxy || img.indexOf('image.tmdb.org') === -1) {
 				resolve(null);
 				return;
 			}
