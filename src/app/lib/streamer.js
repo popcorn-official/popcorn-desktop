@@ -1,3 +1,5 @@
+const Server = require("webtorrent/lib/server");
+const FileServer = require("./lib/file-server");
 (function (App) {
     'use strict';
     var subtitle_retry;
@@ -122,7 +124,7 @@
                 this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
                 App.vent.trigger('stream:ready', this.torrentModel.get('torrent'));
                 this.stateModel.destroy();
-                return this.createServer();
+                return this.createFileServer(this.torrentModel.get('torrent').get('src'));
             }
 
             if (!this.downloadOnly && !this.preload) {
@@ -542,6 +544,34 @@
                 } catch (e) {
                     setTimeout(function () {
                         return this.createServer(0).then(resolve);
+                    }.bind(this), 100);
+                }
+            }.bind(this));
+        },
+
+        createFileServer: function (file, port) {
+            return new Promise(function (resolve) {
+                var serverPort = parseInt((port || Settings.streamPort), 10);
+
+
+                if (!serverPort) {
+                    serverPort = this.generatePortNumber();
+                }
+
+                try {
+                    const server = new FileServer(file, serverPort);
+
+                    this.torrentModel.get('torrent').createServer().listen(serverPort);
+
+                    var url = 'http://127.0.0.1:' + serverPort + '/' + file.index;
+
+                    this.streamInfo.set('src', url);
+                    this.streamInfo.set('type', 'video/mp4');
+
+                    resolve(url);
+                } catch (e) {
+                    setTimeout(function () {
+                        return this.createFileServer(0).then(resolve);
                     }.bind(this), 100);
                 }
             }.bind(this));

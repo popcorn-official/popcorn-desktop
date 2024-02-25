@@ -714,7 +714,7 @@ var handleVideoFile = function (file) {
         name: fileName,
         size: 0,
         index: 0,
-        path: fileName
+        path: localVideo.get('src')
       },
     });
 
