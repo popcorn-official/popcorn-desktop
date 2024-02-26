@@ -70,16 +70,20 @@
         }
 
         if (filters.type !== 'All') {
-            if (filters.type === 'Series') {
-                for (var k = sorted.length; k--;) {
-                    if (sorted[k].original_language === 'ja' && sorted[k].genres.includes('animation')) {
-                        sorted.splice(k, 1);
-                    }
+            matched = [];
+            for (var i in sorted) {
+                if (sorted[i].original_language === 'ja' && sorted[i].genres.includes('animation')) {
+                    matched.push(sorted[i]);
                 }
-            } else if (filters.type === 'Anime') {
-                for (var k = sorted.length; k--;) {
-                    if (sorted[k].original_language !== 'ja' || !sorted[k].genres.includes('animation')) {
-                        sorted.splice(k, 1);
+            }
+            if (filters.type === 'Anime') {
+                sorted = matched;
+            } else {
+                for (var j in matched) {
+                    for (var k = sorted.length; k--;) {
+                        if (sorted[k] === matched[j]) {
+                            sorted.splice(k, 1);
+                        }
                     }
                 }
             }
