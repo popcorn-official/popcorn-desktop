@@ -70,19 +70,6 @@
         }
 
         if (filters.type !== 'All') {
-            matched = [];
-            for (var i in sorted) {
-                if (sorted[i].imdb_id.indexOf('mal') !== -1) {
-                    matched.push(sorted[i]);
-                }
-            }
-            for (var j in matched) {
-                for (var k = sorted.length; k--;) {
-                    if (sorted[k] === matched[j]) {
-                        sorted.splice(k, 1);
-                    }
-                }
-            }
             if (filters.type === 'Series') {
                 for (var k = sorted.length; k--;) {
                     if (sorted[k].original_language === 'ja' && sorted[k].genres.includes('animation')) {
