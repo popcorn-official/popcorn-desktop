@@ -24,6 +24,7 @@
       'click .genres .dropdown-menu a': 'changeGenre',
       'click .types .dropdown-menu a': 'changeType',
       'click .ratings .dropdown-menu a': 'changeRating',
+      'click .playerchoicemenu li a': 'selectPlayer',
       'click #filterbar-settings': 'settings',
       'click #filterbar-tempf': 'tempf',
       'click .movieTabShow': 'movieTabShow',
@@ -41,6 +42,7 @@
       App.vent.on('filter-bar:render', () => {
         this.render();
         this.setActive(App.currentview);
+        this.playerChoicerDropdown();
       });
     },
 
@@ -203,6 +205,8 @@
         }
       });
 
+      this.playerChoicerDropdown();
+
       $('.providerinfo').tooltip({
         delay: {
           'show': 2400,
@@ -213,6 +217,20 @@
 
       if (!this.previousSort) {
         this.previousSort = $('.sorters .active').data('value') || $('.sorters .value').data('value');
+      }
+    },
+
+    playerChoicerDropdown: function() {
+      if (Settings.activateTopPlayerSelector) {
+        App.Device.Collection.setDevice(Settings.chosenPlayer);
+        App.Device.ChooserViewTop('#player-chooser-top').render();
+      }
+    },
+
+    selectPlayer: function (e) {
+      var player = $(e.currentTarget).parent('li').attr('id').replace('player-', '');
+      if (!player.match(/[0-9]+.[0-9]+.[0-9]+.[0-9]/ig)) {
+        AdvSettings.set('chosenPlayer', player);
       }
     },
 

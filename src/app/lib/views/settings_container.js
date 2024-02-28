@@ -350,6 +350,7 @@
                 case 'alwaysFullscreen':
                 case 'minimizeToTray':
                 case 'activateTorrentCollection':
+                case 'activateTopPlayerSelector':
                 case 'activateSeedbox':
                 case 'activateWatchlist':
                 case 'activateTempf':

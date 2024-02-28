@@ -153,17 +153,24 @@
       $('.imgplayerchoice').attr('src', el.children('img').attr('src'));
     }
   });
-
-  var createChooserView = function(el) {
-    return new ChooserView({
-      collection: collection,
-      el: el
-    });
-  };
+  var ChooserViewTop = ChooserView.extend({
+    template: '#player-chooser-top-tpl',
+  });
 
   App.Device = {
     Generic: Device,
     Collection: collection,
-    ChooserView: createChooserView
+    ChooserView: function(el) {
+      return new ChooserView({
+        collection: collection,
+        el: el
+      });
+    },
+    ChooserViewTop: function(el) {
+      return new ChooserViewTop({
+        collection: collection,
+        el: el
+      });
+    },
   };
 })(window.App);

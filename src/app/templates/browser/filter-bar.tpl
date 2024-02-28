@@ -95,3 +95,10 @@
         <i id="filterbar-settings" class="fa fa-cog settings tooltipped" data-toggle="tooltip" data-placement="left" title="<%= i18n.__("Settings") %>"></i>
     </li>
 </ul>
+<% if (Settings.activateTopPlayerSelector) { %>
+<ul class="nav nav-hor right">
+    <li style="display:block">
+        <div id="player-chooser-top"></div>
+    </li>
+</ul>
+<% } %>
