@@ -1,3 +1,5 @@
+const Server = require("webtorrent/lib/server");
+const FileServer = require("./lib/file-server");
 (function (App) {
     'use strict';
     var subtitle_retry;
@@ -25,6 +27,8 @@
         this.downloadOnly = false;
         // Boolean to indicate preload episode state
         this.preload = false;
+        // Boolean to indicate is local file
+        this.isLocalFile = false;
     };
 
     WebTorrentStreamer.prototype = {
@@ -112,6 +116,30 @@
 
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
+            if (this.isLocalFile) {
+                this.torrent = this.torrentModel.get('torrent');
+                const index = this.torrentModel.get('video_file').index;
+                const path = this.torrentModel.get('torrent').get('videoFile');
+                this.torrent.files = [];
+                this.torrent.files[index] = {download:0, upload:0};
+                this.handleStreamInfo();
+                this.stateModel.set('device', this.torrentModel.get('device'));
+                this.stateModel.set('title', this.torrentModel.get('title'));
+                this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
+                //App.vent.trigger('stream:ready', this.torrentModel.get('torrent'));
+                const fileForServer = {
+                    name: path.split('/').pop(),
+                    path: path,
+                    length: fs.statSync(path).size,
+                    index: index,
+                };
+
+                return this.createFileServer(fileForServer)
+                    .then(() => {
+                        App.vent.trigger('stream:ready', this.streamInfo);
+                        this.torrent = null;
+                    });
+            }
 
             if (!this.downloadOnly && !this.preload) {
                 this.fetchTorrent(this.torrentModel.get('torrent'), location, model.get('title')).then(function (torrent) {
@@ -535,6 +563,35 @@
             }.bind(this));
         },
 
+        createFileServer: function (file, port) {
+            return new Promise(function (resolve) {
+                var serverPort = parseInt((port || Settings.streamPort), 10);
+
+
+                if (!serverPort) {
+                    serverPort = this.generatePortNumber();
+                }
+
+                try {
+                    const server = new FileServer(file, serverPort);
+                    server.listen(serverPort);
+
+                    this.torrentModel.get('torrent').set('server', server);
+
+                    var url = 'http://127.0.0.1:' + serverPort + '/' + file.index;
+
+                    this.streamInfo.set('src', url);
+                    this.streamInfo.set('type', 'video/mp4');
+
+                    resolve(url);
+                } catch (e) {
+                    setTimeout(function () {
+                        return this.createFileServer(file, 0).then(resolve);
+                    }.bind(this), 100);
+                }
+            }.bind(this));
+        },
+
         handleStreamInfo: function () {
             this.streamInfo.set('torrentModel', this.torrentModel);
             this.updateStatsInterval = setInterval(this.streamInfo.updateStats.bind(this.streamInfo), 1000);
@@ -571,6 +628,7 @@
 
         setModels: function (model, state) {
             this.stopped = false;
+            this.isLocalFile = state === 'local' ? true : false;
             this.downloadOnly = state === 'downloadOnly' ? true : false;
             this.preload = state === 'preload' ? true : false;
             this.torrentModel = model;
