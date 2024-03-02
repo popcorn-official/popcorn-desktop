@@ -10,7 +10,7 @@
                     if (file.display !== false) { %>
                 <li class="file-item" data-index="<%=file.index%>" data-file="<%=file.path%>">
                     <a><%=file.name %></a>
-                    <% if (Settings.activateSeedbox) { %>
+                    <% if (Settings.activateSeedbox && !localFile) { %>
                     <i class="fa fa-download item-download"></i>
                     <span style="margin-right: 70px"><% } else { %><span><% } %><%=Common.fileSize(file.length) %></span>
                 </li>
