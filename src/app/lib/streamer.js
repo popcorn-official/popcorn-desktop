@@ -116,7 +116,6 @@ const FileServer = require("./lib/file-server");
 
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
-
             if (this.torrentModel.get('localFile')) {
                 this.torrentModel.set('torrent', this.torrentModel.get('torrentModel').get('torrent'));
                 this.torrentModel.set('video_file', this.torrentModel.get('torrentModel').get('video_file'));
@@ -126,7 +125,6 @@ const FileServer = require("./lib/file-server");
                 this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
                 return App.vent.trigger('stream:ready', this.torrentModel);
             }
-
             if (this.isLocalFile) {
                 this.torrent = this.torrentModel.get('torrent');
                 const index = this.torrentModel.get('video_file').index;
@@ -137,7 +135,6 @@ const FileServer = require("./lib/file-server");
                 this.stateModel.set('device', this.torrentModel.get('device'));
                 this.stateModel.set('title', this.torrentModel.get('title'));
                 this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
-
                 const fileForServer = {
                     name: path.split('/').pop(),
                     path: path,
