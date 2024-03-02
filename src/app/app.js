@@ -705,17 +705,28 @@ var handleVideoFile = function (file) {
       localVideo.attributes
     );
 
-    const fileName = localVideo.get('src').split('/').pop();
+    const fileName = localVideo.get('src').replace(/\\/g, '/').split('/').pop();
     var torrentStart = new Backbone.Model({
       torrent: localVideo,
       title: fileName,
+      defaultSubtitle: Settings.subtitle_language,
       device: App.Device.Collection.selected,
       video_file: {
         name: fileName,
-        size: 0,
+        size: file.size,
         index: 0,
         path: localVideo.get('src')
       },
+      files: [{
+        name: fileName,
+        size: file.size,
+        index: 0,
+        offset: 0,
+        length: file.size,
+        display: true,
+        done: true,
+        path: localVideo.get('src')
+      }]
     });
 
     App.vent.trigger('stream:start', torrentStart, 'local');

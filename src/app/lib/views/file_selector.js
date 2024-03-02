@@ -25,6 +25,7 @@
             delete(Settings.droppedMagnetName);
             importedTorrent = Settings.importedTorrent;
             delete(Settings.importedTorrent);
+            !that.model.get('localFile') ? that.model.set('localFile', false) : null;
 
             formatMagnet = function (link) {
                 // format magnet with Display Name
@@ -59,6 +60,10 @@
         },
 
         startStreaming: function (e) {
+            if (that.model.get('localFile')) {
+                App.vent.trigger('stream:start', that.model);
+                return App.vent.trigger('system:closeFileSelector');
+            }
             var torrent = that.model.get('torrent');
             var file = $(e.currentTarget).parent().attr('data-file');
 

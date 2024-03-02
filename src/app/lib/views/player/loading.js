@@ -30,12 +30,7 @@
       playingbar: '#playingbar-contents',
       minimizeIcon: '.minimize-icon',
       maximizeIcon: '.maximize-icon',
-      userIp: '#userIp',
-      userCity: '#userCity',
-      userCountry: '#userCountry',
-      userZIP: '#userZIP',
-      userISP: '#userISP',
-      map: '#map'
+      magnetIcon: '.magnet-icon'
     },
 
     events: {
@@ -149,6 +144,9 @@
       win.info('Loading torrent:', state);
       this.ui.stateTextDownload.text(i18n.__(state));
       if (streamInfo) {
+        if (streamInfo.get('torrentModel').get('localFile')) {
+          streamInfo.set({device: streamInfo.get('torrentModel').get('torrentModel').get('device'), src: streamInfo.get('torrentModel').get('src')});
+        }
         if (streamInfo.get('downloaded')) {
           this.ui.stateTextDownloadedFormatted.text(Common.fileSize(streamInfo.get('downloaded')) + ' / ');
         }
@@ -194,6 +192,11 @@
         this.ui.seedStatus.css('visibility', 'visible');
         this.ui.progressbar.parent().css('visibility', 'visible');
         this.ui.stateTextDownloadedFormatted.show();
+        if (streamInfo.get('torrentModel').get('localFile')) {
+          this.ui.magnetIcon.css('visibility', 'hidden');
+          this.ui.progressbar.parent().css('visibility', 'hidden');
+          streamInfo.set({downloaded: streamInfo.get('size'), downloadedPercent: 100});
+        }
         if (streamInfo.get('src') && Settings.ipAddress) {
           this.ui.stateTextStreamUrl.text(streamInfo.get('src').replace('127.0.0.1', Settings.ipAddress));
         }

@@ -458,6 +458,10 @@
                 this.processNext();
             }
 
+            if (this.model.get('localFile')) {
+                this.model.set({downloaded: this.model.get('size'), downloadedPercent: 100});
+            }
+
             this.$('.tooltipped').tooltip({
                 html: true,
                 delay: {
