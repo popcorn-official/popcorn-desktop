@@ -1,0 +1,11 @@
+[Desktop Entry]
+Comment=Watch Movies and TV Shows instantly
+Name=Popcorn-Time
+Exec=Popcorn-Time %U
+Icon=Popcorn-Time
+MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+StartupNotify=false
+Categories=AudioVideo
+Type=Application
+X-Desktop-File-Install-Version=0.26
+
