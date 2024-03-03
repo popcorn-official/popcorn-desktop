@@ -72,6 +72,11 @@
             const backdrop = ($('.backdrop')[0] && $('.backdrop')[0].style ? $('.backdrop')[0].style.backgroundImage : ($('.shb-img')[0] && $('.shb-img')[0].style ? $('.shb-img')[0].style.backgroundImage : null));
             Settings.droppedMagnet = torrent.url || null;
             Settings.droppedMagnetName = torrent.title || null;
+            if ($('.meta-container .title').text()) {
+                torrent.title = $('.meta-container .title').text();
+            } else if ($('.sh-metadata .shm-title').text()) {
+                torrent.title = $('.sh-metadata .shm-title').text() + ' - ' + $('.sdoi-number').text() + ' - ' + $('.sdoi-title').text();
+            }
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
                 title: this.model.get('select') && !download ? null : torrent.title,
