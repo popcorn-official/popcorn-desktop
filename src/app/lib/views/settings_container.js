@@ -913,7 +913,7 @@
         resetSettings: function (e) {
             var btn = $(e.currentTarget);
 
-            if (!this.areYouSure(btn, i18n.__('Resetting...'))) {
+            if (!this.areYouSure(btn, i18n.__('Resetting settings...'))) {
                 return;
             }
 
@@ -929,11 +929,11 @@
         flushAllDatabase: function (e) {
             var btn = $(e.currentTarget);
 
-            if (!this.areYouSure(btn, i18n.__('Flushing...'))) {
+            if (!this.areYouSure(btn, i18n.__('Resetting...'))) {
                 return;
             }
 
-            this.alertMessageWait(i18n.__('We are flushing your databases'));
+            this.alertMessageWait(i18n.__('We are resetting all databases and settings'));
 
             Database.deleteDatabases()
                 .then(function () {
