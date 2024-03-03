@@ -115,48 +115,46 @@ const FileServer = require("./lib/file-server");
             }
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
-            if (this.torrentModel.get('localFile')) {
-                this.torrentModel.set('torrent', this.torrentModel.get('torrentModel').get('torrent'));
-                this.torrentModel.set('video_file', this.torrentModel.get('torrentModel').get('video_file'));
-                this.handleStreamInfo();
-                this.stateModel.set('device', this.torrentModel.get('device'));
-                this.stateModel.set('title', this.torrentModel.get('title'));
-                this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
-                return App.vent.trigger('stream:ready', this.torrentModel);
-            }
             if (this.isLocalFile) {
+                if (this.torrentModel.get('isReady')) {
+                    this.handleStreamInfo();
+                    this.stateModel.set('device', this.torrentModel.get('device'));
+                    this.stateModel.set('title', this.torrentModel.get('title'));
+                    this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
+                    return App.vent.trigger('stream:ready', this.torrentModel);
+                }
                 const index = this.torrentModel.get('video_file').index;
                 const path = this.torrentModel.get('torrent').get('videoFile');
-                this.torrent = this.torrentModel.get('torrent');
-                this.torrent.files = [];
-                this.handleStreamInfo();
                 const fileForServer = {
                     name: path.split('/').pop(),
                     path: path,
                     length: fs.statSync(path).size,
                     index: index
                 };
-                return this.createFileServer(fileForServer)
-                    .then(() => {
-                        this.streamInfo.set({
-                            files: this.torrentModel.get('files'),
-                            imdb_id: this.torrent.get('imdb_id'),
-                            tvdb_id: this.torrent.get('tvdb_id'),
-                            subtitle: this.torrent.get('subtitle'),
-                            poster: this.torrent.get('poster'),
-                            backdrop: this.torrent.get('backdrop'),
-                            year: this.torrent.get('year'),
-                            season: this.torrent.get('season'),
-                            episode: this.torrent.get('episode'),
-                            episode_id: this.torrent.get('episode_id'),
-                            quality: this.torrent.get('quality'),
-                            metadataCheckRequired: true,
-                            localFile: true,
-                            downloadedPercent: 100
-                        });
-                        App.vent.trigger('system:openFileSelector', this.streamInfo);
-                        this.torrent = null;
-                    });
+                this.torrent = this.torrentModel.get('torrent');
+                this.torrent.files = [];
+                this.streamInfo.set('torrentModel', this.torrentModel).updateInfos();
+                this.streamInfo.set({
+                    torrent: this.torrentModel.get('torrent'),
+                    files: this.torrentModel.get('files'),
+                    video_file: this.torrentModel.get('video_file'),
+                    imdb_id: this.torrent.get('imdb_id'),
+                    tvdb_id: this.torrent.get('tvdb_id'),
+                    subtitle: this.torrent.get('subtitle'),
+                    poster: this.torrent.get('poster'),
+                    backdrop: this.torrent.get('backdrop'),
+                    year: this.torrent.get('year'),
+                    season: this.torrent.get('season'),
+                    episode: this.torrent.get('episode'),
+                    episode_id: this.torrent.get('episode_id'),
+                    quality: this.torrent.get('quality'),
+                    downloadedPercent: 100,
+                    metadataCheckRequired: true,
+                    localFile: true,
+                    isReady: true
+                });
+                this.torrent = null;
+                return this.createFileServer(fileForServer).then(() => { App.vent.trigger('system:openFileSelector', this.streamInfo); });
             }
             if (!this.downloadOnly && !this.preload) {
                 this.fetchTorrent(this.torrentModel.get('torrent'), location, model.get('title')).then(function (torrent) {
