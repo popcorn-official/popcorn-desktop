@@ -93,14 +93,14 @@ var Database = {
     },
 
     deleteBookmarks: function () {
-        fs.unlinkSync(path.join(data_path, 'data/movies.db'));
-        fs.unlinkSync(path.join(data_path, 'data/shows.db'));
-        fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'));
+        try { fs.unlinkSync(path.join(data_path, 'data/movies.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/shows.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/bookmarks.db')); } catch (error) {}
         return Promise.resolve();
     },
 
     deleteWatched: function () {
-        fs.unlinkSync(path.join(data_path, 'data/watched.db'));
+        try { fs.unlinkSync(path.join(data_path, 'data/watched.db')); } catch (error) {}
         return Promise.resolve();
     },
 
@@ -334,7 +334,7 @@ var Database = {
     },
 
     resetSettings: function () {
-        fs.unlinkSync(path.join(data_path, 'data/settings.db'));
+        try { fs.unlinkSync(path.join(data_path, 'data/settings.db')); } catch (error) {}
         return Promise.resolve();
     },
 
@@ -369,17 +369,11 @@ var Database = {
     },
 
     deleteDatabases: function () {
-
-        fs.unlinkSync(path.join(data_path, 'data/watched.db'));
-
-        fs.unlinkSync(path.join(data_path, 'data/movies.db'));
-
-        fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'));
-
-        fs.unlinkSync(path.join(data_path, 'data/shows.db'));
-
-        fs.unlinkSync(path.join(data_path, 'data/settings.db'));
-
+        try { fs.unlinkSync(path.join(data_path, 'data/watched.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/movies.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/bookmarks.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/shows.db')); } catch (error) {}
+        try { fs.unlinkSync(path.join(data_path, 'data/settings.db')); } catch (error) {}
         return Promise.resolve();
     },
 
