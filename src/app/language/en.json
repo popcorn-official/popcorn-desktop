@@ -588,5 +588,7 @@
 	"High": "High",
 	"Very High": "Very High",
 	"Always show bookmark over covers": "Always show bookmark over covers",
-	"Reset all": "Reset all"
+	"Reset all": "Reset all",
+	"We are resetting all databases and settings": "We are resetting all databases and settings",
+	"Resetting settings...": "Resetting settings..."
 }
