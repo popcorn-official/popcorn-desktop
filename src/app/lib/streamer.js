@@ -113,7 +113,6 @@ const FileServer = require("./lib/file-server");
             if (App.WebTorrent.destroyed) {
                 this.stop();
             }
-
             this.setModels(model, state);
             const location = this.downloadOnly && App.settings.separateDownloadsDir ? App.settings.downloadsLocation : App.settings.tmpLocation;
             if (this.torrentModel.get('localFile')) {
@@ -126,22 +125,17 @@ const FileServer = require("./lib/file-server");
                 return App.vent.trigger('stream:ready', this.torrentModel);
             }
             if (this.isLocalFile) {
-                this.torrent = this.torrentModel.get('torrent');
                 const index = this.torrentModel.get('video_file').index;
                 const path = this.torrentModel.get('torrent').get('videoFile');
+                this.torrent = this.torrentModel.get('torrent');
                 this.torrent.files = [];
-                this.torrent.files[index] = {download:0, upload:0};
                 this.handleStreamInfo();
-                this.stateModel.set('device', this.torrentModel.get('device'));
-                this.stateModel.set('title', this.torrentModel.get('title'));
-                this.stateModel.set('state', this.torrentModel.get('device') === 'local' ? 'ready' : 'playingExternally');
                 const fileForServer = {
                     name: path.split('/').pop(),
                     path: path,
                     length: fs.statSync(path).size,
-                    index: index,
+                    index: index
                 };
-
                 return this.createFileServer(fileForServer)
                     .then(() => {
                         this.streamInfo.set({
@@ -164,7 +158,6 @@ const FileServer = require("./lib/file-server");
                         this.torrent = null;
                     });
             }
-
             if (!this.downloadOnly && !this.preload) {
                 this.fetchTorrent(this.torrentModel.get('torrent'), location, model.get('title')).then(function (torrent) {
                     this.torrentModel.set('torrent', this.torrent = torrent);
