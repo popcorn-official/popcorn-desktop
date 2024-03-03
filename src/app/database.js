@@ -93,15 +93,15 @@ var Database = {
     },
 
     deleteBookmarks: function () {
-        return db.bookmarks.remove({}, {
-            multi: true
-        });
+        fs.unlinkSync(path.join(data_path, 'data/movies.db'));
+        fs.unlinkSync(path.join(data_path, 'data/shows.db'));
+        fs.unlinkSync(path.join(data_path, 'data/bookmarks.db'));
+        return Promise.resolve();
     },
 
     deleteWatched: function () {
-        return db.watched.remove({}, {
-            multi: true
-        });
+        fs.unlinkSync(path.join(data_path, 'data/watched.db'));
+        return Promise.resolve();
     },
 
     // format: {page: page, keywords: title}
@@ -334,9 +334,8 @@ var Database = {
     },
 
     resetSettings: function () {
-        return db.settings.remove({}, {
-            multi: true
-        });
+        fs.unlinkSync(path.join(data_path, 'data/settings.db'));
+        return Promise.resolve();
     },
 
     applyDhtSettings: function (dhtInfo) {
