@@ -61,7 +61,7 @@
 
         startStreaming: function (e) {
             if (that.model.get('localFile')) {
-                App.vent.trigger('stream:start', that.model);
+                App.vent.trigger('stream:start', that.model, 'local');
                 return App.vent.trigger('system:closeFileSelector');
             }
             var torrent = that.model.get('torrent');
