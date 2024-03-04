@@ -69,8 +69,57 @@ jobs:
           name: ${{ env.platform }}-${{ matrix.nwjs }}
           path: build
 
-  release:
+  packs:
     needs: build
+    name: Packs
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        nwjs: ['0.44.5', '0.82.0']
+
+    steps:
+      - name: Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - uses: actions/checkout@v4
+        with:
+          path: repo
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: linux-${{ matrix.nwjs }}
+          path: .
+
+      - name: Install packages and appimagetool
+        run: |
+          sudo apt update
+          sudo apt install -y libfuse2
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool-x86_64.AppImage
+
+      - name: Build AppImage
+        run: |
+          VER=$(ls *-linux64*.zip | sed 's/-linux64.*//')
+          echo $VER
+          unzip -q *-linux64*.zip -d $VER.AppDir
+          cp repo/dist/linux/appimage/* $VER.AppDir/
+          ln -s Popcorn-Time $VER.AppDir/AppRun
+          mkdir build
+          ./appimagetool-x86_64.AppImage $VER.AppDir build/$VER-${{ matrix.nwjs }}-x86_64.AppImage
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        with:
+          name: linux-app-${{ matrix.nwjs }}
+          path: build
+
+
+  release:
+    needs: packs
     name: Release
     runs-on: ubuntu-latest
     steps:
