@@ -370,14 +370,10 @@ gulp.task('mac-pkg', () => {
 
         waitProcess(child).then(() => {
             console.log('%s pkg packaged in', platform, path.join(process.cwd(), releasesDir));
-            if (pkJson.version === curVersion() && !nwSuffix()) {
-                resolve();
-                return;
-            }
             return renameFile(
                 path.join(process.cwd(), releasesDir),
                 pkJson.name + '-' + pkJson.version + '.pkg',
-                pkJson.name + '-' + curVersion() + nwSuffix() + '.pkg'
+                pkJson.name + '-' + curVersion() + '-osx64' + nwSuffix() + '.pkg'
             ).then(() => resolve());
         }).catch(() => {
             console.log('%s failed to package pkg', platform);
