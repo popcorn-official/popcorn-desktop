@@ -330,6 +330,10 @@
             // set volume
             this.player.volume(Settings.playerVolume);
 
+            var fullscreenOverl = document.createElement('div');
+            fullscreenOverl.className = 'fullscreen-overl';
+            document.getElementsByClassName('video-js')[0].appendChild(fullscreenOverl);
+
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
