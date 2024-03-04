@@ -28,7 +28,6 @@ const gulp = require('gulp'),
 
 const { detectCurrentPlatform } = require('nw-builder/dist/index.cjs');
 
-// see: https://shows.cf/version.json
 const nwVersion = yargs.argv.nwVersion || defaultNwVersion;
 
 /***********
