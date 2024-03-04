@@ -1,206 +1,221 @@
 // VideoJS Plugins
 
-videojs.BiggerSubtitleButton = videojs.Button.extend({
-    /** @constructor */
-    init: function (player, options) {
-        videojs.Button.call(this, player, options);
-        this.on('click', this.onClick);
+var Button = videojs.getComponent('Button');
+var SubtitlesButton = videojs.getComponent('SubtitlesButton');
+var MenuItem = videojs.getComponent('MenuItem');
+
+// var BiggerSubtitleButton = videojs.extend(Button, {
+//     /** @constructor */
+//     constructor: function() {
+//         Button.apply(this, arguments);
+//     },
+//     handleClick: function() {
+//         var $subs = $('#video_player.video-js .vjs-text-track-display');
+//         var font_size = parseInt($subs.css('font-size'));
+//         font_size = font_size + 2;
+//         $subs.css('font-size', font_size + 'px');
+//     }
+// });
+// videojs.registerComponent('BiggerSubtitleButton', BiggerSubtitleButton);
+//
+// var createBiggerSubtitleButton = function () {
+//     var props = {
+//         className: 'vjs_biggersub_button vjs-control',
+//         innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A+</span></div>',
+//         role: 'button',
+//         'aria-live': 'polite', // let the screen reader user know that the text of the button may change
+//         tabIndex: 0
+//     };
+//     return videojs.Component.prototype.createEl(null, props);
+// };
+//
+// var biggerSubtitle;
+// videojs.plugin('biggerSubtitle', function () {
+//     var options = {
+//         'el': createBiggerSubtitleButton()
+//     };
+//     biggerSubtitle = new BiggerSubtitleButton(this, options);
+//     this.controlBar.el().appendChild(biggerSubtitle.el());
+// });
+
+// videojs.SmallerSubtitleButton = videojs.Button.extend({
+//     /** @constructor */
+//     init: function (player, options) {
+//         videojs.Button.call(this, player, options);
+//         this.on('click', this.onClick);
+//     }
+// });
+//
+// videojs.SmallerSubtitleButton.prototype.onClick = function () {
+//     var $subs = $('#video_player.video-js .vjs-text-track-display');
+//     var font_size = parseInt($subs.css('font-size'));
+//     font_size = font_size - 2;
+//     $subs.css('font-size', font_size + 'px');
+// };
+//
+// var createSmallerSubtitleButton = function () {
+//     var props = {
+//         className: 'vjs_smallersub_button vjs-control',
+//         innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A-</span></div>',
+//         role: 'button',
+//         'aria-live': 'polite', // let the screen reader user know that the text of the button may change
+//         tabIndex: 0
+//     };
+//     return videojs.Component.prototype.createEl(null, props);
+// };
+//
+// var smallerSubtitle;
+// videojs.plugin('smallerSubtitle', function () {
+//     var options = {
+//         'el': createSmallerSubtitleButton()
+//     };
+//     smallerSubtitle = new videojs.SmallerSubtitleButton(this, options);
+//     this.controlBar.el().appendChild(smallerSubtitle.el());
+// });
+//
+
+class CustomTrackMenuItem extends MenuItem {
+    constructor(player, options) {
+        options = options || {};
+        options.label = i18n.__('Custom...');
+        super(player, options);
     }
-});
 
-videojs.BiggerSubtitleButton.prototype.onClick = function () {
-    var $subs = $('#video_player.video-js .vjs-text-track-display');
-    var font_size = parseInt($subs.css('font-size'));
-    font_size = font_size + 2;
-    $subs.css('font-size', font_size + 'px');
-};
-
-var createBiggerSubtitleButton = function () {
-    var props = {
-        className: 'vjs_biggersub_button vjs-control',
-        innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A+</span></div>',
-        role: 'button',
-        'aria-live': 'polite', // let the screen reader user know that the text of the button may change
-        tabIndex: 0
-    };
-    return videojs.Component.prototype.createEl(null, props);
-};
-
-var biggerSubtitle;
-videojs.plugin('biggerSubtitle', function () {
-    var options = {
-        'el': createBiggerSubtitleButton()
-    };
-    biggerSubtitle = new videojs.BiggerSubtitleButton(this, options);
-    this.controlBar.el().appendChild(biggerSubtitle.el());
-});
-
-videojs.SmallerSubtitleButton = videojs.Button.extend({
-    /** @constructor */
-    init: function (player, options) {
-        videojs.Button.call(this, player, options);
-        this.on('click', this.onClick);
-    }
-});
-
-videojs.SmallerSubtitleButton.prototype.onClick = function () {
-    var $subs = $('#video_player.video-js .vjs-text-track-display');
-    var font_size = parseInt($subs.css('font-size'));
-    font_size = font_size - 2;
-    $subs.css('font-size', font_size + 'px');
-};
-
-var createSmallerSubtitleButton = function () {
-    var props = {
-        className: 'vjs_smallersub_button vjs-control',
-        innerHTML: '<div class="vjs-control-content"><span class="vjs-control-text">A-</span></div>',
-        role: 'button',
-        'aria-live': 'polite', // let the screen reader user know that the text of the button may change
-        tabIndex: 0
-    };
-    return videojs.Component.prototype.createEl(null, props);
-};
-
-var smallerSubtitle;
-videojs.plugin('smallerSubtitle', function () {
-    var options = {
-        'el': createSmallerSubtitleButton()
-    };
-    smallerSubtitle = new videojs.SmallerSubtitleButton(this, options);
-    this.controlBar.el().appendChild(smallerSubtitle.el());
-});
-
-
-// Custom Subtitles Button/Menu
-videojs.plugin('customSubtitles', function () {
-
-    // Find subtitlesButton
-    var subtitlesButton;
-    this.controlBar.children().forEach(function (el) {
-        if (el.name() === 'subtitlesButton') {
-            subtitlesButton = el;
-        }
-    });
-
-    var CustomTrackMenuItem = vjs.TextTrackMenuItem.extend({
-
-        /*@ Constructor */
-        init: function (player, options) {
-            options = options || {};
-            // fake 'empty' track
-            options['track'] = {
-                kind: function () {
-                    return 'subtitles';
-                },
-                player: player,
-                label: function () {
-                    return i18n.__('Custom...');
-                },
-                dflt: function () {
-                    return false;
-                },
-                mode: function () {
-                    return false;
-                }
-            };
-
-            this.fileInput_ = $('<input type="file" accept=".srt, .ssa, .ass, .txt" style="display: none;">');
-            $(this.el()).append(this.fileInput_);
-
-            var that = this;
-
-            App.vent.on('videojs:drop_sub', function () {
-                var subname = Settings.droppedSub;
-                var subpath = path.join(App.settings.tmpLocation, subname);
-                win.info('Subtitles dropped:', subname);
-                that.loadSubtitle(subpath);
-            });
-
-            this.fileInput_.on('change', function () {
-                that.player_.play();
-                if (this.value === '') {
-                    return;
-                }
-                that.loadSubtitle(this.value);
-                this.value = null; //reset
-            });
-
-            vjs.TextTrackMenuItem.call(this, player, options);
-        }
-    });
-
-    CustomTrackMenuItem.prototype.onClick = function () {
+    /**
+     * Seek with the button's configured offset
+     */
+    handleClick() {
         this.player_.pause();
-        this.fileInput_.trigger('click'); // redirect to fileInput click
-    };
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.vtt, .srt, .ssa, .ass, .txt';
 
-    CustomTrackMenuItem.prototype.loadSubtitle = function (filePath) {
+        input.onchange = e => {
+            let file = e.target.files[0];
+            if (file.type === 'text/vtt') {
+                this.loadSubtitle(file);
+                return;
+            }
+            this.convert2vtt(file).then((file) => {
+                this.loadSubtitle(file);
+            });
+        };
 
-        //clean tracks
-        var tracks = this.player_.textTracks() || [];
-        for (var i = 0; i < tracks.length; ++i) {
-            if (tracks[i].id_.indexOf('vjs_subtitles_00') !== -1) {
-                $(tracks[i].el()).remove();
-                tracks.splice(i, 1);
-                break;
+        input.click();
+    }
+
+    // TODO: find some npm module, which works with strings
+    srt2webvtt(data) {
+        // remove dos newlines
+        var srt = data.replace(/\r+/g, '');
+        // trim white space start and end
+        srt = srt.replace(/^\s+|\s+$/g, '');
+
+        // get cues
+        var cuelist = srt.split('\n\n');
+        var result = '';
+
+        if (cuelist.length > 0) {
+            result += 'WEBVTT\n\n';
+            for (var i = 0; i < cuelist.length; i=i+1) {
+                result += this.convertSrtCue(cuelist[i]);
             }
         }
 
-        this.track = this.player_.addTextTrack('subtitles', i18n.__('Custom...'), '00', {
-            src: filePath
-        });
-        App.vent.trigger('customSubtitles:added', filePath);
-        vjs.TextTrackMenuItem.prototype.onClick.call(this); // redirect to TextTrackMenuItem.onClick
-    };
+        return result;
+    }
 
-    subtitlesButton.menu.addItem(new CustomTrackMenuItem(this));
-    subtitlesButton.show(); // Always show subtitles button
+    convertSrtCue(caption) {
+        // remove all html tags for security reasons
+        //srt = srt.replace(/<[a-zA-Z\/][^>]*>/g, '');
 
-});
+        var cue = '';
+        var s = caption.split(/\n/);
 
-/*! videojs-progressTips - v0.1.0 - 2013-09-16
- * https://github.com/mickey/videojs-progressTips
- * Copyright (c) 2013 Michael Bensoussan; Licensed MIT */
-
-videojs.plugin('progressTips', function (options) {
-    var init;
-    init = function () {
-        var player;
-        /*if (this.techName !== "Html5") {
-		return;
-		}*/
-        player = this;
-        $('.vjs-progress-control').prepend($('<div id="vjs-tip">  <div id="vjs-tip-arrow"></div>  <div id="vjs-tip-inner"></div>  </div>'));
-        $('#vjs-tip').css('top', '-25px');
-        $('.vjs-progress-control').on('mousemove', function (event) {
-            var time, hours, minutes, seconds, seekBar, timeInSeconds;
-            seekBar = player.controlBar.progressControl.seekBar;
-            timeInSeconds = seekBar.calculateDistance(event) * seekBar.player_.duration();
-            if (timeInSeconds === seekBar.player_.duration()) {
-                timeInSeconds = timeInSeconds - 0.1;
+        // concatenate muilt-line string separated in array into one
+        while (s.length > 3) {
+            for (var i = 3; i < s.length; i++) {
+                s[2] += '\n' + s[i];
             }
-            hours = Math.floor(timeInSeconds / 60 / 60);
-            minutes = Math.floor(timeInSeconds / 60);
-            seconds = Math.floor(timeInSeconds - minutes * 60);
-            if (seconds < 10) {
-                seconds = '0' + seconds;
-            }
-            if (hours > 0) {
-                minutes = minutes % 60;
-                if (minutes < 10) {
-                    minutes = '0' + minutes;
-                }
-                time = '' + hours + ':' + minutes + ':' + seconds;
+            s.splice(3, s.length - 3);
+        }
+
+        var line = 0;
+
+        // detect identifier
+        if (!s[0].match(/\d+:\d+:\d+/) && s[1].match(/\d+:\d+:\d+/)) {
+            cue += s[0].match(/\w+/) + '\n';
+            line += 1;
+        }
+
+        // get time strings
+        if (s[line].match(/\d+:\d+:\d+/)) {
+            // convert time string
+            var m = s[1].match(/(\d+):(\d+):(\d+)(?:,(\d+))?\s*--?>\s*(\d+):(\d+):(\d+)(?:,(\d+))?/);
+            if (m) {
+                cue += m[1]+':'+m[2]+':'+m[3]+'.'+m[4]+' --> '
+                    +m[5]+':'+m[6]+':'+m[7]+'.'+m[8]+'\n';
+                line += 1;
             } else {
-                time = '' + minutes + ':' + seconds;
+                // Unrecognized timestring
+                return '';
             }
-            $('#vjs-tip-inner').html(time);
-            $('#vjs-tip').css('left', '' + (event.pageX - $(this).offset().left - ($('#vjs-tip').outerWidth() / 2)) + 'px').css('visibility', 'visible');
-            return;
-        });
-        $('.vjs-progress-control, .vjs-play-control').on('mouseout', function () {
-            $('#vjs-tip').css('visibility', 'hidden');
-        });
-    };
-    this.on('loadedmetadata', init);
-});
+        } else {
+            // file format error or comment lines
+            return '';
+        }
+
+        // get cue text
+        if (s[line]) {
+            cue += s[line] + '\n\n';
+        }
+
+        return cue;
+    }
+
+    async convert2vtt(file) {
+        let text = await file.text();
+
+        let vtt = this.srt2webvtt(text);
+        return new File(
+            [vtt],
+            'loaded.vtt',
+            {type: 'text/vtt'}
+        );
+    }
+
+    loadSubtitle(file) {
+
+        // on call removeRemoteTextTrack this.player_ set to null (???)
+        let tracks = videojs('video_player').remoteTextTracks() || [];
+        for (let i = tracks.length - 1; i >= 0; --i) {
+            if (tracks[i].language === '00') {
+                videojs('video_player').removeRemoteTextTrack(tracks[i]);
+            }
+        }
+
+        const track = videojs('video_player').addRemoteTextTrack({
+            kind: 'subtitles',
+            language: '00',
+            label: i18n.__('Custom...'),
+            mode: 'showing',
+            src: URL.createObjectURL(file)
+        }, false);
+    }
+
+}
+videojs.registerComponent('сustomTrackMenuItem', CustomTrackMenuItem);
+
+class CustomSubtitlesButton extends SubtitlesButton
+{
+    constructor(player, options, ready) {
+        super(player, options, ready);
+    }
+
+    createItems(items, TrackMenuItem) {
+        items = super.createItems(items, TrackMenuItem);
+        items.push(new CustomTrackMenuItem(this.player()));
+        return items;
+    }
+}
+videojs.registerComponent('customSubtitlesButton', CustomSubtitlesButton);

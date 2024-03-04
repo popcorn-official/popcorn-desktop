@@ -36,6 +36,7 @@ var _ = require('underscore'),
   // Torrent engines
   WebTorrent = require('webtorrent'),
   torrentCollection = require('torrentcollection6'),
+  videojs = require('video.js'),
   // NodeJS
   child = require('child_process'),
   // package.json
