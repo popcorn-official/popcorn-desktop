@@ -454,7 +454,7 @@
             const torrent = App.WebTorrent.get(infoHash);
             if (wasJustSelected) {
                 this.updateHealth(torrent);
-                const $fileList = $('.torrents-info > ul.file-list');
+                const $fileList = $('.seedbox-infos-synopsis .torrents-info > ul.file-list');
                 $fileList.empty();
                 try {
                     torrent.files.sort(function(a, b){
