@@ -10,21 +10,21 @@ if (genre) {
     var genre = [undefined];
 };
 %>
-
 <div class="backdrop"></div>
 <div class="backdrop-overlay"<% if(Settings.moviesUITransparency !== '0.65') {%> style="opacity:<%=Settings.moviesUITransparency%>"<%}%>></div>
-
+<div class="spinner">
+    <div class="loading-container">
+        <div class="ball"></div>
+        <div class="ball1"></div>
+    </div>
+</div>
 <div class="fa fa-times close-icon"></div>
-
 <section class="poster-box">
     <img src="images/posterholder.png" class="mcover-image" />
 </section>
-
 <section class="content-box">
-
     <div class="meta-container">
         <div class="title"><%= displayTitle %></div>
-
         <div class="metadatas">
             <div class="metaitem"></div><div class="year" data-toggle="tooltip" data-container="body" data-placement="top" title="<%=i18n.__('Show Release Info') %>"><%= year %></div>
             <div class="metaitem"><%= runtime %> min</div>
@@ -59,10 +59,8 @@ if (genre) {
                 <div data-toogle="tooltip" data-placement="left" title="" class="source-link"></div>
             </div>
         </div>
-
         <div class="overview"><%= displaySynopsis %></div>
         <div id="torrent-list"></div>
     </div>
-
     <div id="play-control"></div>
 </section>
