@@ -531,6 +531,13 @@ var isVideo = function (file) {
 };
 
 var handleVideoFile = function (file) {
+  App.vent.trigger('settings:close');
+  App.vent.trigger('about:close');
+  App.vent.trigger('keyboard:close');
+  App.vent.trigger('stream:stop');
+  App.vent.trigger('player:close');
+  App.vent.trigger('torrentcache:stop');
+  App.vent.trigger('preload:stop');
   $('.spinner').show();
 
   // look for local subtitles

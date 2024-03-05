@@ -392,12 +392,12 @@
                 this.wasSeek = true;
             } else {
                 this.wasSeek = false;
-                this.ui.play.hide().dequeue().css('transform', 'scale(1)');
-                this.ui.pause.appendTo('div#video_player');
-                this.ui.pause.show().delay(50).queue(function () {
+                try { this.ui.play.hide().dequeue().css('transform', 'scale(1)'); } catch (error) {}
+                try { this.ui.pause.appendTo('div#video_player'); } catch (error) {}
+                try { this.ui.pause.show().delay(50).queue(function () {
                     this.ui.pause.css('transform', 'scale(1.8)').fadeOut(400).dequeue();
-                }.bind(this));
-                this.ui.maxPlayCtrlIcon.removeClass('fa-pause').addClass('fa-play');
+                }.bind(this)); } catch (error) {}
+                try { this.ui.maxPlayCtrlIcon.removeClass('fa-pause').addClass('fa-play'); } catch (error) {}
                 App.vent.trigger('player:pause');
                 this.sendToTrakt('pause');
             }

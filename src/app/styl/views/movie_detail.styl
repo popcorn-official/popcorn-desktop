@@ -10,6 +10,21 @@
     backface-visibility: hidden
     background-color: $BgColor1
     position: fixed
+
+    .spinner
+        position: fixed
+        width: 100%
+        height: 100%
+        background: rgba(0, 0, 0, 0.5) center center no-repeat
+        pointer-events: all
+        z-index: 10
+        display: none
+        top: 0
+
+        .loading-container
+            margin: 50vh auto 0px
+            opacity: .8
+
     .backdrop-overlay
         width: 100vw
         height: 100vh
