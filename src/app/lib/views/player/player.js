@@ -9,6 +9,7 @@
         prevSub: null,
         wasFullscreen: false,
         wasMinimized: false,
+        newNW: null,
 
         ui: {
             eyeInfo: '.eye-info-player',
@@ -330,9 +331,11 @@
             // set volume
             this.player.volume(Settings.playerVolume);
 
-            var fullscreenOverl = document.createElement('div');
-            fullscreenOverl.className = 'fullscreen-overl';
-            document.getElementsByClassName('video-js')[0].appendChild(fullscreenOverl);
+            // fixes fullscreen subtitles and fullscreen player UI weirdness with new NW.js
+            // should be removed if a future NW.js or Video.js update resolves it
+            if (this.newNW) {
+                $('#video_player_html5_api').css({'width': '102%', 'left': '-1%'});
+            }
 
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
@@ -443,6 +446,7 @@
             $('.filter-bar').show();
             $('#player_drag').show();
             var that = this;
+            that.newNW = parseFloat(process.versions['node-webkit'].replace('0.', '')) > 50 ? true : false;
 
             $('.button:not(#download-torrent), .show-details .sdo-watch, .sdow-watchnow, .show-details #download-torrent, .file-item, .file-item a, .result-item, .collection-paste, .collection-import, .seedbox .item-play, #torrent-list .item-row, #torrent-show-list .item-row').addClass('disabled');
             $('#watch-now, #watch-trailer, .playerchoice, .file-item, .file-item a, .result-item, .result-item > *:not(.item-icon), .seedbox .item-play, #torrent-list .item-play, #torrent-show-list .item-play').prop('disabled', true);
@@ -1184,8 +1188,9 @@
             var curVideo = $('#video_player_html5_api');
             if (curVideo[0]) {
                 var multPer = ((curVideo[0].videoWidth / curVideo[0].videoHeight) / (screen.width / screen.height))*100;
-                if (curVideo.width() > $('#video_player').width() || curVideo.height() > $('#video_player').height()) {
-                    curVideo.css({'width': '100%', 'height': '100%', 'left': '0', 'top': '0'});
+                var fsMult = this.newNW ? 1.02 : 1;
+                if ((curVideo.width() / fsMult) > $('#video_player').width() || curVideo.height() > $('#video_player').height()) {
+                    curVideo.css({'width': fsMult * 100 + '%','height': '100%', 'left': (this.newNW ? -1 : 0) + '%', 'top': '0'});
                     this.displayOverlayMsg(i18n.__('Original'));
                 } else if (multPer > 100) {
                     curVideo.css({'width': multPer + '%', 'left': 50-multPer/2 + '%'});
