@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
-        nwjs: ['0.44.5', '0.82.0']
+        nwjs: ['0.44.5', '0.85.0']
 
     steps:
       - name: Context
@@ -76,7 +76,7 @@ jobs:
 
     strategy:
       matrix:
-        nwjs: ['0.44.5', '0.82.0']
+        nwjs: ['0.44.5', '0.85.0']
 
     steps:
       - name: Context
