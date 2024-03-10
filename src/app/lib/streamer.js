@@ -141,6 +141,7 @@ const FileServer = require("./lib/file-server");
                     imdb_id: this.torrent.get('imdb_id'),
                     tvdb_id: this.torrent.get('tvdb_id'),
                     subtitle: this.torrent.get('subtitle'),
+                    defaultSubtitle: this.torrent.get('defaultSubtitle'),
                     poster: this.torrent.get('poster'),
                     backdrop: this.torrent.get('backdrop'),
                     year: this.torrent.get('year'),
