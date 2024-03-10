@@ -716,7 +716,7 @@
             this.sendToTrakt('stop');
 
             // remove wrong metadata
-            var title = path.basename(this.model.get('src'));
+            var title = this.model.get('filename') || path.basename(this.model.get('src'));
             this.model.set('imdb_id', false);
             this.model.set('cover', false);
             this.model.set('title', title);
