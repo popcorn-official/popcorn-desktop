@@ -684,7 +684,7 @@ var handleVideoFile = function (file) {
         if (localsub !== null) {
           playObj.defaultSubtitle = 'local';
         } else {
-          playObj.defaultSubtitle = 'none';
+          playObj.defaultSubtitle = Settings.subtitle_language;
         }
         resolve(playObj);
       })
@@ -694,7 +694,7 @@ var handleVideoFile = function (file) {
         if (localsub !== null) {
           playObj.defaultSubtitle = 'local';
         } else {
-          playObj.defaultSubtitle = 'none';
+          playObj.defaultSubtitle = Settings.subtitle_language;
         }
 
         if (!playObj.title) {
@@ -720,7 +720,7 @@ var handleVideoFile = function (file) {
     var torrentStart = new Backbone.Model({
       torrent: localVideo,
       title: fileName,
-      defaultSubtitle: Settings.subtitle_language,
+      defaultSubtitle: localVideo.defaultSubtitle || Settings.subtitle_language,
       device: App.Device.Collection.selected,
       video_file: {
         name: fileName,
