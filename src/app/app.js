@@ -531,6 +531,10 @@ var isVideo = function (file) {
 };
 
 var handleVideoFile = function (file) {
+  var vjsPlayer = document.getElementById('video_player');
+  if (vjsPlayer) {
+    videojs(vjsPlayer).dispose();
+  }
   App.vent.trigger('settings:close');
   App.vent.trigger('about:close');
   App.vent.trigger('keyboard:close');
