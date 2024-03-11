@@ -546,16 +546,17 @@ var handleVideoFile = function (file) {
 
   // look for local subtitles
   var checkSubs = function () {
+    var _dir = file.path.replace(/\\/g, '/');
+    _dir = _dir.substr(0, _dir.lastIndexOf('/'));
     var _ext = path.extname(file.name);
-    var toFind = file.path.replace(_ext, '.srt');
-
-    if (fs.existsSync(path.join(toFind))) {
-      return {
-        local: path.join(toFind)
-      };
-    } else {
-      return null;
-    }
+    var _filename = file.name.replace(_ext, '');
+    var found = null;
+    fs.readdirSync(_dir).forEach(file => {
+      if (file.includes(_filename) && file.endsWith('.srt')) {
+        return found = { local: path.join(_dir, file) };
+      }
+    });
+    return found;
   };
 
   // get subtitles from provider
