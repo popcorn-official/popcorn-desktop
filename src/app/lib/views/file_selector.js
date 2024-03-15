@@ -78,8 +78,10 @@
             App.vent.trigger('system:closeFileSelector');
             if ($(e.currentTarget).hasClass('item-download')) {
                 if (Settings.showSeedboxOnDlInit) {
-                    App.vent.trigger('torrentCollection:close');
-                    App.currentview = 'Seedbox';
+                    if (App.currentview !== 'Torrent-collection') {
+                        App.previousview = App.currentview;
+                        App.currentview = 'Seedbox';
+                    }
                     App.vent.trigger('seedbox:show');
                     $('.filter-bar').find('.active').removeClass('active');
                     $('#filterbar-seedbox').addClass('active');
