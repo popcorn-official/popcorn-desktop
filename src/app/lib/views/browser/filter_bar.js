@@ -381,7 +381,7 @@
         if (App.currentview !== 'Torrent-collection') {
           App.previousview = App.currentview;
           App.currentview = 'Seedbox';
-        } else if (!App.ViewStack.includes('torrent-collection')) {
+        } else if (!App.ViewStack.includes('torrent-collection') && !$('#filterbar-torrent-collection').hasClass('active')) {
           App.vent.trigger('seedbox:close');
           return this.setActive(App.currentview);
         }
