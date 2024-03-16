@@ -255,8 +255,8 @@
                     }
                 });
                 $(`#${torrent.infoHash}`).remove();
-                if ($('.tab-torrent').length <= 0) {
-                    $('.notorrents-info').show();
+                if ($('.seedbox-torrents .tab-torrent').length <= 0) {
+                    $('.seedbox-torrents .notorrents-info').show();
                     $('.seedbox-overview').hide();
                 }
             }
