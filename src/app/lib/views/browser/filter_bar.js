@@ -377,7 +377,7 @@
 
     showSeedbox: function(e) {
       e.preventDefault();
-      if (!App.ViewStack.includes('seedbox')) {
+      if (App.currentview !== 'Seedbox' && !App.ViewStack.includes('seedbox')) {
         if (App.currentview !== 'Torrent-collection') {
           App.previousview = App.currentview;
           App.currentview = 'Seedbox';
