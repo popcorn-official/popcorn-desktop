@@ -9,10 +9,10 @@
             <% _.each(files, function(file, index) { 
                     if (file.display !== false) { %>
                 <li class="file-item" data-index="<%=file.index%>" data-file="<%=file.path%>">
-                    <a><%=file.name %></a>
                     <% if (Settings.activateSeedbox && !localFile) { %>
                     <i class="fa fa-download item-download"></i>
-                    <span style="margin-right: 70px"><% } else { %><span><% } %><%=Common.fileSize(file.length) %></span>
+                    <span style="margin-right: 12px"><% } else { %><span><% } %><%=Common.fileSize(file.length) %></span>
+                    <a><%=file.name %></a>
                 </li>
             <% }}); %>
         </ul>
