@@ -366,7 +366,7 @@
         App.vent.trigger('torrentCollection:show');
         this.setActive('Torrent-collection');
       } else {
-        if (!App.ViewStack.includes('seedbox')) {
+        if (!App.ViewStack.includes('seedbox') && !$('#filterbar-seedbox').hasClass('active')) {
           App.currentview = App.previousview;
           App.vent.trigger('torrentCollection:close');
         }
