@@ -46,7 +46,7 @@
               scrollable()
 
               li
-                  padding: 0px 15px
+                  padding: 0px 15px 0px 0px
                   margin: 1px 0px 1px 1px
                   float: left
                   width: calc(100% - 7px)
@@ -72,6 +72,14 @@
                   .watched:not(.fa-download):not(.fa-upload)
                       &:hover
                           color: $ShowWatchedIcon_true
+
+                  .pause-torrent
+                      width 50px
+                      padding 10px 20px
+
+                  .resume-torrent
+                      width 50px
+                      padding 10px 19px
 
               li:nth-child(odd)
                   background-color $ShowBgColor2
@@ -105,12 +113,12 @@
 
                   span
                       float: left
-                      margin: 0px 17px 0px 5px
+                      margin: 0px
 
                   div
                       white-space: nowrap
                       border-left: 1px solid $ShowBgColor1
-                      padding-left: 30px
+                      padding-left: 25px
                       text-align: left
                       overflow: hidden
                       text-overflow: ellipsis
