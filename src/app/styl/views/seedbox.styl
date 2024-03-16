@@ -534,6 +534,9 @@
                     opacity: 1;
                     transition-delay: 0.3s;
 
+                & > i
+                    color: $CloseButtonHover;
+
             &.active
                 color: #fff;
                 background-color: #27ae60;
@@ -546,6 +549,7 @@
                 font-size: 12px;
                 float: right;
                 pointer-events: none;
+                transition: color 0.3s;
 
             & span
                 opacity: 0;
