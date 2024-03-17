@@ -57,9 +57,17 @@
             }
             backdrop = !importedTorrent && $('.shb-img')[0] && $('.shb-img')[0].style ? $('.shb-img')[0].style.backgroundImage : null;
             $('.file-selector-backdrop').css('background-image', backdrop);
+            this.$('.tooltipped').tooltip({
+                html: true,
+                delay: {
+                    'show': 800,
+                    'hide': 100
+                }
+            });
         },
 
         startStreaming: function (e) {
+            $('.tooltipped').tooltip('hide');
             if (that.model.get('localFile')) {
                 App.vent.trigger('stream:start', that.model, 'local');
                 return App.vent.trigger('system:closeFileSelector');
