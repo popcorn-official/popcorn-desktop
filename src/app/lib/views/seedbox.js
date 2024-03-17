@@ -97,7 +97,7 @@
         isTorrentInList: torrent => Boolean(document.getElementById(torrent.infoHash)),
 
         addTorrentToList(torrent) {
-            $('.notorrents-info').hide();
+            $('.seedbox .notorrents-info').hide();
             let className = 'tab-torrent';
             if ($('.tab-torrent.active').length <= 0) {
                 className += ' active';
@@ -486,13 +486,13 @@
                     </li>`);
                 }
                 if (totalfiles < 2) {
-                    $('.file-item a').css('width', 'calc(100% - 22px)');
-                    $('.file-item .filesize').css('display', 'none');
+                    $('.seedbox .file-item a').css('width', 'calc(100% - 22px)');
+                    $('.seedbox .file-item .filesize').css('display', 'none');
                 }
                 if (active) {
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
                 }
-                $('.file-item a, .item-play, .item-download, .item-remove').tooltip({
+                $('.seedbox .file-item a, .seedbox .item-play, .seedbox .item-download, .seedbox .item-remove').tooltip({
                     html: true,
                     delay: {
                         'show': 800,
