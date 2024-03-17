@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<p class="title tooltipped" <% if(title.length > 20){ %> title="<%= title1 %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title1 %></p>
+<p class="title tooltipped" data-titleholder="<%= title1 %>" data-toggle="tooltip" data-placement="auto bottom"  onmouseenter="if (this.offsetWidth < this.scrollWidth) { $(this).attr('data-original-title', $(this).attr('data-titleholder')); } else { $(this).attr('data-original-title', ''); }"><%= title1 %></p>
 <% if (typeof title2 !== 'undefined' && title2 !== '') { %>
     <p class="title2 tooltipped" <% if(title2.length > 20){ %> title="<%= title2 %>" data-toggle="tooltip" data-placement="auto bottom" <% } %> ><%= title2 %></p>
 <%} %>
