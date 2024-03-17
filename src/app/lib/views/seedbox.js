@@ -478,7 +478,7 @@
                         selected = true;
                     }
                     $fileList.append(`<li class="file-item tooltipped${ selected ? '' : ' unselected' }">
-                        <a class="tooltipped" title="${file.name.replaceAll('.', '.\u200B')}" data-container="body" data-toggle="tooltip" data-placement="top">${file.name}</a>
+                        <a class="tooltipped" data-titleholder="${file.name.replaceAll('.', '.\u200B')}" data-container="body" data-toggle="tooltip" data-placement="top" onmouseenter="if (this.offsetWidth < this.scrollWidth) { $(this).attr('data-original-title', $(this).attr('data-titleholder')); } else { $(this).attr('data-original-title', ''); }">${file.name}</a>
                         <i class="fa fa-play item-play tooltipped" title="Watch Now" data-container="body" data-toggle="tooltip" data-placement="left"></i>
                         <i class="fa fa-download item-download tooltipped" title="Download" data-container="body" data-toggle="tooltip" data-placement="top"${ selected ? ' style="display:none"' : '' }></i>
                         <i class="fa fa-trash item-remove tooltipped" title="Remove" data-container="body" data-toggle="tooltip" data-placement="top"${ selected ? '' : ' style="display:none"' }></i>
