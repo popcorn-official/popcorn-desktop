@@ -168,6 +168,7 @@ Settings.enableTgxtorrentSearch = true;
 Settings.enableNyaaSearch = true;
 Settings.activateSeedbox = true;
 Settings.activateTempf = true;
+Settings.activateTopPlayerSelector = true;
 
 // Remote Control
 Settings.httpApiEnabled = false;

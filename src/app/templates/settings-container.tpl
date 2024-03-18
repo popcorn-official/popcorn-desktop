@@ -102,6 +102,10 @@
                 <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
             </span>
             <span>
+                <input class="settings-checkbox" name="activateTopPlayerSelector" id="activateTopPlayerSelector" type="checkbox" <%=(Settings.activateTopPlayerSelector? "checked='checked'":"")%>>
+                <label class="settings-label" for="activateTopPlayerSelector"><%= i18n.__("Show global player selector") %></label>
+            </span>
+            <span>
                 <div class="dropdown defaultFilters">
                     <p><%= i18n.__("Default Filters") %></p>
                         <%
