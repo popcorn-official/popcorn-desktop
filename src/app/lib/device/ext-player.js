@@ -149,13 +149,15 @@
         return players[name].fs || '';
     }
 
-    var ExtPlayer = App.Device.Generic.extend({
-        defaults: {
-            type: 'ext-app',
-            name: i18n.__('External Player'),
-        },
+    class ExtPlayer extends App.Device.Generic {
+        constructor(attrs) {
+            super(Object.assign({
+                type: 'ext-app',
+                name: i18n.__('External Player'),
+            }, attrs));
+        }
 
-        play: function (streamModel) {
+        play(streamModel) {
             // "" So it behaves when spaces in path
             var cmd = '', cmdPath = '', cmdSwitch = '', cmdSub = '', cmdFs = '', cmdFilename = '', cmdUrl = '';
             var url = streamModel.attributes.src;
@@ -206,14 +208,14 @@
                 App.vent.trigger('stream:stop');
                 App.vent.trigger('preload:stop');
             });
-        },
+        }
 
-        pause: function () {},
+        pause() {}
 
-        stop: function () {},
+        stop() {}
 
-        unpause: function () {}
-    });
+        unpause() {}
+    }
 
     /* map name back into the object as we use it in match */
     _.each(players, function (v, k) {

@@ -24,24 +24,27 @@
     });
   };
 
-  var Device = Backbone.Model.extend({
-    defaults: {
-      id: 'local',
-      type: 'local',
-      typeFamily: 'internal',
-      name: 'Popcorn Time'
-    },
-    play: function(streamModel) {
+  class Device extends Backbone.Model {
+    constructor(attrs) {
+      super(Object.assign({
+        id: 'local',
+        type: 'local',
+        typeFamily: 'internal',
+        name: 'Popcorn Time'
+      }, attrs));
+    }
+    play(streamModel) {
       App.vent.trigger('stream:local', streamModel);
-    },
-    getID: function() {
+    }
+    getID() {
       return this.id;
     }
-  });
+  }
 
-  var DeviceCollection = Backbone.Collection.extend({
-    selected: 'local',
-    initialize: function() {
+  class DeviceCollection extends Backbone.Collection {
+
+    selected = 'local';
+    initialize() {
       App.vent.on('device:list', this.list);
       App.vent.on('device:pause', this.pause);
       App.vent.on('device:unpause', this.unpause);
@@ -53,40 +56,41 @@
       App.vent.on('device:seekPercentage', this.seekPercentage);
       App.vent.on('device:status:update', this.updateStatus);
       self = this;
-    },
-    list: function() {
+    }
+
+    list() {
       _.each(self.models, function(device) {
         App.vent.trigger('device:add', device);
       });
-    },
-    pause: function() {
+    }
+    pause() {
       self.selected.pause();
-    },
-    unpause: function() {
+    }
+    unpause() {
       self.selected.unpause();
-    },
-    stop: function() {
+    }
+    stop() {
       self.selected.stop();
-    },
-    forward: function() {
+    }
+    forward() {
       self.selected.forward();
-    },
-    backward: function() {
+    }
+    backward() {
       self.selected.backward();
-    },
-    seek: function(seconds) {
+    }
+    seek(seconds) {
       self.selected.seekBy(seconds);
-    },
-    seekTo: function(newCurrentTime) {
+    }
+    seekTo(newCurrentTime) {
       self.selected.seekTo(newCurrentTime);
-    },
-    seekPercentage: function(percentage) {
+    }
+    seekPercentage(percentage) {
       self.selected.seekPercentage(percentage);
-    },
-    updateStatus: function() {
+    }
+    updateStatus() {
       self.selected.updateStatus();
-    },
-    startDevice: function(streamModel) {
+    }
+    startDevice(streamModel) {
       if (!this.selected) {
         this.selected = this.models[0];
       }
@@ -117,14 +121,14 @@
         );
       }
       return this.selected.play(streamModel);
-    },
+    }
 
-    setDevice: function(deviceID) {
+    setDevice(deviceID) {
       this.selected = this.findWhere({
         id: deviceID
       });
     }
-  });
+  }
 
   var collection = new DeviceCollection(new Device());
   collection.setDevice('local');

@@ -5,25 +5,27 @@
           client = new ChromecastAPI(),
           collection = App.Device.Collection;
 
-    var Chromecast = App.Device.Generic.extend({
-        defaults: {
-            type: 'chromecast',
-            typeFamily: 'external'
-        },
+    class Chromecast extends App.Device.Generic {
+        constructor(attrs) {
+            super(Object.assign( {
+                type: 'chromecast',
+                typeFamily: 'external'
+            }, attrs));
+        }
 
-        _makeID: function (baseID) {
+        _makeID (baseID) {
             return 'chromecast-' + Common.md5(baseID);
-        },
+        }
 
-        initialize: function (attrs) {
+        initialize(attrs) {
             this.device = attrs.device;
             this.attributes.id = this._makeID(this.device.name);
             this.attributes.name = this.device.friendlyName;
             this.attributes.address = this.device.host;
             this.updatingSubtitles = false;
-        },
+        }
 
-        play: function (streamModel) {
+        play(streamModel) {
             var self = this;
 
             var url = streamModel.get('src');
@@ -76,9 +78,9 @@
                     });
                 });
             });
-        },
+        }
 
-        createMedia: function(streamModel, useLocalSubtitle) {
+        createMedia(streamModel, useLocalSubtitle) {
 
             var subtitle = streamModel.get('subtitle');
             var cover = streamModel.get('backdrop');
@@ -124,13 +126,13 @@
             }
 
             return media;
-        },
+        }
 
-        pause: function () {
+        pause() {
             this.get('device').pause(function () {});
-        },
+        }
 
-        stop: function () {
+        stop() {
             win.info('Closing Chromecast Casting');
             App.vent.off('videojs:drop_sub');
             App.vent.trigger('stream:stop');
@@ -145,35 +147,35 @@
             device.close(); //Back to ChromeCast home screen instead of black screen
 
             App.vent.trigger('stream:unserve_subtitles');
-        },
+        }
 
-        seekPercentage: function (percentage) {
+        seekPercentage(percentage) {
             win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
             this.get('device').seekTo(newCurrentTime);
-       },
+        }
 
-        forward: function () {
+        forward() {
             this.get('device').seek(30);
-        },
+        }
 
-        backward: function () {
+        backward() {
             this.get('device').seek(-30);
-        },
+        }
 
-        unpause: function () {
+        unpause() {
             this.get('device').resume(function () {});
-        },
+        }
 
-        updateStatus: function () {
+        updateStatus() {
             var self = this;
             client.on('status', function (status) {
               console.log(status);
                 self._internalStatusUpdated(status);
             });
-        },
+        }
 
-        _internalStatusUpdated: function (status) {
+        _internalStatusUpdated(status) {
             if (status.media === undefined) {
                 status.media = this.get('loadedMedia');
             }
@@ -183,7 +185,7 @@
                 App.vent.trigger('device:status', status);
             }
         }
-    });
+    }
 
     win.info('Scanning: Local Network for Chromecast devices');
     client.update();
