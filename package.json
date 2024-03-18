@@ -79,7 +79,6 @@
     "opensubtitles-api": "^5.1.2",
     "patch-package": "^8.0",
     "postinstall-postinstall": "^2.1.0",
-    "q": "2.0.3",
     "readdirp": "2.x.x",
     "request": "2.88.x",
     "rimraf": "^3.0.0",

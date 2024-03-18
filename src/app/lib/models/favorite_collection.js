@@ -33,8 +33,9 @@
             var torrent = this.providers.torrent;
             var torrentPromise = torrent.fetch(this.filter);
 
-            return Q.all([torrentPromise])
-                .spread(function (movies) {
+            return Promise.all([torrentPromise])
+                .then(function (movies) {
+                    movies = movies.flat();
 
                     // If a new request was started...
                     _.each(movies, function (movie) {

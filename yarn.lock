@@ -650,11 +650,6 @@ array-unique@^0.3.2:
   resolved "https://registry.npmjs.org/array-unique/-/array-unique-0.3.2.tgz"
   integrity sha1-qJS3XUvE9s1nnvMkSp/Y9Gri1Cg=
 
-asap@^2.0.0:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/asap/-/asap-2.0.6.tgz"
-  integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
-
 asn1@~0.2.3:
   version "0.2.6"
   resolved "https://registry.npmjs.org/asn1/-/asn1-0.2.6.tgz"
@@ -5780,11 +5775,6 @@ plur@^2.1.0:
   dependencies:
     irregular-plurals "^1.0.0"
 
-pop-iterate@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/pop-iterate/-/pop-iterate-1.0.1.tgz"
-  integrity sha1-zqz9q0q/NT16DyqqLB/Hs/lBO6M=
-
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.npmjs.org/posix-character-classes/-/posix-character-classes-0.1.1.tgz"
@@ -5899,15 +5889,6 @@ pupa@^2.1.1:
   integrity sha512-l1jNAspIBSFqbT+y+5FosojNpVpF94nlI+wDUpqP9enwOTfHx9f0gh5nB96vl+6yTpsJsypeNrwfzPrKuHB41A==
   dependencies:
     escape-goat "^2.0.0"
-
-q@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.npmjs.org/q/-/q-2.0.3.tgz"
-  integrity sha1-dbjbAlWhpa+C9Yw/Oqoe/sfQ0TQ=
-  dependencies:
-    asap "^2.0.0"
-    pop-iterate "^1.0.1"
-    weak-map "^1.0.5"
 
 qs@~6.5.2:
   version "6.5.3"
@@ -8006,11 +7987,6 @@ w-json@^1.3.10:
   version "1.3.10"
   resolved "https://registry.npmjs.org/w-json/-/w-json-1.3.10.tgz"
   integrity sha512-XadVyw0xE+oZ5FGApXsdswv96rOhStzKqL53uSe5UaTadABGkWIg1+DTx8kiZ/VqTZTBneoL0l65RcPe4W3ecw==
-
-weak-map@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmjs.org/weak-map/-/weak-map-1.0.5.tgz"
-  integrity sha1-eWkVhNmGB/UHC9O3CkDmuyLkAes=
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

@@ -2,7 +2,6 @@
 var _ = require('underscore'),
   async = require('async'),
   inherits = require('util').inherits,
-  Q = require('q'),
   // Machine readable
   os = require('os'),
   dayjs = require('dayjs'),
