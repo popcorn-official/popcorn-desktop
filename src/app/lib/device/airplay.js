@@ -6,23 +6,23 @@
         netw = require('network-address'),
         collection = App.Device.Collection;
 
-    var makeID = function (baseID) {
-        return 'airplay-' + baseID.replace('.', '');
-    };
-
-    var Airplay = App.Device.Generic.extend({
-        defaults: {
-            type: 'airplay',
-            typeFamily: 'external'
-        },
-        makeID: makeID,
-        initialize: function (attrs) {
+    class Airplay extends App.Device.Generic {
+        constructor(attrs) {
+            super(Object.assign( {
+                type: 'airplay',
+                typeFamily: 'external'
+            }, attrs));
+        }
+        makeID(baseID) {
+            return 'airplay-' + baseID.replace('.', '');
+        }
+        initialize(attrs) {
             this.device = attrs.device;
             this.attributes.id = this.makeID(this.device.host);
             this.attributes.name = this.device.name || this.device.serverInfo.model;
             this.attributes.address = netw();
-        },
-        play: function (streamModel) {
+        }
+        play(streamModel) {
             var url = streamModel.attributes.src;
             this.device.play(url, function (err, res) {
               if (err) {
@@ -30,17 +30,17 @@
               }
             });
 
-        },
-        stop: function () {
+        }
+        stop() {
             this.device.destroy();
-        },
-        pause: function () {
+        }
+        pause() {
             this.device.pause();
-        },
-        unpause: function () {
+        }
+        unpause() {
             this.device.resume();
         }
-    });
+    }
 
 
     list.on('update', function (player) {
