@@ -5,7 +5,7 @@
           client = new ChromecastAPI(),
           collection = App.Device.Collection;
 
-    class Chromecast extends App.Device.Generic {
+    class Chromecast extends App.Device.Loaders.Device {
         constructor(attrs) {
             super(Object.assign( {
                 type: 'chromecast',
@@ -185,16 +185,18 @@
                 App.vent.trigger('device:status', status);
             }
         }
+
+        static scan() {
+            win.info('Scanning: Local Network for Chromecast devices');
+            client.update();
+            client.on('device', function (player) {
+                win.info('Found Chromecast Device: %s at %s', player.friendlyName, player.host);
+                collection.add(new Chromecast({
+                    device: player
+                }));
+            });
+        }
     }
 
-    win.info('Scanning: Local Network for Chromecast devices');
-    client.update();
-    client.on('device', function (player) {
-        win.info('Found Chromecast Device: %s at %s', player.friendlyName, player.host);
-        collection.add(new Chromecast({
-            device: player
-        }));
-    });
-
-    App.Device.Chromecast = Chromecast;
+    App.Device.Loaders.Chromecast = Chromecast;
 })(window.App);

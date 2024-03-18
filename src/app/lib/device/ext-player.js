@@ -113,7 +113,17 @@
         }
     };
 
-    extPlayerlst = Object.getOwnPropertyNames(players).join(', ').replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '').replace('Extended', 'Ext.').replace('mpvnet', 'mpv.net').replace(/,([^,]*)$/, ' &$1');
+    /* map name back into the object as we use it in match */
+    _.each(players, function (v, k) {
+        players[k].name = k;
+    });
+
+    extPlayerlst = Object.getOwnPropertyNames(players).join(', ')
+        .replace(/MPC-HC64, |MPC-BE64, |Mini64/gi, '')
+        .replace('Extended', 'Ext.')
+        .replace('mpvnet', 'mpv.net')
+        .replace(/,([^,]*)$/, ' &$1')
+    ;
 
     function getPlayerName(loc) {
         return path.basename(loc).replace(path.extname(loc), '');
@@ -149,7 +159,7 @@
         return players[name].fs || '';
     }
 
-    class ExtPlayer extends App.Device.Generic {
+    class ExtPlayer extends App.Device.Loaders.Device {
         constructor(attrs) {
             super(Object.assign({
                 type: 'ext-app',
@@ -215,93 +225,89 @@
         stop() {}
 
         unpause() {}
+
+        static scan() {
+            var searchPaths = {
+                linux: [],
+                darwin: [],
+                win32: []
+            };
+
+            var addPath = function (path) {
+                if (fs.existsSync(path)) {
+                    searchPaths[process.platform].push(path);
+                }
+            };
+
+            // linux
+            addPath('/usr/bin');
+            addPath('/usr/local/bin');
+            addPath('/snap/bin');
+            addPath('/var/lib/flatpak/app/org.videolan.VLC/current/active'); //Fedora Flatpak VLC Dir
+            addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
+            addPath('/run/current-system/sw/bin'); // NixOS
+            // darwin
+            addPath('/Applications');
+            addPath(process.env.HOME + '/Applications');
+            // win32
+            addPath(process.env.SystemDrive + '\\Program Files\\');
+            addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
+            addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
+
+            var birthtimes = {};
+
+            async.each(searchPaths[process.platform], function (folderName, pathcb) {
+                folderName = path.resolve(folderName);
+                win.info('Scanning: ' + folderName);
+                var appIndex = -1;
+                var fileStream = readdirp({
+                    root: folderName,
+                    depth: 3
+                });
+                fileStream.on('data', function (d) {
+                    var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
+                    var match = _.filter(players, function (v, k) {
+                        return k.toLowerCase() === app;
+                    });
+
+                    if (match.length) {
+                        match = match[0];
+                        var birthtime = d.stat.birthtime;
+                        var previousBirthTime = birthtimes[match.name];
+                        if (!previousBirthTime || birthtime > previousBirthTime) {
+                            if (!previousBirthTime) {
+                                collection.add(new ExtPlayer({
+                                    id: match.name,
+                                    type: 'external-' + match.type,
+                                    name: match.name,
+                                    path: d.fullPath
+                                }));
+                                win.info('Found External Player: ' + match.name + ' in ' + d.fullParentDir);
+                            } else {
+                                collection.findWhere({
+                                    id: match.name
+                                }).set('path', d.fullPath);
+                                win.info('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
+                            }
+                            birthtimes[match.name] = birthtime;
+                        }
+                    }
+                });
+                fileStream.on('end', function () {
+                    pathcb();
+                });
+            }, function (err) {
+
+                if (err) {
+                    win.error('External Players: scan', err);
+                    return;
+                } else {
+                    win.info('External Players: scan finished');
+                    return;
+                }
+            });
+        }
     }
 
-    /* map name back into the object as we use it in match */
-    _.each(players, function (v, k) {
-        players[k].name = k;
-    });
-
-    var searchPaths = {
-        linux: [],
-        darwin: [],
-        win32: []
-    };
-
-    var addPath = function (path) {
-        if (fs.existsSync(path)) {
-            searchPaths[process.platform].push(path);
-        }
-    };
-
-    // linux
-    addPath('/usr/bin');
-    addPath('/usr/local/bin');
-    addPath('/snap/bin');
-    addPath('/var/lib/flatpak/app/org.videolan.VLC/current/active'); //Fedora Flatpak VLC Dir
-    addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
-    addPath('/run/current-system/sw/bin'); // NixOS
-    // darwin
-    addPath('/Applications');
-    addPath(process.env.HOME + '/Applications');
-    // win32
-    addPath(process.env.SystemDrive + '\\Program Files\\');
-    addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
-    addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
-
-    var folderName = '';
-    var birthtimes = {};
-
-    async.each(searchPaths[process.platform], function (folderName, pathcb) {
-        folderName = path.resolve(folderName);
-        win.info('Scanning: ' + folderName);
-        var appIndex = -1;
-        var fileStream = readdirp({
-            root: folderName,
-            depth: 3
-        });
-        fileStream.on('data', function (d) {
-            var app = d.name.replace('.app', '').replace('.exe', '').toLowerCase();
-            var match = _.filter(players, function (v, k) {
-                return k.toLowerCase() === app;
-            });
-
-            if (match.length) {
-                match = match[0];
-                var birthtime = d.stat.birthtime;
-                var previousBirthTime = birthtimes[match.name];
-                if (!previousBirthTime || birthtime > previousBirthTime) {
-                    if (!previousBirthTime) {
-                        collection.add(new ExtPlayer({
-                            id: match.name,
-                            type: 'external-' + match.type,
-                            name: match.name,
-                            path: d.fullPath
-                        }));
-                        win.info('Found External Player: ' + match.name + ' in ' + d.fullParentDir);
-                    } else {
-                        collection.findWhere({
-                            id: match.name
-                        }).set('path', d.fullPath);
-                        win.info('Updated External Player: ' + app + ' with more recent version found in ' + d.fullParentDir);
-                    }
-                    birthtimes[match.name] = birthtime;
-                }
-            }
-        });
-        fileStream.on('end', function () {
-            pathcb();
-        });
-    }, function (err) {
-
-        if (err) {
-            win.error('External Players: scan', err);
-            return;
-        } else {
-            win.info('External Players: scan finished');
-            return;
-        }
-    });
-
-    App.Device.ExtPlayer = ExtPlayer;
+    App.Device.Loaders.ExtPlayer = ExtPlayer;
 })(window.App);

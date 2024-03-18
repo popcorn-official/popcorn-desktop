@@ -2,6 +2,7 @@
   'use strict';
 
   var self;
+  const fs = require('fs');
 
   // Supports both IPv4 and IPv6 comparison
   var _sequentialPartsInCommon = function(ip1, ip2) {
@@ -38,6 +39,8 @@
     }
     getID() {
       return this.id;
+    }
+    static scan() {
     }
   }
 
@@ -166,8 +169,57 @@
   };
 
   App.Device = {
-    Generic: Device,
     Collection: collection,
+    Loaders: {
+      Device: Device,
+    },
+    rescan: function () {
+      App.Device.Collection.reset();
+      App.Device.Collection.add(new Device());
+      for (const i in App.Device.Loaders) {
+        if (App.Device.Loaders.hasOwnProperty(i)) {
+          App.Device.Loaders[i].scan();
+        }
+      }
+    },
     ChooserView: createChooserView
   };
+
+  function loadDeviceSupport() {
+    var providerPath = './src/app/lib/device/';
+
+    var files = fs.readdirSync(providerPath);
+
+    var head = document.getElementsByTagName('head')[0];
+    return files
+        .map(function(file) {
+          if (!file.match(/\.js$/) || file.match(/generic.js$/) || file.match(/xbmc.js$/)) {
+            return null;
+          }
+
+          win.info('loading device provider', file);
+
+          return new Promise((resolve, reject) => {
+            var script = document.createElement('script');
+
+            script.type = 'text/javascript';
+            script.src = 'lib/device/' + file;
+
+            script.onload = function() {
+              script.onload = null;
+              win.info('loaded', file);
+              resolve(file);
+            };
+
+            head.appendChild(script);
+          });
+        })
+        .filter(function(q) {
+          return q;
+        });
+  }
+  Promise.all(loadDeviceSupport()).then(function(data) {
+    App.Device.rescan();
+  });
+
 })(window.App);

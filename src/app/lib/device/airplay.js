@@ -2,11 +2,10 @@
     'use strict';
 
     var airplayer = require('airplayer'),
-        list = airplayer(),
         netw = require('network-address'),
         collection = App.Device.Collection;
 
-    class Airplay extends App.Device.Generic {
+    class Airplay extends App.Device.Loaders.Device {
         constructor(attrs) {
             super(Object.assign( {
                 type: 'airplay',
@@ -40,18 +39,19 @@
         unpause() {
             this.device.resume();
         }
+
+        static scan() {
+            airplayer().on('update', function (player) {
+                win.info('Found A Device Device: %s at %s', player.name, player.host);
+                collection.add(new Airplay({
+                    device: player
+                }));
+            });
+
+            win.info('Scanning: Local Network for Airplay devices');
+        }
     }
 
-
-    list.on('update', function (player) {
-        win.info('Found A Device Device: %s at %s', player.name, player.host);
-        collection.add(new Airplay({
-            device: player
-        }));
-    });
-
-
-    win.info('Scanning: Local Network for Airplay devices');
-    App.Device.Airplay = Airplay;
+    App.Device.Loaders.Airplay = Airplay;
 
 })(window.App);
