@@ -305,7 +305,7 @@ var AdvSettings = {
         break;
     }
 
-    return Q();
+    return Promise.resolve(true);
   },
 
   performUpgrade: function() {

@@ -13,7 +13,7 @@
     }
 
     var initServer = function () {
-        return Q.Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             server = rpc.Server({
                 'headers': { // allow custom headers is empty by default
                     'Access-Control-Allow-Origin': '*'

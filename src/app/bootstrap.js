@@ -3,7 +3,6 @@
   App.start();
 
   /* load all the things ! */
-  var Q = require('q');
   var fs = require('fs');
 
   function loadLocalProviders() {
@@ -41,8 +40,8 @@
   }
 
   function loadFromNPM(name, fn) {
-    var P = require(name);
-    return Q(fn(P));
+    const P = require(name);
+    return Promise.resolve(fn(P));
   }
 
   function loadProvidersJSON(fn) {
