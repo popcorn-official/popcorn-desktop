@@ -544,10 +544,12 @@
 
             // Local subtitle hack
             App.vent.on('customSubtitles:added', function (subpath) {
+                var currentTime = 0;
+                try { currentTime = that.video.currentTime(); } catch (error) {};
                 that.customSubtitles = {
                     subPath: subpath,
                     added_at: Date.now(),
-                    timestamp: that.video.currentTime(),
+                    timestamp: currentTime,
                     modified: false
                 };
                 $('#video_player li:contains("' + i18n.__('Disabled') + '")').on('click', function () {
