@@ -994,11 +994,11 @@
             e.stopPropagation();
             Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
-                $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner').tooltip('hide');
+                $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner spin').tooltip('hide');
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
-                    $('.show-details .playerchoicerefresh').removeClass('fa-spin fa-spinner');
+                    $('.show-details .playerchoicerefresh').removeClass('fa-spin fa-spinner spin');
                     $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.show-details .playerchoice').click();
                 }, 2000);
