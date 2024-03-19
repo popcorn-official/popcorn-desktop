@@ -258,13 +258,7 @@
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
 
-            $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({
-                html: true,
-                delay: {
-                    'show': 800,
-                    'hide': 100
-                }
-            });
+            $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
 
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
                 $('.sdo-watch, .sdow-watchnow, #download-torrent').addClass('disabled');
@@ -998,46 +992,14 @@
 
         refreshPlayerList: function (e) {
             e.stopPropagation();
-            function loadDeviceSupport() {
-                var providerPath = './src/app/lib/device/';
-                var files = fs.readdirSync(providerPath);
-                var head = document.getElementsByTagName('head')[0];
-                return files
-                    .map(function(file) {
-                        if (!file.match(/\.js$/) || file.match(/generic.js$/) || file.match(/xbmc.js$/)) {
-                            return null;
-                        }
-                        win.info('loading device provider', file);
-                        return new Promise((resolve, reject) => {
-                            var script = document.createElement('script');
-                            script.type = 'text/javascript';
-                            script.src = 'lib/device/' + file;
-                            script.onload = function() {
-                                script.onload = null;
-                                win.info('loaded', file);
-                                resolve(file);
-                            };
-                            head.appendChild(script);
-                        });
-                    })
-                    .filter(function(q) {
-                        return q;
-                    });
-            }
-            Promise.all(loadDeviceSupport()).then(function(data) {
+            Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
                 $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner');
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
                     $('.show-details .playerchoicerefresh').removeClass('fa-spin fa-spinner');
-                    $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({
-                        html: true,
-                        delay: {
-                            'show': 800,
-                            'hide': 100
-                        }
-                    });
+                    $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.show-details .playerchoice').click();
                 }, 2000);
             });
