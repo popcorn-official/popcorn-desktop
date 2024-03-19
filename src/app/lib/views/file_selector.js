@@ -193,7 +193,7 @@
             e.stopPropagation();
             Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
-                $('.file-selector .playerchoicerefresh').addClass('fa-spin fa-spinner');
+                $('.file-selector .playerchoicerefresh').addClass('fa-spin fa-spinner').tooltip('hide');
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser2').render();
