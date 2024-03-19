@@ -354,7 +354,6 @@
       }).then(function() {
         setTimeout(() => {
           App.Device.ChooserView('#player-chooser').render();
-          $('.play-control .playerchoicerefresh').removeClass('fa-spin fa-spinner spin');
           $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
           $('.play-control .playerchoice').click();
         }, 2000);

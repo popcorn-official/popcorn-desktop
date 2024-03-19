@@ -998,7 +998,6 @@
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
-                    $('.show-details .playerchoicerefresh').removeClass('fa-spin fa-spinner spin');
                     $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.show-details .playerchoice').click();
                 }, 2000);
