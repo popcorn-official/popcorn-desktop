@@ -193,12 +193,12 @@
             e.stopPropagation();
             Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
-                $('.file-selector .playerchoicerefresh').addClass('fa-spin fa-spinner').tooltip('hide');
+                $('.file-selector .playerchoicerefresh').addClass('fa-spin fa-spinner spin').tooltip('hide');
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser2').render();
                     $('.file-selector #watch-now').text('');
-                    $('.file-selector .playerchoicerefresh').removeClass('fa-spin fa-spinner');
+                    $('.file-selector .playerchoicerefresh').removeClass('fa-spin fa-spinner spin');
                     $('.file-selector .playerchoicerefresh, .file-selector .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.file-selector .playerchoice').click();
                 }, 2000);
