@@ -189,7 +189,8 @@
             }));
         },
 
-        refreshPlayerList: function () {
+        refreshPlayerList: function (e) {
+            e.stopPropagation();
             function loadDeviceSupport() {
                 var providerPath = './src/app/lib/device/';
                 var files = fs.readdirSync(providerPath);
@@ -219,7 +220,6 @@
             Promise.all(loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
                 $('.file-selector .playerchoicerefresh').addClass('fa-spin fa-spinner');
-                $('.file-selector .playerchoice').click();
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser2').render();

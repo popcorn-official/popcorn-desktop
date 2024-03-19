@@ -996,7 +996,8 @@
             }));
         },
 
-        refreshPlayerList: function () {
+        refreshPlayerList: function (e) {
+            e.stopPropagation();
             function loadDeviceSupport() {
                 var providerPath = './src/app/lib/device/';
                 var files = fs.readdirSync(providerPath);
@@ -1026,7 +1027,6 @@
             Promise.all(loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
                 $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner');
-                $('.show-details .playerchoice').click();
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
