@@ -350,11 +350,11 @@
       e.stopPropagation();
       Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
         App.Device.rescan();
-        $('.play-control .playerchoicerefresh').addClass('fa-spin fa-spinner').tooltip('hide');
+        $('.play-control .playerchoicerefresh').addClass('fa-spin fa-spinner spin').tooltip('hide');
       }).then(function() {
         setTimeout(() => {
           App.Device.ChooserView('#player-chooser').render();
-          $('.play-control .playerchoicerefresh').removeClass('fa-spin fa-spinner');
+          $('.play-control .playerchoicerefresh').removeClass('fa-spin fa-spinner spin');
           $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
           $('.play-control .playerchoice').click();
         }, 2000);
