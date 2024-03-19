@@ -992,9 +992,9 @@
 
         refreshPlayerList: function (e) {
             e.stopPropagation();
+            $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner spin').tooltip('hide');
             Promise.all(App.Device.loadDeviceSupport()).then(function(data) {
                 App.Device.rescan();
-                $('.show-details .playerchoicerefresh').addClass('fa-spin fa-spinner spin').tooltip('hide');
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
