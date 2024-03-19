@@ -258,7 +258,7 @@
             App.Device.ChooserView('#player-chooser').render();
             $('.spinner').hide();
 
-            $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
+            $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
 
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
                 $('.sdo-watch, .sdow-watchnow, #download-torrent').addClass('disabled');
@@ -998,7 +998,7 @@
             }).then(function() {
                 setTimeout(() => {
                     App.Device.ChooserView('#player-chooser').render();
-                    $('.show-details .playerchoicerefresh, .show-details .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
+                    $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.show-details .playerchoice').click();
                 }, 2000);
             });

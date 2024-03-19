@@ -74,7 +74,7 @@
       this.model.set('showTorrents', false);
       this.ui.showTorrents.show();
 
-      $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
+      $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
 
       if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
         $('.button:not(#download-torrent)').addClass('disabled');
@@ -354,7 +354,7 @@
       }).then(function() {
         setTimeout(() => {
           App.Device.ChooserView('#player-chooser').render();
-          $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
+          $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
           $('.play-control .playerchoice').click();
         }, 2000);
       });
