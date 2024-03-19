@@ -4,7 +4,7 @@
     var collection = App.Device.Collection;
 
 
-    class Dlna extends App.Device.Generic {
+    class Dlna extends App.Device.Loaders.Device {
         constructor(attrs) {
             super(Object.assign({
                 type: 'dlna',
@@ -118,24 +118,24 @@
                 App.vent.trigger('device:status', status);
             }
         }
+
+        static scan() {
+            dlnacasts.on('update', function(player) {
+                if (collection.where({
+                    id: player.host
+                }).length === 0) {
+                    win.info('Found DLNA Device: %s at %s', player.name, player.host);
+                    collection.add(new Dlna({
+                        id: player.host,
+                        player: player
+                    }));
+                }
+            });
+
+            win.info('Scanning: Local Network for DLNA devices');
+            dlnacasts.update();
+        }
     }
 
-
-    dlnacasts.on('update', function(player) {
-        if (collection.where({
-                id: player.host
-            }).length === 0) {
-            win.info('Found DLNA Device: %s at %s', player.name, player.host);
-            collection.add(new Dlna({
-                id: player.host,
-                player: player
-            }));
-        }
-    });
-
-    win.info('Scanning: Local Network for DLNA devices');
-    dlnacasts.update();
-
-
-    App.Device.Dlna = Dlna;
+    App.Device.Loaders.Dlna = Dlna;
 })(window.App);
