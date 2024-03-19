@@ -17,6 +17,7 @@
       'click .favourites-toggle': 'toggleFavourite',
       'click .playerchoicemenu li a': 'selectPlayer',
       'click .playerchoicehelp': 'showPlayerList',
+      'click .playerchoicerefresh': 'refreshPlayerList',
       'click .watched-toggle': 'toggleWatched',
       'mousedown #subs-dropdown': 'hideTooltipsSubs',
       'click .connect-opensubtitles': 'connectOpensubtitles',
@@ -72,6 +73,14 @@
       this.model.on('change:subtitle', this.loadSubDropdown.bind(this));
       this.model.set('showTorrents', false);
       this.ui.showTorrents.show();
+
+      $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({
+        html: true,
+        delay: {
+          'show': 800,
+          'hide': 100
+        }
+      });
 
       if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
         $('.button:not(#download-torrent)').addClass('disabled');
@@ -341,6 +350,53 @@
         body: i18n.__('Popcorn Time currently supports') + '<div class="splayerlist">' + extPlayerlst + '.</div><br>' + i18n.__('There is also support for Chromecast, AirPlay & DLNA devices.'),
         type: 'success'
       }));
+    },
+
+    refreshPlayerList: function () {
+      function loadDeviceSupport() {
+        var providerPath = './src/app/lib/device/';
+        var files = fs.readdirSync(providerPath);
+        var head = document.getElementsByTagName('head')[0];
+        return files
+          .map(function(file) {
+            if (!file.match(/\.js$/) || file.match(/generic.js$/) || file.match(/xbmc.js$/)) {
+              return null;
+            }
+            win.info('loading device provider', file);
+            return new Promise((resolve, reject) => {
+              var script = document.createElement('script');
+              script.type = 'text/javascript';
+              script.src = 'lib/device/' + file;
+              script.onload = function() {
+                script.onload = null;
+                win.info('loaded', file);
+                resolve(file);
+              };
+              head.appendChild(script);
+            });
+          })
+          .filter(function(q) {
+            return q;
+          });
+      }
+      Promise.all(loadDeviceSupport()).then(function(data) {
+        App.Device.rescan();
+        $('.play-control .playerchoicerefresh').addClass('fa-spin fa-spinner');
+        $('.play-control .playerchoice').click();
+      }).then(function() {
+        setTimeout(() => {
+          App.Device.ChooserView('#player-chooser').render();
+          $('.play-control .playerchoicerefresh').removeClass('fa-spin fa-spinner');
+          $('.play-control .playerchoicerefresh, .play-control .playerchoicehelp').tooltip({
+              html: true,
+              delay: {
+                  'show': 800,
+                  'hide': 100
+              }
+          });
+          $('.play-control .playerchoice').click();
+        }, 2000);
+      });
     },
 
     showAllTorrents: function() {
