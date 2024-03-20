@@ -200,7 +200,7 @@
                     $('.file-selector #watch-now').text('');
                     $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.file-selector .playerchoice').click();
-                }, 2000);
+                }, 3000);
             });
         },
 
