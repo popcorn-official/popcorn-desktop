@@ -1000,7 +1000,7 @@
                     App.Device.ChooserView('#player-chooser').render();
                     $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
                     $('.show-details .playerchoice').click();
-                }, 2000);
+                }, 3000);
             });
         },
 
