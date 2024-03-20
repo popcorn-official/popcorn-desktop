@@ -22,7 +22,7 @@
     "test": "gulp test",
     "postinstall": "patch-package"
   },
-  "chromium-args": "--enable-node-worker",
+  "chromium-args": "--enable-node-worker --no-sandbox",
   "engines": {
     "yarn": ">= 1.0.0"
   },
