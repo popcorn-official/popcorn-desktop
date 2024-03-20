@@ -239,6 +239,7 @@
                 }
             };
 
+            process.env.PATH.split(path.delimiter).forEach(addPath);
             // linux
             addPath('/usr/bin');
             addPath('/usr/local/bin');
