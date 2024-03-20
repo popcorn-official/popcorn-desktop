@@ -709,20 +709,19 @@ const FileServer = require("./lib/file-server");
             }
         },
 
-        saveCoverToFile: function (location) {
+        saveCoverToFile: async function (location) {
             if (this.torrentModel && this.torrentModel.get('type') === 'movie' && this.torrentModel.get('cover') && this.torrentModel.get('torrent').name) {
-                const request = require('request');
                 let url = this.torrentModel.get('cover');
-                request({ url, encoding: null }, (err, resp, buffer) => {
-                    if (err || buffer.length < 1000) {
-                        return;
-                    }
-                    try {
-                        fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', buffer);
-                    } catch (err) {
-                        fs.writeFileSync(location + '/' + this.torrentModel.get('torrent').name + '_cover.jpg', buffer);
-                    }
-                });
+                const res = await fetch(url);
+                const buffer = await res.arrayBuffer();
+                if (buffer.byteLength < 1000) {
+                    return;
+                }
+                try {
+                    fs.writeFileSync(path.join(location, this.torrentModel.get('torrent').name) + '/cover.jpg', Buffer.from(buffer));
+                } catch (err) {
+                    fs.writeFileSync(location + '/' + this.torrentModel.get('torrent').name + '_cover.jpg', Buffer.from(buffer));
+                }
             }
         },
 
