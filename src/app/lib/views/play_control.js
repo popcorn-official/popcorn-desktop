@@ -356,7 +356,7 @@
           App.Device.ChooserView('#player-chooser').render();
           $('.playerchoicerefresh, .playerchoicehelp').tooltip({html: true, delay: {'show': 800,'hide': 100}});
           $('.play-control .playerchoice').click();
-        }, 2000);
+        }, 3000);
       });
     },
 
