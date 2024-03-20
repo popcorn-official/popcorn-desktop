@@ -227,39 +227,39 @@
         unpause() {}
 
         static scan() {
-            var searchPaths = {
-                linux: [],
-                darwin: [],
-                win32: []
-            };
+            let searchPaths = []
 
-            var addPath = function (path) {
+            let addPath = function (path) {
                 if (fs.existsSync(path)) {
-                    searchPaths[process.platform].push(path);
+                    searchPaths.push(path);
                 }
             };
 
-            // linux
-            addPath('/usr/bin');
-            addPath('/usr/local/bin');
-            addPath('/snap/bin');
-            addPath('/var/lib/flatpak/app/org.videolan.VLC/current/active'); //Fedora Flatpak VLC Dir
-            addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
-            addPath('/run/current-system/sw/bin'); // NixOS
-            // darwin
-            addPath('/Applications');
-            addPath(process.env.HOME + '/Applications');
-            // win32
-            addPath(process.env.SystemDrive + '\\Program Files\\');
-            addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
-            addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
+            switch (process.platform) {
+                case 'linux':
+                    process.env.PATH.split(path.delimiter).forEach(addPath);
+                    addPath('/snap/bin');
+                    addPath('/var/lib/flatpak/app/org.videolan.VLC/current/active'); //Fedora Flatpak VLC Dir
+                    addPath(process.env.HOME + '/.nix-profile/bin'); // NixOS
+                    addPath('/run/current-system/sw/bin'); // NixOS
+                    break;
+                case 'darwin':
+                    process.env.PATH.split(path.delimiter).forEach(addPath); //for brew
+                    addPath('/Applications');
+                    addPath(process.env.HOME + '/Applications');
+                    break;
+                case 'win32':
+                    addPath(process.env.SystemDrive + '\\Program Files\\');
+                    addPath(process.env.SystemDrive + '\\Program Files (x86)\\');
+                    addPath(process.env.LOCALAPPDATA + '\\Apps\\2.0\\');
+                    break;
+            }
 
             var birthtimes = {};
 
-            async.each(searchPaths[process.platform], function (folderName, pathcb) {
+            async.each(searchPaths, function (folderName, pathcb) {
                 folderName = path.resolve(folderName);
                 win.info('Scanning: ' + folderName);
-                var appIndex = -1;
                 var fileStream = readdirp({
                     root: folderName,
                     depth: 3
@@ -297,13 +297,10 @@
                     pathcb();
                 });
             }, function (err) {
-
                 if (err) {
                     win.error('External Players: scan', err);
-                    return;
                 } else {
                     win.info('External Players: scan finished');
-                    return;
                 }
             });
         }
