@@ -227,7 +227,7 @@
             this.ui.downloadSpeed.hide();
             this.ui.stateTextRemaining.hide();
             $('#rbreak1,#rbreak2,#rbreak3,#rdownl,#ractpr,#maxdl,#maxdllb').hide();
-            $('.cancel-button').css('background-color', '#27ae60');
+            this.ui.cancel_button.css({'background-color': '#27ae60', 'color': '#fff'});
             this.ui.maximizeIcon.addClass('done');
             this.ddone = true;
           }
