@@ -28,6 +28,7 @@ var _ = require('underscore'),
   url = require('url'),
   tls = require('tls'),
   http = require('http'),
+  request = require('request'),
   // Web
   URI = require('urijs'),
   Trakt = require('trakt.tv'),
