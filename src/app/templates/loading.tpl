@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div id="cancel-button" class="cancel-button">
+            <div id="cancel-button" class="cancel-button button">
                 <div class="cancel-button-text"><%= i18n.__("Cancel") %></div>
             </div>
         </div>
