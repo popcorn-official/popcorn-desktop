@@ -84,13 +84,16 @@ ul.nav-hor > li
             left 6px
             padding 2px
             position absolute
-            opacity 0.2
-            transition opacity 0.4s ease
+            color $DropDownText
+            opacity 0.3
+            transition color 0.4s ease, opacity 0.4s ease
 
             &:hover
+                color $DropDownTextHover
                 opacity 0.97
 
             &.spin
+                color $DropDownTextHover
                 opacity 0.97
 
         .playerchoicehelp
@@ -98,10 +101,12 @@ ul.nav-hor > li
             right 6px
             padding 2px
             position absolute
-            opacity 0.2
-            transition opacity 0.4s ease
+            color $DropDownText
+            opacity 0.3
+            transition color 0.4s ease, opacity 0.4s ease
 
             &:hover
+                color $DropDownTextHover
                 opacity 0.97
 
 .splayerlist
