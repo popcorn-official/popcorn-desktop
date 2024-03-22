@@ -5,8 +5,10 @@
         <span class="caret"></span>
     </div>
     <ul class="dropdown-menu playerchoicemenu" role="menu">
-        <span class="fa fa-question-circle playerchoicehelp tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Help") %>"></span>
-        <span class="fa fa-rotate playerchoicerefresh tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Refresh") %>"></span>
+        <span class="playerchoicetoolbar">
+            <span class="fa fa-rotate playerchoicerefresh tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Refresh") %>"></span>
+            <span class="fa fa-question-circle playerchoicehelp tooltipped" data-toggle="tooltip" data-placement="top" title="<%= i18n.__("Help") %>"></span>
+        </span>
         <% _.each(items, function(item){ %>
         <li id ="player-<%= item.id %>">
             <a href="#"> <%= item.name %>
