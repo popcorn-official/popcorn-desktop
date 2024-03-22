@@ -70,30 +70,39 @@ ul.nav-hor > li
             right 3px
             -webkit-filter: $PngLogo
 
-.playerchoicehelp
-    top -20px
-    right 2px
-    padding 2px
-    position absolute
-    opacity 0.2
-    transition opacity 0.4s ease
+    .playerchoicetoolbar
+        background $DropDownBg
+        position absolute
+        width 50px
+        height 22px
+        top -26px
+        right 0px
+        border-radius 30px
 
-    &:hover
-        opacity 0.97
+        .playerchoicerefresh
+            top 3px
+            left 6x
+            padding 2px
+            position absolute
+            opacity 0.2
+            transition opacity 0.4s ease
 
-.playerchoicerefresh
-    top -20px
-    right 22px
-    padding 2px
-    position absolute
-    opacity 0.2
-    transition opacity 0.4s ease
+            &:hover
+                opacity 0.97
 
-    &:hover
-        opacity 0.97
+            &.spin
+                opacity 0.97
 
-    &.spin
-        opacity 0.97
+        .playerchoicehelp
+            top 3px
+            right 6px
+            padding 2px
+            position absolute
+            opacity 0.2
+            transition opacity 0.4s ease
+
+            &:hover
+                opacity 0.97
 
 .splayerlist
     display inline-block
