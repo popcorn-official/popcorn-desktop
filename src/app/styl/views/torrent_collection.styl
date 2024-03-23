@@ -198,6 +198,7 @@
                 outline 0 !important
                 height 30px
                 min-width 410px
+                margin-right 2px
 
             .online-search
                 padding 5px 0 5px 5px
@@ -303,15 +304,15 @@
 
             .online-back
                 position fixed
-                font-size 25px
-                color $TextError
+                font-size 0.9em
+                color $FilterBarIcon
                 cursor pointer
-                right 7%
-                top 152px
+                left 50%
+                top 105px
+                margin-left 205px
+                padding 3px 5px
+                z-index: 10
                 transition color .3s
-
-                &:hover
-                    color $Text1
 
             ul
                 &.file-list
@@ -440,7 +441,7 @@
         .collection-actions
             position absolute
             color $SettingsText1
-            top 5px
+            top 6px
             margin-left 462px
 
             .collection-paste,
