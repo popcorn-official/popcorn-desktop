@@ -85,7 +85,7 @@
         <div class="onlinesearch-info">
             <i class="fa fa-search" id="searchresultslabel"></i>
             <i id="searchresultslabeltext"><%=i18n.__("Search Results") %></i>
-            <i class="fa fa-arrow-circle-left online-back"></i>
+            <i class="fa fa-times online-back"></i>
             <ul class="file-list">
             </ul>
         </div>
