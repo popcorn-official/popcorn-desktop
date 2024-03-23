@@ -6,7 +6,7 @@
         <td class="info item-play tooltipped<%= Settings.seriesUITransparency ? '' : ' transpOff' %>" title="<%= i18n.__('Seeds') %> / <%= i18n.__('Peers') %>" data-toggle="tooltip" data-container="body" data-placement="top"><%=torrent.seed || torrent.seeds || 0 %> / <%=torrent.peer || torrent.peers || 0 %></td>
         <% if (torrent.quality) { %><td class="info item-play<%= Settings.seriesUITransparency ? '' : ' transpOff' %>"><%=torrent.quality %></td><% } %>
         <% if (torrent.filesize) { %><td class="info item-play<%= Settings.seriesUITransparency ? '' : ' transpOff' %>"><%=torrent.filesize %></td><% } %>
-        <% if (Settings.activateSeedbox) { %><td class="action tooltipped<%= Settings.seriesUITransparency ? '' : ' transpOff' %>" title="<%= i18n.__('Download') %>" data-toggle="tooltip" data-container="body" data-placement="top"><i class="fa fa-download item-download"></i></td><% } %>
+        <% if (Settings.activateSeedbox) { %><td class="action item-download tooltipped<%= Settings.seriesUITransparency ? '' : ' transpOff' %>" title="<%= i18n.__('Download') %>" data-toggle="tooltip" data-container="body" data-placement="top"><i class="fa fa-download item-download"></i></td><% } %>
     </tr>
     <% }); %>
 </table>
