@@ -5,9 +5,9 @@
     width calc(100% - 5px)
     position fixed
     scrollable()
-    padding-top: $TitleHeight + 10px
+    padding-top $TitleHeight + 10px
     &::-webkit-scrollbar-track
-        margin-top: $TitleHeight
+        margin-top $TitleHeight
         margin-bottom 5px
 
     .settings-container
@@ -20,10 +20,10 @@
         padding-bottom 20px
 
         section
-            display: flex
-            flex-direction: row
-            justify-content: flex-start
-            flex-flow: row wrap
+            display flex
+            flex-direction row
+            justify-content flex-start
+            flex-flow row wrap
             width 92%
             margin-left auto
             margin-right auto
@@ -141,14 +141,16 @@
                     margin-top -7px
 
                 .keyboard,.help,.about
-                    font-size: 21px
-                    margin-right: 25px
-                    color: $Text3
+                    font-size 21px
+                    margin -3px 22px -3px -3px
+                    padding 3px
+                    border-radius 50%
+                    color $Text3
                     cursor pointer
                     transition all .5s
 
                     &:hover
-                        color: $Text1
+                        color $Text1
                         transition all .5s
 
         #user-interface
@@ -301,7 +303,9 @@
             .content
                 .qr-code
                     font-size 15px
-                    margin-left 158px
+                    margin -3px -3px -3px 155px
+                    padding 3px
+                    border-radius 50%
                     vertical-align middle
                     cursor pointer
                     transition all .5s
@@ -350,12 +354,12 @@
 
         #connection
             #overallRatio
-                pointer-events: none
-                -webkit-user-select: none
+                pointer-events none
+                -webkit-user-select none
 
                 i
-                    padding-left: 4px
-                    padding-right: 8px
+                    padding-left 4px
+                    padding-right 8px
 
             select
                 padding-left 10px
@@ -371,7 +375,7 @@
                 font-size 13px
                 outline 0
                 padding-right 10px
-                width: 62px
+                width 62px
 
             .dropdown-arrow
                 width 0
@@ -386,77 +390,85 @@
                 cursor pointer
 
             .reset-tvAPI
-                font-size: 13px
-                color: $SettingsText2
-                transition: all .5s
+                font-size 13px
+                color $SettingsText2
+                transition all .5s
                 &:hover
-                    cursor: pointer
-                    color: $ButtonBgActive
-                    transition: all .5s
+                    cursor pointer
+                    color $ButtonBgActive
+                    transition all .5s
 
         #cache
             .open-tmp-folder,
             .open-downloads-folder
-                font-size: 16px
-                margin-left: 10px
-                transition: all .5s
+                font-size 16px
+                margin -3px -3px -3px 7px
+                padding 3px
+                border-radius 50%
+                transition all .5s
                 &:hover
-                    cursor: pointer
-                    color: $ButtonBgActive
-                    transition: all .5s
+                    cursor pointer
+                    color $ButtonBgActive
+                    transition all .5s
 
             .del-seedbox-cache > select
-                width: 158px
+                width 158px
 
         #database
             .open-database-folder
-                font-size: 16px
-                margin-left: 6px
-                transition: all .5s
+                font-size 16px
+                margin -3px -3px -3px 3px
+                padding 3px
+                border-radius 50%
+                transition all .5s
                 &:hover
-                    cursor: pointer
-                    color: $ButtonBgActive
-                    transition: all .5s
+                    cursor pointer
+                    color $ButtonBgActive
+                    transition all .5s
 
             .import-db
-                margin-left: 7px
-                padding: 0 1px
-                cursor: pointer
-                transition: all .5s
+                margin -3px -3px -3px 4px
+                padding 3px 4px
+                border-radius 50%
+                cursor pointer
+                transition all .5s
                 &:hover
-                    color: $ButtonBgActive
+                    color $ButtonBgActive
 
             .export-database
-                margin-left: 1px
-                padding: 0 1px
-                cursor: pointer
-                transition: all .5s
+                margin -3px -3px -3px -2px
+                padding 3px 4px
+                border-radius 50%
+                cursor pointer
+                transition all .5s
                 &:hover
-                    color: $ButtonBgActive
+                    color $ButtonBgActive
 
         .set-current-filter,
         .reset-current-filter,
         .update-dht,
         .update-app
-            font-size: 13px
-            margin: 0 2px 0 8px
-            transition: all 0.5s
-            cursor: pointer
+            font-size 13px
+            margin -3px -1px -3px 5px
+            padding 3px
+            border-radius 50%
+            transition all 0.5s
+            cursor pointer
             &:hover
-                color: $ButtonBgActive
+                color $ButtonBgActive
 
         .closeTraktCode
-            font-size: 13px
-            margin: 0 2px 0 8px
-            transition: all 0.5s
-            cursor: pointer
+            font-size 13px
+            margin 0 2px 0 8px
+            transition all 0.5s
+            cursor pointer
             &:hover
-                color: #ee3030
+                color #ee3030
 
         .reset-current-filter.disabled
-            color: inherit
-            opacity: 0.3
-            cursor: default
+            color inherit
+            opacity 0.3
+            cursor default
 
         .btns
             padding-top 10px
@@ -487,7 +499,7 @@
             &> label
                 cursor pointer
             &.database
-                margin-top: 0
+                margin-top 0
             &:hover
                 background-color $ButtonBgHover
                 color $SettingsButtonTextHover
@@ -504,8 +516,8 @@
             &.warning
                 background-color $ButtonBgWarning
             &:active
-                box-shadow: inset 0 1px 4px rgba(0,0,0,0.6)
-                background: $ButtonBgActive
+                box-shadow inset 0 1px 4px rgba(0,0,0,0.6)
+                background $ButtonBgActive
 
         .dropdown
             select
@@ -589,77 +601,77 @@
         outline 0 !important
 
         &#fakedatabaseLocation
-            pointer-events: none
-            -webkit-user-select: none
+            pointer-events none
+            -webkit-user-select none
 
         &#fakedatabaseLocation,&#settingsIpAddr
-            pointer-events: none
-            -webkit-user-select: none
+            pointer-events none
+            -webkit-user-select none
 
     input[type='color']
-        -webkit-appearance: none
+        -webkit-appearance none
         width 62px
     input[type='color']::-webkit-color-swatch
-        margin: 3px -9px 3px -3px
+        margin 3px -9px 3px -3px
 
     input[type='number']::-webkit-inner-spin-button
-        -webkit-appearance: none
-        margin: 0
+        -webkit-appearance none
+        margin 0
 
     input[type=checkbox]
         &.settings-checkbox
-            position: absolute
-            overflow: hidden
-            clip: rect(0 0 0 0)
-            height:1px
-            width:1px
-            margin:-1px
-            padding:0
-            border:0
+            position absolute
+            overflow hidden
+            clip rect(0 0 0 0)
+            height 1px
+            width 1px
+            margin -1px
+            padding 0
+            border 0
 
         &.settings-checkbox+label.settings-label
-            height:15px
-            display:inline-block
-            line-height:15px
-            font-size:13px
-            font-family: $Font, $AlternateFont
-            vertical-align:middle
-            cursor:pointer
-            color:$SettingsText1
+            height 15px
+            display inline-block
+            line-height 15px
+            font-size 13px
+            font-family $Font, $AlternateFont
+            vertical-align middle
+            cursor pointer
+            color $SettingsText1
 
         &.settings-checkbox:checked+label.settings-label
             &:after
-                opacity: 1
+                opacity 1
 
     input[type="text"]
         &#downloadLimit
-            width: 78px
+            width 78px
         &#uploadLimit
-            width: 78px
-            margin-left: 7px
+            width 78px
+            margin-left 7px
 
     .settings-label
         &:before
-            content: '\f0c8'
-            font-family: "Font Awesome 6 Free"
-            font-weight: 900
-            font-size: 18px
-            padding-right: 8px
-            float: left
-            position: relative
-            color: $CheckboxBg
+            content '\f0c8'
+            font-family "Font Awesome 6 Free"
+            font-weight 900
+            font-size 18px
+            padding-right 8px
+            float left
+            position relative
+            color $CheckboxBg
         &:after
-            content: '\f00c'
-            font-family: "Font Awesome 6 Free"
-            font-weight: 900
-            font-size: 12px
-            margin-right: -14px
-            color: $CheckboxCheck
-            position: relative
-            float: left
-            left: -21px
-            opacity: 0
-            transition: opacity .1s ease-in-out
+            content '\f00c'
+            font-family "Font Awesome 6 Free"
+            font-weight 900
+            font-size 12px
+            margin-right -14px
+            color $CheckboxCheck
+            position relative
+            float left
+            left -21px
+            opacity 0
+            transition opacity .1s ease-in-out
 
     .settings-container-check-settings
         width 14px
@@ -703,9 +715,9 @@
 .settings-container
     section
         &.advanced
-            display: none
+            display none
     .advanced
-        display: none
+        display none
 
 .default-frame
     .settings-container-contain
@@ -713,6 +725,6 @@
             .close-icon
                 top 5px
         &::-webkit-scrollbar-track
-            margin-top: $FilterBarHeight
+            margin-top $FilterBarHeight
         .close-icon
             top 45px
