@@ -77,7 +77,6 @@
     },
 
     onUpdateTorrentsList: function(lang) {
-      console.log('Update Torrents List: ', lang);
       this.getRegion('TorrentList').empty();
       if (!lang) {
         return;
