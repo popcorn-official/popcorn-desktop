@@ -35,7 +35,6 @@
             return Promise.resolve(torrent);
         },
         handleSuccess: function (filePath) {
-            win.debug('TorrentCache.handleSuccess() ' + filePath + ' stopped: ' + !stateModel);
             if (!stateModel) {
                 return;
             }

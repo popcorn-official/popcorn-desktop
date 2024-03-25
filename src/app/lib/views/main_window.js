@@ -178,7 +178,6 @@
     },
 
     showSubtitles: function(model) {
-      win.debug('Show subtitles', model);
       var s = new App.View.Subtitles({
         model: model
       });

@@ -242,7 +242,7 @@
       if (status.media !== undefined && status.media.duration !== undefined) {
         var playedPercent = (status.currentTime / status.media.duration) * 100;
         this.ui.playingbar.css('width', playedPercent.toFixed(1) + '%');
-        win.debug(
+        win.info(
           'ExternalStream: %s: %ss / %ss (%s%)',
           status.playerState,
           status.currentTime.toFixed(1),
@@ -260,7 +260,6 @@
         // If media encountered error, most likely unsupported codecs with chromecast
         if (status.idleReason === 'ERROR') {
           win.error('Device can\'t play the video');
-          win.debug('Status: ', status);
           App.vent.trigger('notification:show', new App.Model.Notification({
             title: i18n.__('Device can\'t play the video'),
             body: i18n.__('Your device might not support the video format/codecs.<br/>Try other resolution quality or casting with VLC'),
@@ -348,18 +347,15 @@
     },
 
     forwardStreaming: function() {
-      win.debug('Forward triggered');
       App.vent.trigger('device:forward');
     },
 
     backwardStreaming: function() {
-      win.debug('Backward triggered');
       App.vent.trigger('device:backward');
     },
 
     seekStreaming: function(e) {
       var percentClicked = (e.offsetX / e.currentTarget.clientWidth) * 100;
-      win.debug('Seek (%s%) triggered', percentClicked.toFixed(2));
       App.vent.trigger('device:seekPercentage', percentClicked);
     },
 

@@ -259,7 +259,6 @@
                         }
                         if ((this.video.duration() - this.video.currentTime()) < 60) {
                             var playingNext = $('.playing_next');
-                            win.info('Showing Auto Play message');
                             this.autoplayisshown = true;
                             playingNext.show();
                             playingNext.appendTo('div#video_player');
@@ -272,7 +271,6 @@
                     $('.playing_next #nextCountdown').text(count);
                 } else {
                     if (this.autoplayisshown) {
-                        win.info('Hiding Auto Play message');
                         $('.playing_next').hide();
                         $('.playing_next #nextCountdown').text('');
                         this.autoplayisshown = false;
@@ -325,7 +323,7 @@
         copytoclip: (e) => Common.openOrClipboardLink(e, e.target.textContent.replace(' - Trailer', ''), i18n.__($(e.target).data('copy')), true),
 
         onPlayerReady: function () {
-            win.debug('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
+            win.info('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
 
             // set volume
             this.player.volume(Settings.playerVolume);
@@ -333,7 +331,7 @@
             // resume position
             if (Settings.lastWatchedTitle === this.model.get('title') && Settings.lastWatchedTime > 0) {
                 var position = Settings.lastWatchedTime;
-                win.debug('Resuming position to', position.toFixed(), 'secs');
+                win.info('Resuming position to', position.toFixed(), 'secs');
                 this.player.currentTime(position);
             } else if (Settings.traktPlayback) {
                 var type = this.isMovie();
@@ -342,7 +340,7 @@
                     var total = this.video.duration();
                     var position = (position_percent / 100) * total | 0;
                     if (position > 0) {
-                        win.debug('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
+                        win.info('Resuming position to', position.toFixed(), 'secs (reported by Trakt)');
                         this.player.currentTime(position);
                     }
                 }.bind(this));
@@ -647,7 +645,6 @@
             }
         },
         playNextNot: function () {
-            win.info('Hiding Auto Play message');
             $('.playing_next').hide();
             $('.playing_next #nextCountdown').text('');
             !this.autoplayisshown;

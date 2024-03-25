@@ -236,7 +236,6 @@ var deleteCookies = function () {
           if (!result.name) {
             result = result[0];
           }
-          win.debug('cookie removed: ' + result.name + ' ' + result.url);
         } else {
           win.error('cookie removal failed');
         }
@@ -246,7 +245,6 @@ var deleteCookies = function () {
 
   win.cookies.getAll({}, function (cookies) {
     if (cookies.length > 0) {
-      win.debug('Removing ' + cookies.length + ' cookies...');
       for (var i = 0; i < cookies.length; i++) {
         removeCookie(cookies[i]);
       }
@@ -442,7 +440,6 @@ window.ondragenter = function (e) {
   mask.show();
   mask.on('dragenter', function (e) {
     $('.drop-indicator').show();
-    win.debug('Drag init');
   });
   mask.on('dragover', function (e) {
     var showDrag = true;
@@ -453,7 +450,6 @@ window.ondragenter = function (e) {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       if (!showDrag) {
-        win.debug('Drag aborted');
         $('.drop-indicator').hide();
         $('#drop-mask').hide();
       }
@@ -558,7 +554,6 @@ var handleVideoFile = function (file) {
   // get subtitles from provider
   var getSubtitles = function (subdata) {
     return new Promise(function (resolve, reject) {
-      win.debug('Subtitles data request:', subdata);
 
       var subtitleProvider = App.Config.getProviderForType('subtitle');
 
@@ -850,8 +845,6 @@ nw.App.on('open', function (cmd) {
   }
 
   if (file) {
-    win.debug('File loaded:', file);
-
     if (isVideo(file)) {
       var fileModel = {
         path: file,

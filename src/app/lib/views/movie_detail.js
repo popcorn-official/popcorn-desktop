@@ -95,7 +95,6 @@
     onChangeQuality: function (quality) {
       this.model.set('quality', quality);
       this.toggleSourceLink(quality);
-      win.debug('about to render health button');
       healthButton.render();
     },
 
