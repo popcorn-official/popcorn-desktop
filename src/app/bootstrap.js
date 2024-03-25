@@ -44,7 +44,7 @@
 
   function loadProvidersJSON(fn) {
     return pkJson.providers.map(function(providerPath) {
-      win.info('Loading json', providerPath);
+      win.info('Loaded provider:', providerPath);
       return loadFromNPM(`./${providerPath}`, fn);
     });
   }
@@ -55,7 +55,7 @@
     });
 
     return packages.map(function(name) {
-      win.info('Loading npm', regex, name);
+      win.info('Loaded npm', regex, name);
       return loadFromNPM(name, fn);
     });
   }
