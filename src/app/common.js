@@ -114,7 +114,6 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 
 			const seeds = Math.max.apply(Math, res.extra.map(function(o) { return o.seeds || 0; }));
 			const peers = Math.max.apply(Math, res.extra.map(function(o) { return o.peers || 0; }));
-			win.debug('torrent health:', res);
 
 			if (seeds === 0 && zeroSeedCheckCount < maxChecksWhenNoSeeds) {
 				zeroSeedCheckCount++;
