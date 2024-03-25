@@ -96,7 +96,6 @@
             return App.Trakt.client.images.get(item).then(function(imgs) {
               itemList[idx].poster = imgs.poster;
               itemList[idx].backdrop = imgs.background;
-              console.log(itemList[idx]);
             });
           })
         );
@@ -218,18 +217,15 @@
         (filters.force || filters.update)
       ) {
         if (filters.update && localStorage.watchlist_update_shows) {
-          console.log('Watchlist - update one item');
           return update(filters.update)
             .then(resolve)
             .catch(reject);
         } else {
           if (filters.force) {
-            console.log('Watchlist - force reload');
             return load()
               .then(resolve)
               .catch(reject);
           } else {
-            console.log('Watchlist - this should not be called', filters);
             reject('SHOULDNT BE CALLED');
           }
         }
@@ -239,7 +235,6 @@
           !localStorage.watchlist_cached ||
           parseInt(localStorage.watchlist_fetched_time) + 14400000 < Date.now()
         ) {
-          console.log('Watchlist - no watchlist cached or cache expired');
           if (App.Trakt.authenticated) {
             return App.Providers.get('Watchlist')
               .fetch({ force: true })
@@ -249,7 +244,6 @@
             reject('Trakt not authenticated');
           }
         } else {
-          console.log('Watchlist - return cached');
           resolve({
             results: JSON.parse(localStorage.watchlist_cached),
             hasMore: false
