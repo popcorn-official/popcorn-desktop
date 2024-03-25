@@ -95,7 +95,7 @@
                             type: 'movie'
                         });
                     } else {
-                        console.warn('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
+                        console.error('Cannot sync a movie (' + movie.title + '), no IMDB id provided by Trakt');
                     }
                 }
                 console.info('Trakt: marked %s movie(s) as watched', watchedMovies.length);
@@ -128,7 +128,7 @@
                             }
                         }
                     } else {
-                        console.warn('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
+                        console.error('Cannot sync a show (' + show.show.title + '), no IMDB/TVDB ids provided by Trakt');
                     }
                 }
 
