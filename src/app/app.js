@@ -703,6 +703,8 @@ var handleVideoFile = function (file) {
 
     var localVideo = new Backbone.Model(play); // streamer model
 
+    win.info('Loading local file:', localVideo.get('videoFile') || localVideo.get('src'));
+
     const fileName = localVideo.get('src').replace(/\\/g, '/').split('/').pop();
     var torrentStart = new Backbone.Model({
       torrent: localVideo,
