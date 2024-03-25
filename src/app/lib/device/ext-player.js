@@ -184,7 +184,6 @@
                     var dataBuff = fs.readFileSync(subtitle);
                     //var targetEncodingCharset = 'utf8';
                     var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
-                    win.debug('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
                         cmdSub += '-utf8 ';
                     }
