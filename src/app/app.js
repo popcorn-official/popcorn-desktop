@@ -190,7 +190,7 @@ var initApp = function () {
   try {
     App.showView(mainWindow);
   } catch (e) {
-    console.error('Couldn\'t start app: ', e, e.stack);
+    win.error('Couldn\'t start app: ', e, e.stack);
   }
 
   if (localStorage.maximized === 'true') {
@@ -707,11 +707,6 @@ var handleVideoFile = function (file) {
     $('.spinner').hide();
 
     var localVideo = new Backbone.Model(play); // streamer model
-    console.debug(
-      'Trying to play local file',
-      localVideo.get('src'),
-      localVideo.attributes
-    );
 
     const fileName = localVideo.get('src').replace(/\\/g, '/').split('/').pop();
     var torrentStart = new Backbone.Model({
@@ -757,7 +752,6 @@ var handleTorrent = function (torrent) {
 window.ondrop = function (e) {
   e.preventDefault();
   $('#drop-mask').hide();
-  console.debug('Drag completed');
   $('.drop-indicator').hide();
 
   var file = e.dataTransfer.files[0];

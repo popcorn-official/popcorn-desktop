@@ -236,7 +236,7 @@
         const torrent_cache_dir = path.join(Settings.tmpLocation, 'TorrentCache');
         if (!fs.existsSync(torrent_cache_dir)) {
           fs.mkdir(torrent_cache_dir, function (err) {
-            if (err && err.errno !== '-4075') { console.error('error creating TorrentCache dir', err); }
+            if (err && err.errno !== '-4075') { win.error('error creating TorrentCache dir', err); }
           });
         }
 
@@ -257,7 +257,7 @@
           const torrent_cache_dir2 = path.join(Settings.downloadsLocation, 'TorrentCache');
           if (!fs.existsSync(torrent_cache_dir2)) {
             fs.mkdir(torrent_cache_dir2, function (err) {
-              if (err && err.errno !== '-4075') { console.error('error creating Downloads TorrentCache dir', err); }
+              if (err && err.errno !== '-4075') { win.error('error creating Downloads TorrentCache dir', err); }
             });
           }
         }

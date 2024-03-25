@@ -3,7 +3,6 @@ var Datastore = require('nedb-promises'),
     TTL = 1000 * 60 * 60 * 24;
 
 var startupTime = window.performance.now();
-console.debug('Database path: ' + data_path);
 
 db.bookmarks = new Datastore({
     filename: path.join(data_path, 'data/bookmarks.db'),

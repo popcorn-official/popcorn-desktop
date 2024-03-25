@@ -183,7 +183,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('ThePirateBay search:', err);
+                            win.error('ThePirateBay search:', err);
                             resolve(results);
                         });
                     });
@@ -221,7 +221,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('1337x search:', err);
+                            win.error('1337x search:', err);
                             resolve(results);
                         });
                     });
@@ -259,7 +259,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('SolidTorrents search:', err);
+                            win.error('SolidTorrents search:', err);
                             resolve(results);
                         });
                     });
@@ -297,7 +297,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('TorrentGalaxy search:', err);
+                            win.error('TorrentGalaxy search:', err);
                             resolve(results);
                         });
                     });
@@ -335,7 +335,7 @@
                             });
                             resolve(results);
                         }).catch(function (err) {
-                            console.error('Nyaa search:', err);
+                            win.error('Nyaa search:', err);
                             resolve(results);
                         });
                     });
