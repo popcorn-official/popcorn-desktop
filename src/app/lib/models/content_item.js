@@ -16,7 +16,7 @@
             providers.metadata &&
                 providers.metadata.getImages(attrs)
                 .then(this.set.bind(this))
-                .catch(e => console.error('error loading metadata', e));
+                .catch(e => win.error('Error loading metadata', e));
 
             this.updateHealth();
             this.on('change:torrents', this.updateHealth.bind(this));
@@ -30,7 +30,6 @@
             var torrents = this.get('torrents');
 
             if (!torrents) {
-                console.error('tried to update health, but still no torrents here', this);
                 return false;
             }
 

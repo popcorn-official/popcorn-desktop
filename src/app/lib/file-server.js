@@ -134,7 +134,6 @@ function FileServer (file, opts = {}) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'text/html');
 
-      console.log(file);
       const listHtml =
           `<li>
             <a
