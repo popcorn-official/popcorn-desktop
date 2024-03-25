@@ -955,12 +955,10 @@
         },
 
         openTmpFolder: function () {
-            win.debug('Opening: ' + App.settings['tmpLocation']);
             App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['tmpLocation']) : nw.Shell.openItem(App.settings['tmpLocation']);
         },
 
         openDownloadsFolder: function () {
-            win.debug('Opening: ' + App.settings['downloadsLocation']);
             App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['downloadsLocation']) : nw.Shell.openItem(App.settings['downloadsLocation']);
         },
 
@@ -988,7 +986,6 @@
         },
 
         openDatabaseFolder: function () {
-            win.debug('Opening: ' + App.settings['databaseLocation']);
             App.settings.os === 'windows' ? nw.Shell.openExternal(App.settings['databaseLocation']) : nw.Shell.openItem(App.settings['databaseLocation']);
         },
 
@@ -1052,7 +1049,6 @@
                     }
                     catch (err) {
                         that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
-                        win.warn('Failed to Import Database');
                     }
                     // reset fileinput so it detect change even if we select same folder again
                     fileinput.val('');
