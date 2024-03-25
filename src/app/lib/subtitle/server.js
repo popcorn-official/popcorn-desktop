@@ -55,7 +55,6 @@
             if (data.vtt) {
                 fs.readFile(data.vtt, function (err, data) {
                     if (err) {
-                        win.error('SubtitlesServer: Unable to load VTT file');
                         return;
                     }
                 });
@@ -65,7 +64,6 @@
             if (data.srt) {
                 fs.readFile(data.srt, function (err, data) {
                     if (err) {
-                        win.error('SubtitlesServer: Unable to load SRT file');
                         return;
                     }
                 });
