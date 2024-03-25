@@ -120,7 +120,7 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error) {
                         callback(data);
                     } else {
-                        console.error('Failed to read subtitle!', error);
+                        win.error('Failed to read subtitle!', error);
                     }
                 });
                 // Fetches Remotely
@@ -132,7 +132,7 @@ vjs.TextTrack.prototype.load = function () {
                     if (!error && response.statusCode === 200) {
                         callback(data);
                     } else {
-                        console.error('Failed to download subtitle!', error, response);
+                        win.error('Failed to download subtitle!', error, response);
                     }
                 });
             }
@@ -249,7 +249,7 @@ vjs.TextTrack.prototype.load = function () {
                     if (!err) {
                         callback(dataBuff);
                     } else {
-                        console.error('SUB transcoding failed', err);
+                        win.error('SUB transcoding failed', err);
                     }
                 });
             }, 2000);
@@ -268,7 +268,7 @@ vjs.TextTrack.prototype.load = function () {
                     }
                 });
             } catch (error) {
-                console.error('Failed to decompress subtitle!', error);
+                win.error('Failed to decompress subtitle!', error);
             }
         };
 
@@ -328,7 +328,7 @@ vjs.TextTrack.prototype.load = function () {
             try {
                 this_.parseCues(data);
             } catch (e) {
-                console.error('Error reading subtitles timing, file seems corrupted', e);
+                win.error('Error reading subtitles timing, file seems corrupted', e);
                 subsParams();
                 App.vent.trigger('notification:show', new App.Model.Notification({
                     title: i18n.__('Error reading subtitle timings, file seems corrupted'),
