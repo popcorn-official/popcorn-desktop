@@ -38,7 +38,7 @@
 
   function delProvider(name) {
     if (cache[name]) {
-      win.info('Delete provider cache', name);
+      win.info('Delete provider cache:', name);
       return delete cache[name];
     }
   }
