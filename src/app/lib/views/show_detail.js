@@ -161,7 +161,6 @@
         },
 
         onUpdateTorrentsList: function(info) {
-            console.log('Update Torrents List: ', info);
             if (!info) {
                 this.getRegion('torrentList').empty();
                 this.getRegion('torrentShowList').empty();
