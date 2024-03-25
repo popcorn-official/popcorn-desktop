@@ -408,7 +408,7 @@
                     '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '" data-source="' + item.url + '">'+
                         '<a>' + item.title + '</a>'+
                         '<div class="item-icon magnet-icon tooltipped" data-toggle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png"></div>'+
-                        '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
+                        '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' &nbsp;/&nbsp; ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
                         '<div class="online-size">'+item.size+'</div>'+
                     '</li>'
                 );
