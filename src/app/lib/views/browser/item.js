@@ -294,7 +294,7 @@
                 App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
             }.bind(this))
                 .catch(function (err) {
-                    console.error('error showing detail:', err);
+                    win.error('error showing detail:', err);
                     $('.spinner').hide();
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                 });
@@ -449,7 +449,7 @@
                         this.setTooltips();
                     }
                 }.bind(this)).catch(function (err) {
-                    console.error('item.addBookmarked failed:', err);
+                    win.error('item.addBookmarked failed:', err);
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     this.ui.bookmarkIcon.removeClass('selected');
                 }.bind(this));
