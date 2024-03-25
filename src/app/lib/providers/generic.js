@@ -61,7 +61,6 @@
       );
     }
 
-    win.debug('added', name, 'to provider registry');
     registry[name] = PO;
 
     return name;
