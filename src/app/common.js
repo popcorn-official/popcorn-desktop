@@ -130,7 +130,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				];
 
 				if (!isNaN(ratio)) {
-					tooltipPieces.push(` - ${i18n.__('Ratio:')} ${ratio.toFixed(2)}<br/>`);
+					tooltipPieces.push(` &nbsp;-&nbsp; ${i18n.__('Ratio:')} ${ratio.toFixed(2)}<br/>`);
 				}
 
 				if (!isNaN(seeds)) {
@@ -138,7 +138,7 @@ Common.HealthButton = function (selector, retrieveHealthCallback) {
 				}
 
 				if (!isNaN(peers)) {
-					tooltipPieces.push(` - ${i18n.__('Peers:')} ${peers}`);
+					tooltipPieces.push(` &nbsp;/&nbsp; ${i18n.__('Peers:')} ${peers}`);
 				}
 
 				getIcon()
