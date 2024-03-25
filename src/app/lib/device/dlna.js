@@ -74,24 +74,15 @@
         }
 
         seek(seconds) {
-            win.info('DLNA: seek %s', seconds);
             this.get('player').seek(seconds, function(err, status) {
-                if (err) {
-                    win.error('DLNA.seek:Error', err);
-                }
             });
         }
         seekTo(newCurrentTime) {
-            win.info('DLNA: seek to %ss', newCurrentTime);
             this.get('player').seek(newCurrentTime, function(err, status) {
-                if (err) {
-                    win.error('DLNA.seek:Error', err);
-                }
             });
         }
 
         seekPercentage(percentage) {
-            win.info('DLNA: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.player._status.duration / 100 * percentage;
             this.seekTo(newCurrentTime.toFixed());
         }
@@ -103,7 +94,7 @@
             var self = this;
             this.get('player').status(function(err, status) {
                 if (err) {
-                    return win.info('DLNA.updateStatus:Error', err);
+                    return win.error('DLNA.updateStatus:Error', err);
                 }
                 self._internalStatusUpdated(status);
             });
