@@ -21,7 +21,7 @@
             }).catch((error) => {
                 this.state = 'error';
                 this.trigger('loaded', this, this.state);
-                console.error('WatchlistCollection.fetch()', error);
+                win.error('WatchlistCollection.fetch()', error);
             });
         },
         fetchMore: function () {
