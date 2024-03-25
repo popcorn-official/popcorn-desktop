@@ -16,7 +16,7 @@
         },
 
         initialize: function () {
-            win.info('Loading DB');
+            win.info('Loaded DB');
         },
 
         onAttach: function () {

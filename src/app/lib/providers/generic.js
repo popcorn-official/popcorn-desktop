@@ -104,7 +104,7 @@
       }
     }
 
-    win.info('Spawning new provider', name, config);
+    win.info('Spawning new provider:', name, config);
     var p = (cache[name] = new provider(config));
 
     //HACK(xaiki): set the provider name in the returned object.
