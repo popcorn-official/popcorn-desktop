@@ -564,7 +564,6 @@ var handleVideoFile = function (file) {
             win.info(Object.keys(subs).length + ' subtitles found');
             resolve(subs);
           } else {
-            win.warn('No subtitles returned');
             if (Settings.subtitle_language !== 'none') {
               App.vent.trigger(
                 'notification:show',
@@ -681,7 +680,6 @@ var handleVideoFile = function (file) {
         resolve(playObj);
       })
       .catch(function (err) {
-        win.warn('trakt.matcher.match error:', err);
         var localsub = checkSubs();
         if (localsub !== null) {
           playObj.defaultSubtitle = 'local';
