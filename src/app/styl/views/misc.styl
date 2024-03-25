@@ -1,39 +1,42 @@
 fadeicon(image, posx, posx2, size)
-  width: size
-  height: size
-  position: relative;
+  width size
+  height size
+  position relative 
   &:before
-    content: ""
-    position: absolute
-    top: 0; left: 0; bottom: 0; right: 0
-    width: size
-    height: size
-    background-image: url(../images/icons/image.png)
-    background-position: posx 0px
-    background-repeat: no-repeat
-    opacity: 1
-    -webkit-transition: opacity 0.5s
+    content ""
+    position absolute
+    top 0
+    left 0
+    bottom 0
+    right 0
+    width size
+    height size
+    background-image url(../images/icons/image.png)
+    background-position posx 0px
+    background-repeat no-repeat
+    opacity 1
+    -webkit-transition opacity 0.5s
   &:after
-    content: ""
-    position: absolute
-    top: 0; left: 0; bottom: 0; right: 0
-    width: size
-    height: size
-    background-image: url(../images/icons/image.png)
-    background-position: posx2 0px
-    background-repeat: no-repeat
-    opacity: 0
-    -webkit-transition: opacity 0.5s
+    content ""
+    position absolute
+    top 0
+    left 0
+    bottom 0
+    right 0
+    width size
+    height size
+    background-image url(../images/icons/image.png)
+    background-position posx2 0px
+    background-repeat no-repeat
+    opacity 0
+    -webkit-transition opacity 0.5s
   &:hover:before
-    opacity: 0;
+    opacity 0
   &:hover:after
-    opacity: 1;
-
-
-
+    opacity 1
 
 .left
-    float: left
+    float left
 
 .right
     float right
@@ -59,14 +62,13 @@ scrollable()
         border-radius 2px
 
         &:hover
-            background-color: $ScrollBarThumbHover
+            background-color $ScrollBarThumbHover
 
     &::-webkit-resizer,
     &::-webkit-scrollbar-corner,
     &::-webkit-scrollbar-button,
     &::-webkit-scrollbar-track-piece
         display none
-
 
 .tooltip-arrow
   position absolute
@@ -139,12 +141,15 @@ scrollable()
 
 .tooltip-inner
     max-width 280px
-    padding 3px 8px
+    padding 6px 8px
     color #fff
     text-align center
     text-decoration none
     background-color rgba(9, 13, 18, 0.75)
     border-radius 4px
+    font-family $MainFont !important
+    font-size 12px !important
+    line-height 18px !important
 
 .toolcimg
     max-width 102px
