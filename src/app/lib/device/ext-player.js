@@ -297,9 +297,9 @@
                 });
             }, function (err) {
                 if (err) {
-                    win.error('External Players: scan', err);
+                    win.error('External Player Scan:', err);
                 } else {
-                    win.info('External Players: scan finished');
+                    win.info('External Player Scan: Completed');
                 }
             });
         }
