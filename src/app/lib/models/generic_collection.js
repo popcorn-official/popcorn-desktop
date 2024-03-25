@@ -92,7 +92,7 @@
                         self.trigger('loaded', self, self.state);
                     })
                     .catch(function (err) {
-                        console.error('provider error err', err);
+                        win.error('provider error err', err);
                     });
             });
         },
