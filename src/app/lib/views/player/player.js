@@ -323,8 +323,6 @@
         copytoclip: (e) => Common.openOrClipboardLink(e, e.target.textContent.replace(' - Trailer', ''), i18n.__($(e.target).data('copy')), true),
 
         onPlayerReady: function () {
-            win.info('Player - data loaded in %sms', (Date.now() - this.playerWasReady));
-
             // set volume
             this.player.volume(Settings.playerVolume);
 

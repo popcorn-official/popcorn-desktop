@@ -133,7 +133,6 @@
         }
 
         stop() {
-            win.info('Closing Chromecast Casting');
             App.vent.off('videojs:drop_sub');
             App.vent.trigger('stream:stop');
             App.vent.trigger('player:close');
@@ -142,7 +141,6 @@
             // Also stops player and closes connection.
             device.stop(function () {
                 device.removeAllListeners();
-                win.info('Chromecast: stopped. Listeners removed!');
             });
             device.close(); //Back to ChromeCast home screen instead of black screen
 
@@ -150,7 +148,6 @@
         }
 
         seekPercentage(percentage) {
-            win.info('Chromecast: seek percentage %s%', percentage.toFixed(2));
             var newCurrentTime = this.get('loadedMedia').duration / 100 * percentage;
             this.get('device').seekTo(newCurrentTime);
         }
