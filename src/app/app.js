@@ -144,13 +144,11 @@ App.onBeforeStart = function (options) {
 
   // reset app width when the width is bigger than the available width
   if (screen.availWidth < width) {
-    win.info('Window too big, resetting width');
     width = screen.availWidth;
   }
 
   // reset app height when the width is bigger than the available height
   if (screen.availHeight < height) {
-    win.info('Window too big, resetting height');
     height = screen.availHeight;
   }
 
