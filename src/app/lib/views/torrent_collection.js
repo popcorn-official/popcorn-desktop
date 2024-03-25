@@ -370,7 +370,7 @@
             ]).then(function (results) {
                 var items = removeDupesAndSort(results);
                 that.curitems = items;
-                console.log('Search Providers: %d results', items.length);
+                win.info('Search Providers: %d results', items.length);
                 that.$('.online-search').attr('title', items.length + ' results').tooltip('fixTitle').tooltip('show');
 
                 hidetooltps = setTimeout(function() {

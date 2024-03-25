@@ -170,7 +170,6 @@
         updateStatus() {
             var self = this;
             client.on('status', function (status) {
-              console.log(status);
                 self._internalStatusUpdated(status);
             });
         }

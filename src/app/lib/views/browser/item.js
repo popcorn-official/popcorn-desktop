@@ -362,7 +362,7 @@
             }).then(function () {
                 return Database.addBookmark(imdb, itemtype);
             }).then(function () {
-                console.log('Bookmark added (' + imdb + ')');
+                win.info('Bookmark added (' + imdb + ')');
             }.bind(this));
         },
 
@@ -378,7 +378,7 @@
             }());
 
             return Database.deleteBookmark(imdb).then(function () {
-                console.log('Bookmark deleted (' + imdb + ')');
+                win.info('Bookmark deleted (' + imdb + ')');
                 return Database[dbCall](imdb);
             });
         },
