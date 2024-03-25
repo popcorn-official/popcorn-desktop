@@ -71,8 +71,6 @@
          * @returns {string}
          */
         getMediaName(torrent) {
-            console.log('getting media name for', torrent);
-            console.log(this);
             if (torrent.name) {
                 return torrent.name;
             }
