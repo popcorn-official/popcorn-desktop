@@ -103,7 +103,6 @@
        * best matching IP among all network adapters. Supports IPv4 and IPv6.
        */
       if (this.selected.get('typeFamily') === 'external') {
-        //console.warn('External Device ', this.selected);
         var ips = [],
           ifaces = os.networkInterfaces();
         for (var dev in ifaces) {
