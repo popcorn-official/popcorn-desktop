@@ -1009,9 +1009,7 @@
                         that.alertMessageSuccess(false, btn, i18n.__('Export Database'), i18n.__('Database Successfully Exported'));
 
                     });
-                } catch (err) {
-                    console.log(err);
-                }
+                } catch (err) {}
                 // reset fileinput so it detect change even if we select same folder again
                 fileinput.val('');
             });
@@ -1053,7 +1051,6 @@
                         that.alertMessageSuccess(true);
                     }
                     catch (err) {
-                        console.log(err);
                         that.alertMessageFailed(i18n.__('Invalid Database File Selected'));
                         win.warn('Failed to Import Database');
                     }
