@@ -341,6 +341,7 @@ vjs.TextTrack.prototype.load = function () {
         };
 
         this.on('loaded', function () {
+            win.info('Subtitles loaded!');
             subsParams();
         });
 
