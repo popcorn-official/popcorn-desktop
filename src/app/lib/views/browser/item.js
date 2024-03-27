@@ -169,7 +169,7 @@
             }
         },
 
-        loadImage: function () {
+        loadImage: async function () {
             var noimg = 'images/posterholder.png';
             var poster = this.model.get('image');
             if (!poster && this.model.get('images') && this.model.get('images').poster){
@@ -178,22 +178,9 @@
                 poster = this.model.get('poster');
             } else {
                 var imdb = this.model.get('imdb_id'),
-                api_key = Settings.tmdb.api_key,
-                movie = (function () {
-                    var tmp = null;
-                    $.ajax({
-                        url: 'http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&append_to_response=videos',
-                        type: 'get',
-                        dataType: 'json',
-                        timeout: 5000,
-                        async: false,
-                        global: false,
-                        success: function (data) {
-                            tmp = data;
-                        }
-                    });
-                    return tmp;
-                }());
+                api_key = Settings.tmdb.api_key;
+                const response = await fetch('http://api.themoviedb.org/3/movie/' + imdb + '?api_key=' + api_key + '&append_to_response=videos');
+                const movie = await response.json();
                 poster = movie && movie.poster_path ? 'http://image.tmdb.org/t/p/w500' + movie.poster_path : noimg;
                 this.model.set('poster', poster);
                 !this.model.get('synopsis') && movie && movie.overview ? this.model.set('synopsis', movie.overview) : null;
